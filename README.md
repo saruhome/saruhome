@@ -2,7 +2,7 @@
 - 👀 I’m interested in Web design
 - 🌱 I’m currently learning UX design
 - 💞️ I’m looking to collaborate on Anyone
-- 📫 How to reach me - yimsungh@gmail.com / behance.net/saruhome
+- 📫 How to reach me - yimsungh@gmail.com / www.behance.net/saruhome
 
 <!---
 saruhome/saruhome is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
