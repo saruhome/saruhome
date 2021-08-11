@@ -1,7 +1,7 @@
 - 👋 Hi, I’m @saruhome
-- 👀 I’m interested in Web design
-- 🌱 I’m currently learning UX design
-- 💞️ I’m looking to collaborate on Anyone
+- 👀 I’m interested in General Design
+- 🌱 I’m currently learning Ui/UX design
+- 💞️ I’m working on Game Design
 - 📫 How to reach me - yimsungh@gmail.com / www.behance.net/saruhome
 
 <!---
