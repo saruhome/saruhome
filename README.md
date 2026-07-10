@@ -1,4 +1,4 @@
-# 안녕하세요! 반갑습니다. UI/UX 디자이너 SaruStudio입니다. 👋
+# 안녕하세요! 반갑습니다. UI/UX 디자이너 임성희입니다. 👋
 
 > **비즈니스의 가치를 높이는 직관적이고 아름다운 디자인을 만듭니다.**
 
@@ -23,7 +23,7 @@
 ## 🛠️ Skills & Expertise
 
 ### Tech Stacks
-<img src="https://img.shields.io/badge/Adobe%20Photoshop-001E36?style=flat-rounded&logo=adobephotoshop&logoColor=2FA3F6" /> <img src="https://img.shields.io/badge/Adobe%20Illustrator-330000?style=flat-rounded&logo=adobeillustrator&logoColor=FF9A00" /> <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-rounded&logo=figma&logoColor=white" /> <img src="https://img.shields.io/badge/Indesign-49021F?style=flat-rounded&logo=adobeindesign&logoColor=FF3366" /> <img src="https://img.shields.io/badge/Adobe%20Lightroom-311051?style=flat-rounded&logo=adobelightroom&logoColor=31A8FF" />
+<img src="https://img.shields.io/badge/Adobe%20Photoshop-00C4FF?style=flat-rounded&logo=adobephotoshop&logoColor=001E36" /> <img src="https://img.shields.io/badge/Adobe%20Illustrator-FF9A00?style=flat-rounded&logo=adobeillustrator&logoColor=330000" /> <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-rounded&logo=figma&logoColor=white" /> <img src="https://img.shields.io/badge/Indesign-FF3366?style=flat-rounded&logo=adobeindesign&logoColor=white" /> <img src="https://img.shields.io/badge/Adobe%20Lightroom-31A8FF?style=flat-rounded&logo=adobelightroom&logoColor=white" />
 
 ### Disciplines
 *   ✍️ UI/UX Design | 📢 Branding | 💻 Web Design | 📱 Mobile App Design | 🔍 UX Research
