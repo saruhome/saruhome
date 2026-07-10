@@ -6,9 +6,9 @@
 
 ## 📁 Portfolios & Projects
 
-### 📱 [Mobile] Local Community App 'SokDak'
+### 📱 [Mobile] Modern Korean Slang Dictionary & Community App 'SokDak'
 *   **Role:** UI/UX Design & Branding
-*   **Description:** 현대 한국어 신조어를 직관적이고 위트 있게 큐레이션하는 모바일 애플리케이션 디자인 프로젝트입니다.
+*   **Description:** 현대 한국어 신조어와 트렌디한 네오로지즘(Neologism)을 직관적으로 큐레이션하는 사전 기능과, 유저들이 활발하게 소통할 수 있는 커뮤니티 공간이 결합된 모바일 애플리케이션 디자인 프로젝트입니다.
 
 ### 💻 [Web] Corporate Website Redesign
 *   **Role:** UI/UX Design (Responsive Web)
