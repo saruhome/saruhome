@@ -5,7 +5,6 @@ interface HorizontalSliderProps {
   onSlideChange?: (index: number) => void;
   showDots?: boolean;
   showArrows?: boolean;
-  snapToCenter?: boolean;
 }
 
 export default function HorizontalSlider({
@@ -13,7 +12,6 @@ export default function HorizontalSlider({
   onSlideChange,
   showDots = true,
   showArrows = true,
-  snapToCenter = true,
 }: HorizontalSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);

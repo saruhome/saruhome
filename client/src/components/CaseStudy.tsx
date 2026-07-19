@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft } from "lucide-react";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 
 /**
  * Design System — "Precision in Motion"

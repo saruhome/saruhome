@@ -207,7 +207,6 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
 
 export default function RoleSelectIntro() {
   const [view, setView] = useState<View>("main");
-  const { t } = useLanguage();
 
   return (
     <main className="h-[100dvh] overflow-hidden bg-black text-white">
