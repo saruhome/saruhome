@@ -180,11 +180,11 @@ function VideoSlide() {
 
   return (
     <>
-      <section className="relative h-full w-full overflow-y-auto bg-[#1a0503] text-white">
+      <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#1a0503] text-white">
         <div className="pointer-events-none fixed inset-0 opacity-35 arcade-scanline pointer-events-none" />
         <div className="pointer-events-none absolute -right-20 top-4 h-96 w-96 rounded-full bg-orange-500/22 blur-3xl" />
 
-        <div className="relative z-10 flex h-full min-h-0 w-full flex-col items-center justify-start px-4 py-6 md:px-8 md:py-8 lg:px-12">
+        <div className="relative z-10 flex h-auto min-h-0 w-full flex-col items-center justify-start px-4 pb-6 pt-20 md:h-full md:px-8 md:py-8 lg:px-12">
           <div className="shrink-0 text-center">
             <p className="font-rajdhani text-xs font-black uppercase tracking-[0.42em] text-orange-200 md:text-sm">
               PLAYER 02 ARCHIVE
@@ -271,7 +271,7 @@ function VideoSlide() {
 
 function BioSlide() {
   return (
-    <section className="relative h-full w-full overflow-y-auto bg-[#1a0503] px-4 py-16 md:px-8 md:py-24 lg:px-12 text-white">
+    <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#1a0503] px-4 py-16 md:px-8 md:py-24 lg:px-12 text-white">
       <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
       <div className="pointer-events-none absolute -right-20 top-4 h-96 w-96 rounded-full bg-orange-500/22 blur-3xl" />
 
@@ -314,7 +314,7 @@ export default function DancerPortfolioSlider({
   onBack: () => void;
 }) {
   return (
-    <div className="relative h-[100dvh] overflow-hidden bg-black">
+    <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
       <LanguageSwitcher />
       <button
         onClick={onBack}

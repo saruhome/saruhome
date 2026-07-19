@@ -209,7 +209,7 @@ export default function RoleSelectIntro() {
   const [view, setView] = useState<View>("main");
 
   return (
-    <main className="h-[100dvh] overflow-hidden bg-black text-white">
+    <main className="h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
       {view === "main" && (
         <>
           <LanguageSwitcher />

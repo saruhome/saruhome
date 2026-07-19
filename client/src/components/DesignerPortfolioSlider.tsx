@@ -71,7 +71,7 @@ const designProjects: DesignProject[] = [
 
 function ProjectsSlide({ onViewCaseStudy }: { onViewCaseStudy: (projectId: string) => void }) {
   return (
-    <section className="relative h-full w-full overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
+    <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
 
@@ -121,7 +121,7 @@ function ProjectsSlide({ onViewCaseStudy }: { onViewCaseStudy: (projectId: strin
 
 function AboutMeSkillsSlide() {
   return (
-    <section className="relative h-full w-full overflow-y-auto bg-dark-primary px-4 py-16 md:px-8 md:py-24 lg:px-12">
+    <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-dark-primary px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
 
@@ -193,7 +193,7 @@ function AboutMeSkillsSlide() {
 
 function ContactSlide() {
   return (
-    <section className="relative h-full w-full overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
+    <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
 
@@ -293,7 +293,7 @@ export default function DesignerPortfolioSlider({
   }
 
   return (
-    <div className="relative h-[100dvh] overflow-hidden bg-black">
+    <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
       <LanguageSwitcher />
       <button
         onClick={onBack}

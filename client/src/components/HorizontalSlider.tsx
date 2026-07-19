@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, ReactNode } from "react";
+import { useIsMobile } from "@/hooks/useMobile";
 
 interface HorizontalSliderProps {
   children: ReactNode[];
@@ -21,6 +22,7 @@ export default function HorizontalSlider({
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const totalSlides = children.length;
+  const isMobile = useIsMobile();
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
@@ -80,6 +82,20 @@ export default function HorizontalSlider({
   }, [currentSlide, totalSlides]);
 
   const translateX = -currentSlide * 100 + (isDragging ? (dragOffset / (containerRef.current?.clientWidth || 1)) * 100 : 0);
+
+  // Below md, the fullscreen slide-paging UI doesn't fit content that varies
+  // in height per slide, so stack slides vertically and let the page scroll.
+  if (isMobile) {
+    return (
+      <div className="flex w-full flex-col bg-[#07111f]">
+        {children.map((child, index) => (
+          <div key={index} className="w-full">
+            {child}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#07111f]">
