@@ -323,7 +323,7 @@ export default function DancerPortfolioSlider({
         <span className="inline-block skew-x-[12deg]">&lt; BACK TO SELECT</span>
       </button>
 
-      <HorizontalSlider showDots showArrows>
+      <HorizontalSlider showDots showArrows accentColor="orange">
         <VideoSlide />
         <BioSlide />
       </HorizontalSlider>

@@ -6,14 +6,30 @@ interface HorizontalSliderProps {
   onSlideChange?: (index: number) => void;
   showDots?: boolean;
   showArrows?: boolean;
+  accentColor?: "cyan" | "orange";
 }
+
+const ACCENT_CLASSES = {
+  cyan: {
+    arrow: "border-cyan-300/50 text-cyan-100 hover:border-cyan-200 hover:bg-cyan-300/20",
+    dotActive: "bg-cyan-300",
+    dotInactive: "bg-cyan-300/40 hover:bg-cyan-300/70",
+  },
+  orange: {
+    arrow: "border-orange-300/50 text-orange-100 hover:border-orange-200 hover:bg-orange-300/20",
+    dotActive: "bg-orange-300",
+    dotInactive: "bg-orange-300/40 hover:bg-orange-300/70",
+  },
+} as const;
 
 export default function HorizontalSlider({
   children,
   onSlideChange,
   showDots = true,
   showArrows = true,
+  accentColor = "cyan",
 }: HorizontalSliderProps) {
+  const accent = ACCENT_CLASSES[accentColor];
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState(0);
@@ -134,7 +150,7 @@ export default function HorizontalSlider({
       {showArrows && currentSlide > 0 && (
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 z-20 hidden -translate-y-1/2 skew-x-[-12deg] border-2 border-cyan-300/50 bg-black/70 p-2 text-cyan-100 transition-all duration-300 hover:border-cyan-200 hover:bg-cyan-300/20 md:left-8 md:block"
+          className={`absolute left-4 top-1/2 z-20 hidden -translate-y-1/2 skew-x-[-12deg] border-2 bg-black/70 p-2 transition-all duration-300 md:left-8 md:block ${accent.arrow}`}
           aria-label="Previous slide"
         >
           <span className="inline-block skew-x-[12deg] text-lg">←</span>
@@ -145,7 +161,7 @@ export default function HorizontalSlider({
       {showArrows && currentSlide < totalSlides - 1 && (
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 z-20 hidden -translate-y-1/2 skew-x-[-12deg] border-2 border-cyan-300/50 bg-black/70 p-2 text-cyan-100 transition-all duration-300 hover:border-cyan-200 hover:bg-cyan-300/20 md:right-8 md:block"
+          className={`absolute right-4 top-1/2 z-20 hidden -translate-y-1/2 skew-x-[-12deg] border-2 bg-black/70 p-2 transition-all duration-300 md:right-8 md:block ${accent.arrow}`}
           aria-label="Next slide"
         >
           <span className="inline-block skew-x-[12deg] text-lg">→</span>
@@ -161,8 +177,8 @@ export default function HorizontalSlider({
               onClick={() => goToSlide(index)}
               className={`h-2 transition-all duration-300 md:h-3 ${
                 index === currentSlide
-                  ? "w-8 bg-cyan-300 md:w-10"
-                  : "w-2 bg-cyan-300/40 hover:bg-cyan-300/70 md:w-3"
+                  ? `w-8 md:w-10 ${accent.dotActive}`
+                  : `w-2 md:w-3 ${accent.dotInactive}`
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

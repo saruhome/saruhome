@@ -125,7 +125,11 @@ function RolePanel({
       onFocus={() => setActiveRole(role.id)}
       onBlur={() => setActiveRole(null)}
       onClick={() => onSelect(role.id)}
-      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-all duration-500 ease-in-out md:h-full ${desktopFlexClass}`}
+      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-all duration-500 ease-in-out md:h-full ${desktopFlexClass} ${
+        isDesigner
+          ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]"
+          : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"
+      }`}
     >
       <div
         className={`absolute inset-0 transition-opacity duration-500 ${
