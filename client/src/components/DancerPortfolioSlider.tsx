@@ -50,9 +50,9 @@ const danceActivities: DanceActivity[] = [
     meta: "FREESTYLE",
     description: "Improvisation and quick reactions showcase command of space through freestyle battle style.",
     media: {
-      type: "image",
-      url: "https://images.unsplash.com/photo-1547394765-185342c1da36?w=1200&h=800&fit=crop",
-      thumbnail: "https://images.unsplash.com/photo-1547394765-185342c1da36?w=400&h=300&fit=crop",
+      type: "video",
+      url: "https://www.youtube.com/embed/F72Is4fqZGg?autoplay=1&mute=1&controls=1&playsinline=1",
+      thumbnail: "https://img.youtube.com/vi/F72Is4fqZGg/maxresdefault.jpg",
     },
   },
 ];
