@@ -109,7 +109,9 @@ function RolePanel({
         ? "md:flex-[0.75]"
         : "md:flex-[0.25]"
       : activeRole === "dancer"
-        ? "md:flex-[0.5]"
+        ? isDesigner
+          ? "md:flex-[0.25]"
+          : "md:flex-[0.75]"
         : isDesigner
           ? "md:flex-[0.7]"
           : "md:flex-[0.3]";
