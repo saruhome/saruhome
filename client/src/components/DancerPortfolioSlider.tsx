@@ -29,8 +29,8 @@ const danceActivities: DanceActivity[] = [
     description: "Facial expressions, eye contact, and body lines amplify the song's energy on stage through dynamic performance.",
     media: {
       type: "video",
-      url: "https://www.youtube.com/embed/Kri6sE8RpbU?autoplay=1&mute=1&controls=1&playsinline=1",
-      thumbnail: "https://i.ytimg.com/vi/Kri6sE8RpbU/maxresdefault.jpg",
+      url: "https://www.youtube.com/embed/fjyXcEWnaDg?autoplay=1&mute=1&controls=1&playsinline=1",
+      thumbnail: "https://i.ytimg.com/vi/fjyXcEWnaDg/maxresdefault.jpg",
     },
   },
   {
