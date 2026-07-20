@@ -152,7 +152,7 @@ function RolePanel({
         } ${isActive ? "opacity-100" : "opacity-40"}`}
       />
       <div
-        className={`relative z-20 flex h-full min-h-0 flex-col justify-end px-6 pb-10 pt-8 md:px-10 md:pb-24 lg:px-16 ${
+        className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pb-10 pt-8 md:px-10 md:pb-24 lg:px-16 ${
           isDesigner ? "items-start text-left" : "items-end text-right"
         }`}
       >
