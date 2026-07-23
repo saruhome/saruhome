@@ -32,15 +32,6 @@ const designProjects: DesignProject[] = [
     link: "https://www.behance.net/gallery/167922001/UIUX-Design-Smart-Wash",
   },
   {
-    id: "03",
-    title: "Campy",
-    tag: "MOBILE APP / UX/UI",
-    description:
-      "Mobile App UX/UI Design — Unified platform managing all camping planning and execution processes in one app.",
-    thumbnail: "/images/project-campy.jpg",
-    link: null,
-  },
-  {
     id: "04",
     title: "Seek and Sight",
     tag: "EDTECH / RESEARCH",
