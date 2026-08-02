@@ -168,6 +168,16 @@ function AboutMeSkillsSlide() {
 }
 
 function ContactSlide() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const body = `${message}\n\n— ${name} (${email})`;
+    window.location.href = `mailto:yimsungh@gmail.com?subject=${encodeURIComponent(`Portfolio message from ${name}`)}&body=${encodeURIComponent(body)}`;
+  };
+
   return (
     <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
@@ -177,9 +187,9 @@ function ContactSlide() {
         <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm mb-4">CONTACT</p>
         <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">Get in Touch</h2>
         
-        <div className="grid gap-6 md:grid-cols-3 mb-8">
-          <a 
-            href="mailto:yimsungh@gmail.com" 
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          <a
+            href="mailto:yimsungh@gmail.com"
             className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50"
           >
             <p className="font-rajdhani text-sm text-light-secondary mb-2">Email</p>
@@ -194,9 +204,18 @@ function ContactSlide() {
             <p className="font-rajdhani text-sm text-light-secondary mb-2">LinkedIn</p>
             <p className="font-bebas text-lg text-cyan-300">sunghee-im</p>
           </a>
-          <a 
-            href="/resume.pdf" 
-            download 
+          <a
+            href="https://www.behance.net/saruhome"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50"
+          >
+            <p className="font-rajdhani text-sm text-light-secondary mb-2">Behance</p>
+            <p className="font-bebas text-lg text-cyan-300">saruhome</p>
+          </a>
+          <a
+            href="/resume.pdf"
+            download
             className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50 cursor-pointer"
           >
             <p className="font-rajdhani text-sm text-light-secondary mb-2">Resume</p>
@@ -206,26 +225,35 @@ function ContactSlide() {
 
         <div className="border-t-2 border-cyan-300/30 pt-8">
           <h3 className="font-bebas text-2xl font-bold text-light-primary mb-6">Send a Message</h3>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label className="block font-rajdhani text-sm font-semibold text-light-secondary mb-2">Name</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full bg-slate-950/50 border-2 border-cyan-300/30 rounded px-4 py-2 font-rajdhani text-light-primary focus:outline-none focus:border-cyan-300"
                 placeholder="Your name"
               />
             </div>
             <div>
               <label className="block font-rajdhani text-sm font-semibold text-light-secondary mb-2">Email</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-slate-950/50 border-2 border-cyan-300/30 rounded px-4 py-2 font-rajdhani text-light-primary focus:outline-none focus:border-cyan-300"
                 placeholder="your@email.com"
               />
             </div>
             <div>
               <label className="block font-rajdhani text-sm font-semibold text-light-secondary mb-2">Message</label>
-              <textarea 
+              <textarea
+                required
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 className="w-full bg-slate-950/50 border-2 border-cyan-300/30 rounded px-4 py-2 font-rajdhani text-light-primary focus:outline-none focus:border-cyan-300 resize-none"
                 rows={4}
                 placeholder="Your message..."
