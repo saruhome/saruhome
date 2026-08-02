@@ -57,9 +57,9 @@ const caseStudyData: Record<string, CaseStudyProject> = {
     tools: "Figma",
     client: "Team Project",
     problem:
-      "Foreign learners study Korean from textbooks, but real Koreans speak in slang and neologisms — expressions like ㄱㄱ, 노잼, and 갬성 — that no textbook teaches, leaving learners lost in everyday conversation and pop culture.",
+      "Foreign learners study Korean from textbooks, but real Koreans speak in slang and neologisms — ㄱㄱ, 노잼, 갬성, 존맛, 갓생, 두쫀쿠, 알잘딱깔센 — that no textbook teaches, leaving learners staring at a phone full of words they've never seen and no idea what any of it means.",
     solution:
-      "Designed Sokdak, a Korean slang dictionary app fronted by a friendly tiger mascot, that surfaces trending expressions with plain-language meanings and real cultural context (for example, tracing '리즈' back to Leeds United), plus a community feed for practicing new slang in context.",
+      "Designed Sokdak, a Korean slang dictionary app fronted by a friendly tiger mascot, that surfaces trending expressions with plain-language meanings and real cultural context (for example, tracing '리즈' back to Leeds United, since the term for someone at the peak of their looks literally comes from the football club), plus a community feed for practicing new slang in context.",
     research: [
       {
         title: "Slang & Neologism Curation",
@@ -84,9 +84,10 @@ const caseStudyData: Record<string, CaseStudyProject> = {
     },
     designShowcase: [
       {
-        title: "Home Feed",
+        title: "Home Feed & Background",
         description:
-          "A scannable card feed of trending and newly coined slang terms, each tagged by category (drama/movie references, in-group expressions, community picks).",
+          "The landing view opens on the problem itself: a scattered cloud of real slang words (레전드, 존맛, 노잼, 두쫀쿠, 알잘딱깔센, 갓생) around a confused learner, before dropping into a scannable feed of trending and newly coined terms tagged by category.",
+        imageUrl: "/images/sokdak-hero.jpg",
       },
       {
         title: "Word Detail View",
@@ -149,6 +150,7 @@ const caseStudyData: Record<string, CaseStudyProject> = {
         title: "Landing Page Hero & Mission",
         description:
           "\"Empowering Young Learners Through STEAM and Sight Words\" — an inclusive, game-based literacy platform for children ages 2–7, built around game-based learning, critical thinking, personalized paths, and real-time progress tracking.",
+        imageUrl: "/images/seekandsight-hifi.jpg",
       },
       {
         title: "Traditional vs. Seek and Sight",
@@ -206,6 +208,7 @@ const caseStudyData: Record<string, CaseStudyProject> = {
       title: "Landing Page Structure",
       description:
         "Restructured the page into a clear funnel: Hero value proposition → Core services (Mobile Dienstleister / Lieferservices) → Trust stats → Concrete steps to get started → Founder credibility → Free report lead magnet → Video overview → Social proof (Trustpilot, press badges).",
+      imageUrl: "/images/locaverse-hero.jpg",
     },
     designShowcase: [
       {
@@ -214,9 +217,10 @@ const caseStudyData: Record<string, CaseStudyProject> = {
           "Rebuilt the hero to lead with the core benefit — digital customer acquisition for mobile service and delivery providers — instead of a generic company introduction.",
       },
       {
-        title: "Free Report Lead-Gen Module",
+        title: "Free Report Lead-Gen Module (\"Kostenloser Expertenreport\")",
         description:
-          "A dedicated module for the free \"Expertenreport\" download, isolated from every other call-to-action on the page to remove decision friction.",
+          "A dedicated landing page for the free lead-magnet ebook, isolated from the rest of the site, built around four scannable benefit points: the top 3 marketing mistakes independent providers make, how to win free visibility in your service area via Locaverse.at, the biggest challenges mobile-service and delivery providers face, and how to extend reach through Locaverse.at's add-ons without extra budget or expertise.",
+        imageUrl: "/images/locaverse-report.jpg",
       },
       {
         title: "Before & After Comparison",
@@ -247,44 +251,46 @@ const caseStudyData: Record<string, CaseStudyProject> = {
     problem:
       "Washing machine apps typically dump every setting on the user at once, requiring people to manually pick a wash mode without any help from real-world context like the weather or fabric type.",
     solution:
-      "Designed Smart Wash, a washing machine app that reads local weather data and recommends a wash mode automatically, while still offering a full manual mode and an energy-savings monitor for people who want control. The visual direction moved from a flat baseline to a soft neumorphic style — described internally as Smart, Soft, Friendly — so the app feels less like an industrial control panel.",
+      "Designed Smart Wash, a washing machine app that reads local weather data and recommends a wash mode automatically, while still offering a full manual mode and an energy-savings monitor for people who want control. The visual direction deliberately moved from the flat style common to existing smart-home apps toward neumorphism — soft, tactile shadows meant to make the interface feel worth pressing, \"like a cute game.\"",
     research: [
       {
-        title: "As-Is / To-Be Direction",
+        title: "As Is → To Be",
         description:
-          "Started from a flat, generic \"smart app\" baseline and moved deliberately toward neumorphism — soft shadows and rounded surfaces designed to make the app feel inviting enough to want to keep tapping.",
+          "As Is: flat design, the common feeling across existing smart apps. To Be: neumorphism, designed so users want to keep pressing it like a cute game. Keywords guiding the shift: Smart, Soft, Friendly.",
       },
       {
         title: "Visual Research",
         description:
-          "Explored 3D and neumorphic reference work, then built out the supporting logo, icon set, color palette (light blues, grey, black), and typography before touching final screens.",
+          "Explored 3D and neumorphic reference work (weather cards, dashboard modules) to define the soft-shadow language, then built the supporting logo, icon set, color palette, and typography before touching final screens.",
       },
       {
         title: "Wireframing",
         description:
-          "Wireframed the full flow — home, manual mode, temperature and rinse settings, favorites, and notification settings — before applying visual design.",
+          "Wireframed the full flow — splash, home with weather-linked START button, running state with countdown, side menu, energy monitor, manual mode (temperature/rinse/spin/favorites), and settings — before applying visual design.",
       },
     ],
     infoArchitecture: {
       title: "Information Architecture",
       description:
-        "Structured the app around three entry points from the home screen — Weather Tracking (automatic recommendation), Manual Mode (full user control), and Energy Monitor (usage feedback) — so a first-time user can start a wash in one tap while power users can still dig into manual settings.",
+        "Structured the app around three entry points from the home screen — Weather Tracking (automatic recommendation), Manual Mode (full user control), and Energy Monitor (usage feedback) — so a first-time user can start a wash in one tap while power users can still dig into manual settings. UI elements: logo, a 4-color palette (#5FBFFF, #CAEAFF, #ECECEC, #000000), a custom icon set, and Rubik typography.",
     },
     designShowcase: [
       {
-        title: "Weather Tracking",
+        title: "Home & Weather Tracking",
         description:
-          "The home screen surfaces the day's forecast and automatically recommends a wash mode based on it — the app's main point of difference from a standard washing machine app.",
+          "The home screen greets the user by name and surfaces the day's forecast on a neumorphic dial, automatically recommending a wash mode based on it — the app's main point of difference from a standard washing machine app.",
+        imageUrl: "/images/smartwash-hero.jpg",
       },
       {
-        title: "Manual Mode",
+        title: "Wireframe Flow",
         description:
-          "A full manual flow (temperature, rinse count, spin speed) for users who'd rather set their own wash style than take the recommendation.",
+          "Full wireframe flow from splash screen through the home dial, running state, side menu, and energy monitor, before manual-mode screens for temperature, rinse count, and spin speed.",
+        imageUrl: "/images/smartwash-wireframe.jpg",
       },
       {
-        title: "Energy Monitor",
+        title: "Manual Mode & Energy Monitor",
         description:
-          "A simple usage view showing how much electricity a wash cycle used, encouraging more efficient habits without hiding control from the user.",
+          "A full manual flow (temperature, rinse count, spin speed, favorites) for users who'd rather set their own wash style than take the recommendation, plus a usage view showing electricity saved per cycle.",
       },
     ],
     takeaways: [
@@ -296,52 +302,62 @@ const caseStudyData: Record<string, CaseStudyProject> = {
   "05": {
     id: "05",
     title: "ecotek",
-    subtitle: "Ökologie neu erleben — Sustainable Brand Identity",
+    subtitle: "Ökologie neu erleben — Rebrand for an Eco-Architecture Firm",
     role: "Brand & UI/UX Designer",
     deliverables: [
+      "Naming & Rebrand Strategy",
       "Logo & Brand Identity",
       "Color & Typography System",
       "Marketing Website Design",
+      "Print Ad Campaign",
     ],
     timeline: "School Project (2023)",
     tools: "Illustrator, Photoshop, Figma",
-    client: "Digital Campus Vorarlberg (Personal Project)",
+    client: "Digital Campus Vorarlberg (based on Arslan.Fenkart, a real Vorarlberg architecture firm)",
     problem:
-      "As a brand-design exercise at Digital Campus Vorarlberg, the brief called for a fictional sustainability-focused company that needed a complete visual identity built from the ground up — not just a logo, but a full marketing website carrying that identity.",
+      "The brief: rebrand Arslan.Fenkart, an ecological architecture firm founded in Kennelbach in 2015 by Dilek Arslan and Johanna Fenkart. By 2022 the firm had grown to 15–20 employees and multiple national and international eco-construction awards, but its name gave no sense of what it actually stood for — and most eco-architects in its home region of Vorarlberg lean on curves and rounded forms that don't match the firm's own straight-lined, wood-first style.",
     solution:
-      "Created ecotek, a nature-inspired brand built around a tree-and-cloud mark and the tagline \"Ökologie neu erleben\" (Experience ecology anew), then extended the identity into a full marketing website and supporting visual system rather than treating it as a logo-only exercise.",
+      "Renamed the firm ecotek — ECO + TEK/TECH, for ecology, architecture, and nature-conscious technology — under the tagline \"Ökologie neu erleben\" (Experience ecology anew). Built a house-shaped, tree-integrated logo in green/yellow/blue (health, warmth, trust), then carried the identity through a squarelike, minimalist marketing website, a three-subject print ad campaign, and supporting brand guidelines.",
     research: [
       {
-        title: "Brand Concept",
+        title: "About the Company",
         description:
-          "Built the identity around organic, rounded forms and a green/grey palette to signal sustainability without leaning on cliché leaf-and-globe imagery.",
+          "Arslan.Fenkart: founded 2015 in Kennelbach, became a GmbH in 2017. By 2022, 15 employees and multiple national/international architecture and eco-construction awards. Core market in western Austria, with projects in Switzerland, Germany, and Italy. Moved into its own self-designed building in 2022, growing to 20 employees; four-day work week; runs a shared day-care with neighboring companies.",
       },
       {
-        title: "Identity System",
+        title: "Visual Language Audit",
         description:
-          "Extended the mark into a cohesive typography and color system, applied consistently across the website and supporting marketing collateral.",
+          "Existing eco-architecture tends toward curves, but Vorarlberg's eco-architects favor straight lines, squares, triangles, and wood as the primary material. ecotek's direction leans into that regional style while proposing buildings that visibly integrate trees and plants — using daytime photography to foreground the ecological angle.",
+      },
+      {
+        title: "Naming & Logo Rationale",
+        description:
+          "ecotek combines ECO (ecology) + TEK/TECH (architecture and technology), signaling that the firm's technology is nature-conscious, sustainable, and energy-efficient. The logo reads as a house block with an integrated tree; green/yellow/blue were chosen specifically for health, warmth, and trust.",
       },
     ],
     infoArchitecture: {
       title: "Website Structure",
       description:
-        "Designed the marketing site to carry the brand story from logo and mission through product/service messaging into a consistent visual system, matching the structure of a real company website rather than a portfolio mockup.",
+        "Logo & Menu (Start / Über uns / Portfolio / Jobs / Kontakt) → Main Banner (\"Die Welt verändern\") → Company Introduction (\"Wir machen einen Unterschied\") → Work Process (Kunden → Ideen → Umsetzung) → Promotional Video → Portfolio grid of real eco-architecture references → Company News (three articles pulled straight from the firm's real history, including 2023 partner Maria Rukavina) → Footer with contact details and newsletter signup. Square, unrounded UI throughout — a deliberate match to the firm's straight-lined architectural style.",
+      imageUrl: "/images/ecotek-website.jpg",
     },
     designShowcase: [
       {
-        title: "Logo & Mark",
+        title: "Print Ad Campaign — \"Zwischen Mensch und Natur\"",
         description:
-          "A tree-and-cloud mark paired with a clean wordmark, designed to read clearly at small sizes across web and print.",
+          "A three-subject magazine campaign (Familie / Firma / Single-Paar) built around the line \"Zwischen Mensch und Natur\" (Between people and nature), each paired with a different building type — family home, office building, residential complex — to convey that living or working in an ecotek building is a new, better experience through symbiosis with nature.",
+        imageUrl: "/images/ecotek-campaign.jpg",
       },
       {
         title: "Marketing Website",
         description:
-          "A full website built around the brand system, translating the identity into real page layouts rather than stopping at a style guide.",
+          "A full company website — not just a style guide — with a portfolio grid, a three-step work process (Kunden, Ideen, Umsetzung), and a news section built from the firm's real milestones, all rendered in the squarelike, minimalist system the brand called for.",
       },
     ],
     takeaways: [
-      "A strong, simple mark (tree + cloud) does more brand work than an elaborate one when it has to scale across an entire website.",
-      "Treating a school brief like a real client project — a full site, not just a logo — was the most useful part of the exercise.",
+      "A rebrand only lands if the new visual language reflects the client's real regional context — copying generic \"eco\" curves would have fought against Vorarlberg's own straight-lined, wood-first architectural style.",
+      "Naming that visibly combines the client's two core ideas (ecology + technology) does more explaining than a purely abstract name would.",
+      "Treating a school brief like a real rebrand — full site, ad campaign, and brand guidelines, not just a logo — was the most useful part of the exercise.",
     ],
   },
 };
@@ -477,14 +493,24 @@ function ResearchPage({ project }: { project: CaseStudyProject }) {
 }
 
 function InfoArchitecturePage({ project }: { project: CaseStudyProject }) {
+  const ia = project.infoArchitecture;
   return (
     <PageShell>
-      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-6 text-shadow-cyan">
-        {project.infoArchitecture.title}
-      </h2>
-      <p className="font-rajdhani text-base md:text-lg text-white/70 leading-relaxed max-w-3xl">
-        {project.infoArchitecture.description}
-      </p>
+      <div className={`grid gap-8 items-center ${ia.imageUrl ? "md:grid-cols-2" : "max-w-3xl"}`}>
+        <div>
+          <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-6 text-shadow-cyan">
+            {ia.title}
+          </h2>
+          <p className="font-rajdhani text-base md:text-lg text-white/70 leading-relaxed">
+            {ia.description}
+          </p>
+        </div>
+        {ia.imageUrl && (
+          <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
+            <FadeInImage src={ia.imageUrl} alt={ia.title} className="w-full h-auto" />
+          </div>
+        )}
+      </div>
     </PageShell>
   );
 }
