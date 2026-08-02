@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
+import HorizontalSlider from "./HorizontalSlider";
 
 /**
  * Design System — "Precision in Motion"
@@ -391,241 +392,177 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
   );
 }
 
-function HeroSection({ project }: { project: CaseStudyProject }) {
+function PageShell({ children }: { children: ReactNode }) {
   return (
-    <section className="relative w-full min-h-screen bg-black pt-20">
-      {/* Background with parallax effect */}
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-black to-black"
-        style={{
-          backgroundAttachment: "fixed",
-        }}
-      />
-      <div className="pointer-events-none absolute inset-0 opacity-30 arcade-scanline" />
+    <section className="relative flex h-full w-full items-center bg-black px-6 py-24 md:px-12">
+      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
+      <div className="relative z-10 mx-auto w-full max-w-6xl">{children}</div>
+    </section>
+  );
+}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
-        <div className="mb-6">
-          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm">
-            PROJECT {project.id}
-          </p>
+function OverviewPage({ project }: { project: CaseStudyProject }) {
+  return (
+    <PageShell>
+      <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm mb-6">
+        PROJECT {project.id}
+      </p>
+      <h1 className="skew-x-[-8deg] font-bebas text-[clamp(2.6rem,6vw,5.5rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade mb-4">
+        {project.title}
+      </h1>
+      <p className="font-rajdhani text-base md:text-lg text-white/70 max-w-2xl mb-8">
+        {project.subtitle}
+      </p>
+
+      <div className="flex flex-wrap gap-x-8 gap-y-3 mb-12">
+        <div>
+          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-1">Role</p>
+          <p className="font-rajdhani text-sm text-white/80">{project.role}</p>
         </div>
-        <h1 className="skew-x-[-8deg] font-bebas text-[clamp(2.6rem,7.2vw,7.2rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade mb-4">
-          {project.title}
-        </h1>
-        <p className="font-rajdhani text-base md:text-lg text-white/70 max-w-2xl mb-8">
-          {project.subtitle}
-        </p>
-
-        {project.metrics && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
-            {project.metrics.map((metric, idx) => (
-              <div
-                key={idx}
-                className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm"
-              >
-                <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-                  {metric.label}
-                </p>
-                <p className="font-bebas text-3xl font-bold text-cyan-300">{metric.value}</p>
-              </div>
-            ))}
+        <div>
+          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-1">Timeline</p>
+          <p className="font-rajdhani text-sm text-white/80">{project.timeline}</p>
+        </div>
+        {project.client && (
+          <div>
+            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-1">Client</p>
+            <p className="font-rajdhani text-sm text-white/80">{project.client}</p>
+          </div>
+        )}
+        {project.tools && (
+          <div>
+            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-1">Tools</p>
+            <p className="font-rajdhani text-sm text-white/80">{project.tools}</p>
           </div>
         )}
       </div>
-    </section>
-  );
-}
 
-function ProjectMetaBar({ project }: { project: CaseStudyProject }) {
-  return (
-    <section className="relative w-full bg-black border-t border-cyan-500/20 py-12">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div>
-            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-              Role
-            </p>
-            <p className="font-rajdhani text-sm text-white/80">{project.role}</p>
-          </div>
-          <div>
-            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-              Timeline
-            </p>
-            <p className="font-rajdhani text-sm text-white/80">{project.timeline}</p>
-          </div>
-          {project.client && (
-            <div>
-              <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-                Client
-              </p>
-              <p className="font-rajdhani text-sm text-white/80">{project.client}</p>
-            </div>
-          )}
-          {project.tools && (
-            <div>
-              <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-                Tools
-              </p>
-              <p className="font-rajdhani text-sm text-white/80">{project.tools}</p>
-            </div>
-          )}
+      <div className="grid md:grid-cols-2 gap-12">
+        <div>
+          <h2 className="skew-x-[-8deg] font-bebas text-2xl md:text-3xl font-bold text-white mb-4 text-shadow-cyan">
+            Problem
+          </h2>
+          <p className="font-rajdhani text-base text-white/70 leading-relaxed">{project.problem}</p>
+        </div>
+        <div>
+          <h2 className="skew-x-[-8deg] font-bebas text-2xl md:text-3xl font-bold text-cyan-300 mb-4 text-shadow-cyan">
+            Solution
+          </h2>
+          <p className="font-rajdhani text-base text-white/70 leading-relaxed">{project.solution}</p>
         </div>
       </div>
-    </section>
+    </PageShell>
   );
 }
 
-function ProblemSolutionSection({ project }: { project: CaseStudyProject }) {
+function ResearchPage({ project }: { project: CaseStudyProject }) {
   return (
-    <section className="relative w-full bg-black py-16 md:py-24">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-6 text-shadow-cyan">
-              The Challenge
-            </h2>
-            <p className="font-rajdhani text-base text-white/70 leading-relaxed">
-              {project.problem}
-            </p>
+    <PageShell>
+      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
+        Research & Process
+      </h2>
+      <div className="grid md:grid-cols-3 gap-8">
+        {project.research.map((item, idx) => (
+          <div
+            key={idx}
+            className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm hover:border-cyan-300/60 transition-all duration-300"
+          >
+            <h3 className="font-bebas text-xl font-bold text-cyan-300 mb-3">{item.title}</h3>
+            <p className="font-rajdhani text-sm text-white/70 leading-relaxed">{item.description}</p>
           </div>
-          <div>
-            <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-cyan-300 mb-6 text-shadow-cyan">
-              The Solution
-            </h2>
-            <p className="font-rajdhani text-base text-white/70 leading-relaxed">
-              {project.solution}
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
-    </section>
+    </PageShell>
   );
 }
 
-function ResearchProcessSection({ project }: { project: CaseStudyProject }) {
+function InfoArchitecturePage({ project }: { project: CaseStudyProject }) {
   return (
-    <section className="relative w-full bg-black py-16 md:py-24 border-t border-cyan-500/20">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
-          Research & Process
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {project.research.map((item, idx) => (
-            <div
-              key={idx}
-              className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm hover:border-cyan-300/60 transition-all duration-300"
-            >
-              <h3 className="font-bebas text-xl font-bold text-cyan-300 mb-3">
-                {item.title}
-              </h3>
-              <p className="font-rajdhani text-sm text-white/70 leading-relaxed">
-                {item.description}
-              </p>
-            </div>
-          ))}
-        </div>
+    <PageShell>
+      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-6 text-shadow-cyan">
+        {project.infoArchitecture.title}
+      </h2>
+      <p className="font-rajdhani text-base md:text-lg text-white/70 leading-relaxed max-w-3xl">
+        {project.infoArchitecture.description}
+      </p>
+    </PageShell>
+  );
+}
 
-        {project.infoArchitecture && (
-          <div className="mt-16">
-            <h3 className="skew-x-[-8deg] font-bebas text-2xl md:text-3xl font-bold text-white mb-6 text-shadow-cyan">
-              {project.infoArchitecture.title}
-            </h3>
-            <p className="font-rajdhani text-base text-white/70 leading-relaxed max-w-3xl">
-              {project.infoArchitecture.description}
-            </p>
+function DesignShowcasePage({
+  showcase,
+}: {
+  showcase: CaseStudyProject["designShowcase"][number];
+}) {
+  return (
+    <PageShell>
+      <div className={`grid gap-8 items-center ${showcase.imageUrl ? "md:grid-cols-2" : "max-w-3xl"}`}>
+        <div>
+          <h3 className="font-bebas text-2xl md:text-3xl font-bold text-cyan-300 mb-4">{showcase.title}</h3>
+          <p className="font-rajdhani text-base text-white/70 leading-relaxed">{showcase.description}</p>
+        </div>
+        {showcase.imageUrl && (
+          <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
+            <FadeInImage src={showcase.imageUrl} alt={showcase.title} className="w-full h-auto" />
           </div>
         )}
       </div>
-    </section>
+    </PageShell>
   );
 }
 
-function DesignShowcaseSection({ project }: { project: CaseStudyProject }) {
+function TakeawaysPage({ project }: { project: CaseStudyProject }) {
   return (
-    <section className="relative w-full bg-black py-16 md:py-24 border-t border-cyan-500/20">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
-          Design Showcase
-        </h2>
-        <div className="space-y-16">
-          {project.designShowcase.map((showcase, idx) => (
-            <div
-              key={idx}
-              className={`grid gap-8 items-center ${
-                showcase.imageUrl ? "md:grid-cols-2" : "max-w-3xl"
-              } ${idx % 2 === 1 ? "md:flex-row-reverse" : ""}`}
-            >
-              <div className={idx % 2 === 1 && showcase.imageUrl ? "md:order-2" : ""}>
-                <h3 className="font-bebas text-2xl font-bold text-cyan-300 mb-4">
-                  {showcase.title}
-                </h3>
-                <p className="font-rajdhani text-base text-white/70 leading-relaxed">
-                  {showcase.description}
-                </p>
-              </div>
-              {showcase.imageUrl && (
-                <div className={idx % 2 === 1 ? "md:order-1" : ""}>
-                  <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
-                    <FadeInImage
-                      src={showcase.imageUrl}
-                      alt={showcase.title}
-                      className="w-full h-auto"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+    <PageShell>
+      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
+        Key Takeaways
+      </h2>
+      <div className="space-y-4">
+        {project.takeaways.map((takeaway, idx) => (
+          <div
+            key={idx}
+            className="flex gap-4 p-4 border-l-4 border-cyan-300/50 bg-slate-950/30 rounded-r-lg"
+          >
+            <span className="text-cyan-300 font-bold text-lg flex-shrink-0">→</span>
+            <p className="font-rajdhani text-base text-white/70 leading-relaxed">{takeaway}</p>
+          </div>
+        ))}
       </div>
-    </section>
+    </PageShell>
   );
 }
 
-function TakeawaysSection({ project }: { project: CaseStudyProject }) {
+function BusinessImpactPage({ project }: { project: CaseStudyProject }) {
   return (
-    <section className="relative w-full bg-black py-16 md:py-24 border-t border-cyan-500/20">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-        <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
-          Key Takeaways
-        </h2>
-        <div className="space-y-4">
-          {project.takeaways.map((takeaway, idx) => (
-            <div
-              key={idx}
-              className="flex gap-4 p-4 border-l-4 border-cyan-300/50 bg-slate-950/30 rounded-r-lg"
-            >
-              <span className="text-cyan-300 font-bold text-lg flex-shrink-0">→</span>
-              <p className="font-rajdhani text-base text-white/70 leading-relaxed">
-                {takeaway}
-              </p>
-            </div>
-          ))}
-        </div>
+    <PageShell>
+      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
+        Business Impact
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {project.metrics!.map((metric, idx) => (
+          <div key={idx} className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm">
+            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
+              {metric.label}
+            </p>
+            <p className="font-bebas text-3xl font-bold text-cyan-300">{metric.value}</p>
+          </div>
+        ))}
       </div>
-    </section>
+    </PageShell>
   );
 }
 
-function FooterSection({ onBack }: { onBack: () => void }) {
+function FooterPage({ onBack }: { onBack: () => void }) {
   return (
-    <section className="relative w-full bg-black border-t border-cyan-500/20 py-12">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        <p className="font-rajdhani text-sm text-white/60">End of Case Study</p>
-        <button
-          onClick={onBack}
-          className="skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-4 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
-        >
-          <span className="inline-block skew-x-[12deg]">← BACK TO WORKS</span>
-        </button>
-      </div>
-    </section>
+    <PageShell>
+      <p className="font-rajdhani text-sm text-white/60 mb-6">End of Case Study</p>
+      <button
+        onClick={onBack}
+        className="skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-4 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
+      >
+        <span className="inline-block skew-x-[12deg]">← BACK TO WORKS</span>
+      </button>
+    </PageShell>
   );
 }
 
@@ -654,16 +591,24 @@ export default function CaseStudy({
     );
   }
 
+  const pages = [
+    <OverviewPage key="overview" project={project} />,
+    <ResearchPage key="research" project={project} />,
+    <InfoArchitecturePage key="ia" project={project} />,
+    ...project.designShowcase.map((showcase) => (
+      <DesignShowcasePage key={showcase.title} showcase={showcase} />
+    )),
+    <TakeawaysPage key="takeaways" project={project} />,
+    ...(project.metrics ? [<BusinessImpactPage key="impact" project={project} />] : []),
+    <FooterPage key="footer" onBack={onBack} />,
+  ];
+
   return (
-    <div className="relative w-full bg-black text-white overflow-y-auto">
+    <div className="relative h-auto min-h-dvh overflow-visible bg-black text-white md:h-dvh md:overflow-hidden">
       <StickyNavigation onBack={onBack} />
-      <HeroSection project={project} />
-      <ProjectMetaBar project={project} />
-      <ProblemSolutionSection project={project} />
-      <ResearchProcessSection project={project} />
-      <DesignShowcaseSection project={project} />
-      <TakeawaysSection project={project} />
-      <FooterSection onBack={onBack} />
+      <HorizontalSlider showDots showArrows>
+        {pages}
+      </HorizontalSlider>
     </div>
   );
 }
