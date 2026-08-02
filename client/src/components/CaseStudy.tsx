@@ -32,7 +32,6 @@ type CaseStudyProject = {
     title: string;
     description: string;
     imageUrl?: string;
-    isMockup?: boolean;
   }[];
   takeaways: string[];
   metrics?: {
