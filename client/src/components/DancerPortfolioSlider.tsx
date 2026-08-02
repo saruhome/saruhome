@@ -175,7 +175,6 @@ function VideoSlide() {
   const [selectedActivity, setSelectedActivity] = useState<DanceActivity | null>(
     null
   );
-  const [isVideoHovered, setIsVideoHovered] = useState(false);
 
   return (
     <>
@@ -194,54 +193,34 @@ function VideoSlide() {
           </div>
 
           <div className="relative mx-auto mt-6 w-full max-w-4xl shrink-0 md:mt-8">
-            <div
-              onMouseEnter={() => setIsVideoHovered(true)}
-              onMouseLeave={() => setIsVideoHovered(false)}
-              onFocus={() => setIsVideoHovered(true)}
-              onBlur={() => setIsVideoHovered(false)}
-              tabIndex={0}
-              role="button"
-              aria-label="Dance performance video preview"
-              className="group relative aspect-video w-full overflow-hidden border-2 border-orange-300/60 bg-black outline-none transition-all duration-300 hover:border-orange-200 focus:border-orange-200 cursor-pointer"
+            <button
+              type="button"
+              aria-label="Play dance performance video"
+              className="group relative aspect-video w-full overflow-hidden border-2 border-orange-300/60 bg-black outline-none transition-all duration-300 hover:border-orange-200 focus:border-orange-200 cursor-pointer shadow-[0_0_30px_rgba(249,115,22,0.4),0_0_60px_rgba(249,115,22,0.2),inset_0_0_20px_rgba(249,115,22,0.1)] hover:shadow-[0_0_50px_rgba(249,115,22,0.8),0_0_100px_rgba(249,115,22,0.4),inset_0_0_30px_rgba(249,115,22,0.2)]"
               onClick={() => setSelectedActivity(danceActivities[0])}
-              style={{
-                boxShadow: isVideoHovered
-                  ? "0 0 50px rgba(249,115,22,0.8), 0 0 100px rgba(249,115,22,0.4), inset 0 0 30px rgba(249,115,22,0.2)"
-                  : "0 0 30px rgba(249,115,22,0.4), 0 0 60px rgba(249,115,22,0.2), inset 0 0 20px rgba(249,115,22,0.1)",
-              }}
             >
-              {isVideoHovered ? (
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src="https://www.youtube.com/embed/Kri6sE8RpbU?autoplay=1&mute=1&controls=0&loop=1&playlist=Kri6sE8RpbU&playsinline=1"
-                  title="Dance portfolio hover preview"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+              <div className="absolute inset-0">
+                <img
+                  src="https://i.ytimg.com/vi/Kri6sE8RpbU/maxresdefault.jpg"
+                  alt="Dance performance video thumbnail"
+                  className="h-full w-full object-cover opacity-75 transition-all duration-500 group-hover:scale-105 group-hover:opacity-50"
                 />
-              ) : (
-                <div className="absolute inset-0">
-                  <img
-                    src="https://i.ytimg.com/vi/Kri6sE8RpbU/maxresdefault.jpg"
-                    alt="Dance performance video thumbnail"
-                    className="h-full w-full object-cover opacity-75 transition-all duration-500 group-hover:scale-105 group-hover:opacity-50"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.92),rgba(0,0,0,0.08)_55%)]" />
-                  <div className="absolute inset-0 grid place-items-center">
-                    <div className="text-center">
-                      <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-orange-200 bg-orange-400/90 text-2xl text-black shadow-[0_0_50px_rgba(251,146,60,0.7)] transition-transform duration-300 group-hover:scale-110 md:h-24 md:w-24 md:text-4xl">
-                        ▶
-                      </div>
-                      <p className="mt-4 skew-x-[-10deg] font-bebas text-2xl tracking-[0.06em] text-white text-shadow-arcade md:text-3xl">
-                        LIVE HOVER CARD
-                      </p>
-                      <p className="mt-2 font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-orange-100/80 md:text-sm">
-                        Click to Open
-                      </p>
+                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.92),rgba(0,0,0,0.08)_55%)]" />
+                <div className="absolute inset-0 grid place-items-center">
+                  <div className="text-center">
+                    <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-orange-200 bg-orange-400/90 text-2xl text-black shadow-[0_0_50px_rgba(251,146,60,0.7)] transition-transform duration-300 group-hover:scale-110 md:h-24 md:w-24 md:text-4xl">
+                      ▶
                     </div>
+                    <p className="mt-4 skew-x-[-10deg] font-bebas text-2xl tracking-[0.06em] text-white text-shadow-arcade md:text-3xl">
+                      DANCE PERFORMANCE
+                    </p>
+                    <p className="mt-2 font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-orange-100/80 md:text-sm">
+                      Click to Play
+                    </p>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            </button>
           </div>
 
           <div className="mt-6 grid w-full max-w-4xl shrink-0 grid-cols-1 gap-3 md:mt-8 md:grid-cols-3 md:gap-4">

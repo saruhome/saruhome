@@ -8,55 +8,49 @@ type DesignProject = {
   title: string;
   tag: string;
   description: string;
-  thumbnail: string;
   link?: string | null;
 };
 
 const designProjects: DesignProject[] = [
   {
     id: "01",
-    title: "Locaverse GmbH",
-    tag: "CLIENT PROJECT / 2023",
-    description:
-      "Spatial Collaboration Platform — Global business website renewal and spatial collaboration platform design.",
-    thumbnail: "/images/project-locaverse.jpg",
-    link: null,
-  },
-  {
-    id: "02",
-    title: "Smart Wash",
-    tag: "PERSONAL PROJECT",
-    description:
-      "Smart Home Appliance UX/UI — Real-time weather analysis recommends optimal washing modes for smart appliances.",
-    thumbnail: "/images/project-smartwash.jpg",
-    link: "https://www.behance.net/gallery/167922001/UIUX-Design-Smart-Wash",
-  },
-  {
-    id: "04",
-    title: "Seek and Sight",
-    tag: "EDTECH / RESEARCH",
-    description:
-      "Inclusive STEAM Literacy Platform for Children — Accessibility-focused interactive learning platform for education.",
-    thumbnail: "/images/project-seekandsight.jpg",
-    link: null,
-  },
-  {
-    id: "05",
     title: "Sokdak",
     tag: "TEAM PROJECT / ONGOING",
     description:
-      "Korean Neologism & Slang Mobile App — Gamified learning platform for foreign learners exploring Korean neologisms and slang.",
-    thumbnail: "/images/project-sokdak.jpg",
+      "Korean Slang & Neologism App — A friendly dictionary app teaching foreign learners the real Korean textbooks skip.",
+    link: "https://www.behance.net/gallery/251527199/UXUI-Design-(SokDak)",
+  },
+  {
+    id: "02",
+    title: "Seek and Sight",
+    tag: "EDTECH / ONGOING",
+    description:
+      "Inclusive STEAM Literacy Platform for Children — Landing page, character system, and weekly content design for a nonprofit learning platform.",
     link: null,
   },
   {
-    id: "06",
-    title: "ecotek",
-    tag: "VISUAL STRATEGY",
+    id: "03",
+    title: "Locaverse GmbH",
+    tag: "CLIENT PROJECT / 2023",
     description:
-      "Sustainable Brand & Digital Experience — Brand identity and digital experience design centered on sustainability.",
-    thumbnail: "/images/project-ecotek.jpg",
-    link: null,
+      "Business.Locaverse.at Redesign — Lead-generation landing page redesign for a mobile-service marketplace.",
+    link: "https://www.behance.net/gallery/197726323/UIUX-Design-Locaverse-GmbH",
+  },
+  {
+    id: "04",
+    title: "Smart Wash",
+    tag: "PERSONAL PROJECT / 2022",
+    description:
+      "Smart Home Appliance UX/UI — Weather-aware washing machine app that recommends the right wash mode.",
+    link: "https://www.behance.net/gallery/167922001/UIUX-Design-Smart-Wash",
+  },
+  {
+    id: "05",
+    title: "ecotek",
+    tag: "SCHOOL PROJECT / 2023",
+    description:
+      "Sustainable Brand Identity — Logo, brand system, and marketing website for a fictional sustainability company.",
+    link: "https://www.behance.net/gallery/167813977/Brand-Design-ecotek",
   },
 ];
 
@@ -79,26 +73,17 @@ function ProjectsSlide({ onViewCaseStudy }: { onViewCaseStudy: (projectId: strin
             <article
               key={project.id}
               onClick={() => onViewCaseStudy(project.id)}
-              className="group relative flex min-h-0 flex-col cursor-pointer overflow-hidden border-2 border-cyan-100/18 bg-slate-950 shadow-[6px_6px_0_rgba(34,211,238,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/80 hover:shadow-[10px_10px_0_rgba(34,211,238,0.22)] md:hover:-translate-y-2 flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-start"
+              className="group relative flex min-h-[220px] flex-col cursor-pointer overflow-hidden border-2 border-cyan-100/18 bg-slate-950 shadow-[6px_6px_0_rgba(34,211,238,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/80 hover:shadow-[10px_10px_0_rgba(34,211,238,0.22)] md:hover:-translate-y-2 flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-start p-4 md:p-6"
             >
-              <div className="relative min-h-0 flex-[1.25] overflow-hidden bg-slate-900 md:flex-[1.45]">
-                <img
-                  src={project.thumbnail}
-                  alt={`${project.title} project thumbnail`}
-                  loading="lazy"
-                  className="h-full w-full object-cover opacity-[0.82] grayscale-[0.18] transition-all duration-500 group-hover:scale-110 group-hover:opacity-100 group-hover:grayscale-0"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(7,17,31,0.96),transparent_62%)]"/>
-                <div className="absolute left-2 top-2 skew-x-[-12deg] bg-cyan-300 px-2 py-1 font-rajdhani text-[0.62rem] font-black tracking-[0.18em] text-slate-950 md:left-4 md:top-4 md:px-3 md:text-xs">
-                  <span className="inline-block skew-x-[12deg]">PROJECT {project.id}</span>
-                </div>
+              <div className="inline-block w-fit skew-x-[-12deg] bg-cyan-300 px-2 py-1 font-rajdhani text-[0.62rem] font-black tracking-[0.18em] text-slate-950 md:px-3 md:text-xs">
+                <span className="inline-block skew-x-[12deg]">PROJECT {project.id}</span>
               </div>
-              <div className="min-h-0 flex flex-[0.9] flex-col justify-end p-3 md:p-4 lg:p-5">
+              <div className="mt-4 flex flex-1 flex-col justify-end">
                 <p className="font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-cyan-200 md:text-xs">{project.tag}</p>
                 <h2 className="mt-1 skew-x-[-8deg] font-bebas text-[clamp(1.45rem,5.2vw,2.7rem)] leading-none tracking-[0.04em] text-white md:mt-2">
                   {project.title}
                 </h2>
-                <p className="mt-2 line-clamp-2 font-rajdhani text-xs font-medium leading-snug text-white/68 md:line-clamp-3 md:text-sm lg:text-base">
+                <p className="mt-2 line-clamp-3 font-rajdhani text-xs font-medium leading-snug text-white/68 md:line-clamp-4 md:text-sm lg:text-base">
                   {project.description}
                 </p>
               </div>
@@ -139,13 +124,13 @@ function AboutMeSkillsSlide() {
 
             <div className="flex flex-col justify-center">
               <p className="font-rajdhani text-base leading-relaxed text-light-secondary mb-4">
-                Sunghee Im, a UX/UI Designer based in Vienna, originally from South Korea. With a unique background in movement and choreography, I specialize in embodied interaction, gesture-based UX, and spatial computing.
+                Sunghee Im, a UX Designer based in Vienna, originally from South Korea. With a unique background in movement and choreography, I specialize in embodied interaction, gesture-based UX, and spatial computing.
               </p>
               <p className="font-rajdhani text-base leading-relaxed text-light-secondary mb-4">
                 My dance experience taught me how the body naturally interacts with space and technology — this insight drives my design process to create intuitive, human-centered digital experiences.
               </p>
               <p className="font-rajdhani text-base leading-relaxed text-light-secondary">
-                Currently freelancing as UI/UX Designer & Visual Strategist (2+ years), I am applying to the Master's in Interaction Design at FH Joanneum to deepen my research in movement-based design and immersive experiences.
+                Currently freelancing as UX Designer & Visual Strategist (2+ years), I am applying to the Master's in Interaction Design at FH Joanneum to deepen my research in movement-based design and immersive experiences.
               </p>
             </div>
           </div>

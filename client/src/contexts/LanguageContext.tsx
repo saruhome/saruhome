@@ -6,12 +6,12 @@ export const translations = {
   en: {
     // Main page
     player01: "PLAYER 01",
-    uxuiDesigner: "UX/UI DESIGNER",
+    uxuiDesigner: "UX DESIGNER",
     designerSubtitle: "Systems, interfaces, flow, precision",
     player02: "PLAYER 02",
     dancer: "DANCER",
     dancerSubtitle: "Rhythm, presence, battle energy",
-    exploreDesignerPortfolio: "Explore UX/UI Designer portfolio",
+    exploreDesignerPortfolio: "Explore UX Designer portfolio",
     exploreDancerPortfolio: "Explore Dancer portfolio",
 
     // Navigation
@@ -51,7 +51,7 @@ export const translations = {
 
     // About section
     aboutMe: "About Me",
-    bio: "Sunghee Im, a UX/UI Designer based in Vienna, originally from South Korea. With a unique background in movement and choreography, I specialize in embodied interaction, gesture-based UX, and spatial computing. My dance experience taught me how the body naturally interacts with space and technology — this insight drives my design process to create intuitive, human-centered digital experiences. Currently freelancing as UI/UX Designer & Visual Strategist (2+ years), I am applying to the Master's in Interaction Design at FH Joanneum to deepen my research in movement-based design and immersive experiences.",
+    bio: "Sunghee Im, a UX Designer based in Vienna, originally from South Korea. With a unique background in movement and choreography, I specialize in embodied interaction, gesture-based UX, and spatial computing. My dance experience taught me how the body naturally interacts with space and technology — this insight drives my design process to create intuitive, human-centered digital experiences. Currently freelancing as UX Designer & Visual Strategist (2+ years), I am applying to the Master's in Interaction Design at FH Joanneum to deepen my research in movement-based design and immersive experiences.",
 
     // Skills section
     skills: "Skills",
@@ -87,12 +87,12 @@ export const translations = {
   kr: {
     // Main page
     player01: "플레이어 01",
-    uxuiDesigner: "UX/UI 디자이너",
+    uxuiDesigner: "UX 디자이너",
     designerSubtitle: "시스템, 인터페이스, 흐름, 정밀함",
     player02: "플레이어 02",
     dancer: "댄서",
     dancerSubtitle: "리듬, 존재감, 배틀 에너지",
-    exploreDesignerPortfolio: "UX/UI 디자이너 포트폴리오 탐색",
+    exploreDesignerPortfolio: "UX 디자이너 포트폴리오 탐색",
     exploreDancerPortfolio: "댄서 포트폴리오 탐색",
 
     // Navigation
@@ -132,7 +132,7 @@ export const translations = {
 
     // About section
     aboutMe: "소개",
-    bio: "오스트리아 비엔나를 기반으로 활동하는 UX/UI 디자이너 임성희입니다. 무용과 안무 배경을 바탕으로 embodied interaction, gesture-based UX, spatial computing을 전문으로 합니다. 제 무용 경험은 신체가 공간과 기술과 어떻게 자연스럽게 상호작용하는지 이해하게 해주었고, 이는 직관적이고 인간 중심의 디지털 경험을 만드는 제 디자인 프로세스를 이끕니다. 현재 UI/UX 디자이너 & 비주얼 스트래티지스트로 프리랜싱 중이며(2년+), FH Joanneum의 Interaction Design 석사 과정에 지원하여 movement-based design과 immersive experiences에 대한 연구를 심화하고자 합니다.",
+    bio: "오스트리아 비엔나를 기반으로 활동하는 UX 디자이너 임성희입니다. 무용과 안무 배경을 바탕으로 embodied interaction, gesture-based UX, spatial computing을 전문으로 합니다. 제 무용 경험은 신체가 공간과 기술과 어떻게 자연스럽게 상호작용하는지 이해하게 해주었고, 이는 직관적이고 인간 중심의 디지털 경험을 만드는 제 디자인 프로세스를 이끕니다. 현재 UX 디자이너 & 비주얼 스트래티지스트로 프리랜싱 중이며(2년+), FH Joanneum의 Interaction Design 석사 과정에 지원하여 movement-based design과 immersive experiences에 대한 연구를 심화하고자 합니다.",
 
     // Skills section
     skills: "스킬",
@@ -168,12 +168,12 @@ export const translations = {
   de: {
     // Main page
     player01: "SPIELER 01",
-    uxuiDesigner: "UX/UI-DESIGNER",
+    uxuiDesigner: "UX-DESIGNER",
     designerSubtitle: "Systeme, Schnittstellen, Fluss, Präzision",
     player02: "SPIELER 02",
     dancer: "TÄNZER",
     dancerSubtitle: "Rhythmus, Präsenz, Battle-Energie",
-    exploreDesignerPortfolio: "UX/UI-Designer-Portfolio erkunden",
+    exploreDesignerPortfolio: "UX-Designer-Portfolio erkunden",
     exploreDancerPortfolio: "Tänzer-Portfolio erkunden",
 
     // Navigation
@@ -213,7 +213,7 @@ export const translations = {
 
     // About section
     aboutMe: "Über mich",
-    bio: "Sunghee Im, UX/UI-Designerin mit Sitz in Wien, ursprünglich aus Südkorea. Mit einem einzigartigen Hintergrund in Bewegung und Choreografie spezialisiere ich mich auf embodied interaction, gesturebasierte UX und spatial computing. Meine Tanzerfahrung hat mir gelehrt, wie der Körper natürlich mit Raum und Technologie interagiert – diese Erkenntnis treibt meinen Designprozess an, um intuitive, menschenzentrierte digitale Erfahrungen zu schaffen. Ich arbeite derzeit freiberuflich als UI/UX-Designerin & Visual Strategistin (2+ Jahre) und bewerbe mich um den Master in Interaction Design an der FH Joanneum, um meine Forschung in bewegungsbasiertem Design und immersiven Erfahrungen zu vertiefen.",
+    bio: "Sunghee Im, UX-Designerin mit Sitz in Wien, ursprünglich aus Südkorea. Mit einem einzigartigen Hintergrund in Bewegung und Choreografie spezialisiere ich mich auf embodied interaction, gesturebasierte UX und spatial computing. Meine Tanzerfahrung hat mir gelehrt, wie der Körper natürlich mit Raum und Technologie interagiert – diese Erkenntnis treibt meinen Designprozess an, um intuitive, menschenzentrierte digitale Erfahrungen zu schaffen. Ich arbeite derzeit freiberuflich als UX-Designerin & Visual Strategistin (2+ Jahre) und bewerbe mich um den Master in Interaction Design an der FH Joanneum, um meine Forschung in bewegungsbasiertem Design und immersiven Erfahrungen zu vertiefen.",
 
     // Skills section
     skills: "Fähigkeiten",

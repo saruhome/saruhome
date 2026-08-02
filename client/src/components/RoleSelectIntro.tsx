@@ -8,7 +8,7 @@ import DancerPortfolioSlider from "./DancerPortfolioSlider";
  * Precision in Motion — Interactive Portfolio
  * 
  * Design Philosophy: Embodied Interaction meets Digital Design
- * A UX/UI Designer with a dance background showcasing unique strengths
+ * A UX Designer with a dance background showcasing unique strengths
  * in movement-based interaction, gesture-driven UX, and spatial computing.
  * 
  * Layout: Horizontal Slide Architecture
@@ -32,12 +32,12 @@ const roles: RoleOption[] = [
   {
     id: "designer",
     eyebrow: "PLAYER 01",
-    title: "UX/UI DESIGNER",
+    title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
     imageSrc:
       "/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392.png",
       imageAlt:
-      "Close-up portrait of a UX/UI designer wearing gold-rimmed glasses",
+      "Close-up portrait of a UX designer wearing gold-rimmed glasses",
   },
   {
     id: "dancer",

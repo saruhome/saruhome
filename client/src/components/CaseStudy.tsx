@@ -30,7 +30,7 @@ type CaseStudyProject = {
   designShowcase: {
     title: string;
     description: string;
-    imageUrl: string;
+    imageUrl?: string;
     isMockup?: boolean;
   }[];
   takeaways: string[];
@@ -43,152 +43,304 @@ type CaseStudyProject = {
 const caseStudyData: Record<string, CaseStudyProject> = {
   "01": {
     id: "01",
-    title: "Locaverse GmbH",
-    subtitle: "Spatial Collaboration Platform for Global Business",
-    role: "UX/UI Designer, Research Lead",
+    title: "Sokdak",
+    subtitle: "Korean Slang & Neologism Learning App",
+    role: "UX/UI Designer",
     deliverables: [
-      "User Research & Persona Development",
-      "Information Architecture",
-      "Wireframes & Prototypes",
-      "UI Design System",
+      "Concept & Character Design",
+      "Brand Identity",
+      "UI Design",
       "Interactive Prototype",
     ],
-    timeline: "3 months",
-    tools: "Figma, Framer, Principle",
-    client: "Locaverse GmbH",
+    timeline: "Ongoing",
+    tools: "Figma",
+    client: "Team Project",
     problem:
-      "Global teams struggle with spatial collaboration and understanding complex business workflows across distributed locations. Existing platforms lack intuitive spatial representation and real-time collaboration features.",
+      "Foreign learners study Korean from textbooks, but real Koreans speak in slang and neologisms — expressions like ㄱㄱ, 노잼, and 갬성 — that no textbook teaches, leaving learners lost in everyday conversation and pop culture.",
     solution:
-      "Designed a spatial collaboration platform that combines 3D spatial visualization with intuitive UI, enabling teams to collaborate seamlessly across geographic boundaries. The platform provides real-time interaction and spatial context for better decision-making.",
+      "Designed Sokdak, a Korean slang dictionary app fronted by a friendly tiger mascot, that surfaces trending expressions with plain-language meanings and real cultural context (for example, tracing '리즈' back to Leeds United), plus a community feed for practicing new slang in context.",
     research: [
       {
-        title: "User Research",
+        title: "Slang & Neologism Curation",
         description:
-          "Conducted in-depth interviews with 20 global team members and business leaders to identify key pain points in spatial collaboration.",
+          "Structured entries around meaning, cultural context, and example usage instead of a flat dictionary definition, since most slang only makes sense with the story behind it.",
       },
       {
-        title: "Competitive Analysis",
+        title: "Character & Brand Identity",
         description:
-          "Analyzed existing collaboration tools (Figma, Miro, Gather) to identify strengths and differentiation opportunities.",
+          "Designed a tiger mascot and wordmark to give the app a warm, approachable identity for a topic (slang) that can otherwise feel intimidating to learners.",
       },
       {
-        title: "Persona Development",
+        title: "Conversational UI Patterns",
         description:
-          "Created detailed personas for remote teams, project managers, and spatial computing enthusiasts to guide design direction.",
+          "Built the interface around chat-style word cards and a community tab, mirroring how slang actually gets used and shared rather than a static reference list.",
       },
     ],
     infoArchitecture: {
-      title: "Information Architecture & User Flow",
+      title: "App Structure",
       description:
-        "Designed a comprehensive user journey from onboarding through spatial workspace creation, team collaboration, and real-time interaction. Each section provides clear objectives and intuitive navigation.",
+        "Structured the home feed around 스불재 (trending expressions), 새로운 신조어 (new coinages), 인싸 표현 (in-group expressions), and 커뮤니티 (community), so learners can browse by how current or social an expression is rather than alphabetically.",
     },
     designShowcase: [
       {
-        title: "Dashboard & Workspace Overview",
+        title: "Home Feed",
         description:
-          "Central hub displaying team workspaces, recent projects, and spatial collaboration metrics in an accessible interface.",
-        imageUrl: "/images/project-locaverse.jpg",
-        isMockup: true,
+          "A scannable card feed of trending and newly coined slang terms, each tagged by category (drama/movie references, in-group expressions, community picks).",
       },
       {
-        title: "Spatial Collaboration Interface",
+        title: "Word Detail View",
         description:
-          "Interactive 3D workspace where team members can place objects, annotate, and collaborate in real-time.",
-        imageUrl: "/images/project-locaverse.jpg",
-        isMockup: true,
+          "Each entry pairs the plain-language meaning with real cultural context — for example, explaining that '리즈' (\"Leez\") originated from Leeds United and now means someone at the peak of their looks.",
       },
       {
-        title: "Team Management & Permissions",
+        title: "Community Tab",
         description:
-          "Intuitive controls for managing team members, setting permissions, and tracking collaboration history.",
-        imageUrl: "/images/project-locaverse.jpg",
-        isMockup: true,
+          "A space for learners to see and discuss slang used in real conversations, turning a static dictionary into an ongoing feed.",
       },
     ],
     takeaways: [
-      "Spatial thinking enhances collaboration and reduces communication friction in distributed teams.",
-      "Combining 3D visualization with familiar 2D UI patterns creates an accessible yet powerful experience.",
-      "Real-time feedback and spatial context significantly improve team decision-making efficiency.",
-    ],
-    metrics: [
-      { label: "Team Collaboration", value: "+85%" },
-      { label: "Project Completion", value: "+72%" },
-      { label: "User Satisfaction", value: "9.2/10" },
+      "Slang only lands when it comes with the cultural story attached — a bare definition isn't enough.",
+      "A mascot-led, chat-style presentation makes an intimidating topic (native slang) feel approachable.",
+      "Framing the app around a community feed rather than a lookup tool matches how slang actually spreads.",
     ],
   },
   "02": {
     id: "02",
-    title: "Smart Wash",
-    subtitle: "Smart Home Appliance UX/UI Design",
-    role: "UX/UI Designer",
+    title: "Seek and Sight",
+    subtitle: "Inclusive STEAM Literacy Platform for Children",
+    role: "UX/UI Designer, Social Media Designer",
     deliverables: [
-      "User Research",
-      "Wireframing",
-      "Visual Design",
-      "Prototype",
-      "Design System",
+      "Landing Page UX/UI Design",
+      "Character & Brand System",
+      "Weekly Social Media Content",
     ],
-    timeline: "2 months",
-    tools: "Figma, Protopie",
-    client: "Personal Project",
+    timeline: "Ongoing (2025–present)",
+    tools: "Figma",
+    client: "Hope For Tomorrow / Seek and Sight",
     problem:
-      "Smart home appliance interfaces are often overly complex, requiring users to manually select wash modes without considering real-time environmental factors. Users struggle to optimize washing settings for different fabrics and weather conditions.",
+      "Children with learning differences are often underserved by generic edtech products that aren't built for accessibility or personalized engagement. Founder Paula Johnson, a social worker with 27+ years of experience, saw firsthand how kids get left behind when literacy tools don't adapt to them.",
     solution:
-      "Designed an intelligent washing machine interface that analyzes real-time weather data and fabric types to recommend optimal wash modes. The UI prioritizes simplicity while providing advanced customization for power users.",
+      "Designed the Seek and Sight landing page and product UX around three audiences — parents, educators, and childcare providers — anchored by a direct comparison between traditional worksheet-based learning and Seek and Sight's adaptive, game-based, AI-guided approach, plus a cast of friendly mascot characters carried across the app and weekly social content.",
     research: [
       {
-        title: "User Interviews",
+        title: "Audience Segmentation",
         description:
-          "Conducted interviews with 15 households to understand washing habits, pain points, and expectations for smart appliances.",
+          "Structured messaging and entry points around three distinct audiences — parents, educators, and childcare providers — each with different needs and decision criteria.",
       },
       {
-        title: "Market Research",
+        title: "Character & Brand System",
         description:
-          "Analyzed existing smart appliance apps and IoT interfaces to identify best practices and gaps.",
+          "Designed a set of mascot characters (Ellie, Tim, Nova, Echo, Sunny, Math), each with multiple emotional/gesture states, used consistently across the app and social channels to build recognition with young learners.",
       },
       {
-        title: "Usability Testing",
+        title: "Ongoing Content Design",
         description:
-          "Tested early prototypes with target users to validate recommendations and interface clarity.",
+          "Produced weekly social media content kits (carousels, spotlight posts, Instagram assets) to support continuous community engagement and keep the brand consistent week to week.",
+      },
+    ],
+    infoArchitecture: {
+      title: "Landing Page Structure",
+      description:
+        "Structured the site as What is Seek and Sight → Who it's for (Parents / Educators / Childcare Providers) → Mission (Break Down Barriers, Promote Inclusivity, Unlock Potential) → Why Choose Seek and Sight (a direct Traditional Learning vs. Seek and Sight comparison) → Testimonials → App download, giving both parents and institutional buyers a clear path to understanding the product.",
+    },
+    designShowcase: [
+      {
+        title: "Landing Page Hero & Mission",
+        description:
+          "\"Empowering Young Learners Through STEAM and Sight Words\" — an inclusive, game-based literacy platform for children ages 2–7, built around game-based learning, critical thinking, personalized paths, and real-time progress tracking.",
+      },
+      {
+        title: "Traditional vs. Seek and Sight",
+        description:
+          "A side-by-side comparison table contrasting one-size-fits-all worksheets against Seek and Sight's adaptivity, engagement, support, and progress monitoring — built to persuade non-technical stakeholders quickly.",
+      },
+      {
+        title: "Character System",
+        description:
+          "A consistent cast of mascot characters used across the product and every week's social content, giving young learners familiar faces to follow.",
+      },
+    ],
+    takeaways: [
+      "Designing for three audiences at once (parents, educators, providers) forces a clearer information hierarchy than a single-persona product needs.",
+      "A consistent character system carries brand recognition further than one-off illustration when content ships weekly.",
+      "A direct before/after comparison table communicates value to non-technical stakeholders faster than a feature list.",
+    ],
+  },
+  "03": {
+    id: "03",
+    title: "Locaverse GmbH",
+    subtitle: "Business.Locaverse.at — Lead-Gen Landing Page Redesign",
+    role: "UX/UI Designer, Intern",
+    deliverables: [
+      "Landing Page UX/UI Redesign",
+      "Before & After Comparison",
+      "Lead-Gen Funnel Design",
+      "Interactive Prototype",
+    ],
+    timeline: "3 months (Jul–Sep 2023)",
+    tools: "Figma, Photoshop",
+    client: "Locaverse GmbH",
+    problem:
+      "Locaverse.at helps independent mobile-service and delivery providers get discovered locally, but its business-acquisition landing page wasn't converting — the value of the free lead-generation report wasn't clear, and the page's structure and visual hierarchy were working against sign-ups.",
+    solution:
+      "Redesigned the Business.Locaverse.at landing page end to end around a single clear call-to-action (a free \"Expertenreport\" download): restructured the value proposition into scannable modules — trust stats (130+ industries, 1,200+ unique listings, 40,000+ monthly visitors), founder credibility, and a clear step-by-step onboarding path — and produced a full before/after comparison and interactive prototype in Figma.",
+    research: [
+      {
+        title: "Before/After Audit",
+        description:
+          "Compared the existing landing page against the redesign to identify exactly where copy, hierarchy, and visual noise were losing potential leads.",
+      },
+      {
+        title: "Conversion-Focused Layout",
+        description:
+          "Rebuilt the page around a single lead-capture form (the free report download) instead of several competing calls-to-action.",
+      },
+      {
+        title: "Founder Credibility Section",
+        description:
+          "Added dedicated founder profiles (Mario Märzinger, Michael Pisnyachevskiy) alongside recognizable partner logos (REWE, Home24, ROCKET INTERNET) to build trust with prospective business partners.",
+      },
+    ],
+    infoArchitecture: {
+      title: "Landing Page Structure",
+      description:
+        "Restructured the page into a clear funnel: Hero value proposition → Core services (Mobile Dienstleister / Lieferservices) → Trust stats → Concrete steps to get started → Founder credibility → Free report lead magnet → Video overview → Social proof (Trustpilot, press badges).",
+    },
+    designShowcase: [
+      {
+        title: "Hero & Core Value Proposition",
+        description:
+          "Rebuilt the hero to lead with the core benefit — digital customer acquisition for mobile service and delivery providers — instead of a generic company introduction.",
+      },
+      {
+        title: "Free Report Lead-Gen Module",
+        description:
+          "A dedicated module for the free \"Expertenreport\" download, isolated from every other call-to-action on the page to remove decision friction.",
+      },
+      {
+        title: "Before & After Comparison",
+        description:
+          "A direct side-by-side of the original and redesigned landing page, used to communicate the redesign rationale to the Locaverse team.",
+      },
+    ],
+    takeaways: [
+      "A single, clearly-labeled call-to-action outperforms several competing ones on a lead-gen landing page.",
+      "Stacking concrete numbers (130+ industries, 40,000+ monthly visitors) next to the value proposition builds trust faster than descriptive copy alone.",
+      "Founder faces and recognizable partner logos matter as much as UI polish for B2B trust.",
+    ],
+  },
+  "04": {
+    id: "04",
+    title: "Smart Wash",
+    subtitle: "Smart Home Appliance UX/UI Design",
+    role: "UX Designer",
+    deliverables: [
+      "Visual Research",
+      "Wireframing",
+      "Visual Design",
+      "Interactive Prototype",
+    ],
+    timeline: "Personal Project (2022)",
+    tools: "Figma",
+    client: "Personal Project",
+    problem:
+      "Washing machine apps typically dump every setting on the user at once, requiring people to manually pick a wash mode without any help from real-world context like the weather or fabric type.",
+    solution:
+      "Designed Smart Wash, a washing machine app that reads local weather data and recommends a wash mode automatically, while still offering a full manual mode and an energy-savings monitor for people who want control. The visual direction moved from a flat baseline to a soft neumorphic style — described internally as Smart, Soft, Friendly — so the app feels less like an industrial control panel.",
+    research: [
+      {
+        title: "As-Is / To-Be Direction",
+        description:
+          "Started from a flat, generic \"smart app\" baseline and moved deliberately toward neumorphism — soft shadows and rounded surfaces designed to make the app feel inviting enough to want to keep tapping.",
+      },
+      {
+        title: "Visual Research",
+        description:
+          "Explored 3D and neumorphic reference work, then built out the supporting logo, icon set, color palette (light blues, grey, black), and typography before touching final screens.",
+      },
+      {
+        title: "Wireframing",
+        description:
+          "Wireframed the full flow — home, manual mode, temperature and rinse settings, favorites, and notification settings — before applying visual design.",
       },
     ],
     infoArchitecture: {
       title: "Information Architecture",
       description:
-        "Structured the interface into three layers: quick-start recommendations, detailed mode selection, and advanced settings. Each layer is accessible but doesn't overwhelm casual users.",
+        "Structured the app around three entry points from the home screen — Weather Tracking (automatic recommendation), Manual Mode (full user control), and Energy Monitor (usage feedback) — so a first-time user can start a wash in one tap while power users can still dig into manual settings.",
     },
     designShowcase: [
       {
-        title: "Smart Recommendation Screen",
+        title: "Weather Tracking",
         description:
-          "AI-powered interface that suggests optimal wash modes based on fabric type, soil level, and current weather conditions.",
-        imageUrl: "/images/project-smartwash.jpg",
-        isMockup: true,
+          "The home screen surfaces the day's forecast and automatically recommends a wash mode based on it — the app's main point of difference from a standard washing machine app.",
       },
       {
-        title: "Mode Selection & Customization",
+        title: "Manual Mode",
         description:
-          "Intuitive controls for selecting wash modes, adjusting temperature, and monitoring cycle progress in real-time.",
-        imageUrl: "/images/project-smartwash.jpg",
-        isMockup: true,
+          "A full manual flow (temperature, rinse count, spin speed) for users who'd rather set their own wash style than take the recommendation.",
       },
       {
-        title: "Energy & Water Savings Dashboard",
+        title: "Energy Monitor",
         description:
-          "Displays usage statistics, cost savings, and environmental impact to encourage sustainable washing habits.",
-        imageUrl: "/images/project-smartwash.jpg",
-        isMockup: true,
+          "A simple usage view showing how much electricity a wash cycle used, encouraging more efficient habits without hiding control from the user.",
       },
     ],
     takeaways: [
-      "Intelligent defaults significantly reduce cognitive load while maintaining user agency.",
-      "Contextual recommendations based on real-world data create more intuitive experiences.",
-      "Transparency about resource usage motivates sustainable behavior change.",
+      "Pulling in one piece of real-world context (weather) turned a routine settings screen into something that feels genuinely smart.",
+      "Neumorphism reinforced the \"soft, friendly\" positioning, but needed a disciplined, limited color palette to stay legible.",
+      "Keeping a full manual mode alongside the automatic recommendation preserved user trust instead of forcing a single \"smart\" path.",
     ],
-    metrics: [
-      { label: "Water Savings", value: "+40%" },
-      { label: "Energy Efficiency", value: "+35%" },
-      { label: "User Satisfaction", value: "8.8/10" },
+  },
+  "05": {
+    id: "05",
+    title: "ecotek",
+    subtitle: "Ökologie neu erleben — Sustainable Brand Identity",
+    role: "Brand & UI/UX Designer",
+    deliverables: [
+      "Logo & Brand Identity",
+      "Color & Typography System",
+      "Marketing Website Design",
+    ],
+    timeline: "School Project (2023)",
+    tools: "Illustrator, Photoshop, Figma",
+    client: "Digital Campus Vorarlberg (Personal Project)",
+    problem:
+      "As a brand-design exercise at Digital Campus Vorarlberg, the brief called for a fictional sustainability-focused company that needed a complete visual identity built from the ground up — not just a logo, but a full marketing website carrying that identity.",
+    solution:
+      "Created ecotek, a nature-inspired brand built around a tree-and-cloud mark and the tagline \"Ökologie neu erleben\" (Experience ecology anew), then extended the identity into a full marketing website and supporting visual system rather than treating it as a logo-only exercise.",
+    research: [
+      {
+        title: "Brand Concept",
+        description:
+          "Built the identity around organic, rounded forms and a green/grey palette to signal sustainability without leaning on cliché leaf-and-globe imagery.",
+      },
+      {
+        title: "Identity System",
+        description:
+          "Extended the mark into a cohesive typography and color system, applied consistently across the website and supporting marketing collateral.",
+      },
+    ],
+    infoArchitecture: {
+      title: "Website Structure",
+      description:
+        "Designed the marketing site to carry the brand story from logo and mission through product/service messaging into a consistent visual system, matching the structure of a real company website rather than a portfolio mockup.",
+    },
+    designShowcase: [
+      {
+        title: "Logo & Mark",
+        description:
+          "A tree-and-cloud mark paired with a clean wordmark, designed to read clearly at small sizes across web and print.",
+      },
+      {
+        title: "Marketing Website",
+        description:
+          "A full website built around the brand system, translating the identity into real page layouts rather than stopping at a style guide.",
+      },
+    ],
+    takeaways: [
+      "A strong, simple mark (tree + cloud) does more brand work than an elaborate one when it has to scale across an entire website.",
+      "Treating a school brief like a real client project — a full site, not just a logo — was the most useful part of the exercise.",
     ],
   },
 };
@@ -403,11 +555,11 @@ function DesignShowcaseSection({ project }: { project: CaseStudyProject }) {
           {project.designShowcase.map((showcase, idx) => (
             <div
               key={idx}
-              className={`grid md:grid-cols-2 gap-8 items-center ${
-                idx % 2 === 1 ? "md:flex-row-reverse" : ""
-              }`}
+              className={`grid gap-8 items-center ${
+                showcase.imageUrl ? "md:grid-cols-2" : "max-w-3xl"
+              } ${idx % 2 === 1 ? "md:flex-row-reverse" : ""}`}
             >
-              <div className={idx % 2 === 1 ? "md:order-2" : ""}>
+              <div className={idx % 2 === 1 && showcase.imageUrl ? "md:order-2" : ""}>
                 <h3 className="font-bebas text-2xl font-bold text-cyan-300 mb-4">
                   {showcase.title}
                 </h3>
@@ -415,15 +567,17 @@ function DesignShowcaseSection({ project }: { project: CaseStudyProject }) {
                   {showcase.description}
                 </p>
               </div>
-              <div className={idx % 2 === 1 ? "md:order-1" : ""}>
-                <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
-                  <FadeInImage
-                    src={showcase.imageUrl}
-                    alt={showcase.title}
-                    className="w-full h-auto"
-                  />
+              {showcase.imageUrl && (
+                <div className={idx % 2 === 1 ? "md:order-1" : ""}>
+                  <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
+                    <FadeInImage
+                      src={showcase.imageUrl}
+                      alt={showcase.title}
+                      className="w-full h-auto"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           ))}
         </div>
