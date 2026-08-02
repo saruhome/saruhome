@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { X } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import HorizontalSlider from "./HorizontalSlider";
 
@@ -37,11 +36,11 @@ const danceActivities: DanceActivity[] = [
     id: "02",
     title: "Choreography Study",
     meta: "TRAINING",
-    description: "Rhythm breakdown, movement connection, and dynamic control form the foundation of structured training.",
+    description: "Original choreography I created — rhythm breakdown, movement connection, and dynamic control form the foundation of structured training.",
     media: {
-      type: "image",
-      url: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=1200&h=800&fit=crop",
-      thumbnail: "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=400&h=300&fit=crop",
+      type: "video",
+      url: "https://www.youtube.com/embed/hCsik2dGXRo?autoplay=1&mute=1&controls=1&playsinline=1",
+      thumbnail: "https://i.ytimg.com/vi/hCsik2dGXRo/maxresdefault.jpg",
     },
   },
   {
@@ -76,13 +75,13 @@ function Lightbox({ media, title, onClose }: LightboxProps) {
         className="relative w-full max-w-4xl"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
+        {/* Back button */}
         <button
           onClick={onClose}
-          className="absolute -top-12 right-0 z-10 text-orange-300 transition-all duration-300 hover:text-orange-100 hover:scale-110 md:-top-16"
-          aria-label="Close lightbox"
+          className="absolute -top-12 left-0 z-10 skew-x-[-12deg] border-2 border-orange-300/60 bg-black/70 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:bg-orange-300 hover:text-[#1b0603] md:-top-16"
+          aria-label="Back to dance activities"
         >
-          <X size={32} />
+          <span className="inline-block skew-x-[12deg]">&lt; BACK</span>
         </button>
 
         {/* Media container */}
