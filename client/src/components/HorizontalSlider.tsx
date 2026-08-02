@@ -36,6 +36,7 @@ export default function HorizontalSlider({
   const [dragOffset, setDragOffset] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const wheelLocked = useRef(false);
 
   const totalSlides = children.length;
   const isMobile = useIsMobile();
@@ -86,6 +87,18 @@ export default function HorizontalSlider({
     }
   };
 
+  // Trackpad (Magic Trackpad/Mouse) horizontal swipe navigation
+  const handleWheel = (e: React.WheelEvent) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY) || Math.abs(e.deltaX) < 20) return;
+    if (wheelLocked.current) return;
+    wheelLocked.current = true;
+    if (e.deltaX > 0) nextSlide();
+    else prevSlide();
+    setTimeout(() => {
+      wheelLocked.current = false;
+    }, 500);
+  };
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -126,6 +139,7 @@ export default function HorizontalSlider({
         onTouchStart={handleDragStart}
         onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
+        onWheel={handleWheel}
       >
         {/* Slider */}
         <div

@@ -173,7 +173,15 @@ function RolePanel({
               isOtherActive ? "opacity-80" : "opacity-100"
             }`}
           >
-            {isDesigner ? t("uxuiDesigner") : t("dancer")}
+            {isDesigner ? (
+              <>
+                UX
+                <br />
+                {t("uxuiDesigner").replace(/^UX[\s-]*/, "")}
+              </>
+            ) : (
+              t("dancer")
+            )}
           </h2>
           <p
             className={`mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/70 transition-opacity duration-500 md:mt-3 md:text-sm ${
