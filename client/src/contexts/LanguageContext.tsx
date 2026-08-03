@@ -43,6 +43,7 @@ export const translations = {
     endOfCaseStudy: "End of Case Study",
     nextProject: "Next Project",
     backToPortfolio: "Back to Portfolio",
+    projectNotFound: "Project not found",
 
     // About section
     aboutMe: "About Me",
@@ -130,6 +131,7 @@ export const translations = {
     endOfCaseStudy: "케이스 스터디 끝",
     nextProject: "다음 프로젝트",
     backToPortfolio: "포트폴리오로 돌아가기",
+    projectNotFound: "프로젝트를 찾을 수 없습니다",
 
     // About section
     aboutMe: "소개",
@@ -217,6 +219,7 @@ export const translations = {
     endOfCaseStudy: "Ende der Fallstudie",
     nextProject: "Nächstes Projekt",
     backToPortfolio: "Zurück zum Portfolio",
+    projectNotFound: "Projekt nicht gefunden",
 
     // About section
     aboutMe: "Über mich",
