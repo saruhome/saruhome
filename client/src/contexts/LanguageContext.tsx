@@ -13,25 +13,17 @@ export const translations = {
     dancerSubtitle: "Rhythm, presence, battle energy",
     exploreDesignerPortfolio: "Explore UX Designer portfolio",
     exploreDancerPortfolio: "Explore Dancer portfolio",
+    backToSelect: "Back to Select",
 
     // Navigation
     backToWorks: "Back to Works",
     back: "Back",
     caseStudy: "Case Study",
-
-    // Projects
-    kslang: "K-Slang",
-    kslangSubtitle: "Korean Neologism Learning Platform",
-    sokdak: "Sok-Dak",
-    sokdakSubtitle: "Mental Health Counseling Platform",
-    smartWash: "Smart Wash",
-    smartWashSubtitle: "Smart Home Appliance UX/UI",
-    seekAndSight: "Seek and Sight",
-    seekAndSightSubtitle: "Inclusive STEAM Literacy Platform",
-    locaverse: "Locaverse",
-    locaverseSubtitle: "Spatial Collaboration Platform",
-    ecotek: "ecotek",
-    ecotekSubtitle: "Sustainable Brand & Digital Experience",
+    player01Archive: "Player 01 Archive",
+    player02Archive: "Player 02 Archive",
+    designPortfolio: "Design Portfolio",
+    dancePortfolio: "Dance Portfolio",
+    project: "Project",
 
     // Case Study sections
     problem: "The Challenge",
@@ -42,21 +34,28 @@ export const translations = {
     tools: "Tools",
     client: "Client",
     research: "Research & Discovery",
+    researchProcess: "Research & Process",
     process: "Design Process",
     infoArchitecture: "Information Architecture",
     designShowcase: "Design Showcase",
     finalTakeaways: "Key Takeaways",
+    businessImpact: "Business Impact",
+    endOfCaseStudy: "End of Case Study",
     nextProject: "Next Project",
     backToPortfolio: "Back to Portfolio",
 
     // About section
     aboutMe: "About Me",
+    designerAndDancer: "Designer & Dancer",
     bio: "Sunghee Im, a UX Designer based in Vienna, originally from South Korea. With a unique background in movement and choreography, I specialize in embodied interaction, gesture-based UX, and spatial computing. My dance experience taught me how the body naturally interacts with space and technology — this insight drives my design process to create intuitive, human-centered digital experiences. Currently freelancing as UX Designer & Visual Strategist (2+ years), I am applying to the Master's in Interaction Design at FH Joanneum to deepen my research in movement-based design and immersive experiences.",
 
     // Skills section
     skills: "Skills",
+    coreCompetencies: "Core Competencies",
+    designTools: "Design Tools",
     interactionDesignTools: "Interaction Design Tools",
     coreExpertise: "Core Expertise",
+    interactionDesign: "Interaction Design",
     figma: "Figma",
     framer: "Framer",
     protopie: "Protopie",
@@ -71,13 +70,20 @@ export const translations = {
 
     // Contact section
     contact: "Contact",
+    getInTouch: "Get in Touch",
     email: "Email",
     linkedin: "LinkedIn",
     behance: "Behance",
+    resume: "Resume",
     downloadCV: "Download CV",
+    sendAMessage: "Send a Message",
     sendMessage: "Send Message",
+    name: "Name",
     message: "Message",
     send: "Send",
+    namePlaceholder: "Your name",
+    emailPlaceholder: "your@email.com",
+    messagePlaceholder: "Your message...",
 
     // Slider navigation
     aboutNav: "About",
@@ -94,25 +100,17 @@ export const translations = {
     dancerSubtitle: "리듬, 존재감, 배틀 에너지",
     exploreDesignerPortfolio: "UX 디자이너 포트폴리오 탐색",
     exploreDancerPortfolio: "댄서 포트폴리오 탐색",
+    backToSelect: "선택으로 돌아가기",
 
     // Navigation
     backToWorks: "작품으로 돌아가기",
     back: "뒤로",
     caseStudy: "케이스 스터디",
-
-    // Projects
-    kslang: "K-Slang",
-    kslangSubtitle: "한국 신조어 학습 플랫폼",
-    sokdak: "속닥",
-    sokdakSubtitle: "정신 건강 상담 플랫폼",
-    smartWash: "Smart Wash",
-    smartWashSubtitle: "스마트 홈 가전 UX/UI",
-    seekAndSight: "Seek and Sight",
-    seekAndSightSubtitle: "포용적 STEAM 문해력 플랫폼",
-    locaverse: "Locaverse",
-    locaverseSubtitle: "공간 협업 플랫폼",
-    ecotek: "ecotek",
-    ecotekSubtitle: "지속 가능한 브랜드 & 디지털 경험",
+    player01Archive: "플레이어 01 아카이브",
+    player02Archive: "플레이어 02 아카이브",
+    designPortfolio: "디자인 포트폴리오",
+    dancePortfolio: "댄스 포트폴리오",
+    project: "프로젝트",
 
     // Case Study sections
     problem: "문제점",
@@ -123,21 +121,28 @@ export const translations = {
     tools: "도구",
     client: "클라이언트",
     research: "리서치 & 발견",
+    researchProcess: "리서치 & 프로세스",
     process: "디자인 프로세스",
     infoArchitecture: "정보 구조",
     designShowcase: "디자인 쇼케이스",
     finalTakeaways: "핵심 배운 점",
+    businessImpact: "비즈니스 임팩트",
+    endOfCaseStudy: "케이스 스터디 끝",
     nextProject: "다음 프로젝트",
     backToPortfolio: "포트폴리오로 돌아가기",
 
     // About section
     aboutMe: "소개",
+    designerAndDancer: "디자이너 & 댄서",
     bio: "오스트리아 비엔나를 기반으로 활동하는 UX 디자이너 임성희입니다. 무용과 안무 배경을 바탕으로 embodied interaction, gesture-based UX, spatial computing을 전문으로 합니다. 제 무용 경험은 신체가 공간과 기술과 어떻게 자연스럽게 상호작용하는지 이해하게 해주었고, 이는 직관적이고 인간 중심의 디지털 경험을 만드는 제 디자인 프로세스를 이끕니다. 현재 UX 디자이너 & 비주얼 스트래티지스트로 프리랜싱 중이며(2년+), FH Joanneum의 Interaction Design 석사 과정에 지원하여 movement-based design과 immersive experiences에 대한 연구를 심화하고자 합니다.",
 
     // Skills section
     skills: "스킬",
+    coreCompetencies: "핵심 역량",
+    designTools: "디자인 도구",
     interactionDesignTools: "인터랙션 디자인 도구",
     coreExpertise: "핵심 전문성",
+    interactionDesign: "인터랙션 디자인",
     figma: "Figma",
     framer: "Framer",
     protopie: "Protopie",
@@ -152,13 +157,20 @@ export const translations = {
 
     // Contact section
     contact: "연락처",
+    getInTouch: "연락하기",
     email: "이메일",
     linkedin: "LinkedIn",
     behance: "Behance",
+    resume: "이력서",
     downloadCV: "CV 다운로드",
+    sendAMessage: "메시지 보내기",
     sendMessage: "메시지 보내기",
+    name: "이름",
     message: "메시지",
     send: "보내기",
+    namePlaceholder: "이름을 입력하세요",
+    emailPlaceholder: "your@email.com",
+    messagePlaceholder: "메시지를 입력하세요...",
 
     // Slider navigation
     aboutNav: "소개",
@@ -175,25 +187,17 @@ export const translations = {
     dancerSubtitle: "Rhythmus, Präsenz, Battle-Energie",
     exploreDesignerPortfolio: "UX-Designer-Portfolio erkunden",
     exploreDancerPortfolio: "Tänzer-Portfolio erkunden",
+    backToSelect: "Zurück zur Auswahl",
 
     // Navigation
     backToWorks: "Zurück zu Werken",
     back: "Zurück",
     caseStudy: "Fallstudie",
-
-    // Projects
-    kslang: "K-Slang",
-    kslangSubtitle: "Koreanische Neologismus-Lernplattform",
-    sokdak: "Sok-Dak",
-    sokdakSubtitle: "Plattform für psychische Gesundheit",
-    smartWash: "Smart Wash",
-    smartWashSubtitle: "Smart-Home-Geräte-UX/UI",
-    seekAndSight: "Seek and Sight",
-    seekAndSightSubtitle: "Inklusive STEAM-Literaturplattform",
-    locaverse: "Locaverse",
-    locaverseSubtitle: "Räumliche Kollaborationsplattform",
-    ecotek: "ecotek",
-    ecotekSubtitle: "Nachhaltige Marke & digitale Erfahrung",
+    player01Archive: "Spieler-01-Archiv",
+    player02Archive: "Spieler-02-Archiv",
+    designPortfolio: "Design-Portfolio",
+    dancePortfolio: "Tanz-Portfolio",
+    project: "Projekt",
 
     // Case Study sections
     problem: "Die Herausforderung",
@@ -204,21 +208,28 @@ export const translations = {
     tools: "Werkzeuge",
     client: "Kunde",
     research: "Forschung & Entdeckung",
+    researchProcess: "Forschung & Prozess",
     process: "Designprozess",
     infoArchitecture: "Informationsarchitektur",
     designShowcase: "Design-Präsentation",
     finalTakeaways: "Wichtigste Erkenntnisse",
+    businessImpact: "Business Impact",
+    endOfCaseStudy: "Ende der Fallstudie",
     nextProject: "Nächstes Projekt",
     backToPortfolio: "Zurück zum Portfolio",
 
     // About section
     aboutMe: "Über mich",
+    designerAndDancer: "Designerin & Tänzerin",
     bio: "Sunghee Im, UX-Designerin mit Sitz in Wien, ursprünglich aus Südkorea. Mit einem einzigartigen Hintergrund in Bewegung und Choreografie spezialisiere ich mich auf embodied interaction, gesturebasierte UX und spatial computing. Meine Tanzerfahrung hat mir gelehrt, wie der Körper natürlich mit Raum und Technologie interagiert – diese Erkenntnis treibt meinen Designprozess an, um intuitive, menschenzentrierte digitale Erfahrungen zu schaffen. Ich arbeite derzeit freiberuflich als UX-Designerin & Visual Strategistin (2+ Jahre) und bewerbe mich um den Master in Interaction Design an der FH Joanneum, um meine Forschung in bewegungsbasiertem Design und immersiven Erfahrungen zu vertiefen.",
 
     // Skills section
     skills: "Fähigkeiten",
+    coreCompetencies: "Kernkompetenzen",
+    designTools: "Design-Tools",
     interactionDesignTools: "Interaction-Design-Tools",
     coreExpertise: "Kernkompetenzen",
+    interactionDesign: "Interaction Design",
     figma: "Figma",
     framer: "Framer",
     protopie: "Protopie",
@@ -233,13 +244,20 @@ export const translations = {
 
     // Contact section
     contact: "Kontakt",
+    getInTouch: "Kontakt aufnehmen",
     email: "E-Mail",
     linkedin: "LinkedIn",
     behance: "Behance",
+    resume: "Lebenslauf",
     downloadCV: "CV herunterladen",
+    sendAMessage: "Nachricht senden",
     sendMessage: "Nachricht senden",
+    name: "Name",
     message: "Nachricht",
     send: "Senden",
+    namePlaceholder: "Dein Name",
+    emailPlaceholder: "deine@email.com",
+    messagePlaceholder: "Deine Nachricht...",
 
     // Slider navigation
     aboutNav: "Über",
