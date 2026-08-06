@@ -11,9 +11,29 @@ const ITEM_SPACING = 380;
 const START_X = 160;
 const END_PADDING = 300;
 const SELECT_RADIUS = 140;
+const HIT_RADIUS = 110;
+const PUSH_SCALE = 0.8;
 const SPEED = 260; // px/sec
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
+
+function playJumpSound() {
+  const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioCtx) return;
+  const ctx = new AudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(220, ctx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.08);
+  gain.gain.setValueAtTime(0.25, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + 0.2);
+  osc.onended = () => ctx.close();
+}
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 
@@ -67,6 +87,7 @@ function Signpost({
   item,
   x,
   active,
+  push,
   isCyan,
   pressLabel,
   onSelect,
@@ -74,6 +95,7 @@ function Signpost({
   item: SideScrollItem;
   x: number;
   active: boolean;
+  push: number;
   isCyan: boolean;
   pressLabel: string;
   onSelect: (id: string) => void;
@@ -88,18 +110,20 @@ function Signpost({
         active ? "scale-110" : "scale-100"
       }`}
     >
-      <div
-        className={`skew-x-[-12deg] whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] backdrop-blur-sm transition-colors duration-200 ${
-          active
-            ? isCyan
-              ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
-              : "border-orange-200 bg-orange-300 text-[#1b0603]"
-            : isCyan
-              ? "border-cyan-300/50 bg-black/60 text-cyan-100"
-              : "border-orange-300/50 bg-black/60 text-orange-100"
-        }`}
-      >
-        <span className="inline-block skew-x-[12deg]">{item.label}</span>
+      <div style={{ transform: `translateX(${push}px) rotate(${push * 0.06}deg)`, transition: "transform 150ms ease-out" }}>
+        <div
+          className={`skew-x-[-12deg] whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] backdrop-blur-sm transition-colors duration-200 ${
+            active
+              ? isCyan
+                ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
+                : "border-orange-200 bg-orange-300 text-[#1b0603]"
+              : isCyan
+                ? "border-cyan-300/50 bg-black/60 text-cyan-100"
+                : "border-orange-300/50 bg-black/60 text-orange-100"
+          }`}
+        >
+          <span className="inline-block skew-x-[12deg]">{item.label}</span>
+        </div>
       </div>
       {item.sublabel && (
         <span className={`font-rajdhani text-[1.2rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/70" : "text-orange-200/70"}`}>
@@ -193,6 +217,7 @@ export default function SideScrollSelect({
       if (e.key === "ArrowDown") setCrouching(true);
       if (e.key === "ArrowUp" && !e.repeat) {
         setJumping(true);
+        playJumpSound();
         window.setTimeout(() => setJumping(false), JUMP_MS);
       }
       if ((e.key === "Enter" || e.key === " ") && activeItem) {
@@ -240,17 +265,23 @@ export default function SideScrollSelect({
         className="absolute bottom-0 left-0 h-full"
         style={{ width: levelWidth, transform: `translateX(${-cameraX}px)` }}
       >
-        {items.map((item, i) => (
-          <Signpost
-            key={item.id}
-            item={item}
-            x={itemPositions[i]}
-            active={activeItem?.id === item.id}
-            isCyan={isCyan}
-            pressLabel={t("pressToSelect")}
-            onSelect={onSelect}
-          />
-        ))}
+        {items.map((item, i) => {
+          const dist = itemPositions[i] - charX;
+          const absDist = Math.abs(dist);
+          const push = absDist < HIT_RADIUS ? (HIT_RADIUS - absDist) * PUSH_SCALE * (dist >= 0 ? 1 : -1) : 0;
+          return (
+            <Signpost
+              key={item.id}
+              item={item}
+              x={itemPositions[i]}
+              active={activeItem?.id === item.id}
+              push={push}
+              isCyan={isCyan}
+              pressLabel={t("pressToSelect")}
+              onSelect={onSelect}
+            />
+          );
+        })}
 
         <div className="absolute bottom-32 -translate-x-1/2" style={{ left: charX }}>
           <PixelCharacter
