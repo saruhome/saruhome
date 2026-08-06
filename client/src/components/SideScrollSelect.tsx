@@ -7,10 +7,10 @@ import { useLanguage } from "../contexts/LanguageContext";
  * signposts (projects / menu items); Enter or a click selects the nearest one.
  */
 
-const ITEM_SPACING = 260;
+const ITEM_SPACING = 380;
 const START_X = 160;
 const END_PADDING = 300;
-const SELECT_RADIUS = 70;
+const SELECT_RADIUS = 140;
 const SPEED = 260; // px/sec
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
@@ -38,25 +38,25 @@ function PixelCharacter({
 
   return (
     <div
-      className="relative h-16 w-10 origin-bottom transition-transform duration-150 ease-out"
+      className="relative h-32 w-20 origin-bottom transition-transform duration-150 ease-out"
       style={{
         transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${
-          jumping ? -16 : crouching ? 8 : 0
+          jumping ? -32 : crouching ? 16 : 0
         }px) scaleY(${crouching ? 0.72 : 1})`,
       }}
     >
-      <div className="absolute left-1/2 top-0 h-3 w-8 -translate-x-1/2 rounded-t-sm" style={{ background: "#2b1a12" }} />
-      <div className="absolute left-1/2 top-1 h-6 w-6 -translate-x-1/2 rounded-sm" style={{ background: "#f3c9a1" }} />
+      <div className="absolute left-1/2 top-0 h-6 w-16 -translate-x-1/2 rounded-t-sm" style={{ background: "#2b1a12" }} />
+      <div className="absolute left-1/2 top-2 h-12 w-12 -translate-x-1/2 rounded-sm" style={{ background: "#f3c9a1" }} />
       <div
-        className="absolute left-1/2 top-7 h-6 w-8 -translate-x-1/2 rounded-[2px]"
-        style={{ background: accent, border: `2px solid ${dark}` }}
+        className="absolute left-1/2 top-14 h-12 w-16 -translate-x-1/2 rounded-[4px]"
+        style={{ background: accent, border: `4px solid ${dark}` }}
       />
       <div
-        className="absolute left-[7px] top-[15px] h-5 w-3 origin-top rounded-[1px]"
+        className="absolute left-[14px] top-[30px] h-10 w-6 origin-top rounded-[2px]"
         style={{ background: dark, transform: `rotate(${legAngle}deg)` }}
       />
       <div
-        className="absolute right-[7px] top-[15px] h-5 w-3 origin-top rounded-[1px]"
+        className="absolute right-[14px] top-[30px] h-10 w-6 origin-top rounded-[2px]"
         style={{ background: dark, transform: `rotate(${-legAngle}deg)` }}
       />
     </div>
@@ -84,12 +84,12 @@ function Signpost({
       onClick={() => onSelect(item.id)}
       style={{ left: x }}
       aria-label={item.label}
-      className={`absolute bottom-16 flex -translate-x-1/2 flex-col items-center gap-2 transition-transform duration-200 ${
+      className={`absolute bottom-32 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 ${
         active ? "scale-110" : "scale-100"
       }`}
     >
       <div
-        className={`skew-x-[-12deg] whitespace-nowrap border-2 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.15em] backdrop-blur-sm transition-colors duration-200 ${
+        className={`skew-x-[-12deg] whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] backdrop-blur-sm transition-colors duration-200 ${
           active
             ? isCyan
               ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
@@ -102,16 +102,16 @@ function Signpost({
         <span className="inline-block skew-x-[12deg]">{item.label}</span>
       </div>
       {item.sublabel && (
-        <span className={`font-rajdhani text-[0.6rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/70" : "text-orange-200/70"}`}>
+        <span className={`font-rajdhani text-[1.2rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/70" : "text-orange-200/70"}`}>
           {item.sublabel}
         </span>
       )}
       {active && (
-        <span className={`animate-pulse whitespace-nowrap font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-100" : "text-orange-100"}`}>
+        <span className={`animate-pulse whitespace-nowrap font-rajdhani text-[1.24rem] font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-100" : "text-orange-100"}`}>
           {pressLabel}
         </span>
       )}
-      <div className={`h-16 w-1 ${isCyan ? "bg-cyan-300/50" : "bg-orange-300/50"}`} />
+      <div className={`h-32 w-2 ${isCyan ? "bg-cyan-300/50" : "bg-orange-300/50"}`} />
     </button>
   );
 }
@@ -171,7 +171,7 @@ export default function SideScrollSelect({
       last = now;
       if (keys.current.left !== keys.current.right) {
         const dir = keys.current.left ? -1 : 1;
-        setCharX((x) => Math.min(Math.max(x + dir * SPEED * dt, 40), levelWidth - 40));
+        setCharX((x) => Math.min(Math.max(x + dir * SPEED * dt, 80), levelWidth - 80));
         setFacing(dir === -1 ? "left" : "right");
         if (now - lastFrameToggle.current > WALK_FRAME_MS) {
           setWalkFrame((f) => (f === 0 ? 1 : 0));
@@ -233,7 +233,7 @@ export default function SideScrollSelect({
       </div>
 
       {/* Static floor */}
-      <div className={`absolute inset-x-0 bottom-14 z-10 h-1 ${isCyan ? "bg-cyan-300/30" : "bg-orange-300/30"}`} />
+      <div className={`absolute inset-x-0 bottom-28 z-10 h-2 ${isCyan ? "bg-cyan-300/30" : "bg-orange-300/30"}`} />
 
       {/* Scrolling world */}
       <div
@@ -252,7 +252,7 @@ export default function SideScrollSelect({
           />
         ))}
 
-        <div className="absolute bottom-16 -translate-x-1/2" style={{ left: charX }}>
+        <div className="absolute bottom-32 -translate-x-1/2" style={{ left: charX }}>
           <PixelCharacter
             variant={spriteVariant}
             facing={facing}
@@ -268,14 +268,14 @@ export default function SideScrollSelect({
       <div className="absolute bottom-4 right-4 z-20 md:bottom-8 md:right-8">
         {showHelp && (
           <div
-            className={`mb-2 w-56 border-2 bg-black/85 p-3 font-rajdhani text-xs text-white/80 backdrop-blur-sm ${
+            className={`mb-4 w-[28rem] border-4 bg-black/85 p-6 font-rajdhani text-base text-white/80 backdrop-blur-sm ${
               isCyan ? "border-cyan-300/50" : "border-orange-300/50"
             }`}
           >
-            <p className={`mb-2 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
+            <p className={`mb-4 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
               {t("controls")}
             </p>
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               <li>← → {t("moveHint")}</li>
               <li>↑ {t("jumpHint")}</li>
               <li>↓ {t("crouchHint")}</li>
@@ -287,7 +287,7 @@ export default function SideScrollSelect({
           type="button"
           onClick={() => setShowHelp((v) => !v)}
           aria-label={t("controls")}
-          className={`grid h-9 w-9 place-items-center rounded-full border-2 bg-black/70 font-bebas text-lg text-white transition-colors duration-200 ${
+          className={`grid h-[4.5rem] w-[4.5rem] place-items-center rounded-full border-4 bg-black/70 font-bebas text-3xl text-white transition-colors duration-200 ${
             isCyan ? "border-cyan-300/60 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/60 hover:bg-orange-300 hover:text-[#1b0603]"
           }`}
         >
