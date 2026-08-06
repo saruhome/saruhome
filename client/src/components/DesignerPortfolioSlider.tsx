@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import HorizontalSlider from "./HorizontalSlider";
 import CaseStudy from "./CaseStudy";
+import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 
 type DesignProject = {
@@ -140,49 +140,6 @@ const designProjectsByLang: Record<Language, DesignProject[]> = {
     },
   ],
 };
-
-function ProjectsSlide({ onViewCaseStudy }: { onViewCaseStudy: (projectId: string) => void }) {
-  const { t, language } = useLanguage();
-  const designProjects = designProjectsByLang[language];
-  return (
-    <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
-      <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
-      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
-
-      <div className="relative z-10 mx-auto w-full max-w-7xl">
-        <div className="mb-3 shrink-0 md:mb-5">
-          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm">{t("player01Archive")}</p>
-          <h1 className="skew-x-[-8deg] font-bebas text-[clamp(2.6rem,7.2vw,7.2rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade">
-            {t("designPortfolio")}
-          </h1>
-        </div>
-
-        <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12">
-          {designProjects.map((project) => (
-            <article
-              key={project.id}
-              onClick={() => onViewCaseStudy(project.id)}
-              className="group relative flex min-h-[220px] flex-col cursor-pointer overflow-hidden border-2 border-cyan-100/18 bg-slate-950 shadow-[6px_6px_0_rgba(34,211,238,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200/80 hover:shadow-[10px_10px_0_rgba(34,211,238,0.22)] md:hover:-translate-y-2 flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-start p-4 md:p-6"
-            >
-              <div className="inline-block w-fit skew-x-[-12deg] bg-cyan-300 px-2 py-1 font-rajdhani text-[0.62rem] font-black tracking-[0.18em] text-slate-950 md:px-3 md:text-xs">
-                <span className="inline-block skew-x-[12deg]">{t("project").toUpperCase()} {project.id}</span>
-              </div>
-              <div className="mt-4 flex flex-1 flex-col justify-end">
-                <p className="font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-cyan-200 md:text-xs">{project.tag}</p>
-                <h2 className="mt-1 skew-x-[-8deg] font-bebas text-[clamp(1.45rem,5.2vw,2.7rem)] leading-none tracking-[0.04em] text-white md:mt-2">
-                  {project.title}
-                </h2>
-                <p className="mt-2 line-clamp-3 font-rajdhani text-xs font-medium leading-snug text-white/68 md:line-clamp-4 md:text-sm lg:text-base">
-                  {project.description}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function AboutMeSkillsSlide() {
   const { t } = useLanguage();
@@ -357,46 +314,75 @@ function ContactSlide() {
   );
 }
 
+type DesignerView = "game" | "about" | "contact" | { type: "caseStudy"; projectId: string };
+
+function BackButton({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="absolute left-4 top-4 z-50 skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e] md:left-8 md:top-8 md:px-4 md:text-sm"
+    >
+      <span className="inline-block skew-x-[12deg]">&lt; {label}</span>
+    </button>
+  );
+}
+
 export default function DesignerPortfolioSlider({
   onBack,
 }: {
   onBack: () => void;
 }) {
-  const { t } = useLanguage();
-  const [view, setView] = useState<"slider" | { type: "caseStudy"; projectId: string }>("slider");
+  const { t, language } = useLanguage();
+  const designProjects = designProjectsByLang[language];
+  const [view, setView] = useState<DesignerView>("game");
 
-  const handleViewCaseStudy = (projectId: string) => {
-    setView({ type: "caseStudy", projectId });
-  };
+  if (typeof view === "object") {
+    return <CaseStudy projectId={view.projectId} onBack={() => setView("game")} />;
+  }
 
-  const handleBackFromCaseStudy = () => {
-    setView("slider");
-  };
-
-  if (view !== "slider") {
+  if (view === "about") {
     return (
-      <CaseStudy
-        projectId={view.projectId}
-        onBack={handleBackFromCaseStudy}
-      />
+      <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-dark-primary">
+        <LanguageSwitcher theme="cyan" />
+        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
+        <AboutMeSkillsSlide />
+      </div>
     );
   }
 
-  return (
-    <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-      <LanguageSwitcher theme="cyan" />
-      <button
-        onClick={onBack}
-        className="absolute left-4 top-4 z-50 skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e] md:left-8 md:top-8 md:px-4 md:text-sm"
-      >
-        <span className="inline-block skew-x-[12deg]">&lt; {t("backToSelect").toUpperCase()}</span>
-      </button>
-
-      <HorizontalSlider showDots showArrows>
-        <ProjectsSlide onViewCaseStudy={handleViewCaseStudy} />
-        <AboutMeSkillsSlide />
+  if (view === "contact") {
+    return (
+      <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
+        <LanguageSwitcher theme="cyan" />
+        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <ContactSlide />
-      </HorizontalSlider>
+      </div>
+    );
+  }
+
+  const items = [
+    ...designProjects.map((project) => ({ id: project.id, label: project.title, sublabel: project.tag })),
+    { id: "about", label: t("aboutNav") },
+    { id: "contact", label: t("contactNav") },
+  ];
+
+  return (
+    <div className="relative h-dvh overflow-hidden bg-black">
+      <LanguageSwitcher theme="cyan" />
+      <BackButton label={t("backToSelect").toUpperCase()} onClick={onBack} />
+
+      <SideScrollSelect
+        items={items}
+        accentColor="cyan"
+        spriteVariant="designer"
+        eyebrow={t("player01Archive")}
+        title={t("designPortfolio")}
+        onSelect={(id) => {
+          if (id === "about") setView("about");
+          else if (id === "contact") setView("contact");
+          else setView({ type: "caseStudy", projectId: id });
+        }}
+      />
     </div>
   );
 }

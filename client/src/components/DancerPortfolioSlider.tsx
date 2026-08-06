@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import HorizontalSlider from "./HorizontalSlider";
+import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 
 /**
@@ -417,26 +417,64 @@ function BioSlide() {
   );
 }
 
+function BackButton({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="absolute left-4 top-4 z-50 skew-x-[-12deg] border-2 border-orange-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-300 hover:text-[#1b0603] md:left-8 md:top-8 md:px-4 md:text-sm"
+    >
+      <span className="inline-block skew-x-[12deg]">&lt; {label}</span>
+    </button>
+  );
+}
+
 export default function DancerPortfolioSlider({
   onBack,
 }: {
   onBack: () => void;
 }) {
-  const { t } = useLanguage();
-  return (
-    <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-      <LanguageSwitcher />
-      <button
-        onClick={onBack}
-        className="absolute left-4 top-4 z-50 skew-x-[-12deg] border-2 border-orange-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-300 hover:text-[#1b0603] md:left-8 md:top-8 md:px-4 md:text-sm"
-      >
-        <span className="inline-block skew-x-[12deg]">&lt; {t("backToSelect").toUpperCase()}</span>
-      </button>
+  const { t, language } = useLanguage();
+  const ui = dancerUiByLang[language];
+  const [view, setView] = useState<"game" | "gallery" | "bio">("game");
 
-      <HorizontalSlider showDots showArrows accentColor="orange">
+  if (view === "gallery") {
+    return (
+      <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
+        <LanguageSwitcher />
+        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <VideoSlide />
+      </div>
+    );
+  }
+
+  if (view === "bio") {
+    return (
+      <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
+        <LanguageSwitcher />
+        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <BioSlide />
-      </HorizontalSlider>
+      </div>
+    );
+  }
+
+  const items = [
+    { id: "gallery", label: ui.dancePerformance },
+    { id: "bio", label: t("aboutNav") },
+  ];
+
+  return (
+    <div className="relative h-dvh overflow-hidden bg-black">
+      <LanguageSwitcher />
+      <BackButton label={t("backToSelect").toUpperCase()} onClick={onBack} />
+
+      <SideScrollSelect
+        items={items}
+        accentColor="orange"
+        spriteVariant="dancer"
+        eyebrow={ui.playerArchive}
+        title={ui.dancePortfolio}
+        onSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
+      />
     </div>
   );
 }

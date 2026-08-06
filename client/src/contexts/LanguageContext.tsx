@@ -90,6 +90,13 @@ export const translations = {
     aboutNav: "About",
     worksNav: "Works",
     contactNav: "Contact",
+
+    // Side-scroll run/select screen
+    controls: "Controls",
+    moveHint: "Move",
+    jumpHint: "Jump",
+    crouchHint: "Crouch",
+    pressToSelect: "Press ENTER to select",
   },
   kr: {
     // Main page
@@ -178,6 +185,13 @@ export const translations = {
     aboutNav: "소개",
     worksNav: "작품",
     contactNav: "연락처",
+
+    // Side-scroll run/select screen
+    controls: "조작법",
+    moveHint: "이동",
+    jumpHint: "점프",
+    crouchHint: "숙이기",
+    pressToSelect: "엔터를 눌러 선택",
   },
   de: {
     // Main page
@@ -266,6 +280,13 @@ export const translations = {
     aboutNav: "Über",
     worksNav: "Werke",
     contactNav: "Kontakt",
+
+    // Side-scroll run/select screen
+    controls: "Steuerung",
+    moveHint: "Bewegen",
+    jumpHint: "Springen",
+    crouchHint: "Ducken",
+    pressToSelect: "ENTER drücken zum Auswählen",
   },
 };
 
