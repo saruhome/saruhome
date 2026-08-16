@@ -8,3 +8,22 @@
 | Designer pixel runner | Player 01 role-specific avatar | `/manus-storage/designer-pixel-runner_6b00f051.png` |
 | Dancer pixel runner | Player 02 role-specific avatar | `/manus-storage/dancer-pixel-runner_e6499923.png` |
 | Cyan archive stage | Shared side-scrolling level backdrop | `/manus-storage/portfolio-arcade-stage_9f866b47.png` |
+| Designer chibi sprite sheet | Player 01 idle, walk, jump, celebrate frames | `/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png` |
+| Dancer chibi sprite sheet | Player 02 idle, walk, jump, celebrate frames | `/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png` |
+| Character-select arcade lobby | Game-lobby background for the initial selection screen | `/manus-storage/character-select-arcade-lobby_99fb11d2.png` |
+
+## Role palette specification
+
+| Role | Base | Primary | Secondary | Highlight | Application |
+|---|---|---|---|---|---|
+| Player 01 — Designer | `#06101E` | `#37E7FF` | `#00B8D4` | `#EAFBFF` | HUD, glasses, jacket, selection panel, archive markers |
+| Player 02 — Dancer | `#200806` | `#FF6B17` | `#FFC258` | `#FF3D81` | HUD, belt, sneakers, selection panel, archive markers |
+
+## Character state specification
+
+| State | Trigger | Motion treatment |
+|---|---|---|
+| Idle | No directional input or inactive selection panel | Gentle 1.35-second bob with a slight squash-and-stretch |
+| Walk | Hover preview or horizontal movement | Two-frame 0.22-second stepped bounce |
+| Jump | Up-arrow input | 0.38-second upward arc with a soft landing squash |
+| Celebrate | Role selected before archive handoff | Repeating upward bounce with alternating rotation |

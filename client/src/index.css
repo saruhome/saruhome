@@ -189,6 +189,30 @@
     animation: selected-hit 0.34s cubic-bezier(0.2, 0.9, 0.1, 1.25) both;
   }
 
+  .arcade-lobby-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 100% 5px, 52px 100%;
+    mask-image: linear-gradient(to bottom, transparent, black 13%, black 78%, transparent);
+  }
+
+  .chibi-idle {
+    animation: chibi-idle 1.35s ease-in-out infinite;
+  }
+
+  .chibi-walk {
+    animation: chibi-walk 0.22s steps(2, end) infinite;
+  }
+
+  .chibi-jump {
+    animation: chibi-jump 0.38s cubic-bezier(0.2, 0.82, 0.24, 1) both;
+  }
+
+  .chibi-celebrate {
+    animation: chibi-celebrate 0.62s cubic-bezier(0.22, 1.28, 0.35, 1) infinite alternate;
+  }
+
   @media (min-width: 640px) {
     .container {
       padding-left: 1.5rem;
@@ -248,6 +272,47 @@
   50% {
     transform: skewX(-12deg) translateY(-2px);
     filter: brightness(1.16);
+  }
+}
+
+@keyframes chibi-idle {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.015, 0.985);
+  }
+}
+
+@keyframes chibi-walk {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@keyframes chibi-jump {
+  0% {
+    transform: translateY(0) scale(1.04, 0.9);
+  }
+  48% {
+    transform: translateY(-32px) scale(0.96, 1.06);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes chibi-celebrate {
+  from {
+    transform: translateY(0) rotate(-4deg) scale(1);
+  }
+  to {
+    transform: translateY(-9px) rotate(4deg) scale(1.07);
   }
 }
 

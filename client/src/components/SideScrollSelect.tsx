@@ -17,9 +17,15 @@ const SPEED = 260; // px/sec
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
 
-const PIXEL_AVATAR = {
-  designer: "/manus-storage/designer-pixel-runner_6b00f051.png",
-  dancer: "/manus-storage/dancer-pixel-runner_e6499923.png",
+const CHIBI_SPRITE_SHEET = {
+  designer: "/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png",
+  dancer: "/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png",
+} as const;
+
+const spritePosition = {
+  idle: "0% 0%",
+  walk: "100% 0%",
+  jump: "0% 100%",
 } as const;
 
 const ARCHIVE_STAGE = "/manus-storage/portfolio-arcade-stage_9f866b47.png";
@@ -64,6 +70,7 @@ function PixelCharacter({
   const roleLabel = variant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
   const [spriteReady, setSpriteReady] = useState(false);
+  const spriteState = jumping ? "jump" : walking ? "walk" : "idle";
 
   return (
     <div className="relative h-40 w-28 origin-bottom">
@@ -88,14 +95,17 @@ function PixelCharacter({
             <div className="absolute right-3 top-[6.1rem] h-10 w-5 rounded-sm" style={{ background: dark }} />
           </div>
         )}
-        <img
-          src={PIXEL_AVATAR[variant]}
-          alt=""
-          draggable={false}
-          onLoad={() => setSpriteReady(true)}
-          onError={() => setSpriteReady(false)}
-          className={`relative h-full w-full object-contain transition-opacity duration-300 [image-rendering:pixelated] [image-rendering:crisp-edges] ${spriteReady ? "opacity-100" : "opacity-0"}`}
-        />
+        <img src={CHIBI_SPRITE_SHEET[variant]} alt="" aria-hidden="true" draggable={false} onLoad={() => setSpriteReady(true)} onError={() => setSpriteReady(false)} className="sr-only" />
+        {spriteReady && (
+          <div
+            className="relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+            style={{
+              backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
+              backgroundPosition: spritePosition[spriteState],
+              backgroundSize: "200% 200%",
+            }}
+          />
+        )}
       </div>
       <div
         className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap border px-2 py-0.5 font-rajdhani text-[0.6rem] font-black tracking-[0.2em] text-white"
