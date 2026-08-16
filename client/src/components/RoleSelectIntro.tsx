@@ -266,7 +266,7 @@ export default function RoleSelectIntro() {
       >
         {muted ? "Sound Off" : "Sound On"}
       </button>
-      {view === "main" && <><LanguageSwitcher theme="cyan" /><IntroScreen onSelect={setView} /></>}
+      {view === "main" && <><LanguageSwitcher /><IntroScreen onSelect={setView} /></>}
       {view === "designer" && <DesignerPortfolioSlider onBack={returnToLobby} />}
       {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}
     </main>

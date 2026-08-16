@@ -345,7 +345,7 @@ export default function DesignerPortfolioSlider({
   if (view === "about") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-dark-primary">
-        <LanguageSwitcher theme="cyan" />
+        <LanguageSwitcher />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <AboutMeSkillsSlide />
       </div>
@@ -355,7 +355,7 @@ export default function DesignerPortfolioSlider({
   if (view === "contact") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-        <LanguageSwitcher theme="cyan" />
+        <LanguageSwitcher />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <ContactSlide />
       </div>
@@ -370,7 +370,7 @@ export default function DesignerPortfolioSlider({
 
   return (
     <div className="relative h-dvh overflow-hidden bg-black">
-      <LanguageSwitcher theme="cyan" />
+      <LanguageSwitcher />
       <BackButton label={t("backToSelect").toUpperCase()} onClick={onBack} />
 
       <SideScrollSelect
