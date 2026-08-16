@@ -11,6 +11,9 @@
 | Designer chibi sprite sheet | Player 01 idle, walk, jump, celebrate frames | `/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png` |
 | Dancer chibi sprite sheet | Player 02 idle, walk, jump, celebrate frames | `/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png` |
 | Character-select arcade lobby | Game-lobby background for the initial selection screen | `/manus-storage/character-select-arcade-lobby_99fb11d2.png` |
+| Designer portrait | Player 01 main lobby and bio portrait, migrated from local public assets | `/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png` |
+| Designer archive loop | Player 01 focused 16-bit electronic background music | `/manus-storage/designer-archive-loop_da115ca8.mp3` |
+| Dancer archive loop | Player 02 energetic arcade dance background music | `/manus-storage/dancer-archive-loop_084713db.mp3` |
 
 ## Role palette specification
 

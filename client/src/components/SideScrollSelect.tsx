@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useGameAudio } from "../contexts/GameAudioContext";
 
 /**
  * Side-scroll "run to select" screen.
@@ -29,24 +30,6 @@ const spritePosition = {
 } as const;
 
 const ARCHIVE_STAGE = "/manus-storage/portfolio-arcade-stage_9f866b47.png";
-
-function playJumpSound() {
-  const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-  if (!AudioCtx) return;
-  const ctx = new AudioCtx();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = "sine";
-  osc.frequency.setValueAtTime(220, ctx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.08);
-  gain.gain.setValueAtTime(0.25, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start();
-  osc.stop(ctx.currentTime + 0.2);
-  osc.onended = () => ctx.close();
-}
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 
@@ -125,6 +108,7 @@ function Signpost({
   isCyan,
   pressLabel,
   onSelect,
+  onHover,
 }: {
   item: SideScrollItem;
   x: number;
@@ -133,11 +117,13 @@ function Signpost({
   isCyan: boolean;
   pressLabel: string;
   onSelect: (id: string) => void;
+  onHover: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={() => onSelect(item.id)}
+      onMouseEnter={onHover}
       style={{ left: x }}
       aria-label={item.label}
       className={`absolute bottom-32 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 ${
@@ -190,6 +176,7 @@ export default function SideScrollSelect({
   title: string;
 }) {
   const { t } = useLanguage();
+  const { playConfirm, playHover, playJump, playNavigate } = useGameAudio();
   const isCyan = accentColor === "cyan";
 
   const [charX, setCharX] = useState(60);
@@ -247,15 +234,18 @@ export default function SideScrollSelect({
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") keys.current.left = true;
+      if (e.key === "ArrowLeft" && !e.repeat) playNavigate();
       if (e.key === "ArrowRight") keys.current.right = true;
+      if (e.key === "ArrowRight" && !e.repeat) playNavigate();
       if (e.key === "ArrowDown") setCrouching(true);
       if (e.key === "ArrowUp" && !e.repeat) {
         setJumping(true);
-        playJumpSound();
+        playJump();
         window.setTimeout(() => setJumping(false), JUMP_MS);
       }
       if ((e.key === "Enter" || e.key === " ") && activeItem) {
         e.preventDefault();
+        playConfirm();
         onSelect(activeItem.id);
       }
       if (e.key === "?") setShowHelp((v) => !v);
@@ -271,7 +261,7 @@ export default function SideScrollSelect({
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, [activeItem, onSelect]);
+  }, [activeItem, onSelect, playConfirm, playJump, playNavigate]);
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
   const walking = keys.current.left !== keys.current.right;
@@ -334,7 +324,8 @@ export default function SideScrollSelect({
               push={push}
               isCyan={isCyan}
               pressLabel={t("pressToSelect")}
-              onSelect={onSelect}
+              onSelect={(id) => { playConfirm(); onSelect(id); }}
+              onHover={playHover}
             />
           );
         })}

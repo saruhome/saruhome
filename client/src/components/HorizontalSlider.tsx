@@ -30,6 +30,7 @@ export default function HorizontalSlider({
   accentColor = "cyan",
 }: HorizontalSliderProps) {
   const accent = ACCENT_CLASSES[accentColor];
+  const stageBackground = accentColor === "orange" ? "bg-[#1a0503]" : "bg-[#07111f]";
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState(0);
@@ -116,7 +117,7 @@ export default function HorizontalSlider({
   // in height per slide, so stack slides vertically and let the page scroll.
   if (isMobile) {
     return (
-      <div className="flex w-full flex-col bg-[#07111f]">
+      <div className={`flex w-full flex-col ${stageBackground}`}>
         {children.map((child, index) => (
           <div key={index} className="w-full">
             {child}
@@ -127,7 +128,7 @@ export default function HorizontalSlider({
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden bg-[#07111f]">
+    <div className={`relative h-full w-full overflow-hidden ${stageBackground}`}>
       {/* Slider Container */}
       <div
         ref={containerRef}

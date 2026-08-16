@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
+import { useRoleTheme } from "../contexts/RoleContext";
 
 /**
  * Design System — "Precision in Motion"
@@ -434,6 +435,7 @@ export default function DancerPortfolioSlider({
   onBack: () => void;
 }) {
   const { t, language } = useLanguage();
+  const { palette } = useRoleTheme();
   const ui = dancerUiByLang[language];
   const [view, setView] = useState<"game" | "gallery" | "bio">("game");
 
@@ -469,7 +471,7 @@ export default function DancerPortfolioSlider({
 
       <SideScrollSelect
         items={items}
-        accentColor="orange"
+        accentColor={palette.accentColor}
         spriteVariant="dancer"
         eyebrow={ui.playerArchive}
         title={ui.dancePortfolio}

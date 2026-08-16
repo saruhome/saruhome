@@ -119,6 +119,43 @@
   --sidebar-ring: oklch(0.78 0.17 205);
 }
 
+/* Design Philosophy: Neo-Arcade role theming — the selected player carries a
+   deliberate, high-contrast palette from lobby through archives and case studies. */
+.role-theme-scope[data-player-role="dancer"] .text-cyan-100 {
+  color: #fff3e8;
+}
+
+.role-theme-scope[data-player-role="dancer"] .text-cyan-200,
+.role-theme-scope[data-player-role="dancer"] .text-cyan-300 {
+  color: #ffc258;
+}
+
+.role-theme-scope[data-player-role="dancer"] .border-cyan-300\/30,
+.role-theme-scope[data-player-role="dancer"] .border-cyan-300\/45,
+.role-theme-scope[data-player-role="dancer"] .border-cyan-300\/50 {
+  border-color: rgb(255 194 88 / 0.45);
+}
+
+.role-theme-scope[data-player-role="dancer"] .border-cyan-500\/20 {
+  border-color: rgb(255 107 23 / 0.28);
+}
+
+.role-theme-scope[data-player-role="dancer"] .hover\:border-cyan-300\/60:hover {
+  border-color: rgb(255 194 88 / 0.72);
+}
+
+.role-theme-scope[data-player-role="dancer"] .hover\:bg-cyan-300:hover {
+  background-color: #ffc258;
+}
+
+.role-theme-scope[data-player-role="dancer"] .hover\:text-\[\#06101e\]:hover {
+  color: #200806;
+}
+
+.role-theme-scope[data-player-role="dancer"] .text-shadow-cyan {
+  text-shadow: 0 0 20px rgb(255 107 23 / 0.62), 0 0 42px rgb(255 194 88 / 0.24);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

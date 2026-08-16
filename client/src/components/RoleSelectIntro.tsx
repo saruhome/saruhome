@@ -3,6 +3,8 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import DesignerPortfolioSlider from "./DesignerPortfolioSlider";
 import DancerPortfolioSlider from "./DancerPortfolioSlider";
+import { useRoleTheme } from "../contexts/RoleContext";
+import { useGameAudio } from "../contexts/GameAudioContext";
 
 /**
  * Design philosophy — Neo-Arcade Character Lobby:
@@ -35,7 +37,7 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 01",
     title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
-    imageSrc: "/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392.png",
+    imageSrc: "/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png",
     imageAlt: "Close-up portrait of a UX designer wearing gold-rimmed glasses",
     spriteSheet: "/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png",
     primary: "#37E7FF",
@@ -138,6 +140,7 @@ function RolePanel({
   onSelect: (role: Role) => void;
 }) {
   const { t } = useLanguage();
+  const { playHover } = useGameAudio();
   const isDesigner = role.id === "designer";
   const isActive = activeRole === role.id;
   const isLocked = lockedRole === role.id;
@@ -156,7 +159,7 @@ function RolePanel({
       aria-label={`Explore ${isDesigner ? t("uxuiDesigner") : t("dancer")} portfolio`}
       aria-pressed={isLocked}
       disabled={lockedRole !== null}
-      onMouseEnter={() => !lockedRole && setActiveRole(role.id)}
+      onMouseEnter={() => { if (!lockedRole) { setActiveRole(role.id); playHover(); } }}
       onMouseLeave={() => !lockedRole && setActiveRole(null)}
       onFocus={() => !lockedRole && setActiveRole(role.id)}
       onBlur={() => !lockedRole && setActiveRole(null)}
@@ -202,14 +205,19 @@ function RolePanel({
 
 function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const { t } = useLanguage();
+  const { selectRole: setSelectedRole } = useRoleTheme();
+  const { playConfirm, startRoleMusic } = useGameAudio();
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [lockedRole, setLockedRole] = useState<Role | null>(null);
   const selectTimer = useRef<number | undefined>(undefined);
 
   useEffect(() => () => { if (selectTimer.current) window.clearTimeout(selectTimer.current); }, []);
 
-  const selectRole = (role: Role) => {
+  const handleRoleSelection = (role: Role) => {
     if (lockedRole) return;
+    setSelectedRole(role);
+    playConfirm();
+    startRoleMusic(role);
     setLockedRole(role);
     setActiveRole(role);
     selectTimer.current = window.setTimeout(() => onSelect(role), 420);
@@ -232,7 +240,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       </header>
 
       <div className="relative z-10 flex h-full flex-col md:flex-row">
-        {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} lockedRole={lockedRole} setActiveRole={setActiveRole} onSelect={selectRole} />)}
+        {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} lockedRole={lockedRole} setActiveRole={setActiveRole} onSelect={handleRoleSelection} />)}
       </div>
     </section>
   );
@@ -240,12 +248,27 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
 
 export default function RoleSelectIntro() {
   const [view, setView] = useState<View>("main");
+  const { muted, toggleMuted, stopMusic } = useGameAudio();
+
+  const returnToLobby = () => {
+    stopMusic();
+    setView("main");
+  };
 
   return (
     <main className="h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
+      <button
+        type="button"
+        onClick={toggleMuted}
+        className="fixed bottom-4 left-4 z-[70] border border-white/30 bg-black/65 px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm transition hover:border-[var(--player-primary)] hover:text-white md:bottom-6 md:left-6"
+        aria-pressed={!muted}
+        aria-label={muted ? "Enable portfolio audio" : "Mute portfolio audio"}
+      >
+        {muted ? "Sound Off" : "Sound On"}
+      </button>
       {view === "main" && <><LanguageSwitcher theme="cyan" /><IntroScreen onSelect={setView} /></>}
-      {view === "designer" && <DesignerPortfolioSlider onBack={() => setView("main")} />}
-      {view === "dancer" && <DancerPortfolioSlider onBack={() => setView("main")} />}
+      {view === "designer" && <DesignerPortfolioSlider onBack={returnToLobby} />}
+      {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}
     </main>
   );
 }

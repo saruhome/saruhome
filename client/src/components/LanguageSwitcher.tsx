@@ -1,4 +1,5 @@
 import { useLanguage, type Language } from "../contexts/LanguageContext";
+import { useRoleTheme } from "../contexts/RoleContext";
 
 const THEME_CLASSES = {
   orange: {
@@ -12,12 +13,14 @@ const THEME_CLASSES = {
 } as const;
 
 export function LanguageSwitcher({
-  theme = "orange",
+  theme,
 }: {
   theme?: "orange" | "cyan";
 }) {
   const { language, setLanguage } = useLanguage();
-  const colors = THEME_CLASSES[theme];
+  const { palette } = useRoleTheme();
+  const resolvedTheme: keyof typeof THEME_CLASSES = theme ?? palette.accentColor;
+  const colors = THEME_CLASSES[resolvedTheme];
 
   const languages: { code: Language; label: string }[] = [
     { code: "en", label: "EN" },
