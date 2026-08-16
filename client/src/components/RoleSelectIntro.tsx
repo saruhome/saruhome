@@ -170,7 +170,7 @@ function RolePanel({
       <RolePortrait role={role} activeRole={activeRole} />
       <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `radial-gradient(circle at ${isDesigner ? "24%" : "76%"} 24%, ${role.primary}55, transparent 38%)`, opacity: isActive ? 1 : 0.42 }} />
 
-      <div className={`pointer-events-none absolute top-5 z-20 hidden w-44 border-y border-white/45 bg-black/30 p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-sm md:block ${isDesigner ? "left-7 border-l" : "right-7 border-r"}`}>
+      <div className={`pointer-events-none absolute z-20 hidden w-44 border-y border-white/45 bg-black/30 p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-sm md:block ${isDesigner ? "left-7 top-5 border-l" : "right-7 top-24 border-r"}`}>
         <span className="block text-white/45">{t("archiveAccess")}</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {role.stats.map((stat) => <span key={stat} className="border px-1.5 py-0.5" style={{ borderColor: `${role.primary}88`, color: role.primary }}>{stat}</span>)}
