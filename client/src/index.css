@@ -353,6 +353,30 @@
   }
 }
 
+@keyframes chibi-wave {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) rotate(2deg) scale(1.035, 0.98);
+  }
+}
+
+@keyframes chibi-wave-frames {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+.chibi-wave {
+  animation: chibi-wave 0.72s ease-in-out infinite;
+}
+
+.chibi-wave-frames {
+  animation: chibi-wave-frames 0.78s steps(4, end) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

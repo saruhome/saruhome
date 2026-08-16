@@ -14,7 +14,7 @@ import { useGameAudio } from "../contexts/GameAudioContext";
 
 type Role = "designer" | "dancer";
 type View = "main" | Role;
-type SpriteState = "idle" | "walk" | "jump" | "celebrate";
+type SpriteState = "idle" | "walk" | "jump" | "celebrate" | "wave";
 
 type RoleOption = {
   id: Role;
@@ -24,6 +24,7 @@ type RoleOption = {
   imageSrc: string;
   imageAlt: string;
   spriteSheet: string;
+  waveSprite: string;
   primary: string;
   dark: string;
   stats: [string, string, string];
@@ -40,6 +41,7 @@ const roles: RoleOption[] = [
     imageSrc: "/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png",
     imageAlt: "Close-up portrait of a UX designer wearing gold-rimmed glasses",
     spriteSheet: "/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png",
+    waveSprite: "/manus-storage/designer-select-wave-sprite_a08cc205.png",
     primary: "#37E7FF",
     dark: "#06101E",
     stats: ["FLOW 98", "UX 96", "SYSTEMS 92"],
@@ -52,6 +54,7 @@ const roles: RoleOption[] = [
     imageSrc: "/manus-storage/071222_Sunghee15_ig_26d4d224.jpg",
     imageAlt: "Close-up portrait of a dancer with blonde hair and elegant presence",
     spriteSheet: "/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png",
+    waveSprite: "/manus-storage/dancer-select-wave-sprite_7d9af2bc.png",
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -63,18 +66,28 @@ const spritePositions: Record<SpriteState, string> = {
   walk: "100% 0%",
   jump: "0% 100%",
   celebrate: "100% 100%",
+  wave: "0% 0%",
 };
 
 function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
   const [ready, setReady] = useState(false);
-  const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : "chibi-celebrate";
+  const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "wave" ? "chibi-wave" : "chibi-celebrate";
 
   return (
     <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
       <img className="sr-only" src={role.spriteSheet} alt="" onLoad={() => setReady(true)} onError={() => setReady(false)} />
+      <img className="sr-only" src={role.waveSprite} alt="" />
       <div className="absolute inset-x-4 bottom-1 h-7 rounded-[50%] blur-md" style={{ background: `${role.primary}55` }} />
       <div className={`absolute inset-0 ${animationClass}`}>
-        {ready ? (
+        {state === "wave" ? (
+          <div
+            className="chibi-wave-frames h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+            style={{
+              backgroundImage: `url(${role.waveSprite})`,
+              backgroundSize: "400% 100%",
+            }}
+          />
+        ) : ready ? (
           <div
             className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
             style={{
@@ -145,7 +158,7 @@ function RolePanel({
   const isActive = activeRole === role.id;
   const isLocked = lockedRole === role.id;
   const isOtherLocked = lockedRole !== null && !isLocked;
-  const state: SpriteState = isLocked ? "celebrate" : isActive ? "walk" : "idle";
+  const state: SpriteState = isLocked ? "celebrate" : isActive ? "wave" : "idle";
   const desktopFlexClass =
     activeRole === "designer"
       ? isDesigner ? "md:flex-[0.75]" : "md:flex-[0.25]"
@@ -163,6 +176,7 @@ function RolePanel({
       onMouseLeave={() => !lockedRole && setActiveRole(null)}
       onFocus={() => !lockedRole && setActiveRole(role.id)}
       onBlur={() => !lockedRole && setActiveRole(null)}
+      onTouchStart={() => !lockedRole && setActiveRole(role.id)}
       onClick={() => onSelect(role.id)}
       className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,filter,opacity] duration-500 ease-in-out md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${isDesigner ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]" : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"}`}
     >
@@ -171,7 +185,7 @@ function RolePanel({
       <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `radial-gradient(circle at ${isDesigner ? "24%" : "76%"} 24%, ${role.primary}55, transparent 38%)`, opacity: isActive ? 1 : 0.42 }} />
 
       <div
-        className={`pointer-events-none absolute z-20 hidden w-44 border-y p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-[2px] md:block ${isDesigner ? "left-7 top-5 border-l" : "right-7 top-24 border-r"}`}
+        className={`pointer-events-none absolute top-5 z-20 hidden w-44 border-y p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-[2px] md:block ${isDesigner ? "left-7 border-l" : "right-7 border-r"}`}
         style={{
           background: `linear-gradient(135deg, ${role.dark}24 0%, rgba(0,0,0,0.1) 100%)`,
           borderColor: `${role.primary}66`,
