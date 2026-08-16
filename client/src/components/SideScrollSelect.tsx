@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 
@@ -126,7 +126,7 @@ function Signpost({
       onMouseEnter={onHover}
       style={{ left: x }}
       aria-label={item.label}
-      className={`absolute bottom-32 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 ${
+      className={`absolute bottom-40 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 md:bottom-32 ${
         active ? "scale-110" : "scale-100"
       }`}
     >
@@ -160,6 +160,72 @@ function Signpost({
   );
 }
 
+type TouchDirection = "left" | "right";
+
+function MobileTouchControls({
+  isCyan,
+  movingDirection,
+  canSelect,
+  onMoveStart,
+  onMoveEnd,
+  onJump,
+  onSelect,
+}: {
+  isCyan: boolean;
+  movingDirection: TouchDirection | null;
+  canSelect: boolean;
+  onMoveStart: (direction: TouchDirection) => void;
+  onMoveEnd: () => void;
+  onJump: () => void;
+  onSelect: () => void;
+}) {
+  const buttonBase = "grid h-14 w-14 select-none place-items-center border-2 bg-black/75 font-bebas text-3xl text-white shadow-[0_0_18px_rgba(0,0,0,0.38)] transition-transform duration-150 active:scale-95";
+  const passiveAccent = isCyan ? "border-cyan-300/70 text-cyan-100" : "border-orange-300/70 text-orange-100";
+  const activeAccent = isCyan ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-orange-200 bg-orange-300 text-[#1b0603]";
+  const pointerHandlers = (direction: TouchDirection) => ({
+    onPointerDown: (event: React.PointerEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      event.currentTarget.setPointerCapture(event.pointerId);
+      onMoveStart(direction);
+    },
+    onPointerUp: (event: React.PointerEvent<HTMLButtonElement>) => {
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+      onMoveEnd();
+    },
+    onPointerCancel: onMoveEnd,
+    onLostPointerCapture: onMoveEnd,
+  });
+
+  return (
+    <div className="absolute inset-x-0 bottom-0 z-40 flex items-end justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-12 md:hidden pointer-events-none">
+      <div className="pointer-events-auto flex items-center gap-1.5 border border-white/15 bg-black/35 p-1.5 backdrop-blur-sm" style={{ touchAction: "none" }}>
+        <button type="button" aria-label="Move left" aria-pressed={movingDirection === "left"} className={`${buttonBase} ${movingDirection === "left" ? activeAccent : passiveAccent}`} {...pointerHandlers("left")}>←</button>
+        <button type="button" aria-label="Move right" aria-pressed={movingDirection === "right"} className={`${buttonBase} ${movingDirection === "right" ? activeAccent : passiveAccent}`} {...pointerHandlers("right")}>→</button>
+      </div>
+
+      <div className="pointer-events-auto flex items-center gap-2" style={{ touchAction: "manipulation" }}>
+        <button
+          type="button"
+          onPointerDown={(event) => { event.preventDefault(); onJump(); }}
+          aria-label="Jump"
+          className={`grid h-16 w-16 select-none place-items-center rounded-full border-2 bg-black/80 font-rajdhani text-xs font-black tracking-[0.12em] text-white shadow-[0_0_20px_rgba(0,0,0,0.42)] transition-transform duration-150 active:scale-95 ${passiveAccent}`}
+        >
+          JUMP
+        </button>
+        <button
+          type="button"
+          onPointerDown={(event) => { event.preventDefault(); onSelect(); }}
+          disabled={!canSelect}
+          aria-label="Select current archive item"
+          className={`grid h-16 w-16 select-none place-items-center rounded-full border-2 bg-black/80 font-rajdhani text-[0.62rem] font-black tracking-[0.12em] text-white shadow-[0_0_20px_rgba(0,0,0,0.42)] transition-transform duration-150 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 ${canSelect ? passiveAccent : "border-white/20"}`}
+        >
+          SELECT
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function SideScrollSelect({
   items,
   onSelect,
@@ -185,6 +251,7 @@ export default function SideScrollSelect({
   const [crouching, setCrouching] = useState(false);
   const [walkFrame, setWalkFrame] = useState<0 | 1>(0);
   const [showHelp, setShowHelp] = useState(false);
+  const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
 
   const keys = useRef({ left: false, right: false });
@@ -201,6 +268,32 @@ export default function SideScrollSelect({
       .sort((a, b) => a.dist - b.dist);
     return candidates.length > 0 ? candidates[0].item : null;
   }, [items, itemPositions, charX]);
+
+  const triggerJump = useCallback(() => {
+    if (jumping) return;
+    setJumping(true);
+    playJump();
+    window.setTimeout(() => setJumping(false), JUMP_MS);
+  }, [jumping, playJump]);
+
+  const triggerSelect = useCallback(() => {
+    if (!activeItem) return;
+    playConfirm();
+    onSelect(activeItem.id);
+  }, [activeItem, onSelect, playConfirm]);
+
+  const startTouchMove = useCallback((direction: TouchDirection) => {
+    keys.current.left = direction === "left";
+    keys.current.right = direction === "right";
+    setTouchDirection(direction);
+    playNavigate();
+  }, [playNavigate]);
+
+  const endTouchMove = useCallback(() => {
+    keys.current.left = false;
+    keys.current.right = false;
+    setTouchDirection(null);
+  }, []);
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth);
@@ -239,14 +332,11 @@ export default function SideScrollSelect({
       if (e.key === "ArrowRight" && !e.repeat) playNavigate();
       if (e.key === "ArrowDown") setCrouching(true);
       if (e.key === "ArrowUp" && !e.repeat) {
-        setJumping(true);
-        playJump();
-        window.setTimeout(() => setJumping(false), JUMP_MS);
+        triggerJump();
       }
       if ((e.key === "Enter" || e.key === " ") && activeItem) {
         e.preventDefault();
-        playConfirm();
-        onSelect(activeItem.id);
+        triggerSelect();
       }
       if (e.key === "?") setShowHelp((v) => !v);
     };
@@ -261,7 +351,7 @@ export default function SideScrollSelect({
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, [activeItem, onSelect, playConfirm, playJump, playNavigate]);
+  }, [activeItem, playNavigate, triggerJump, triggerSelect]);
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
   const walking = keys.current.left !== keys.current.right;
@@ -304,7 +394,7 @@ export default function SideScrollSelect({
       </div>
 
       {/* Static floor */}
-      <div className={`absolute inset-x-0 bottom-28 z-10 h-2 shadow-[0_0_24px_currentColor] ${isCyan ? "bg-cyan-300/40 text-cyan-300" : "bg-orange-300/40 text-orange-300"}`} />
+      <div className={`absolute inset-x-0 bottom-36 z-10 h-2 shadow-[0_0_24px_currentColor] md:bottom-28 ${isCyan ? "bg-cyan-300/40 text-cyan-300" : "bg-orange-300/40 text-orange-300"}`} />
 
       {/* Scrolling world */}
       <div
@@ -330,7 +420,7 @@ export default function SideScrollSelect({
           );
         })}
 
-        <div className="absolute bottom-[5.3rem] -translate-x-1/2" style={{ left: charX }}>
+        <div className="absolute bottom-[7.9rem] -translate-x-1/2 md:bottom-[5.3rem]" style={{ left: charX }}>
           <PixelCharacter
             variant={spriteVariant}
             facing={facing}
@@ -343,10 +433,10 @@ export default function SideScrollSelect({
       </div>
 
       {/* Controls help */}
-      <div className="absolute bottom-4 right-4 z-20 md:bottom-8 md:right-8">
+      <div className="absolute bottom-[calc(env(safe-area-inset-bottom)+6rem)] right-4 z-20 md:bottom-8 md:right-8">
         {showHelp && (
           <div
-            className={`mb-4 w-[28rem] border-4 bg-black/85 p-6 font-rajdhani text-base text-white/80 backdrop-blur-sm ${
+            className={`mb-4 w-[min(28rem,calc(100vw-2rem))] border-4 bg-black/85 p-6 font-rajdhani text-base text-white/80 backdrop-blur-sm ${
               isCyan ? "border-cyan-300/50" : "border-orange-300/50"
             }`}
           >
@@ -372,6 +462,16 @@ export default function SideScrollSelect({
           ?
         </button>
       </div>
+
+      <MobileTouchControls
+        isCyan={isCyan}
+        movingDirection={touchDirection}
+        canSelect={Boolean(activeItem)}
+        onMoveStart={startTouchMove}
+        onMoveEnd={endTouchMove}
+        onJump={triggerJump}
+        onSelect={triggerSelect}
+      />
     </section>
   );
 }
