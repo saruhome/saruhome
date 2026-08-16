@@ -14,7 +14,6 @@ type CaseStudyProject = {
   title: string;
   subtitle: string;
   role: string;
-  deliverables: string[];
   timeline: string;
   tools?: string;
   client?: string;
@@ -35,10 +34,6 @@ type CaseStudyProject = {
     imageUrl?: string;
   }[];
   takeaways: string[];
-  metrics?: {
-    label: string;
-    value: string;
-  }[];
 };
 
 const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = {
@@ -48,12 +43,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Sokdak",
       subtitle: "Korean Slang & Neologism Learning App",
       role: "UX/UI Designer",
-      deliverables: [
-        "Concept & Character Design",
-        "Brand Identity",
-        "UI Design",
-        "Interactive Prototype",
-      ],
       timeline: "Ongoing",
       tools: "Figma",
       client: "Team Project",
@@ -112,11 +101,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Seek and Sight",
       subtitle: "Inclusive STEAM Literacy Platform for Children",
       role: "UX/UI Designer, Social Media Designer",
-      deliverables: [
-        "Landing Page UX/UI Design",
-        "Character & Brand System",
-        "Weekly Social Media Content",
-      ],
       timeline: "Ongoing (2025–present)",
       tools: "Figma",
       client: "Hope For Tomorrow / Seek and Sight",
@@ -175,12 +159,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Locaverse GmbH",
       subtitle: "Business.Locaverse.at — Lead-Gen Landing Page Redesign",
       role: "UX/UI Designer, Intern",
-      deliverables: [
-        "Landing Page UX/UI Redesign",
-        "Before & After Comparison",
-        "Lead-Gen Funnel Design",
-        "Interactive Prototype",
-      ],
       timeline: "3 months (Jul–Sep 2023)",
       tools: "Figma, Photoshop",
       client: "Locaverse GmbH",
@@ -240,12 +218,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Smart Wash",
       subtitle: "Smart Home Appliance UX/UI Design",
       role: "UX Designer",
-      deliverables: [
-        "Visual Research",
-        "Wireframing",
-        "Visual Design",
-        "Interactive Prototype",
-      ],
       timeline: "Personal Project (2022)",
       tools: "Figma",
       client: "Personal Project",
@@ -305,13 +277,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "ecotek",
       subtitle: "Ökologie neu erleben — Rebrand for an Eco-Architecture Firm",
       role: "Brand & UI/UX Designer",
-      deliverables: [
-        "Naming & Rebrand Strategy",
-        "Logo & Brand Identity",
-        "Color & Typography System",
-        "Marketing Website Design",
-        "Print Ad Campaign",
-      ],
       timeline: "School Project (2023)",
       tools: "Illustrator, Photoshop, Figma",
       client: "Digital Campus Vorarlberg (based on Arslan.Fenkart, a real Vorarlberg architecture firm)",
@@ -368,7 +333,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "속닥",
       subtitle: "한국어 신조어·슬랭 학습 앱",
       role: "UX/UI 디자이너",
-      deliverables: ["컨셉 & 캐릭터 디자인", "브랜드 아이덴티티", "UI 디자인", "인터랙티브 프로토타입"],
       timeline: "진행 중",
       tools: "Figma",
       client: "팀 프로젝트",
@@ -427,7 +391,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Seek and Sight",
       subtitle: "아동을 위한 포용적 STEAM 문해력 플랫폼",
       role: "UX/UI 디자이너, 소셜 미디어 디자이너",
-      deliverables: ["랜딩 페이지 UX/UI 디자인", "캐릭터 & 브랜드 시스템", "주간 소셜 미디어 콘텐츠"],
       timeline: "진행 중 (2025–현재)",
       tools: "Figma",
       client: "Hope For Tomorrow / Seek and Sight",
@@ -486,7 +449,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Locaverse GmbH",
       subtitle: "Business.Locaverse.at — 리드 제너레이션 랜딩 페이지 리디자인",
       role: "UX/UI 디자이너, 인턴",
-      deliverables: ["랜딩 페이지 UX/UI 리디자인", "비포 & 애프터 비교", "리드젠 퍼널 디자인", "인터랙티브 프로토타입"],
       timeline: "3개월 (2023년 7월–9월)",
       tools: "Figma, Photoshop",
       client: "Locaverse GmbH",
@@ -546,7 +508,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Smart Wash",
       subtitle: "스마트 홈 가전 UX/UI 디자인",
       role: "UX 디자이너",
-      deliverables: ["비주얼 리서치", "와이어프레이밍", "비주얼 디자인", "인터랙티브 프로토타입"],
       timeline: "개인 프로젝트 (2022)",
       tools: "Figma",
       client: "개인 프로젝트",
@@ -606,7 +567,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "ecotek",
       subtitle: "Ökologie neu erleben — 친환경 건축 회사 리브랜딩",
       role: "브랜드 & UI/UX 디자이너",
-      deliverables: ["네이밍 & 리브랜딩 전략", "로고 & 브랜드 아이덴티티", "컬러 & 타이포그래피 시스템", "마케팅 웹사이트 디자인", "인쇄 광고 캠페인"],
       timeline: "학교 프로젝트 (2023)",
       tools: "Illustrator, Photoshop, Figma",
       client: "Digital Campus Vorarlberg (실제 포어아를베르크 건축 회사 Arslan.Fenkart 기반)",
@@ -663,7 +623,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Sokdak",
       subtitle: "Lern-App für koreanischen Slang & Neologismen",
       role: "UX/UI-Designerin",
-      deliverables: ["Konzept- & Charakterdesign", "Markenidentität", "UI-Design", "Interaktiver Prototyp"],
       timeline: "Laufend",
       tools: "Figma",
       client: "Teamprojekt",
@@ -722,7 +681,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Seek and Sight",
       subtitle: "Inklusive STEAM-Lese- und Schreibplattform für Kinder",
       role: "UX/UI-Designerin, Social-Media-Designerin",
-      deliverables: ["UX/UI-Design der Landingpage", "Charakter- & Markensystem", "Wöchentlicher Social-Media-Content"],
       timeline: "Laufend (2025–heute)",
       tools: "Figma",
       client: "Hope For Tomorrow / Seek and Sight",
@@ -781,7 +739,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Locaverse GmbH",
       subtitle: "Business.Locaverse.at — Redesign der Lead-Gen-Landingpage",
       role: "UX/UI-Designerin, Praktikantin",
-      deliverables: ["UX/UI-Redesign der Landingpage", "Vorher-Nachher-Vergleich", "Lead-Gen-Funnel-Design", "Interaktiver Prototyp"],
       timeline: "3 Monate (Jul–Sep 2023)",
       tools: "Figma, Photoshop",
       client: "Locaverse GmbH",
@@ -841,7 +798,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "Smart Wash",
       subtitle: "UX/UI-Design für ein smartes Haushaltsgerät",
       role: "UX-Designerin",
-      deliverables: ["Visuelle Recherche", "Wireframing", "Visuelles Design", "Interaktiver Prototyp"],
       timeline: "Persönliches Projekt (2022)",
       tools: "Figma",
       client: "Persönliches Projekt",
@@ -901,7 +857,6 @@ const caseStudyDataByLang: Record<Language, Record<string, CaseStudyProject>> = 
       title: "ecotek",
       subtitle: "Ökologie neu erleben — Rebranding für ein Öko-Architekturbüro",
       role: "Brand- & UI/UX-Designerin",
-      deliverables: ["Namensgebung & Rebranding-Strategie", "Logo & Markenidentität", "Farb- & Typografiesystem", "Marketing-Website-Design", "Print-Anzeigenkampagne"],
       timeline: "Schulprojekt (2023)",
       tools: "Illustrator, Photoshop, Figma",
       client: "Digital Campus Vorarlberg (basierend auf Arslan.Fenkart, einem realen Vorarlberger Architekturbüro)",
@@ -1154,27 +1109,6 @@ function TakeawaysPage({ project }: { project: CaseStudyProject }) {
   );
 }
 
-function BusinessImpactPage({ project }: { project: CaseStudyProject }) {
-  const { t } = useLanguage();
-  return (
-    <PageShell>
-      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
-        {t("businessImpact")}
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {project.metrics!.map((metric, idx) => (
-          <div key={idx} className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm">
-            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-              {metric.label}
-            </p>
-            <p className="font-bebas text-3xl font-bold text-cyan-300">{metric.value}</p>
-          </div>
-        ))}
-      </div>
-    </PageShell>
-  );
-}
-
 function FooterPage({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
   return (
@@ -1224,7 +1158,6 @@ export default function CaseStudy({
       <DesignShowcasePage key={showcase.title} showcase={showcase} />
     )),
     <TakeawaysPage key="takeaways" project={project} />,
-    ...(project.metrics ? [<BusinessImpactPage key="impact" project={project} />] : []),
     <FooterPage key="footer" onBack={onBack} />,
   ];
 

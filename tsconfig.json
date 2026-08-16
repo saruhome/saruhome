@@ -22,10 +22,8 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["client/src/*"],
-      "@shared/*": ["shared/*"],
-      "@assets/*": ["attached_assets/*"]
+      "@/*": ["client/src/*"]
     }
   },
-  "include": ["client/src", "server", "shared", "vite.config.ts"]
+  "include": ["client/src", "vite.config.ts"]
 }
