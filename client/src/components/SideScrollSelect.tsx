@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
+import { assetUrl } from "../lib/assetUrl";
 
 /**
  * Side-scroll "run to select" screen.
@@ -19,8 +20,8 @@ const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
 
 const CHIBI_SPRITE_SHEET = {
-  designer: "/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png",
-  dancer: "/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png",
+  designer: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
+  dancer: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
 } as const;
 
 const spritePosition = {
@@ -29,7 +30,7 @@ const spritePosition = {
   jump: "0% 100%",
 } as const;
 
-const ARCHIVE_STAGE = "/manus-storage/portfolio-arcade-stage_9f866b47.png";
+const ARCHIVE_STAGE = assetUrl("portfolio-arcade-stage_9f866b47.png", "portfolio-arcade-stage.png");
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 

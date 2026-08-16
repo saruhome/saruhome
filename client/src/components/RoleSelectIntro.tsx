@@ -5,6 +5,7 @@ import DesignerPortfolioSlider from "./DesignerPortfolioSlider";
 import DancerPortfolioSlider from "./DancerPortfolioSlider";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
+import { assetUrl } from "../lib/assetUrl";
 
 /**
  * Design philosophy — Neo-Arcade Character Lobby:
@@ -29,7 +30,7 @@ type RoleOption = {
   stats: [string, string, string];
 };
 
-const LOBBY_BACKGROUND = "/manus-storage/character-select-arcade-lobby_99fb11d2.png";
+const LOBBY_BACKGROUND = assetUrl("character-select-arcade-lobby_99fb11d2.png", "character-select-arcade-lobby.png");
 
 const roles: RoleOption[] = [
   {
@@ -37,9 +38,9 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 01",
     title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
-    imageSrc: "/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png",
+    imageSrc: assetUrl("Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png", "designer-portrait.png"),
     imageAlt: "Close-up portrait of a UX designer wearing gold-rimmed glasses",
-    spriteSheet: "/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png",
+    spriteSheet: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
     primary: "#37E7FF",
     dark: "#06101E",
     stats: ["FLOW 98", "UX 96", "SYSTEMS 92"],
@@ -49,9 +50,9 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 02",
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
-    imageSrc: "/manus-storage/071222_Sunghee15_ig_26d4d224.jpg",
+    imageSrc: assetUrl("071222_Sunghee15_ig_26d4d224.jpg", "dancer-portrait.jpg"),
     imageAlt: "Close-up portrait of a dancer with blonde hair and elegant presence",
-    spriteSheet: "/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png",
+    spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],

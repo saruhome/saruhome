@@ -4,6 +4,7 @@ import CaseStudy from "./CaseStudy";
 import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useRoleTheme } from "../contexts/RoleContext";
+import { assetUrl } from "../lib/assetUrl";
 
 type DesignProject = {
   id: string;
@@ -163,7 +164,7 @@ function AboutMeSkillsSlide() {
             <div className="flex items-center justify-center">
               <div className="relative h-80 w-64 overflow-hidden border-2 border-cyan-400/50 rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)]">
                 <img
-                  src="/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png"
+                  src={assetUrl("Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png", "designer-portrait.png")}
                   alt={t("designerAndDancer")}
                   className="h-full w-full object-cover"
                 />

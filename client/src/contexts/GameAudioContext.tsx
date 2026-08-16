@@ -1,9 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { PlayerRole } from "./RoleContext";
+import { assetUrl } from "../lib/assetUrl";
 
 const ROLE_TRACKS: Record<PlayerRole, string> = {
-  designer: "/manus-storage/designer-archive-loop_da115ca8.mp3",
-  dancer: "/manus-storage/dancer-archive-loop_084713db.mp3",
+  designer: assetUrl("designer-archive-loop_da115ca8.mp3", "designer-archive-loop.mp3"),
+  dancer: assetUrl("dancer-archive-loop_084713db.mp3", "dancer-archive-loop.mp3"),
 };
 
 type GameAudioContextValue = {
