@@ -54,37 +54,35 @@ function PixelCharacter({
   const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
   const [spriteReady, setSpriteReady] = useState(false);
   const spriteState = jumping ? "jump" : walking ? "walk" : "idle";
+  const currentSpritePosition = walking
+    ? frame === 0 ? spritePosition.idle : spritePosition.walk
+    : spritePosition[spriteState];
 
   return (
-    <div className="relative h-40 w-28 origin-bottom">
+    <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
       <div
-        className="absolute inset-x-0 bottom-0 h-7 rounded-[50%] blur-md"
-        style={{ background: `${accent}55`, transform: `scaleX(${walking ? 1.12 : 0.92})` }}
-      />
-      <div
-        className="absolute inset-x-0 bottom-2 h-36 origin-bottom transition-transform duration-150 ease-out"
+        className="absolute inset-x-0 bottom-2 h-[92%] origin-bottom transition-transform duration-100 ease-out"
         style={{
           transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
         }}
       >
-        <div className="absolute inset-0 scale-110 opacity-45 blur-md" style={{ background: accent, clipPath: "polygon(35% 0,65% 0,95% 92%,5% 92%)" }} />
         {!spriteReady && (
           <div className="absolute inset-0 mx-auto w-20 [image-rendering:pixelated]" aria-hidden="true">
             <div className="absolute left-1/2 top-0 h-6 w-16 -translate-x-1/2 rounded-t-sm" style={{ background: variant === "designer" ? "#132534" : "#f4c98c" }} />
             <div className="absolute left-1/2 top-4 h-11 w-12 -translate-x-1/2 rounded-sm" style={{ background: variant === "designer" ? "#f1c8a7" : "#f7d0ac" }} />
             {variant === "designer" && <div className="absolute left-1/2 top-8 h-2 w-14 -translate-x-1/2 border-x-2 border-cyan-200/90" />}
             <div className="absolute left-1/2 top-[3.7rem] h-12 w-16 -translate-x-1/2 border-4 rounded-[3px]" style={{ background: accent, borderColor: dark }} />
-            <div className="absolute left-3 top-[6.1rem] h-10 w-5 rounded-sm" style={{ background: dark }} />
-            <div className="absolute right-3 top-[6.1rem] h-10 w-5 rounded-sm" style={{ background: dark }} />
+            <div className={`absolute left-3 top-[6.1rem] h-10 w-5 rounded-sm ${walking ? "archive-run-limb-left" : ""}`} style={{ background: dark }} />
+            <div className={`absolute right-3 top-[6.1rem] h-10 w-5 rounded-sm ${walking ? "archive-run-limb-right" : ""}`} style={{ background: dark }} />
           </div>
         )}
         <img src={CHIBI_SPRITE_SHEET[variant]} alt="" aria-hidden="true" draggable={false} onLoad={() => setSpriteReady(true)} onError={() => setSpriteReady(false)} className="sr-only" />
         {spriteReady && (
           <div
-            className="relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+            className={`relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges] ${walking ? "archive-run-cycle" : ""}`}
             style={{
               backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
-              backgroundPosition: spritePosition[spriteState],
+              backgroundPosition: currentSpritePosition,
               backgroundSize: "200% 200%",
             }}
           />
@@ -229,6 +227,8 @@ function MobileTouchControls({
 export default function SideScrollSelect({
   items,
   onSelect,
+  onBack,
+  backLabel,
   accentColor,
   spriteVariant,
   eyebrow,
@@ -236,6 +236,8 @@ export default function SideScrollSelect({
 }: {
   items: SideScrollItem[];
   onSelect: (id: string) => void;
+  onBack: () => void;
+  backLabel: string;
   accentColor: "cyan" | "orange";
   spriteVariant: "designer" | "dancer";
   eyebrow: string;
@@ -375,16 +377,23 @@ export default function SideScrollSelect({
       <div className={`pointer-events-none absolute inset-0 ${isCyan ? "bg-[linear-gradient(180deg,rgba(3,12,25,0.66),rgba(3,12,25,0.1)_45%,rgba(3,12,25,0.82))]" : "bg-[linear-gradient(180deg,rgba(30,5,3,0.7),rgba(64,11,4,0.12)_45%,rgba(30,5,3,0.86))]"}`} />
       <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
 
-      <div className="absolute left-4 top-4 z-30 flex items-center gap-3 md:left-8 md:top-7">
-        <div className={`border-2 px-3 py-1.5 font-rajdhani text-xs font-black uppercase tracking-[0.25em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
+      <div className="absolute inset-x-4 top-4 z-30 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3">
+        <button
+          type="button"
+          onClick={onBack}
+          className={`shrink-0 skew-x-[-12deg] border-2 bg-black/75 px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+        >
+          <span className="inline-block skew-x-[12deg]">&lt; {backLabel}</span>
+        </button>
+        <div className={`shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
           {playerLabel}
         </div>
-        <div className="hidden border border-white/20 bg-black/45 px-3 py-1.5 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em] text-white/70 sm:block">
+        <div className="border border-white/20 bg-black/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm md:text-[0.65rem] md:tracking-[0.22em]">
           {archiveLabel}
         </div>
       </div>
 
-      <div className="relative z-10 px-4 pt-20 text-center md:px-8 md:pt-8">
+      <div className="relative z-10 px-4 pt-28 text-center md:px-8 md:pt-28">
         <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.42em] md:text-sm ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
           {eyebrow}
         </p>
@@ -420,7 +429,7 @@ export default function SideScrollSelect({
           );
         })}
 
-        <div className="absolute bottom-[7.9rem] -translate-x-1/2 md:bottom-[5.3rem]" style={{ left: charX }}>
+        <div className="absolute bottom-[5.4rem] -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
           <PixelCharacter
             variant={spriteVariant}
             facing={facing}

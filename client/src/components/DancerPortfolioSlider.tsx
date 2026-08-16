@@ -467,10 +467,11 @@ export default function DancerPortfolioSlider({
   return (
     <div className="relative h-dvh overflow-hidden bg-black">
       <LanguageSwitcher elevated />
-      <BackButton label={t("backToSelect").toUpperCase()} onClick={onBack} />
 
       <SideScrollSelect
         items={items}
+        onBack={onBack}
+        backLabel={t("backToSelect").toUpperCase()}
         accentColor={palette.accentColor}
         spriteVariant="dancer"
         eyebrow={ui.playerArchive}

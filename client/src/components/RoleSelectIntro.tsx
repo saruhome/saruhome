@@ -14,7 +14,7 @@ import { useGameAudio } from "../contexts/GameAudioContext";
 
 type Role = "designer" | "dancer";
 type View = "main" | Role;
-type SpriteState = "idle" | "walk" | "jump" | "celebrate" | "wave";
+type SpriteState = "idle" | "walk" | "jump" | "celebrate" | "design" | "dance";
 
 type RoleOption = {
   id: Role;
@@ -24,7 +24,6 @@ type RoleOption = {
   imageSrc: string;
   imageAlt: string;
   spriteSheet: string;
-  waveSprite: string;
   primary: string;
   dark: string;
   stats: [string, string, string];
@@ -41,7 +40,6 @@ const roles: RoleOption[] = [
     imageSrc: "/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png",
     imageAlt: "Close-up portrait of a UX designer wearing gold-rimmed glasses",
     spriteSheet: "/manus-storage/designer-chibi-sprite-sheet_011ed7b7.png",
-    waveSprite: "/manus-storage/designer-select-wave-sprite_a08cc205.png",
     primary: "#37E7FF",
     dark: "#06101E",
     stats: ["FLOW 98", "UX 96", "SYSTEMS 92"],
@@ -54,7 +52,6 @@ const roles: RoleOption[] = [
     imageSrc: "/manus-storage/071222_Sunghee15_ig_26d4d224.jpg",
     imageAlt: "Close-up portrait of a dancer with blonde hair and elegant presence",
     spriteSheet: "/manus-storage/dancer-chibi-sprite-sheet_e9dd17a4.png",
-    waveSprite: "/manus-storage/dancer-select-wave-sprite_7d9af2bc.png",
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -66,28 +63,19 @@ const spritePositions: Record<SpriteState, string> = {
   walk: "100% 0%",
   jump: "0% 100%",
   celebrate: "100% 100%",
-  wave: "0% 0%",
+  design: "0% 0%",
+  dance: "100% 0%",
 };
 
 function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
   const [ready, setReady] = useState(false);
-  const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "wave" ? "chibi-wave" : "chibi-celebrate";
+  const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
 
   return (
     <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
       <img className="sr-only" src={role.spriteSheet} alt="" onLoad={() => setReady(true)} onError={() => setReady(false)} />
-      <img className="sr-only" src={role.waveSprite} alt="" />
-      <div className="absolute inset-x-4 bottom-1 h-7 rounded-[50%] blur-md" style={{ background: `${role.primary}55` }} />
       <div className={`absolute inset-0 ${animationClass}`}>
-        {state === "wave" ? (
-          <div
-            className="chibi-wave-frames h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
-            style={{
-              backgroundImage: `url(${role.waveSprite})`,
-              backgroundSize: "400% 100%",
-            }}
-          />
-        ) : ready ? (
+        {ready ? (
           <div
             className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
             style={{
@@ -111,6 +99,19 @@ function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) 
             <div className="absolute right-[1.1rem] top-[6.8rem] h-9 w-5 rounded-b-md" style={{ background: role.dark }} />
             <div className="absolute left-[0.85rem] top-[8.5rem] h-2 w-6 rounded-sm" style={{ background: role.primary }} />
             <div className="absolute right-[0.85rem] top-[8.5rem] h-2 w-6 rounded-sm" style={{ background: role.primary }} />
+          </div>
+        )}
+        {state === "design" && (
+          <div className="chibi-design-tablet absolute left-[51%] top-[53%] h-[19%] w-[28%] -rotate-[13deg] border-2 border-cyan-100 bg-[#06283b]/95 shadow-[0_0_14px_rgba(55,231,255,0.7)]">
+            <span className="absolute left-[16%] top-[24%] h-px w-[66%] bg-cyan-100/90" />
+            <span className="absolute left-[16%] top-[49%] h-px w-[43%] bg-cyan-300/80" />
+            <span className="absolute right-[15%] top-[64%] h-[18%] w-[16%] border border-cyan-200/80" />
+          </div>
+        )}
+        {state === "dance" && (
+          <div className="pointer-events-none absolute inset-x-[17%] bottom-[19%] h-[40%]" aria-hidden="true">
+            <span className="chibi-dance-arm-left absolute left-0 top-[21%] h-[9%] w-[34%] origin-right rounded-full bg-[#ffb36e] shadow-[0_0_8px_rgba(255,107,23,0.45)]" />
+            <span className="chibi-dance-arm-right absolute right-0 top-[31%] h-[9%] w-[34%] origin-left rounded-full bg-[#ffb36e] shadow-[0_0_8px_rgba(255,107,23,0.45)]" />
           </div>
         )}
       </div>
@@ -158,7 +159,7 @@ function RolePanel({
   const isActive = activeRole === role.id;
   const isLocked = lockedRole === role.id;
   const isOtherLocked = lockedRole !== null && !isLocked;
-  const state: SpriteState = isLocked ? "celebrate" : isActive ? "wave" : "idle";
+  const state: SpriteState = isLocked ? "celebrate" : isActive ? (isDesigner ? "design" : "dance") : "idle";
   const desktopFlexClass =
     activeRole === "designer"
       ? isDesigner ? "md:flex-[0.75]" : "md:flex-[0.25]"

@@ -353,29 +353,83 @@
   }
 }
 
-@keyframes chibi-wave {
+@keyframes chibi-design {
   0%,
   100% {
-    transform: translateY(0) rotate(-1deg) scale(1);
+    transform: translateY(0) rotate(-2deg) scale(1);
+  }
+  42% {
+    transform: translateY(-4px) rotate(2deg) scale(1.025, 0.985);
+  }
+  70% {
+    transform: translateY(-1px) rotate(-1deg) scale(1);
+  }
+}
+
+@keyframes chibi-tablet-draw {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-13deg);
   }
   50% {
-    transform: translateY(-6px) rotate(2deg) scale(1.035, 0.98);
+    transform: translate(-5px, 4px) rotate(-8deg);
   }
 }
 
-@keyframes chibi-wave-frames {
-  to {
-    background-position: 100% 0;
+@keyframes chibi-dance {
+  0%,
+  100% {
+    transform: translateX(-6px) translateY(0) rotate(-5deg) scale(1);
+  }
+  25% {
+    transform: translateX(5px) translateY(-7px) rotate(5deg) scale(1.04, 0.96);
+  }
+  50% {
+    transform: translateX(7px) translateY(1px) rotate(7deg) scale(0.98, 1.04);
+  }
+  75% {
+    transform: translateX(-4px) translateY(-5px) rotate(-4deg) scale(1.035, 0.975);
   }
 }
 
-.chibi-wave {
-  animation: chibi-wave 0.72s ease-in-out infinite;
+@keyframes chibi-dance-arm-left {
+  0%,
+  100% { transform: rotate(-38deg); }
+  50% { transform: rotate(26deg); }
 }
 
-.chibi-wave-frames {
-  animation: chibi-wave-frames 0.78s steps(4, end) infinite;
+@keyframes chibi-dance-arm-right {
+  0%,
+  100% { transform: rotate(32deg); }
+  50% { transform: rotate(-26deg); }
 }
+
+@keyframes archive-run-cycle {
+  0%,
+  100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-3px) rotate(1deg); }
+}
+
+@keyframes archive-run-limb-left {
+  0%,
+  100% { transform: rotate(11deg) translateY(0); }
+  50% { transform: rotate(-11deg) translateY(-2px); }
+}
+
+@keyframes archive-run-limb-right {
+  0%,
+  100% { transform: rotate(-11deg) translateY(-2px); }
+  50% { transform: rotate(11deg) translateY(0); }
+}
+
+.chibi-design { animation: chibi-design 1.06s ease-in-out infinite; }
+.chibi-design-tablet { animation: chibi-tablet-draw 0.7s ease-in-out infinite; }
+.chibi-dance { animation: chibi-dance 0.92s ease-in-out infinite; }
+.chibi-dance-arm-left { animation: chibi-dance-arm-left 0.92s ease-in-out infinite; }
+.chibi-dance-arm-right { animation: chibi-dance-arm-right 0.92s ease-in-out infinite; }
+.archive-run-cycle { animation: archive-run-cycle 0.26s steps(2, end) infinite; }
+.archive-run-limb-left { transform-origin: 50% 8%; animation: archive-run-limb-left 0.26s steps(2, end) infinite; }
+.archive-run-limb-right { transform-origin: 50% 8%; animation: archive-run-limb-right 0.26s steps(2, end) infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   *,
