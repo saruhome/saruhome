@@ -17,6 +17,13 @@ const SPEED = 260; // px/sec
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
 
+const PIXEL_AVATAR = {
+  designer: "/manus-storage/designer-pixel-runner_6b00f051.png",
+  dancer: "/manus-storage/dancer-pixel-runner_e6499923.png",
+} as const;
+
+const ARCHIVE_STAGE = "/manus-storage/portfolio-arcade-stage_9f866b47.png";
+
 function playJumpSound() {
   const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!AudioCtx) return;
@@ -54,31 +61,48 @@ function PixelCharacter({
 }) {
   const accent = variant === "designer" ? "#22d3ee" : "#fb923c";
   const dark = variant === "designer" ? "#0e7490" : "#c2410c";
-  const legAngle = walking ? (frame === 0 ? -20 : 20) : 0;
+  const roleLabel = variant === "designer" ? "PLAYER 01" : "PLAYER 02";
+  const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
+  const [spriteReady, setSpriteReady] = useState(false);
 
   return (
-    <div
-      className="relative h-32 w-20 origin-bottom transition-transform duration-150 ease-out"
-      style={{
-        transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${
-          jumping ? -32 : crouching ? 16 : 0
-        }px) scaleY(${crouching ? 0.72 : 1})`,
-      }}
-    >
-      <div className="absolute left-1/2 top-0 h-6 w-16 -translate-x-1/2 rounded-t-sm" style={{ background: "#2b1a12" }} />
-      <div className="absolute left-1/2 top-2 h-12 w-12 -translate-x-1/2 rounded-sm" style={{ background: "#f3c9a1" }} />
+    <div className="relative h-40 w-28 origin-bottom">
       <div
-        className="absolute left-1/2 top-14 h-12 w-16 -translate-x-1/2 rounded-[4px]"
-        style={{ background: accent, border: `4px solid ${dark}` }}
+        className="absolute inset-x-0 bottom-0 h-7 rounded-[50%] blur-md"
+        style={{ background: `${accent}55`, transform: `scaleX(${walking ? 1.12 : 0.92})` }}
       />
       <div
-        className="absolute left-[14px] top-[30px] h-10 w-6 origin-top rounded-[2px]"
-        style={{ background: dark, transform: `rotate(${legAngle}deg)` }}
-      />
+        className="absolute inset-x-0 bottom-2 h-36 origin-bottom transition-transform duration-150 ease-out"
+        style={{
+          transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
+        }}
+      >
+        <div className="absolute inset-0 scale-110 opacity-45 blur-md" style={{ background: accent, clipPath: "polygon(35% 0,65% 0,95% 92%,5% 92%)" }} />
+        {!spriteReady && (
+          <div className="absolute inset-0 mx-auto w-20 [image-rendering:pixelated]" aria-hidden="true">
+            <div className="absolute left-1/2 top-0 h-6 w-16 -translate-x-1/2 rounded-t-sm" style={{ background: variant === "designer" ? "#132534" : "#f4c98c" }} />
+            <div className="absolute left-1/2 top-4 h-11 w-12 -translate-x-1/2 rounded-sm" style={{ background: variant === "designer" ? "#f1c8a7" : "#f7d0ac" }} />
+            {variant === "designer" && <div className="absolute left-1/2 top-8 h-2 w-14 -translate-x-1/2 border-x-2 border-cyan-200/90" />}
+            <div className="absolute left-1/2 top-[3.7rem] h-12 w-16 -translate-x-1/2 border-4 rounded-[3px]" style={{ background: accent, borderColor: dark }} />
+            <div className="absolute left-3 top-[6.1rem] h-10 w-5 rounded-sm" style={{ background: dark }} />
+            <div className="absolute right-3 top-[6.1rem] h-10 w-5 rounded-sm" style={{ background: dark }} />
+          </div>
+        )}
+        <img
+          src={PIXEL_AVATAR[variant]}
+          alt=""
+          draggable={false}
+          onLoad={() => setSpriteReady(true)}
+          onError={() => setSpriteReady(false)}
+          className={`relative h-full w-full object-contain transition-opacity duration-300 [image-rendering:pixelated] [image-rendering:crisp-edges] ${spriteReady ? "opacity-100" : "opacity-0"}`}
+        />
+      </div>
       <div
-        className="absolute right-[14px] top-[30px] h-10 w-6 origin-top rounded-[2px]"
-        style={{ background: dark, transform: `rotate(${-legAngle}deg)` }}
-      />
+        className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap border px-2 py-0.5 font-rajdhani text-[0.6rem] font-black tracking-[0.2em] text-white"
+        style={{ borderColor: `${accent}99`, background: `${dark}dd` }}
+      >
+        {roleLabel}
+      </div>
     </div>
   );
 }
@@ -241,12 +265,34 @@ export default function SideScrollSelect({
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
   const walking = keys.current.left !== keys.current.right;
+  const playerLabel = spriteVariant === "designer" ? "PLAYER 01" : "PLAYER 02";
+  const archiveLabel = isCyan ? "DESIGN ARCHIVE" : "DANCE ARCHIVE";
 
   return (
     <section
       className={`relative h-full w-full overflow-hidden ${isCyan ? "bg-[#07111f]" : "bg-[#1a0503]"}`}
     >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-45"
+        style={{
+          backgroundImage: `url(${ARCHIVE_STAGE})`,
+          backgroundPosition: `${-cameraX * 0.16}px bottom`,
+          backgroundRepeat: "repeat-x",
+          backgroundSize: "auto 100%",
+          filter: isCyan ? "saturate(0.92) contrast(1.05)" : "hue-rotate(312deg) saturate(1.55) contrast(1.1)",
+        }}
+      />
+      <div className={`pointer-events-none absolute inset-0 ${isCyan ? "bg-[linear-gradient(180deg,rgba(3,12,25,0.66),rgba(3,12,25,0.1)_45%,rgba(3,12,25,0.82))]" : "bg-[linear-gradient(180deg,rgba(30,5,3,0.7),rgba(64,11,4,0.12)_45%,rgba(30,5,3,0.86))]"}`} />
       <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
+
+      <div className="absolute left-4 top-4 z-30 flex items-center gap-3 md:left-8 md:top-7">
+        <div className={`border-2 px-3 py-1.5 font-rajdhani text-xs font-black uppercase tracking-[0.25em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
+          {playerLabel}
+        </div>
+        <div className="hidden border border-white/20 bg-black/45 px-3 py-1.5 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em] text-white/70 sm:block">
+          {archiveLabel}
+        </div>
+      </div>
 
       <div className="relative z-10 px-4 pt-20 text-center md:px-8 md:pt-8">
         <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.42em] md:text-sm ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
@@ -258,7 +304,7 @@ export default function SideScrollSelect({
       </div>
 
       {/* Static floor */}
-      <div className={`absolute inset-x-0 bottom-28 z-10 h-2 ${isCyan ? "bg-cyan-300/30" : "bg-orange-300/30"}`} />
+      <div className={`absolute inset-x-0 bottom-28 z-10 h-2 shadow-[0_0_24px_currentColor] ${isCyan ? "bg-cyan-300/40 text-cyan-300" : "bg-orange-300/40 text-orange-300"}`} />
 
       {/* Scrolling world */}
       <div
@@ -283,7 +329,7 @@ export default function SideScrollSelect({
           );
         })}
 
-        <div className="absolute bottom-32 -translate-x-1/2" style={{ left: charX }}>
+        <div className="absolute bottom-[5.3rem] -translate-x-1/2" style={{ left: charX }}>
           <PixelCharacter
             variant={spriteVariant}
             facing={facing}
