@@ -170,7 +170,14 @@ function RolePanel({
       <RolePortrait role={role} activeRole={activeRole} />
       <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `radial-gradient(circle at ${isDesigner ? "24%" : "76%"} 24%, ${role.primary}55, transparent 38%)`, opacity: isActive ? 1 : 0.42 }} />
 
-      <div className={`pointer-events-none absolute z-20 hidden w-44 border-y border-white/45 bg-black/30 p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-sm md:block ${isDesigner ? "left-7 top-5 border-l" : "right-7 top-24 border-r"}`}>
+      <div
+        className={`pointer-events-none absolute z-20 hidden w-44 border-y p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-[2px] md:block ${isDesigner ? "left-7 top-5 border-l" : "right-7 top-24 border-r"}`}
+        style={{
+          background: `linear-gradient(135deg, ${role.dark}24 0%, rgba(0,0,0,0.1) 100%)`,
+          borderColor: `${role.primary}66`,
+          boxShadow: `0 10px 30px ${role.dark}30`,
+        }}
+      >
         <span className="block text-white/45">{t("archiveAccess")}</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {role.stats.map((stat) => <span key={stat} className="border px-1.5 py-0.5" style={{ borderColor: `${role.primary}88`, color: role.primary }}>{stat}</span>)}
@@ -230,12 +237,18 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-45" />
       <div className="pointer-events-none absolute left-1/2 top-0 z-20 h-full w-px -translate-x-1/2 bg-white/20 shadow-[0_0_28px_rgba(255,255,255,0.4)]" />
 
-      <header className="pointer-events-none absolute left-1/2 top-5 z-30 -translate-x-1/2 text-center md:top-8">
-        <p className="choose-banner font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.46em] text-white/70 md:text-xs">{t("chooseYourPlayer")}</p>
-        <div className="mt-1 flex items-center justify-center gap-3">
-          <span className="h-px w-10 bg-cyan-300/70" />
-          <span className="font-bebas text-2xl tracking-[0.18em] text-white">01 <span className="text-white/40">VS</span> 02</span>
-          <span className="h-px w-10 bg-orange-300/70" />
+      <header className="pointer-events-none absolute left-3 top-3 z-30 text-left md:left-1/2 md:top-8 md:-translate-x-1/2 md:text-center">
+        <div className="inline-flex items-center gap-2 border-y border-white/20 bg-black/20 px-2.5 py-1 font-rajdhani text-[0.48rem] font-black uppercase tracking-[0.23em] text-white/75 backdrop-blur-[2px] md:hidden">
+          <span className="max-w-[7.5rem] truncate">{t("chooseYourPlayer")}</span>
+          <span className="font-bebas text-sm tracking-[0.14em] text-white">01 <span className="text-white/40">/</span> 02</span>
+        </div>
+        <div className="hidden md:block">
+          <p className="choose-banner font-rajdhani text-xs font-black uppercase tracking-[0.46em] text-white/70">{t("chooseYourPlayer")}</p>
+          <div className="mt-1 flex items-center justify-center gap-3">
+            <span className="h-px w-10 bg-cyan-300/70" />
+            <span className="font-bebas text-2xl tracking-[0.18em] text-white">01 <span className="text-white/40">VS</span> 02</span>
+            <span className="h-px w-10 bg-orange-300/70" />
+          </div>
         </div>
       </header>
 
