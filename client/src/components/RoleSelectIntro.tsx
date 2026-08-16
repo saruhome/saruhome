@@ -188,7 +188,7 @@ function RolePanel({
         <ChibiAvatar role={role} state={state} />
       </div>
 
-      <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pb-10 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start text-left" : "items-end text-right"}`}>
+      <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
         <div className={`max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
           <p className="mb-2 inline-block skew-x-[-12deg] border px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.primary}1c`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
@@ -279,6 +279,17 @@ export default function RoleSelectIntro() {
       >
         {muted ? "Sound Off" : "Sound On"}
       </button>
+      {view === "main" && (
+        <a
+          href="https://buymeacoffee.com/saruhome"
+          target="_blank"
+          rel="noreferrer"
+          className="fixed bottom-4 left-[6.85rem] z-[70] border border-white/30 bg-black/65 px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm transition hover:border-[#ffdd00] hover:text-[#ffdd00] md:bottom-6 md:left-[8.5rem]"
+          aria-label="Support this portfolio on Buy Me a Coffee (opens in a new tab)"
+        >
+          Support
+        </a>
+      )}
       {view === "main" && <><LanguageSwitcher /><IntroScreen onSelect={setView} /></>}
       {view === "designer" && <DesignerPortfolioSlider onBack={returnToLobby} />}
       {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}

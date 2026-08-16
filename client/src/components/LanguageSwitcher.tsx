@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
-import { useRoleTheme } from "../contexts/RoleContext";
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
   const { language, setLanguage } = useLanguage();
-  const { palette } = useRoleTheme();
+  const [isOpen, setIsOpen] = useState(false);
 
   const languages: { code: Language; label: string }[] = [
     { code: "en", label: "EN" },
@@ -12,33 +12,42 @@ export function LanguageSwitcher() {
   ];
 
   return (
-    <div
-      className="fixed top-6 right-6 z-40 flex items-center gap-1 rounded-full border px-3 py-2 backdrop-blur-sm transition-all duration-300"
-      style={{
-        borderColor: `${palette.primary}80`,
-        background: `${palette.base}dc`,
-        boxShadow: `0 0 24px ${palette.primary}18`,
-      }}
-    >
-      {languages.map((lang, index) => (
-        <div key={lang.code}>
-          <button
-            onClick={() => setLanguage(lang.code)}
-            className={`px-2.5 py-1 text-xs font-rajdhani font-bold tracking-widest transition-all duration-300 hover:bg-white/10 ${
-              language === lang.code
-                ? "rounded-full"
-                : "text-white/60 hover:text-white/80"
-            }`}
-            style={language === lang.code ? { color: palette.primary, background: `${palette.primary}1f` } : undefined}
-            aria-label={`Switch to ${lang.label}`}
-          >
-            {lang.label}
-          </button>
-          {index < languages.length - 1 && (
-            <span className="inline-block mx-1 text-white/30">|</span>
-          )}
+    <div className={`fixed right-4 z-[70] md:bottom-6 md:right-6 ${elevated ? "bottom-[5.5rem]" : "bottom-4"}`}>
+      {isOpen && (
+        <div
+          id="language-options"
+          className="absolute bottom-full right-0 mb-2 flex items-center gap-1 border border-white/30 bg-black/65 p-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm"
+          role="menu"
+          aria-label="Language options"
+        >
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => {
+                setLanguage(lang.code);
+                setIsOpen(false);
+              }}
+              className={`min-w-9 px-2 py-1.5 transition-colors hover:bg-white/10 hover:text-white ${
+                language === lang.code ? "bg-white/15 text-white" : "text-white/60"
+              }`}
+              role="menuitem"
+              aria-label={`Switch to ${lang.label}`}
+            >
+              {lang.label}
+            </button>
+          ))}
         </div>
-      ))}
+      )}
+      <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        className="border border-white/30 bg-black/65 px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm transition hover:border-[var(--player-primary)] hover:text-white"
+        aria-expanded={isOpen}
+        aria-controls="language-options"
+        aria-label={isOpen ? "Close language menu" : "Open language menu"}
+      >
+        Lang {isOpen ? "−" : "+"}
+      </button>
     </div>
   );
 }

@@ -442,7 +442,7 @@ export default function DancerPortfolioSlider({
   if (view === "gallery") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-        <LanguageSwitcher />
+        <LanguageSwitcher elevated />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <VideoSlide />
       </div>
@@ -452,7 +452,7 @@ export default function DancerPortfolioSlider({
   if (view === "bio") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-        <LanguageSwitcher />
+        <LanguageSwitcher elevated />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
         <BioSlide />
       </div>
@@ -466,7 +466,7 @@ export default function DancerPortfolioSlider({
 
   return (
     <div className="relative h-dvh overflow-hidden bg-black">
-      <LanguageSwitcher />
+      <LanguageSwitcher elevated />
       <BackButton label={t("backToSelect").toUpperCase()} onClick={onBack} />
 
       <SideScrollSelect
