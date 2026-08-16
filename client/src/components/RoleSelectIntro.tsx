@@ -226,7 +226,7 @@ export default function RoleSelectIntro() {
     <main className="h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
       {view === "main" && (
         <>
-          <LanguageSwitcher />
+          <LanguageSwitcher theme="cyan" />
           <IntroScreen onSelect={setView} />
         </>
       )}
