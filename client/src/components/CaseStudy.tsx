@@ -2,13 +2,14 @@ import { useState, useEffect, ReactNode } from "react";
 import HorizontalSlider from "./HorizontalSlider";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
+import { assetUrl } from "../lib/assetUrl";
 
 /**
- * Design System — "Precision in Motion"
- * Dark mode base with Electric Cyan (#00F0FF) + Magenta (#FF00AA) accents
- * Minimalist, premium, energetic aesthetic
- * Butter-smooth 60fps animations, generous whitespace, excellent hierarchy
+ * Design System — Pixel Command Console
+ * Hard-edge 16-bit game panels with Cyan / Magenta signal light and readable project data.
  */
+
+const CASE_STUDY_CONSOLE = assetUrl("pixel-case-study-console_be8cc839.png", "pixel-case-study-console.png");
 
 type CaseStudyProject = {
   id: string;
@@ -961,7 +962,7 @@ function FadeInImage({ src, alt, className }: { src: string; alt: string; classN
     <img
       src={src}
       alt={alt}
-      className={`${className} transition-opacity duration-700 ${
+      className={`${className} [image-rendering:pixelated] transition-opacity duration-700 ${
         isLoaded ? "opacity-100" : "opacity-0"
       }`}
       onLoad={() => setIsLoaded(true)}
@@ -985,7 +986,7 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/80 backdrop-blur-md border-b border-cyan-500/20"
+          ? "bg-[#020711]/95 border-b-2 border-cyan-300/55 shadow-[0_4px_0_rgba(34,211,238,0.25)]"
           : "bg-transparent"
       }`}
     >
@@ -996,7 +997,7 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
         >
           <span className="inline-block skew-x-[12deg]">&lt; {t("backToWorks").toUpperCase()}</span>
         </button>
-        <div className="text-white/60 text-sm">{t("caseStudy")}</div>
+        <div className="pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100">{t("caseStudy")}</div>
       </div>
     </nav>
   );
@@ -1004,9 +1005,11 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
 
 function PageShell({ children }: { children: ReactNode }) {
   return (
-    <section className="relative flex h-full w-full items-center bg-black px-6 py-24 md:px-12">
-      <div className="pointer-events-none absolute inset-0 opacity-20 arcade-scanline" />
-      <div className="relative z-10 mx-auto w-full max-w-6xl">{children}</div>
+    <section className="relative flex h-full w-full items-center overflow-hidden bg-[#020711] px-6 py-24 md:px-12">
+      <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-70 [image-rendering:pixelated]" style={{ backgroundImage: `url(${CASE_STUDY_CONSOLE})` }} />
+      <div className="pointer-events-none absolute inset-0 bg-[#020711]/42" />
+      <div className="pointer-events-none absolute inset-0 opacity-30 arcade-scanline" />
+      <div className="relative z-10 mx-auto w-full max-w-6xl pixel-hud-panel !bg-[rgba(2,7,17,0.82)] border-cyan-300/55 p-5 md:p-8">{children}</div>
     </section>
   );
 }

@@ -9,8 +9,8 @@ import { assetUrl } from "../lib/assetUrl";
 
 /**
  * Design philosophy — Neo-Arcade Character Lobby:
- * a cinematic split-screen selection room combines portrait identity with a
- * role-specific chibi avatar, HUD-style stat modules, and a short launch state.
+ * a split-screen 16-bit selection room uses role-specific game environments,
+ * chibi sprites, hard-edge HUD modules, and a short launch state.
  */
 
 type Role = "designer" | "dancer";
@@ -22,8 +22,6 @@ type RoleOption = {
   eyebrow: string;
   title: string;
   subtitle: string;
-  imageSrc: string;
-  imageAlt: string;
   spriteSheet: string;
   gestureGif: string;
   primary: string;
@@ -31,7 +29,7 @@ type RoleOption = {
   stats: [string, string, string];
 };
 
-const LOBBY_BACKGROUND = assetUrl("character-select-arcade-lobby_99fb11d2.png", "character-select-arcade-lobby.png");
+const PIXEL_LOBBY = assetUrl("pixel-portfolio-lobby-reference_c2b7d5df.png", "pixel-portfolio-lobby-reference.png");
 
 const roles: RoleOption[] = [
   {
@@ -39,8 +37,6 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 01",
     title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
-    imageSrc: assetUrl("Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png", "designer-portrait.png"),
-    imageAlt: "Close-up portrait of a UX designer wearing gold-rimmed glasses",
     spriteSheet: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
     gestureGif: assetUrl("designer-arcade-pixel-loop_be985bda.gif", "designer-arcade-pixel-loop.gif"),
     primary: "#37E7FF",
@@ -52,8 +48,6 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 02",
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
-    imageSrc: assetUrl("071222_Sunghee15_ig_26d4d224.jpg", "dancer-portrait.jpg"),
-    imageAlt: "Close-up portrait of a dancer with blonde hair and elegant presence",
     spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
     gestureGif: assetUrl("dancer-arcade-pixel-loop_ee9766f6.gif", "dancer-arcade-pixel-loop.gif"),
     primary: "#FF6B17",
@@ -96,23 +90,26 @@ function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) 
   );
 }
 
-function RolePortrait({ role, activeRole }: { role: RoleOption; activeRole: Role | null }) {
-  const [loaded, setLoaded] = useState(false);
+function RoleWorld({ role, activeRole }: { role: RoleOption; activeRole: Role | null }) {
   const isActive = activeRole === role.id;
+  const isDesigner = role.id === "designer";
 
   return (
-    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      {!loaded && <div className="absolute inset-0 z-10 bg-black/70" />}
-      <img
-        src={role.imageSrc}
-        alt={role.imageAlt}
-        loading="eager"
-        decoding="async"
-        onLoad={() => setLoaded(true)}
-        className={`h-full w-full object-cover transition-all duration-500 ease-in-out ${role.id === "designer" ? "object-[45%_35%]" : "object-center"} ${isActive ? "scale-105 brightness-110 saturate-125 contrast-110" : "scale-100 brightness-75 saturate-90"}`}
-      />
-      <div className="absolute inset-0 mix-blend-overlay opacity-35 arcade-scanline" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.9),rgba(0,0,0,0.16)_50%,rgba(0,0,0,0.16))]" />
+    <div
+      className="absolute inset-0 bg-cover bg-center transition-[filter,transform] duration-500"
+      style={{
+        backgroundImage: `url(${PIXEL_LOBBY})`,
+        backgroundSize: "200% 100%",
+        backgroundPosition: isDesigner ? "left center" : "right center",
+        imageRendering: "pixelated",
+        filter: isActive ? "brightness(1.12) saturate(1.25)" : "brightness(0.68) saturate(0.82)",
+        transform: isActive ? "scale(1.035)" : "scale(1)",
+      }}
+      aria-hidden="true"
+    >
+      <div className="absolute inset-0 pixel-world-shade" style={{ "--world-glow": role.primary } as React.CSSProperties} />
+      <div className="absolute inset-0 arcade-scanline opacity-40" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(0,0,0,0.92),transparent)]" />
     </div>
   );
 }
@@ -160,17 +157,15 @@ function RolePanel({
       onClick={() => onSelect(role.id)}
       className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,filter,opacity] duration-500 ease-in-out md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${isDesigner ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]" : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"}`}
     >
-      <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `linear-gradient(135deg, ${role.dark} 0%, ${role.primary}33 54%, ${role.dark} 100%)`, opacity: isActive || isLocked ? 0.92 : 0.68 }} />
-      <RolePortrait role={role} activeRole={activeRole} />
-      <div className="absolute inset-0 transition-opacity duration-500" style={{ background: `radial-gradient(circle at ${isDesigner ? "24%" : "76%"} 24%, ${role.primary}55, transparent 38%)`, opacity: isActive ? 1 : 0.42 }} />
+      <RoleWorld role={role} activeRole={activeRole} />
+      <div className="absolute inset-0 pixel-corner-frame" style={{ "--frame-color": role.primary } as React.CSSProperties} />
 
       <div
-        className={`pointer-events-none absolute top-5 z-20 hidden w-44 border-y p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] backdrop-blur-[2px] md:block ${isDesigner ? "left-7 border-l" : "right-7 border-r"}`}
+        className={`pointer-events-none absolute top-5 z-20 hidden w-44 pixel-hud-panel p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] md:block ${isDesigner ? "left-7" : "right-7"}`}
         style={{
-          background: `linear-gradient(135deg, ${role.dark}24 0%, rgba(0,0,0,0.1) 100%)`,
           borderColor: `${role.primary}66`,
-          boxShadow: `0 10px 30px ${role.dark}30`,
-        }}
+          "--hud-glow": role.primary,
+        } as React.CSSProperties}
       >
         <span className="block text-white/45">{t("archiveAccess")}</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
@@ -184,16 +179,16 @@ function RolePanel({
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
         <div className={`max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
-          <p className="mb-2 inline-block skew-x-[-12deg] border px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.primary}1c`, color: role.primary }}>
+          <p className="mb-2 inline-block pixel-tag px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.dark}e8`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
           </p>
-          <h2 className={`max-w-[7.8ch] skew-x-[-9deg] font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white drop-shadow-[7px_8px_0_rgba(0,0,0,0.38)] transition-[opacity,transform] duration-500 ${isCompressedKoreanDesigner ? "md:text-[clamp(2.8rem,3.1vw,3.8rem)]" : "md:text-[clamp(4.2rem,7.6vw,8.3rem)]"}`}>
+          <h2 className={`max-w-[7.8ch] pixel-title font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white transition-[opacity,transform] duration-500 ${isCompressedKoreanDesigner ? "md:text-[clamp(2.8rem,3.1vw,3.8rem)]" : "md:text-[clamp(4.2rem,7.6vw,8.3rem)]"}`}>
             {isDesigner ? <><span className="block">UX</span><span className={`block ${language === "kr" ? "whitespace-nowrap [word-break:keep-all]" : ""}`}>{designerTitle}</span></> : t("dancer")}
           </h2>
           <p className="mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/70 md:mt-3 md:text-sm">
             {isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}
           </p>
-          <span className="mt-4 inline-block border px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-white/90" style={{ borderColor: `${role.primary}88`, background: `${role.dark}b8` }}>
+          <span className="mt-4 inline-block pixel-hud-panel px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-white/90" style={{ borderColor: `${role.primary}88`, "--hud-glow": role.primary } as React.CSSProperties}>
             {isLocked ? `${t("loadingPlayer")}…` : isActive ? t("ready") : t("hoverToPreview")}
           </span>
         </div>
@@ -226,9 +221,8 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
 
   return (
     <section className="relative h-[100dvh] overflow-hidden bg-black text-white">
-      <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-35" style={{ backgroundImage: `url(${LOBBY_BACKGROUND})` }} />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_66%_72%_at_50%_0%,rgba(255,255,255,0.16),transparent_62%),linear-gradient(90deg,rgba(3,12,25,0.55),transparent_44%,rgba(32,8,6,0.58))]" />
-      <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-45" />
+      <div className="pointer-events-none absolute inset-0 bg-[#04080e]" />
+      <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-55" />
       <div className="pointer-events-none absolute left-1/2 top-0 z-20 h-full w-px -translate-x-1/2 bg-white/20 shadow-[0_0_28px_rgba(255,255,255,0.4)]" />
 
       <header className="pointer-events-none absolute left-3 top-3 z-30 text-left md:left-1/2 md:top-8 md:-translate-x-1/2 md:text-center">
@@ -263,7 +257,7 @@ export default function RoleSelectIntro() {
   };
 
   return (
-    <main className="h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
+    <main className="pixel-game-shell h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
       <button
         type="button"
         onClick={toggleMuted}

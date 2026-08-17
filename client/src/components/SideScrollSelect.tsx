@@ -36,7 +36,10 @@ const spritePosition = {
   jump: "0% 100%",
 } as const;
 
-const ARCHIVE_STAGE = assetUrl("portfolio-arcade-stage_9f866b47.png", "portfolio-arcade-stage.png");
+const ARCHIVE_STAGES = {
+  designer: assetUrl("pixel-designer-archive-stage_95952f5a.png", "pixel-designer-archive-stage.png"),
+  dancer: assetUrl("pixel-dancer-archive-stage_f52ebca6.png", "pixel-dancer-archive-stage.png"),
+} as const;
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 type DustBurst = { id: number; phase: "start" | "stop" };
@@ -432,16 +435,16 @@ export default function SideScrollSelect({
       className={`relative h-full w-full overflow-hidden ${isCyan ? "bg-[#07111f]" : "bg-[#1a0503]"}`}
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-45"
+        className="pointer-events-none absolute inset-0 opacity-75"
         style={{
-          backgroundImage: `url(${ARCHIVE_STAGE})`,
+          backgroundImage: `url(${ARCHIVE_STAGES[spriteVariant]})`,
           backgroundPosition: `${-cameraX * 0.16}px bottom`,
           backgroundRepeat: "repeat-x",
           backgroundSize: "auto 100%",
-          filter: isCyan ? "saturate(0.92) contrast(1.05)" : "hue-rotate(312deg) saturate(1.55) contrast(1.1)",
+          filter: isCyan ? "saturate(1.08) contrast(1.08)" : "saturate(1.12) contrast(1.08)",
         }}
       />
-      <div className={`pointer-events-none absolute inset-0 ${isCyan ? "bg-[linear-gradient(180deg,rgba(3,12,25,0.66),rgba(3,12,25,0.1)_45%,rgba(3,12,25,0.82))]" : "bg-[linear-gradient(180deg,rgba(30,5,3,0.7),rgba(64,11,4,0.12)_45%,rgba(30,5,3,0.86))]"}`} />
+      <div className={`pointer-events-none absolute inset-0 ${isCyan ? "bg-[linear-gradient(180deg,rgba(3,12,25,0.4),rgba(3,12,25,0.04)_45%,rgba(3,12,25,0.7))]" : "bg-[linear-gradient(180deg,rgba(30,5,3,0.42),rgba(64,11,4,0.04)_45%,rgba(30,5,3,0.72))]"}`} />
       <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
 
       <div className="absolute inset-x-4 top-4 z-30 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3">

@@ -39,3 +39,17 @@ Both rebuilt GIFs retain a deliberately large, rounded head and compact torso/li
 ## 2026-08-17 — Dust Burst and Compact Run Verification
 
 During a real ArrowRight press, the designer archive mounted the rebuilt compact-proportion GIF (`designer-side-run-loop_8043e6f7.gif`) together with a `pixel-dust-start` burst. On release, the run image unmounted, the idle sprite remounted, and a `pixel-dust-stop` burst rendered. This verifies the required movement start/stop particle timing and idle transition.
+
+## 2026-08-17 — Full Pixel UI Conversion Checkpoint
+
+The lobby now renders as a split cyan design lab and orange dance arena with no portrait photography; each chibi player remains visible against its role world. The first archive capture confirms its generated stage path is wired, but the stage is too dark under the existing opacity and overlay stack. Increase stage visibility before final acceptance so environment details are legible behind signposts without affecting HUD readability.
+
+After lifting the environment layer opacity, the Designer archive shows its cyan blueprint workshop and floor details clearly behind the signposts. The Dancer archive independently renders its orange speaker-and-pipe battle venue with the chibi player, signposts, floor, and HUD remaining legible. Both primary archive routes now visually match the pixel game lobby rather than the former generic dark background.
+
+The Dancer performance screen now replaces the former photo thumbnail surface with a square, orange equalizer-console panel and cartridge-like activity cards. The bottom-right language menu has been restyled as a hard-edged role-colour HUD: its active language and border use Player 02 orange here, with no blur treatment or rounded glass surface.
+
+The Sokdak case-study overview was opened from the Player 01 archive. Its generated pixel command-console now appears as a visible cyan-and-magenta circuitry environment around the content panel, while the semi-opaque square data panel retains high reading contrast. This confirms the detailed project pages carry the same arcade-world language as the lobby and archives.
+
+At 390×844, the lobby switches to its two-tier mobile composition: the cyan design lab occupies the upper half and the orange dance arena the lower half. Both large-head chibi characters, role labels, hover prompts, floor highlights, Sound, Support, and Language HUD controls are visible without overlap. The first immediate capture lacked remote assets, but the five-second capture confirmed normal media settling and the intended final layout.
+
+Role-specific 390×844 archive captures confirm the same responsive discipline beyond the lobby. The cyan blueprint workshop and orange battle venue remain visible behind their respective active signpost and chibi character. Back navigation stays in the upper HUD zone, while the character position, language control, sound control, left/right movement, Jump, and Select tiles occupy distinct lower safe areas without collision.

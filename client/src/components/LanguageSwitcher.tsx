@@ -1,3 +1,4 @@
+// Pixel HUD style: hard edges, role-color targeting, no glass blur or soft rounded surfaces.
 import { useState } from "react";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 
@@ -16,7 +17,7 @@ export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
       {isOpen && (
         <div
           id="language-options"
-          className="absolute bottom-full right-0 mb-2 flex items-center gap-1 border border-white/30 bg-black/65 p-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm"
+          className="pixel-hud-panel absolute bottom-full right-0 mb-2 flex items-center gap-1 border-[var(--player-primary)] bg-[#05080dcc] p-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 shadow-[3px_3px_0_rgba(0,0,0,0.55)]"
           role="menu"
           aria-label="Language options"
         >
@@ -27,8 +28,8 @@ export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
                 setLanguage(lang.code);
                 setIsOpen(false);
               }}
-              className={`min-w-9 px-2 py-1.5 transition-colors hover:bg-white/10 hover:text-white ${
-                language === lang.code ? "bg-white/15 text-white" : "text-white/60"
+              className={`min-w-9 border border-transparent px-2 py-1.5 transition-colors hover:border-[var(--player-primary)] hover:bg-[var(--player-primary)] hover:text-black ${
+                language === lang.code ? "border-[var(--player-primary)] bg-[var(--player-primary)] text-black" : "text-white/60"
               }`}
               role="menuitem"
               aria-label={`Switch to ${lang.label}`}
@@ -41,7 +42,7 @@ export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        className="border border-white/30 bg-black/65 px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm transition hover:border-[var(--player-primary)] hover:text-white"
+        className="pixel-hud-panel border-[var(--player-primary)] bg-[#05080dcc] px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black"
         aria-expanded={isOpen}
         aria-controls="language-options"
         aria-label={isOpen ? "Close language menu" : "Open language menu"}

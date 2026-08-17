@@ -3,12 +3,14 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useRoleTheme } from "../contexts/RoleContext";
+import { assetUrl } from "../lib/assetUrl";
 
 /**
- * Design System — "Precision in Motion"
- * Dark mode base with Orange (#FF6200) accents for Dancer portfolio
- * Energetic, rhythmic, premium aesthetic with interactive lightbox
+ * Design System — Pixel Dance Archive
+ * Hard-edge orange arcade frames, cartridge labels, and stage UI around playable media.
  */
+
+const DANCE_PIXEL_STAGE = assetUrl("pixel-dancer-archive-stage_f52ebca6.png", "pixel-dancer-archive-stage.png");
 
 type DanceActivity = {
   id: string;
@@ -273,23 +275,15 @@ function ActivityCard({
       className="group relative w-full cursor-pointer border-2 border-orange-200/30 bg-black/50 p-3 shadow-[6px_6px_0_rgba(251,146,60,0.12)] backdrop-blur-sm transition-all duration-300 hover:border-orange-200/70 hover:bg-orange-950/40 hover:shadow-[0_0_30px_rgba(249,115,22,0.3)] md:p-4"
       aria-label={activity.title}
     >
-      {/* Thumbnail overlay */}
-      {activity.media.thumbnail && (
-        <div className="absolute inset-0 overflow-hidden rounded-sm opacity-0 transition-opacity duration-300 group-hover:opacity-20">
-          <img
-            src={activity.media.thumbnail}
-            alt=""
-            className="h-full w-full object-cover"
-          />
-        </div>
-      )}
+      <div className="pointer-events-none absolute inset-0 opacity-50 arcade-scanline" />
+      <div className="pointer-events-none absolute right-3 top-3 h-3 w-3 bg-orange-300 shadow-[4px_4px_0_rgba(194,65,12,0.95)]" />
 
       {/* Content */}
       <div className="relative z-10">
         <p className="font-rajdhani text-[0.65rem] font-black tracking-[0.22em] text-orange-200 md:text-xs">
           {activity.meta}
         </p>
-        <h2 className="mt-2 skew-x-[-8deg] font-bebas text-lg tracking-[0.04em] text-white md:mt-3 md:text-2xl">
+        <h2 className="mt-2 pixel-title font-bebas text-lg tracking-[0.04em] text-white md:mt-3 md:text-2xl">
           {activity.title}
         </h2>
         <p className="mt-2 line-clamp-3 font-rajdhani text-[0.7rem] font-semibold leading-snug text-white/70 md:text-sm">
@@ -302,7 +296,7 @@ function ActivityCard({
             isHovered ? "translate-x-1" : ""
           }`}
         >
-          <span>→ {viewMediaLabel}</span>
+          <span>▶ {viewMediaLabel}</span>
         </div>
       </div>
     </button>
@@ -321,7 +315,8 @@ function VideoSlide() {
     <>
       <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#1a0503] text-white">
         <div className="pointer-events-none fixed inset-0 opacity-35 arcade-scanline pointer-events-none" />
-        <div className="pointer-events-none absolute -right-20 top-4 h-96 w-96 rounded-full bg-orange-500/22 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-35 [image-rendering:pixelated]" style={{ backgroundImage: `url(${DANCE_PIXEL_STAGE})` }} />
+        <div className="pointer-events-none absolute inset-0 bg-[#1a0503]/70" />
 
         <div className="relative z-10 flex h-auto min-h-0 w-full flex-col items-center justify-start px-4 pb-6 pt-20 md:h-full md:px-8 md:py-8 lg:px-12">
           <div className="shrink-0 text-center">
@@ -337,22 +332,21 @@ function VideoSlide() {
             <button
               type="button"
               aria-label={ui.dancePerformance}
-              className="group relative aspect-video w-full overflow-hidden border-2 border-orange-300/60 bg-black outline-none transition-all duration-300 hover:border-orange-200 focus:border-orange-200 cursor-pointer shadow-[0_0_30px_rgba(249,115,22,0.4),0_0_60px_rgba(249,115,22,0.2),inset_0_0_20px_rgba(249,115,22,0.1)] hover:shadow-[0_0_50px_rgba(249,115,22,0.8),0_0_100px_rgba(249,115,22,0.4),inset_0_0_30px_rgba(249,115,22,0.2)]"
+              className="group relative aspect-video w-full overflow-hidden border-4 border-orange-300/75 bg-[#120503] outline-none transition-all duration-300 hover:border-orange-200 focus:border-orange-200 cursor-pointer shadow-[8px_8px_0_rgba(69,18,5,0.95),0_0_24px_rgba(249,115,22,0.35)]"
               onClick={() => setSelectedActivity(danceActivities[0])}
             >
-              <div className="absolute inset-0">
-                <img
-                  src="https://i.ytimg.com/vi/Kri6sE8RpbU/maxresdefault.jpg"
-                  alt={ui.dancePerformance}
-                  className="h-full w-full object-cover opacity-75 transition-all duration-500 group-hover:scale-105 group-hover:opacity-50"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.92),rgba(0,0,0,0.08)_55%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(249,115,22,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(249,115,22,0.12)_1px,transparent_1px)] bg-[size:22px_22px]">
+                <div className="absolute inset-x-0 top-[28%] h-1 bg-orange-300/70 shadow-[0_7px_0_rgba(194,65,12,0.75)]" />
+                <div className="absolute inset-x-[8%] bottom-[22%] flex h-12 items-end justify-between gap-2">
+                  {[25, 55, 38, 75, 48, 88, 62, 36, 70].map((height, idx) => <span key={idx} className="w-full bg-orange-300/80 shadow-[3px_3px_0_rgba(124,45,18,0.9)]" style={{ height: `${height}%` }} />)}
+                </div>
+                <div className="pointer-events-none absolute inset-0 arcade-scanline opacity-50" />
                 <div className="absolute inset-0 grid place-items-center">
                   <div className="text-center">
-                    <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border-2 border-orange-200 bg-orange-400/90 text-2xl text-black shadow-[0_0_50px_rgba(251,146,60,0.7)] transition-transform duration-300 group-hover:scale-110 md:h-24 md:w-24 md:text-4xl">
+                    <div className="mx-auto grid h-16 w-16 place-items-center border-4 border-orange-200 bg-orange-400/90 text-2xl text-black shadow-[5px_5px_0_rgba(124,45,18,0.9)] transition-transform duration-300 group-hover:scale-110 md:h-24 md:w-24 md:text-4xl">
                       ▶
                     </div>
-                    <p className="mt-4 skew-x-[-10deg] font-bebas text-2xl tracking-[0.06em] text-white text-shadow-arcade md:text-3xl">
+                    <p className="mt-4 pixel-title font-bebas text-2xl tracking-[0.06em] text-white md:text-3xl">
                       {ui.dancePerformance}
                     </p>
                     <p className="mt-2 font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-orange-100/80 md:text-sm">
@@ -395,8 +389,9 @@ function BioSlide() {
   const ui = dancerUiByLang[language];
   return (
     <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#1a0503] px-4 py-16 md:px-8 md:py-24 lg:px-12 text-white">
-      <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
-      <div className="pointer-events-none absolute -right-20 top-4 h-96 w-96 rounded-full bg-orange-500/22 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-25 [image-rendering:pixelated]" style={{ backgroundImage: `url(${DANCE_PIXEL_STAGE})` }} />
+        <div className="pointer-events-none absolute inset-0 bg-[#1a0503]/70" />
+        <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-orange-200 md:text-sm mb-4">
@@ -406,7 +401,7 @@ function BioSlide() {
           {ui.movementExpression}
         </h2>
 
-        <div className="space-y-6 font-rajdhani text-light-secondary">
+        <div className="pixel-hud-panel border-orange-300/45 space-y-6 p-6 font-rajdhani text-light-secondary md:p-8" style={{ "--hud-glow": "#fb923c" } as React.CSSProperties}>
           {ui.bio.map((paragraph, idx) => (
             <p key={idx} className="text-base leading-relaxed">
               {paragraph}

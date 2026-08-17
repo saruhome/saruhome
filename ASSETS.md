@@ -2,6 +2,8 @@
 
 **Art direction:** An original premium 2D arcade archive with sharp square-pixel rendering, a clean side-view stage, an industrial interface corridor, and restrained neon color systems. Player 01 uses deep navy and cyan; Player 02 uses dark maroon and orange. The visual language evokes the *interaction pattern* of a 1990s side-scrolling arcade stage without reproducing any pre-existing game character, logo, HUD, environment, or enemy.
 
+**Expanded direction:** The lobby, archives, content frames, fixed controls, and project-detail shell now share this same hard-edge 16-bit environment. Photography is removed from the interface; player identity is conveyed through chibi sprites and role-specific game worlds.
+
 | Asset | Use | Storage URL |
 |---|---|---|
 | Pixel archive reference | Visual QA target and style reference | `/manus-storage/portfolio-arcade-reference_17bb7219.png` |
@@ -14,6 +16,10 @@
 | Designer portrait | Player 01 main lobby and bio portrait, migrated from local public assets | `/manus-storage/Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png` |
 | Designer archive loop | Player 01 focused 16-bit electronic background music | `/manus-storage/designer-archive-loop_da115ca8.mp3` |
 | Dancer archive loop | Player 02 energetic arcade dance background music | `/manus-storage/dancer-archive-loop_084713db.mp3` |
+| Pixel portfolio lobby | Split design-lab / dance-arena role selection environment | `/manus-storage/pixel-portfolio-lobby-reference_c2b7d5df.png` |
+| Pixel designer archive | Cyan design workshop archive environment | `/manus-storage/pixel-designer-archive-stage_95952f5a.png` |
+| Pixel dancer archive | Orange dance battle archive environment | `/manus-storage/pixel-dancer-archive-stage_f52ebca6.png` |
+| Pixel case-study console | Shared command-console backdrop for project detail | `/manus-storage/pixel-case-study-console_be8cc839.png` |
 
 ## Role palette specification
 
@@ -30,3 +36,9 @@
 | Walk | Hover preview or horizontal movement | Two-frame 0.22-second stepped bounce |
 | Jump | Up-arrow input | 0.38-second upward arc with a soft landing squash |
 | Celebrate | Role selected before archive handoff | Repeating upward bounce with alternating rotation |
+
+## Interface guardrails
+
+- No photographic portraits or photography-led covers appear in primary lobby, archive, or UI chrome.
+- Use hard square corners, stepped offset shadows, pixel borders, and bitmap-scale visual hierarchy; avoid rounded default cards, glassmorphism, and diffuse blobs.
+- Generated environmental art is stored externally and used through Manus storage URLs; Vercel receives matching small deployment copies.

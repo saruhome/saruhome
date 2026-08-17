@@ -466,6 +466,62 @@
 .pixel-dust-start { animation: pixel-dust-start 0.42s steps(4, end) both; }
 .pixel-dust-stop { animation: pixel-dust-stop 0.42s steps(4, end) both; }
 
+/* Design philosophy — unified 16-bit portfolio game UI: crisp hard edges, square pixels, role-colored light, no soft card language. */
+.pixel-world-shade {
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--world-glow) 32%, transparent), inset 0 -8rem 6rem rgba(0, 0, 0, 0.52);
+  mix-blend-mode: multiply;
+}
+
+.pixel-corner-frame {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--frame-color) 46%, transparent), inset 12px 0 0 -10px var(--frame-color), inset -12px 0 0 -10px var(--frame-color);
+  opacity: 0.9;
+}
+
+.pixel-hud-panel {
+  --hud-glow: #37e7ff;
+  border: 2px solid currentColor;
+  background: rgba(2, 7, 16, 0.9);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.78), 0 0 0 1px color-mix(in srgb, var(--hud-glow) 28%, transparent), 0 0 14px color-mix(in srgb, var(--hud-glow) 20%, transparent);
+  image-rendering: pixelated;
+}
+
+.pixel-tag {
+  border: 2px solid currentColor;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+
+.pixel-title {
+  text-shadow: 5px 0 0 rgba(0, 0, 0, 0.8), 0 5px 0 rgba(0, 0, 0, 0.8), 5px 5px 0 rgba(0, 0, 0, 0.8);
+  image-rendering: pixelated;
+}
+
+.pixel-game-shell button,
+.pixel-game-shell input,
+.pixel-game-shell textarea,
+.pixel-game-shell select {
+  border-radius: 0 !important;
+}
+
+.pixel-game-shell .rounded,
+.pixel-game-shell .rounded-lg,
+.pixel-game-shell .rounded-full {
+  border-radius: 0 !important;
+}
+
+.pixel-game-shell [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+}
+
+.pixel-game-shell [class*="blur-3xl"] {
+  display: none !important;
+}
+
+.pixel-game-shell img:not(iframe img) {
+  image-rendering: pixelated;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -148,7 +148,7 @@ function AboutMeSkillsSlide() {
   return (
     <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-dark-primary px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
-      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-25" />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* About Me Section */}
@@ -162,12 +162,19 @@ function AboutMeSkillsSlide() {
 
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 mb-8">
             <div className="flex items-center justify-center">
-              <div className="relative h-80 w-64 overflow-hidden border-2 border-cyan-400/50 rounded-lg shadow-[0_0_30px_rgba(34,211,238,0.3)]">
-                <img
-                  src={assetUrl("Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png", "designer-portrait.png")}
-                  alt={t("designerAndDancer")}
-                  className="h-full w-full object-cover"
+              <div className="pixel-hud-panel relative grid h-80 w-64 place-items-center overflow-hidden border-cyan-300/60 bg-[#020b18] shadow-[7px_7px_0_rgba(3,20,34,0.95)]" style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}>
+                <div className="absolute inset-0 arcade-lobby-grid opacity-40" />
+                <div className="absolute inset-4 border border-cyan-300/35" />
+                <div
+                  aria-label={t("designerAndDancer")}
+                  className="relative h-48 w-44 bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+                  style={{
+                    backgroundImage: `url(${assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png")})`,
+                    backgroundPosition: "0% 0%",
+                    backgroundSize: "200% 200%",
+                  }}
                 />
+                <span className="absolute bottom-5 left-5 border border-cyan-300/70 bg-[#020b18] px-2 py-1 font-rajdhani text-[0.58rem] font-black tracking-[0.18em] text-cyan-100">PLAYER 01 // READY</span>
               </div>
             </div>
 
@@ -185,7 +192,7 @@ function AboutMeSkillsSlide() {
           <h3 className="font-bebas text-3xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("coreCompetencies")}</h3>
 
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50">
+            <div className="pixel-hud-panel border-cyan-300/35 p-6" style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}>
               <h4 className="font-bebas text-2xl font-bold text-cyan-300 mb-4">{t("designTools")}</h4>
               <ul className="space-y-2 font-rajdhani text-light-secondary">
                 <li>• Figma</li>
@@ -194,7 +201,7 @@ function AboutMeSkillsSlide() {
                 <li>• Principle</li>
               </ul>
             </div>
-            <div className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50">
+            <div className="pixel-hud-panel border-cyan-300/35 p-6" style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}>
               <h4 className="font-bebas text-2xl font-bold text-cyan-300 mb-4">{t("coreExpertise")}</h4>
               <ul className="space-y-2 font-rajdhani text-light-secondary">
                 <li>• {t("interactionDesign")}</li>
@@ -225,7 +232,7 @@ function ContactSlide() {
   return (
     <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
-      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-25" />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm mb-4">{t("contact").toUpperCase()}</p>
@@ -234,7 +241,8 @@ function ContactSlide() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <a
             href="mailto:yimsungh@gmail.com"
-            className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50"
+            className="pixel-hud-panel border-cyan-300/35 p-6 text-center transition-all hover:border-cyan-200 hover:translate-x-0.5 hover:-translate-y-0.5"
+            style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
           >
             <p className="font-rajdhani text-sm text-light-secondary mb-2">{t("email")}</p>
             <p className="font-bebas text-lg text-cyan-300 break-all">yimsungh@gmail.com</p>
@@ -243,7 +251,8 @@ function ContactSlide() {
             href="https://www.linkedin.com/in/sunghee-im/"
             target="_blank"
             rel="noopener noreferrer"
-            className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50"
+            className="pixel-hud-panel border-cyan-300/35 p-6 text-center transition-all hover:border-cyan-200 hover:translate-x-0.5 hover:-translate-y-0.5"
+            style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
           >
             <p className="font-rajdhani text-sm text-light-secondary mb-2">{t("linkedin")}</p>
             <p className="font-bebas text-lg text-cyan-300">sunghee-im</p>
@@ -252,7 +261,8 @@ function ContactSlide() {
             href="https://www.behance.net/saruhome"
             target="_blank"
             rel="noopener noreferrer"
-            className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50"
+            className="pixel-hud-panel border-cyan-300/35 p-6 text-center transition-all hover:border-cyan-200 hover:translate-x-0.5 hover:-translate-y-0.5"
+            style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
           >
             <p className="font-rajdhani text-sm text-light-secondary mb-2">{t("behance")}</p>
             <p className="font-bebas text-lg text-cyan-300">saruhome</p>
@@ -260,7 +270,8 @@ function ContactSlide() {
           <a
             href="/resume.pdf"
             download
-            className="border-2 border-cyan-300/30 rounded-lg p-6 text-center transition-all hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] bg-slate-950/50 cursor-pointer"
+            className="pixel-hud-panel border-cyan-300/35 p-6 text-center transition-all hover:border-cyan-200 hover:translate-x-0.5 hover:-translate-y-0.5 cursor-pointer"
+            style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
           >
             <p className="font-rajdhani text-sm text-light-secondary mb-2">{t("resume")}</p>
             <p className="font-bebas text-lg text-cyan-300">{t("downloadCV")}</p>
@@ -277,7 +288,7 @@ function ContactSlide() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-950/50 border-2 border-cyan-300/30 rounded px-4 py-2 font-rajdhani text-light-primary focus:outline-none focus:border-cyan-300"
+                className="w-full border-2 border-cyan-300/45 bg-[#020b18] px-4 py-2 font-rajdhani text-light-primary shadow-[3px_3px_0_rgba(2,20,34,0.9)] focus:outline-none focus:border-cyan-200"
                 placeholder={t("namePlaceholder")}
               />
             </div>
@@ -288,7 +299,7 @@ function ContactSlide() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-950/50 border-2 border-cyan-300/30 rounded px-4 py-2 font-rajdhani text-light-primary focus:outline-none focus:border-cyan-300"
+                className="w-full border-2 border-cyan-300/45 bg-[#020b18] px-4 py-2 font-rajdhani text-light-primary shadow-[3px_3px_0_rgba(2,20,34,0.9)] focus:outline-none focus:border-cyan-200"
                 placeholder={t("emailPlaceholder")}
               />
             </div>
@@ -298,7 +309,7 @@ function ContactSlide() {
                 required
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className="w-full bg-slate-950/50 border-2 border-cyan-300/30 rounded px-4 py-2 font-rajdhani text-light-primary focus:outline-none focus:border-cyan-300 resize-none"
+                className="w-full border-2 border-cyan-300/45 bg-[#020b18] px-4 py-2 font-rajdhani text-light-primary shadow-[3px_3px_0_rgba(2,20,34,0.9)] focus:outline-none focus:border-cyan-200 resize-none"
                 rows={4}
                 placeholder={t("messagePlaceholder")}
               />

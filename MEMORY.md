@@ -4,3 +4,5 @@
 - The archive uses one selected role at a time. Cyan identifies the design archive; orange identifies the dance archive.
 - Existing menu destinations are retained as the source of truth so localized project and video content stays available.
 - The generated character assets must remain external to the repository and be referenced by their Manus storage URLs.
+- The full-pixel conversion removes lobby portraits and photo-led UI panels, but user-authored case-study media and user-requested performance videos remain accessible as content after navigation.
+- Use existing `assetUrl()` for every new environment so Manus storage and Vercel deployment resolve different paths safely.
