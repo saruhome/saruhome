@@ -251,6 +251,7 @@ export default function SideScrollSelect({
   const [jumping, setJumping] = useState(false);
   const [crouching, setCrouching] = useState(false);
   const [walkFrame, setWalkFrame] = useState<0 | 1 | 2 | 3>(0);
+  const [isMoving, setIsMoving] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -286,6 +287,7 @@ export default function SideScrollSelect({
   const startTouchMove = useCallback((direction: TouchDirection) => {
     keys.current.left = direction === "left";
     keys.current.right = direction === "right";
+    setIsMoving(true);
     setTouchDirection(direction);
     playNavigate();
   }, [playNavigate]);
@@ -293,6 +295,7 @@ export default function SideScrollSelect({
   const endTouchMove = useCallback(() => {
     keys.current.left = false;
     keys.current.right = false;
+    setIsMoving(false);
     setTouchDirection(null);
   }, []);
 
@@ -327,9 +330,15 @@ export default function SideScrollSelect({
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") keys.current.left = true;
+      if (e.key === "ArrowLeft") {
+        keys.current.left = true;
+        setIsMoving(true);
+      }
       if (e.key === "ArrowLeft" && !e.repeat) playNavigate();
-      if (e.key === "ArrowRight") keys.current.right = true;
+      if (e.key === "ArrowRight") {
+        keys.current.right = true;
+        setIsMoving(true);
+      }
       if (e.key === "ArrowRight" && !e.repeat) playNavigate();
       if (e.key === "ArrowDown") setCrouching(true);
       if (e.key === "ArrowUp" && !e.repeat) {
@@ -342,8 +351,14 @@ export default function SideScrollSelect({
       if (e.key === "?") setShowHelp((v) => !v);
     };
     const onKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") keys.current.left = false;
-      if (e.key === "ArrowRight") keys.current.right = false;
+      if (e.key === "ArrowLeft") {
+        keys.current.left = false;
+        setIsMoving(keys.current.right);
+      }
+      if (e.key === "ArrowRight") {
+        keys.current.right = false;
+        setIsMoving(keys.current.left);
+      }
       if (e.key === "ArrowDown") setCrouching(false);
     };
     window.addEventListener("keydown", onKeyDown);
@@ -355,7 +370,7 @@ export default function SideScrollSelect({
   }, [activeItem, playNavigate, triggerJump, triggerSelect]);
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
-  const walking = keys.current.left !== keys.current.right;
+  const walking = isMoving && !jumping && !crouching;
   const playerLabel = spriteVariant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const archiveLabel = isCyan ? "DESIGN ARCHIVE" : "DANCE ARCHIVE";
 
