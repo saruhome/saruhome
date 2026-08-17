@@ -1,3 +1,4 @@
+// Pixel profile screens: a real portrait stays legible inside a hard-edged player-ID frame, never a rounded card.
 import { useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import CaseStudy from "./CaseStudy";
@@ -13,6 +14,11 @@ type DesignProject = {
   description: string;
   link?: string | null;
 };
+
+const DESIGNER_PROFILE_PHOTO = assetUrl(
+  "Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png",
+  "Gemini_Generated_Image_s30zdos30zdos30z_28271392.png",
+);
 
 const designProjectsByLang: Record<Language, DesignProject[]> = {
   en: [
@@ -162,19 +168,12 @@ function AboutMeSkillsSlide() {
 
           <div className="grid gap-8 md:grid-cols-2 md:gap-12 mb-8">
             <div className="flex items-center justify-center">
-              <div className="pixel-hud-panel relative grid h-80 w-64 place-items-center overflow-hidden border-cyan-300/60 bg-[#020b18] shadow-[7px_7px_0_rgba(3,20,34,0.95)]" style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}>
-                <div className="absolute inset-0 arcade-lobby-grid opacity-40" />
-                <div className="absolute inset-4 border border-cyan-300/35" />
-                <div
-                  aria-label={t("designerAndDancer")}
-                  className="relative h-48 w-44 bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
-                  style={{
-                    backgroundImage: `url(${assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png")})`,
-                    backgroundPosition: "0% 0%",
-                    backgroundSize: "200% 200%",
-                  }}
-                />
-                <span className="absolute bottom-5 left-5 border border-cyan-300/70 bg-[#020b18] px-2 py-1 font-rajdhani text-[0.58rem] font-black tracking-[0.18em] text-cyan-100">PLAYER 01 // READY</span>
+              <div className="pixel-hud-panel pixel-photo-frame relative h-80 w-64 overflow-hidden border-cyan-300/70 bg-[#020b18] shadow-[7px_7px_0_rgba(3,20,34,0.95)]" style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}>
+                <img src={DESIGNER_PROFILE_PHOTO} alt="Sunghee Im" className="h-full w-full object-cover object-center [image-rendering:auto!important]" />
+                <div className="pointer-events-none absolute inset-0 arcade-scanline opacity-35" />
+                <div className="pointer-events-none absolute inset-3 border border-cyan-300/45" />
+                <span className="absolute left-4 top-4 pixel-tag border-cyan-300/70 bg-[#020b18e8] px-2 py-1 font-rajdhani text-[0.55rem] font-black tracking-[0.18em] text-cyan-100">PLAYER 01 // PROFILE</span>
+                <span className="absolute bottom-4 left-4 border border-cyan-300/70 bg-[#020b18e8] px-2 py-1 font-rajdhani text-[0.55rem] font-black tracking-[0.18em] text-cyan-100">SIGNAL // ONLINE</span>
               </div>
             </div>
 

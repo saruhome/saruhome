@@ -223,7 +223,7 @@ function Lightbox({ media, title, backLabel, onClose }: LightboxProps) {
         </button>
 
         {/* Media container */}
-        <div className="relative overflow-hidden rounded-lg border-2 border-orange-300/60 bg-black shadow-[0_0_60px_rgba(249,115,22,0.4)]">
+        <div className="pixel-hud-panel relative overflow-hidden border-orange-300/60 bg-black shadow-[6px_6px_0_rgba(69,18,5,0.95),0_0_28px_rgba(249,115,22,0.34)]" style={{ "--hud-glow": "#fb923c" } as React.CSSProperties}>
           {media.type === "video" ? (
             <div className="aspect-video w-full">
               <iframe
@@ -272,7 +272,7 @@ function ActivityCard({
       onClick={() => onOpen(activity)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative w-full cursor-pointer border-2 border-orange-200/30 bg-black/50 p-3 shadow-[6px_6px_0_rgba(251,146,60,0.12)] backdrop-blur-sm transition-all duration-300 hover:border-orange-200/70 hover:bg-orange-950/40 hover:shadow-[0_0_30px_rgba(249,115,22,0.3)] md:p-4"
+      className="pixel-hud-panel group relative w-full cursor-pointer border-orange-200/45 bg-[#160604e8] p-3 shadow-[5px_5px_0_rgba(69,18,5,0.88)] transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-[#2b0a04] hover:shadow-[8px_8px_0_rgba(69,18,5,0.92)] md:p-4"
       aria-label={activity.title}
     >
       <div className="pointer-events-none absolute inset-0 opacity-50 arcade-scanline" />
@@ -337,8 +337,8 @@ function VideoSlide() {
             >
               <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(249,115,22,0.12)_1px,transparent_1px),linear-gradient(0deg,rgba(249,115,22,0.12)_1px,transparent_1px)] bg-[size:22px_22px]">
                 <div className="absolute inset-x-0 top-[28%] h-1 bg-orange-300/70 shadow-[0_7px_0_rgba(194,65,12,0.75)]" />
-                <div className="absolute inset-x-[8%] bottom-[22%] flex h-12 items-end justify-between gap-2">
-                  {[25, 55, 38, 75, 48, 88, 62, 36, 70].map((height, idx) => <span key={idx} className="w-full bg-orange-300/80 shadow-[3px_3px_0_rgba(124,45,18,0.9)]" style={{ height: `${height}%` }} />)}
+                <div className="pixel-wave-screen absolute inset-x-[8%] bottom-[22%] flex h-12 items-end justify-between gap-2">
+                  {[25, 55, 38, 75, 48, 88, 62, 36, 70].map((height, idx) => <span key={idx} className="pixel-wave-bar w-full bg-orange-300/80 shadow-[3px_3px_0_rgba(124,45,18,0.9)]" style={{ height: `${height}%`, "--wave-delay": `${idx * -0.1}s` } as React.CSSProperties} />)}
                 </div>
                 <div className="pointer-events-none absolute inset-0 arcade-scanline opacity-50" />
                 <div className="absolute inset-0 grid place-items-center">

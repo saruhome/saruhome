@@ -2,7 +2,7 @@
 
 **Art direction:** An original premium 2D arcade archive with sharp square-pixel rendering, a clean side-view stage, an industrial interface corridor, and restrained neon color systems. Player 01 uses deep navy and cyan; Player 02 uses dark maroon and orange. The visual language evokes the *interaction pattern* of a 1990s side-scrolling arcade stage without reproducing any pre-existing game character, logo, HUD, environment, or enemy.
 
-**Expanded direction:** The lobby, archives, content frames, fixed controls, and project-detail shell now share this same hard-edge 16-bit environment. Photography is removed from the interface; player identity is conveyed through chibi sprites and role-specific game worlds.
+**Expanded direction:** The lobby, archives, content frames, fixed controls, and project-detail shell share the same hard-edge 16-bit environment. Photography is reserved for the Designer About profile inside a pixel player-ID frame; player identity elsewhere remains chibi sprites and role-specific game worlds.
 
 | Asset | Use | Storage URL |
 |---|---|---|
@@ -39,6 +39,6 @@
 
 ## Interface guardrails
 
-- No photographic portraits or photography-led covers appear in primary lobby, archive, or UI chrome.
+- No photographic portraits or photography-led covers appear in the primary lobby, archive, or UI chrome; the intentionally placed About profile stays inside a pixel player-ID frame.
 - Use hard square corners, stepped offset shadows, pixel borders, and bitmap-scale visual hierarchy; avoid rounded default cards, glassmorphism, and diffuse blobs.
 - Generated environmental art is stored externally and used through Manus storage URLs; Vercel receives matching small deployment copies.

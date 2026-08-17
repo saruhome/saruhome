@@ -1,3 +1,4 @@
+// Pixel audio direction: role-specific retro loops fade in behind concise square-wave archive-launch cues.
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { PlayerRole } from "./RoleContext";
 import { assetUrl } from "../lib/assetUrl";
@@ -11,6 +12,7 @@ type GameAudioContextValue = {
   muted: boolean;
   toggleMuted: () => void;
   startRoleMusic: (role: PlayerRole) => void;
+  launchArchiveAudio: (role: PlayerRole) => void;
   stopMusic: () => void;
   playHover: () => void;
   playNavigate: () => void;
@@ -85,16 +87,34 @@ export function GameAudioProvider({ children }: { children: ReactNode }) {
     musicRoleRef.current = null;
   }, []);
 
+  const launchArchiveAudio = useCallback((role: PlayerRole) => {
+    const designerLaunch: Tone[] = [
+      { frequency: 262, offset: 0, duration: 0.07, gain: 0.065 },
+      { frequency: 392, offset: 0.075, duration: 0.07, gain: 0.06 },
+      { frequency: 523, offset: 0.15, duration: 0.09, gain: 0.058 },
+      { frequency: 784, offset: 0.245, duration: 0.16, gain: 0.05, type: "triangle" },
+    ];
+    const dancerLaunch: Tone[] = [
+      { frequency: 196, offset: 0, duration: 0.06, gain: 0.07 },
+      { frequency: 294, offset: 0.055, duration: 0.06, gain: 0.065 },
+      { frequency: 392, offset: 0.11, duration: 0.08, gain: 0.06 },
+      { frequency: 587, offset: 0.19, duration: 0.14, gain: 0.055, type: "sawtooth" },
+    ];
+    playTones(role === "designer" ? designerLaunch : dancerLaunch);
+    startRoleMusic(role);
+  }, [playTones, startRoleMusic]);
+
   const value = useMemo<GameAudioContextValue>(() => ({
     muted,
     toggleMuted: () => setMuted((value) => !value),
     startRoleMusic,
+    launchArchiveAudio,
     stopMusic,
     playHover: () => playTones([{ frequency: 720, offset: 0, duration: 0.06, gain: 0.035, type: "sine" }]),
     playNavigate: () => playTones([{ frequency: 330, offset: 0, duration: 0.055, gain: 0.05 }, { frequency: 494, offset: 0.045, duration: 0.07, gain: 0.04 }]),
     playJump: () => playTones([{ frequency: 220, offset: 0, duration: 0.18, gain: 0.09, type: "sine" }, { frequency: 660, offset: 0.045, duration: 0.13, gain: 0.05, type: "triangle" }]),
     playConfirm: () => playTones([{ frequency: 392, offset: 0, duration: 0.09, gain: 0.07 }, { frequency: 523, offset: 0.075, duration: 0.11, gain: 0.065 }, { frequency: 784, offset: 0.15, duration: 0.16, gain: 0.055 }]),
-  }), [muted, playTones, startRoleMusic, stopMusic]);
+  }), [launchArchiveAudio, muted, playTones, startRoleMusic, stopMusic]);
 
   return <GameAudioContext.Provider value={value}>{children}</GameAudioContext.Provider>;
 }

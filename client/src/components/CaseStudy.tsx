@@ -11,6 +11,27 @@ import { assetUrl } from "../lib/assetUrl";
 
 const CASE_STUDY_CONSOLE = assetUrl("pixel-case-study-console_be8cc839.png", "pixel-case-study-console.png");
 
+function useTerminalText(text: string, speed = 11) {
+  const [typed, setTyped] = useState("");
+  useEffect(() => {
+    let index = 0;
+    setTyped("");
+    const timer = window.setInterval(() => {
+      index += 1;
+      setTyped(text.slice(0, index));
+      if (index >= text.length) window.clearInterval(timer);
+    }, speed);
+    return () => window.clearInterval(timer);
+  }, [speed, text]);
+  return typed;
+}
+
+function TerminalText({ text, speed = 11 }: { text: string; speed?: number }) {
+  const typed = useTerminalText(text, speed);
+  const isTyping = typed.length < text.length;
+  return <span aria-label={text}><span aria-hidden="true">{typed}{isTyping && <i className="terminal-cursor">▌</i>}</span></span>;
+}
+
 type CaseStudyProject = {
   id: string;
   title: string;
@@ -1022,10 +1043,10 @@ function OverviewPage({ project }: { project: CaseStudyProject }) {
         {t("project").toUpperCase()} {project.id}
       </p>
       <h1 className="skew-x-[-8deg] font-bebas text-[clamp(2.6rem,6vw,5.5rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade mb-4">
-        {project.title}
+        <TerminalText text={project.title} speed={70} />
       </h1>
       <p className="font-rajdhani text-base md:text-lg text-white/70 max-w-2xl mb-8">
-        {project.subtitle}
+        <TerminalText text={project.subtitle} speed={18} />
       </p>
 
       <div className="flex flex-wrap gap-x-8 gap-y-3 mb-12">
@@ -1056,13 +1077,13 @@ function OverviewPage({ project }: { project: CaseStudyProject }) {
           <h2 className="skew-x-[-8deg] font-bebas text-2xl md:text-3xl font-bold text-white mb-4 text-shadow-cyan">
             {t("problem")}
           </h2>
-          <p className="font-rajdhani text-base text-white/70 leading-relaxed">{project.problem}</p>
+          <p className="font-rajdhani text-base text-white/70 leading-relaxed"><TerminalText text={project.problem} speed={7} /></p>
         </div>
         <div>
           <h2 className="skew-x-[-8deg] font-bebas text-2xl md:text-3xl font-bold text-cyan-300 mb-4 text-shadow-cyan">
             {t("solution")}
           </h2>
-          <p className="font-rajdhani text-base text-white/70 leading-relaxed">{project.solution}</p>
+          <p className="font-rajdhani text-base text-white/70 leading-relaxed"><TerminalText text={project.solution} speed={7} /></p>
         </div>
       </div>
     </PageShell>
@@ -1080,7 +1101,7 @@ function ResearchPage({ project }: { project: CaseStudyProject }) {
         {project.research.map((item, idx) => (
           <div
             key={idx}
-            className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm hover:border-cyan-300/60 transition-all duration-300"
+            className="pixel-hud-panel border-cyan-300/40 bg-[#020711e8] p-6 transition-all duration-300 hover:border-cyan-300/75"
           >
             <h3 className="font-bebas text-xl font-bold text-cyan-300 mb-3">{item.title}</h3>
             <p className="font-rajdhani text-sm text-white/70 leading-relaxed">{item.description}</p>
@@ -1105,7 +1126,7 @@ function InfoArchitecturePage({ project }: { project: CaseStudyProject }) {
           </p>
         </div>
         {ia.imageUrl && (
-          <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
+          <div className="pixel-hud-panel relative overflow-hidden border-cyan-300/45 bg-[#020711]">
             <FadeInImage src={ia.imageUrl} alt={ia.title} className="w-full h-auto" />
           </div>
         )}
@@ -1127,7 +1148,7 @@ function DesignShowcasePage({
           <p className="font-rajdhani text-base text-white/70 leading-relaxed">{showcase.description}</p>
         </div>
         {showcase.imageUrl && (
-          <div className="relative overflow-hidden rounded-lg border-2 border-cyan-300/30 bg-slate-950">
+          <div className="pixel-hud-panel relative overflow-hidden border-cyan-300/45 bg-[#020711]">
             <FadeInImage src={showcase.imageUrl} alt={showcase.title} className="w-full h-auto" />
           </div>
         )}
@@ -1147,7 +1168,7 @@ function TakeawaysPage({ project }: { project: CaseStudyProject }) {
         {project.takeaways.map((takeaway, idx) => (
           <div
             key={idx}
-            className="flex gap-4 p-4 border-l-4 border-cyan-300/50 bg-slate-950/30 rounded-r-lg"
+            className="pixel-hud-panel flex gap-4 border-l-4 border-cyan-300/60 bg-[#020711e8] p-4"
           >
             <span className="text-cyan-300 font-bold text-lg flex-shrink-0">→</span>
             <p className="font-rajdhani text-base text-white/70 leading-relaxed">{takeaway}</p>
@@ -1167,7 +1188,7 @@ function BusinessImpactPage({ project }: { project: CaseStudyProject }) {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {project.metrics!.map((metric, idx) => (
-          <div key={idx} className="border-2 border-cyan-300/30 rounded-lg p-6 bg-slate-950/50 backdrop-blur-sm">
+          <div key={idx} className="pixel-hud-panel border-cyan-300/40 bg-[#020711e8] p-6">
             <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
               {metric.label}
             </p>

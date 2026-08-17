@@ -188,9 +188,11 @@ function RolePanel({
           <p className="mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/70 md:mt-3 md:text-sm">
             {isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}
           </p>
-          <span className="mt-4 inline-block pixel-hud-panel px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-white/90" style={{ borderColor: `${role.primary}88`, "--hud-glow": role.primary } as React.CSSProperties}>
-            {isLocked ? `${t("loadingPlayer")}…` : isActive ? t("ready") : t("hoverToPreview")}
-          </span>
+          {(isLocked || isActive) && (
+            <span className="mt-4 inline-block pixel-hud-panel px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-white/90" style={{ borderColor: `${role.primary}88`, "--hud-glow": role.primary } as React.CSSProperties}>
+              {isLocked ? `${t("loadingPlayer")}…` : t("ready")}
+            </span>
+          )}
         </div>
       </div>
 
@@ -202,7 +204,7 @@ function RolePanel({
 function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const { t } = useLanguage();
   const { selectRole: setSelectedRole } = useRoleTheme();
-  const { playConfirm, startRoleMusic } = useGameAudio();
+  const { launchArchiveAudio } = useGameAudio();
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [lockedRole, setLockedRole] = useState<Role | null>(null);
   const selectTimer = useRef<number | undefined>(undefined);
@@ -212,8 +214,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const handleRoleSelection = (role: Role) => {
     if (lockedRole) return;
     setSelectedRole(role);
-    playConfirm();
-    startRoleMusic(role);
+    launchArchiveAudio(role);
     setLockedRole(role);
     setActiveRole(role);
     selectTimer.current = window.setTimeout(() => onSelect(role), 420);
@@ -261,7 +262,7 @@ export default function RoleSelectIntro() {
       <button
         type="button"
         onClick={toggleMuted}
-        className="fixed bottom-4 left-4 z-[70] border border-white/30 bg-black/65 px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm transition hover:border-[var(--player-primary)] hover:text-white md:bottom-6 md:left-6"
+        className="pixel-hud-panel fixed bottom-4 left-4 z-[70] grid h-10 place-items-center border-[var(--player-primary)] bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black md:bottom-6 md:left-6"
         aria-pressed={!muted}
         aria-label={muted ? "Enable portfolio audio" : "Mute portfolio audio"}
       >
@@ -272,7 +273,7 @@ export default function RoleSelectIntro() {
           href="https://buymeacoffee.com/saruhome"
           target="_blank"
           rel="noreferrer"
-          className="fixed bottom-4 left-[6.85rem] z-[70] border border-white/30 bg-black/65 px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/75 backdrop-blur-sm transition hover:border-[#ffdd00] hover:text-[#ffdd00] md:bottom-6 md:left-[8.5rem]"
+          className="pixel-hud-panel fixed bottom-4 left-[6.85rem] z-[70] grid h-10 place-items-center border-[#ffdd00]/70 bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[#ffdd00] hover:text-black md:bottom-6 md:left-[8.5rem]"
           aria-label="Support this portfolio on Buy Me a Coffee (opens in a new tab)"
         >
           Support

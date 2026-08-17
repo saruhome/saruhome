@@ -497,6 +497,59 @@
   image-rendering: pixelated;
 }
 
+.pixel-photo-frame {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+
+.pixel-photo-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, #22d3ee 20%, transparent) 1px, transparent 1px), linear-gradient(0deg, rgba(2, 11, 24, 0.45) 1px, transparent 1px);
+  background-size: 12px 12px;
+  mix-blend-mode: screen;
+  opacity: 0.3;
+}
+
+.pixel-signpost-face {
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82), inset 0 -4px 0 rgba(0, 0, 0, 0.22);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, -12px 100%);
+}
+
+.pixel-signpost-meta { text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.86); }
+
+.pixel-signpost-pole {
+  background-image: repeating-linear-gradient(180deg, rgba(255,255,255,0.28) 0 8px, transparent 8px 14px);
+  box-shadow: 3px 0 0 rgba(0, 0, 0, 0.4);
+}
+
+@keyframes pixel-wave-hop {
+  0%, 100% { transform: scaleY(0.42); filter: brightness(0.84); }
+  28% { transform: scaleY(1.08); filter: brightness(1.35); }
+  54% { transform: scaleY(0.64); filter: brightness(0.95); }
+  76% { transform: scaleY(0.9); filter: brightness(1.18); }
+}
+
+.pixel-wave-bar {
+  transform-origin: bottom;
+  animation: pixel-wave-hop 1.15s steps(4, end) infinite paused;
+  animation-delay: var(--wave-delay, 0s);
+}
+
+.pixel-wave-screen:hover .pixel-wave-bar,
+.pixel-wave-screen:focus-within .pixel-wave-bar { animation-play-state: running; }
+
+.terminal-cursor {
+  display: inline-block;
+  margin-left: 0.1em;
+  color: #67e8f9;
+  font-style: normal;
+  animation: terminal-cursor-blink 0.48s steps(1, end) infinite;
+}
+
+@keyframes terminal-cursor-blink { 50% { opacity: 0; } }
+
 .pixel-game-shell button,
 .pixel-game-shell input,
 .pixel-game-shell textarea,

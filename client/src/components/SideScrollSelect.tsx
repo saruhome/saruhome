@@ -140,13 +140,13 @@ function Signpost({
       onMouseEnter={onHover}
       style={{ left: x }}
       aria-label={item.label}
-      className={`absolute bottom-40 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 md:bottom-32 ${
+      className={`absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 md:bottom-[22.5rem] ${
         active ? "scale-110" : "scale-100"
       }`}
     >
       <div style={{ transform: `translateX(${push}px) rotate(${push * 0.06}deg)`, transition: "transform 150ms ease-out" }}>
         <div
-          className={`skew-x-[-12deg] whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] backdrop-blur-sm transition-colors duration-200 ${
+          className={`pixel-signpost-face skew-x-[-12deg] whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-colors duration-200 ${
             active
               ? isCyan
                 ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
@@ -160,7 +160,7 @@ function Signpost({
         </div>
       </div>
       {item.sublabel && (
-        <span className={`font-rajdhani text-[1.2rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/70" : "text-orange-200/70"}`}>
+        <span className={`pixel-signpost-meta font-rajdhani text-[1.2rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/80" : "text-orange-200/80"}`}>
           {item.sublabel}
         </span>
       )}
@@ -169,7 +169,6 @@ function Signpost({
           {pressLabel}
         </span>
       )}
-      <div className={`h-32 w-2 ${isCyan ? "bg-cyan-300/50" : "bg-orange-300/50"}`} />
     </button>
   );
 }
@@ -211,8 +210,8 @@ function MobileTouchControls({
   });
 
   return (
-    <div className="absolute inset-x-0 bottom-0 z-40 flex items-end justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-12 md:hidden pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-1.5 border border-white/15 bg-black/35 p-1.5 backdrop-blur-sm" style={{ touchAction: "none" }}>
+    <div className="absolute inset-x-0 bottom-[5rem] z-40 flex items-end justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-12 md:hidden pointer-events-none">
+      <div className="pointer-events-auto pixel-hud-panel flex items-center gap-1.5 border-white/25 bg-[#05080dcc] p-1.5" style={{ touchAction: "none" }}>
         <button type="button" aria-label="Move left" aria-pressed={movingDirection === "left"} className={`${buttonBase} ${movingDirection === "left" ? activeAccent : passiveAccent}`} {...pointerHandlers("left")}>←</button>
         <button type="button" aria-label="Move right" aria-pressed={movingDirection === "right"} className={`${buttonBase} ${movingDirection === "right" ? activeAccent : passiveAccent}`} {...pointerHandlers("right")}>→</button>
       </div>
@@ -222,7 +221,7 @@ function MobileTouchControls({
           type="button"
           onPointerDown={(event) => { event.preventDefault(); onJump(); }}
           aria-label="Jump"
-          className={`grid h-16 w-16 select-none place-items-center rounded-full border-2 bg-black/80 font-rajdhani text-xs font-black tracking-[0.12em] text-white shadow-[0_0_20px_rgba(0,0,0,0.42)] transition-transform duration-150 active:scale-95 ${passiveAccent}`}
+          className={`grid h-16 w-16 select-none place-items-center border-2 bg-black/80 font-rajdhani text-xs font-black tracking-[0.12em] text-white shadow-[3px_3px_0_rgba(0,0,0,0.82)] transition-transform duration-150 active:scale-95 ${passiveAccent}`}
         >
           JUMP
         </button>
@@ -231,7 +230,7 @@ function MobileTouchControls({
           onPointerDown={(event) => { event.preventDefault(); onSelect(); }}
           disabled={!canSelect}
           aria-label="Select current archive item"
-          className={`grid h-16 w-16 select-none place-items-center rounded-full border-2 bg-black/80 font-rajdhani text-[0.62rem] font-black tracking-[0.12em] text-white shadow-[0_0_20px_rgba(0,0,0,0.42)] transition-transform duration-150 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 ${canSelect ? passiveAccent : "border-white/20"}`}
+          className={`grid h-16 w-16 select-none place-items-center border-2 bg-black/80 font-rajdhani text-[0.62rem] font-black tracking-[0.12em] text-white shadow-[3px_3px_0_rgba(0,0,0,0.82)] transition-transform duration-150 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 ${canSelect ? passiveAccent : "border-white/20"}`}
         >
           SELECT
         </button>
@@ -451,14 +450,14 @@ export default function SideScrollSelect({
         <button
           type="button"
           onClick={onBack}
-          className={`shrink-0 skew-x-[-12deg] border-2 bg-black/75 px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`pixel-hud-panel shrink-0 skew-x-[-12deg] border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
           <span className="inline-block skew-x-[12deg]">&lt; {backLabel}</span>
         </button>
-        <div className={`shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
+        <div className={`pixel-hud-panel shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
           {playerLabel}
         </div>
-        <div className="border border-white/20 bg-black/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 backdrop-blur-sm md:text-[0.65rem] md:tracking-[0.22em]">
+        <div className="pixel-hud-panel border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
           {archiveLabel}
         </div>
       </div>
@@ -499,7 +498,7 @@ export default function SideScrollSelect({
           );
         })}
 
-        <div className="absolute bottom-[5.4rem] -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
+        <div className="absolute bottom-[5.4rem] z-10 -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
           <PixelCharacter
             variant={spriteVariant}
             facing={facing}
@@ -513,10 +512,10 @@ export default function SideScrollSelect({
       </div>
 
       {/* Controls help */}
-      <div className="absolute bottom-[calc(env(safe-area-inset-bottom)+6rem)] right-4 z-20 md:bottom-8 md:right-8">
+      <div className="absolute bottom-4 right-24 z-20 md:bottom-6 md:right-[6.5rem]">
         {showHelp && (
           <div
-            className={`mb-4 w-[min(28rem,calc(100vw-2rem))] border-4 bg-black/85 p-6 font-rajdhani text-base text-white/80 backdrop-blur-sm ${
+            className={`pixel-hud-panel mb-4 w-[min(28rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-6 font-rajdhani text-base text-white/80 ${
               isCyan ? "border-cyan-300/50" : "border-orange-300/50"
             }`}
           >
@@ -535,7 +534,7 @@ export default function SideScrollSelect({
           type="button"
           onClick={() => setShowHelp((v) => !v)}
           aria-label={t("controls")}
-          className={`grid h-[4.5rem] w-[4.5rem] place-items-center rounded-full border-4 bg-black/70 font-bebas text-3xl text-white transition-colors duration-200 ${
+          className={`pixel-hud-panel grid h-10 w-10 place-items-center border-2 bg-[#05080de8] font-bebas text-2xl text-white transition-colors duration-200 ${
             isCyan ? "border-cyan-300/60 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/60 hover:bg-orange-300 hover:text-[#1b0603]"
           }`}
         >

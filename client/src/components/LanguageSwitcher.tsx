@@ -13,7 +13,7 @@ export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
   ];
 
   return (
-    <div className={`fixed right-4 z-[70] md:bottom-6 md:right-6 ${elevated ? "bottom-[5.5rem]" : "bottom-4"}`}>
+    <div className={`fixed bottom-4 right-4 z-[70] md:bottom-6 md:right-6 ${elevated ? "" : ""}`}>
       {isOpen && (
         <div
           id="language-options"
@@ -42,7 +42,7 @@ export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
       <button
         type="button"
         onClick={() => setIsOpen((open) => !open)}
-        className="pixel-hud-panel border-[var(--player-primary)] bg-[#05080dcc] px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black"
+        className="pixel-hud-panel grid h-10 w-[4.5rem] place-items-center border-[var(--player-primary)] bg-[#05080dcc] px-1 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.14em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black"
         aria-expanded={isOpen}
         aria-controls="language-options"
         aria-label={isOpen ? "Close language menu" : "Open language menu"}
