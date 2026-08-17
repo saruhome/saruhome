@@ -25,6 +25,7 @@ type RoleOption = {
   imageSrc: string;
   imageAlt: string;
   spriteSheet: string;
+  gestureGif: string;
   primary: string;
   dark: string;
   stats: [string, string, string];
@@ -41,6 +42,7 @@ const roles: RoleOption[] = [
     imageSrc: assetUrl("Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png", "designer-portrait.png"),
     imageAlt: "Close-up portrait of a UX designer wearing gold-rimmed glasses",
     spriteSheet: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
+    gestureGif: assetUrl("designer-arcade-pixel-loop_be985bda.gif", "designer-arcade-pixel-loop.gif"),
     primary: "#37E7FF",
     dark: "#06101E",
     stats: ["FLOW 98", "UX 96", "SYSTEMS 92"],
@@ -53,6 +55,7 @@ const roles: RoleOption[] = [
     imageSrc: assetUrl("071222_Sunghee15_ig_26d4d224.jpg", "dancer-portrait.jpg"),
     imageAlt: "Close-up portrait of a dancer with blonde hair and elegant presence",
     spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
+    gestureGif: assetUrl("dancer-arcade-pixel-loop_ee9766f6.gif", "dancer-arcade-pixel-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -69,14 +72,16 @@ const spritePositions: Record<SpriteState, string> = {
 };
 
 function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
-  const [ready, setReady] = useState(false);
   const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
+  const isGesture = state === "design" || state === "dance";
 
   return (
     <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
-      <img className="sr-only" src={role.spriteSheet} alt="" onLoad={() => setReady(true)} onError={() => setReady(false)} />
-      <div className={`absolute inset-0 ${animationClass}`}>
-        {ready ? (
+      <div className="chibi-floor-highlight absolute bottom-[4%] left-1/2 h-[8%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
+      <div className={`absolute inset-0 z-10 ${animationClass}`}>
+        {isGesture ? (
+          <img className="h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]" src={role.gestureGif} alt="" />
+        ) : (
           <div
             className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
             style={{
@@ -85,35 +90,6 @@ function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) 
               backgroundSize: "200% 200%",
             }}
           />
-        ) : (
-          <div className="absolute left-1/2 top-1/2 h-32 w-24 -translate-x-1/2 -translate-y-1/2 [image-rendering:pixelated]" aria-label={`${role.id} chibi pixel avatar`}>
-            <div className="absolute left-1/2 top-0 h-9 w-[4.6rem] -translate-x-1/2 rounded-t-[0.85rem]" style={{ background: role.id === "designer" ? "#132434" : "#d7a86b" }} />
-            {role.id === "dancer" && <><div className="absolute left-0 top-4 h-12 w-4 rounded-bl-xl bg-[#d7a86b]" /><div className="absolute right-0 top-4 h-14 w-4 rounded-br-xl bg-[#d7a86b]" /></>}
-            <div className="absolute left-1/2 top-5 h-12 w-14 -translate-x-1/2 rounded-[0.8rem] border-2 border-[#5f3a2b] bg-[#f5cfb0]" />
-            <div className="absolute left-[1.65rem] top-[2.3rem] h-3 w-3 rounded-sm bg-[#17202a] shadow-[22px_0_0_#17202a]" />
-            <div className="absolute left-[1.95rem] top-[2.5rem] h-1 w-1 rounded-full bg-white shadow-[22px_0_0_#fff]" />
-            <div className="absolute left-[1.55rem] top-[3.35rem] h-2 w-2 rounded-full bg-[#ef8f98]/70 shadow-[28px_0_0_rgba(239,143,152,0.7)]" />
-            {role.id === "designer" && <><div className="absolute left-[1.25rem] top-[2.05rem] h-5 w-5 rounded-sm border-2 border-[#c9eff8]" /><div className="absolute right-[1.25rem] top-[2.05rem] h-5 w-5 rounded-sm border-2 border-[#c9eff8]" /><div className="absolute left-1/2 top-[2.65rem] h-px w-3 -translate-x-1/2 bg-[#c9eff8]" /></>}
-            <div className="absolute left-1/2 top-[4.3rem] h-11 w-[4.4rem] -translate-x-1/2 rounded-t-[0.55rem] border-4" style={{ background: role.id === "designer" ? role.primary : "#1d1111", borderColor: role.dark }} />
-            {role.id === "dancer" && <div className="absolute left-1/2 top-[5.2rem] h-2 w-[4.1rem] -translate-x-1/2 bg-[#ff6b17]" />}
-            <div className="absolute left-[1.1rem] top-[6.8rem] h-9 w-5 rounded-b-md" style={{ background: role.dark }} />
-            <div className="absolute right-[1.1rem] top-[6.8rem] h-9 w-5 rounded-b-md" style={{ background: role.dark }} />
-            <div className="absolute left-[0.85rem] top-[8.5rem] h-2 w-6 rounded-sm" style={{ background: role.primary }} />
-            <div className="absolute right-[0.85rem] top-[8.5rem] h-2 w-6 rounded-sm" style={{ background: role.primary }} />
-          </div>
-        )}
-        {state === "design" && (
-          <div className="chibi-design-tablet absolute left-[51%] top-[53%] h-[19%] w-[28%] -rotate-[13deg] border-2 border-cyan-100 bg-[#06283b]/95 shadow-[0_0_14px_rgba(55,231,255,0.7)]">
-            <span className="absolute left-[16%] top-[24%] h-px w-[66%] bg-cyan-100/90" />
-            <span className="absolute left-[16%] top-[49%] h-px w-[43%] bg-cyan-300/80" />
-            <span className="absolute right-[15%] top-[64%] h-[18%] w-[16%] border border-cyan-200/80" />
-          </div>
-        )}
-        {state === "dance" && (
-          <div className="pointer-events-none absolute inset-x-[17%] bottom-[19%] h-[40%]" aria-hidden="true">
-            <span className="chibi-dance-arm-left absolute left-0 top-[21%] h-[9%] w-[34%] origin-right rounded-full bg-[#ffb36e] shadow-[0_0_8px_rgba(255,107,23,0.45)]" />
-            <span className="chibi-dance-arm-right absolute right-0 top-[31%] h-[9%] w-[34%] origin-left rounded-full bg-[#ffb36e] shadow-[0_0_8px_rgba(255,107,23,0.45)]" />
-          </div>
         )}
       </div>
     </div>
