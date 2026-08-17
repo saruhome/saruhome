@@ -18,6 +18,7 @@ const PUSH_SCALE = 0.8;
 const SPEED = 260; // px/sec
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
+const DOUBLE_JUMP_MS = 320;
 
 const CHIBI_SPRITE_SHEET = {
   designer: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
@@ -25,8 +26,8 @@ const CHIBI_SPRITE_SHEET = {
 } as const;
 
 const CHIBI_RUN_GIF = {
-  designer: assetUrl("designer-side-run-loop_9ff2817f.gif", "designer-side-run-loop.gif"),
-  dancer: assetUrl("dancer-side-run-loop_236084fb.gif", "dancer-side-run-loop.gif"),
+  designer: assetUrl("designer-side-run-loop_8043e6f7.gif", "designer-side-run-loop.gif"),
+  dancer: assetUrl("dancer-side-run-loop_cb381184.gif", "dancer-side-run-loop.gif"),
 } as const;
 
 const spritePosition = {
@@ -38,6 +39,7 @@ const spritePosition = {
 const ARCHIVE_STAGE = assetUrl("portfolio-arcade-stage_9f866b47.png", "portfolio-arcade-stage.png");
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
+type DustBurst = { id: number; phase: "start" | "stop" };
 
 function PixelCharacter({
   variant,
@@ -46,6 +48,7 @@ function PixelCharacter({
   crouching,
   walking,
   frame,
+  dustBurst,
 }: {
   variant: "designer" | "dancer";
   facing: "left" | "right";
@@ -53,6 +56,7 @@ function PixelCharacter({
   crouching: boolean;
   walking: boolean;
   frame: 0 | 1 | 2 | 3;
+  dustBurst: DustBurst | null;
 }) {
   const accent = variant === "designer" ? "#22d3ee" : "#fb923c";
   const dark = variant === "designer" ? "#0e7490" : "#c2410c";
@@ -87,6 +91,16 @@ function PixelCharacter({
           />
         )}
       </div>
+      {dustBurst && (
+        <div
+          key={dustBurst.id}
+          className={`pixel-dust-burst pixel-dust-${dustBurst.phase} absolute bottom-4 left-1/2 h-8 w-24 -translate-x-1/2`}
+          style={{ "--dust-color": accent, "--dust-shadow": dark } as React.CSSProperties}
+          aria-hidden="true"
+        >
+          <i /><i /><i /><i />
+        </div>
+      )}
       <div
         className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap border px-2 py-0.5 font-rajdhani text-[0.6rem] font-black tracking-[0.2em] text-white"
         style={{ borderColor: `${accent}99`, background: `${dark}dd` }}
@@ -252,6 +266,7 @@ export default function SideScrollSelect({
   const [crouching, setCrouching] = useState(false);
   const [walkFrame, setWalkFrame] = useState<0 | 1 | 2 | 3>(0);
   const [isMoving, setIsMoving] = useState(false);
+  const [dustBurst, setDustBurst] = useState<DustBurst | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -259,6 +274,8 @@ export default function SideScrollSelect({
   const keys = useRef({ left: false, right: false });
   const rafRef = useRef<number | undefined>(undefined);
   const lastFrameToggle = useRef(0);
+  const dustTimer = useRef<number | undefined>(undefined);
+  const lastJumpPress = useRef(0);
 
   const itemPositions = useMemo(() => items.map((_, i) => START_X + i * ITEM_SPACING), [items]);
   const levelWidth = START_X + Math.max(0, items.length - 1) * ITEM_SPACING + END_PADDING;
@@ -284,25 +301,53 @@ export default function SideScrollSelect({
     onSelect(activeItem.id);
   }, [activeItem, onSelect, playConfirm]);
 
+  const triggerJumpOrSelect = useCallback(() => {
+    const now = performance.now();
+    const isDoubleJump = now - lastJumpPress.current <= DOUBLE_JUMP_MS;
+    lastJumpPress.current = isDoubleJump ? 0 : now;
+
+    if (isDoubleJump && activeItem) {
+      triggerSelect();
+      return;
+    }
+
+    triggerJump();
+  }, [activeItem, triggerJump, triggerSelect]);
+
+  const emitDust = useCallback((phase: DustBurst["phase"]) => {
+    const id = Date.now();
+    setDustBurst({ id, phase });
+    if (dustTimer.current) window.clearTimeout(dustTimer.current);
+    dustTimer.current = window.setTimeout(() => setDustBurst((burst) => (burst?.id === id ? null : burst)), 420);
+  }, []);
+
   const startTouchMove = useCallback((direction: TouchDirection) => {
+    const wasMoving = keys.current.left !== keys.current.right;
     keys.current.left = direction === "left";
     keys.current.right = direction === "right";
+    if (!wasMoving) emitDust("start");
     setIsMoving(true);
     setTouchDirection(direction);
     playNavigate();
-  }, [playNavigate]);
+  }, [emitDust, playNavigate]);
 
   const endTouchMove = useCallback(() => {
+    const wasMoving = keys.current.left !== keys.current.right;
     keys.current.left = false;
     keys.current.right = false;
+    if (wasMoving) emitDust("stop");
     setIsMoving(false);
     setTouchDirection(null);
-  }, []);
+  }, [emitDust]);
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => () => {
+    if (dustTimer.current) window.clearTimeout(dustTimer.current);
   }, []);
 
   // Game loop: continuous movement + walk-cycle timing while a direction key is held
@@ -331,18 +376,22 @@ export default function SideScrollSelect({
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
+        const wasMoving = keys.current.left !== keys.current.right;
         keys.current.left = true;
+        if (!wasMoving && keys.current.left !== keys.current.right) emitDust("start");
         setIsMoving(true);
       }
       if (e.key === "ArrowLeft" && !e.repeat) playNavigate();
       if (e.key === "ArrowRight") {
+        const wasMoving = keys.current.left !== keys.current.right;
         keys.current.right = true;
+        if (!wasMoving && keys.current.left !== keys.current.right) emitDust("start");
         setIsMoving(true);
       }
       if (e.key === "ArrowRight" && !e.repeat) playNavigate();
       if (e.key === "ArrowDown") setCrouching(true);
       if (e.key === "ArrowUp" && !e.repeat) {
-        triggerJump();
+        triggerJumpOrSelect();
       }
       if ((e.key === "Enter" || e.key === " ") && activeItem) {
         e.preventDefault();
@@ -352,11 +401,15 @@ export default function SideScrollSelect({
     };
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
+        const wasMoving = keys.current.left !== keys.current.right;
         keys.current.left = false;
+        if (wasMoving && keys.current.left === keys.current.right) emitDust("stop");
         setIsMoving(keys.current.right);
       }
       if (e.key === "ArrowRight") {
+        const wasMoving = keys.current.left !== keys.current.right;
         keys.current.right = false;
+        if (wasMoving && keys.current.left === keys.current.right) emitDust("stop");
         setIsMoving(keys.current.left);
       }
       if (e.key === "ArrowDown") setCrouching(false);
@@ -367,7 +420,7 @@ export default function SideScrollSelect({
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, [activeItem, playNavigate, triggerJump, triggerSelect]);
+  }, [activeItem, emitDust, playNavigate, triggerJumpOrSelect, triggerSelect]);
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
   const walking = isMoving && !jumping && !crouching;
@@ -451,6 +504,7 @@ export default function SideScrollSelect({
             crouching={crouching}
             walking={walking}
             frame={walkFrame}
+            dustBurst={dustBurst}
           />
         </div>
       </div>
@@ -492,7 +546,7 @@ export default function SideScrollSelect({
         canSelect={Boolean(activeItem)}
         onMoveStart={startTouchMove}
         onMoveEnd={endTouchMove}
-        onJump={triggerJump}
+        onJump={triggerJumpOrSelect}
         onSelect={triggerSelect}
       />
     </section>

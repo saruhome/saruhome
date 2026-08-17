@@ -31,3 +31,11 @@ The final 390×844 lobby capture confirms the updated floor-highlight center ali
 The designer archive was tested with a real ArrowRight keydown and keyup sequence. During the held input, the archive mounted the run GIF. Forty milliseconds after keyup, the run GIF was absent and the original designer idle sprite background was mounted, confirming that the character now returns to standing immediately when directional input ends.
 
 While rightward movement was active, ArrowUp was triggered and the run GIF immediately unmounted. This verifies that the jump state overrides the running GIF rather than leaving the running animation active in mid-air.
+
+## 2026-08-17 — Chibi-Proportion Run GIF Review
+
+Both rebuilt GIFs retain a deliberately large, rounded head and compact torso/limbs rather than the earlier elongated running silhouette. The designer preserves oversized glasses, navy hair, cyan jacket, and short body; the dancer preserves her large blonde-haired head, compact black-and-orange outfit, and short limbs. The GIF builder measured all adjacent frame pairs as visually distinct before export.
+
+## 2026-08-17 — Dust Burst and Compact Run Verification
+
+During a real ArrowRight press, the designer archive mounted the rebuilt compact-proportion GIF (`designer-side-run-loop_8043e6f7.gif`) together with a `pixel-dust-start` burst. On release, the run image unmounted, the idle sprite remounted, and a `pixel-dust-stop` burst rendered. This verifies the required movement start/stop particle timing and idle transition.

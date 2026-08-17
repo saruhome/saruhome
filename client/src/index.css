@@ -431,6 +431,41 @@
 .archive-run-limb-left { transform-origin: 50% 8%; animation: archive-run-limb-left 0.26s steps(2, end) infinite; }
 .archive-run-limb-right { transform-origin: 50% 8%; animation: archive-run-limb-right 0.26s steps(2, end) infinite; }
 
+@keyframes pixel-dust-start {
+  0% { opacity: 0; transform: translate(-50%, 5px) scale(0.5); }
+  16% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -12px) scale(1.12); }
+}
+
+@keyframes pixel-dust-stop {
+  0% { opacity: 0; transform: translate(-50%, 3px) scale(0.45); }
+  20% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -6px) scale(0.92); }
+}
+
+.pixel-dust-burst {
+  --dust-color: #e8faff;
+  --dust-shadow: #22d3ee;
+  pointer-events: none;
+}
+
+.pixel-dust-burst i {
+  position: absolute;
+  display: block;
+  width: 7px;
+  height: 7px;
+  background: var(--dust-color);
+  box-shadow: 3px 3px 0 var(--dust-shadow), -1px 0 0 var(--dust-shadow);
+  image-rendering: pixelated;
+}
+
+.pixel-dust-burst i:nth-child(1) { left: 12px; bottom: 3px; }
+.pixel-dust-burst i:nth-child(2) { left: 31px; bottom: 11px; width: 5px; height: 5px; }
+.pixel-dust-burst i:nth-child(3) { right: 28px; bottom: 6px; width: 6px; height: 6px; }
+.pixel-dust-burst i:nth-child(4) { right: 8px; bottom: 1px; width: 4px; height: 4px; }
+.pixel-dust-start { animation: pixel-dust-start 0.42s steps(4, end) both; }
+.pixel-dust-stop { animation: pixel-dust-stop 0.42s steps(4, end) both; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
