@@ -77,7 +77,7 @@ function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) 
 
   return (
     <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
-      <div className="chibi-floor-highlight absolute bottom-[4%] left-1/2 h-[8%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
+      <div className="chibi-floor-highlight absolute bottom-[9%] left-[83%] h-[5%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
       <div className={`absolute inset-0 z-10 ${animationClass}`}>
         {isGesture ? (
           <img className="h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]" src={role.gestureGif} alt="" />

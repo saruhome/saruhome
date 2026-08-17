@@ -24,9 +24,9 @@ const CHIBI_SPRITE_SHEET = {
   dancer: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
 } as const;
 
-const CHIBI_OPPOSITE_WALK_FRAME = {
-  designer: assetUrl("designer-chibi-walk-opposite_0f339cc8.png", "designer-chibi-walk-opposite.png"),
-  dancer: assetUrl("dancer-chibi-walk-opposite_c3d76514.png", "dancer-chibi-walk-opposite.png"),
+const CHIBI_RUN_GIF = {
+  designer: assetUrl("designer-side-run-loop_9ff2817f.gif", "designer-side-run-loop.gif"),
+  dancer: assetUrl("dancer-side-run-loop_236084fb.gif", "dancer-side-run-loop.gif"),
 } as const;
 
 const spritePosition = {
@@ -52,16 +52,14 @@ function PixelCharacter({
   jumping: boolean;
   crouching: boolean;
   walking: boolean;
-  frame: 0 | 1;
+  frame: 0 | 1 | 2 | 3;
 }) {
   const accent = variant === "designer" ? "#22d3ee" : "#fb923c";
   const dark = variant === "designer" ? "#0e7490" : "#c2410c";
   const roleLabel = variant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
   const spriteState = jumping ? "jump" : walking ? "walk" : "idle";
-  const usesOppositeWalkFrame = walking && frame === 1;
-  const activeSprite = usesOppositeWalkFrame ? CHIBI_OPPOSITE_WALK_FRAME[variant] : CHIBI_SPRITE_SHEET[variant];
-  const currentSpritePosition = usesOppositeWalkFrame ? "0% 0%" : spritePosition[spriteState];
+  const currentSpritePosition = spritePosition[spriteState];
 
   return (
     <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
@@ -71,14 +69,23 @@ function PixelCharacter({
           transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
         }}
       >
-        <div
-          className={`relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges] ${walking ? "archive-run-cycle" : ""}`}
-          style={{
-            backgroundImage: `url(${activeSprite})`,
-            backgroundPosition: currentSpritePosition,
-            backgroundSize: usesOppositeWalkFrame ? "100% 100%" : "200% 200%",
-          }}
-        />
+        {walking ? (
+          <img
+            src={CHIBI_RUN_GIF[variant]}
+            alt=""
+            draggable={false}
+            className="relative h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+          />
+        ) : (
+          <div
+            className="relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+            style={{
+              backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
+              backgroundPosition: currentSpritePosition,
+              backgroundSize: "200% 200%",
+            }}
+          />
+        )}
       </div>
       <div
         className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap border px-2 py-0.5 font-rajdhani text-[0.6rem] font-black tracking-[0.2em] text-white"
@@ -243,7 +250,7 @@ export default function SideScrollSelect({
   const [facing, setFacing] = useState<"left" | "right">("right");
   const [jumping, setJumping] = useState(false);
   const [crouching, setCrouching] = useState(false);
-  const [walkFrame, setWalkFrame] = useState<0 | 1>(0);
+  const [walkFrame, setWalkFrame] = useState<0 | 1 | 2 | 3>(0);
   const [showHelp, setShowHelp] = useState(false);
   const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -306,7 +313,7 @@ export default function SideScrollSelect({
         setCharX((x) => Math.min(Math.max(x + dir * SPEED * dt, 80), levelWidth - 80));
         setFacing(dir === -1 ? "left" : "right");
         if (now - lastFrameToggle.current > WALK_FRAME_MS) {
-          setWalkFrame((f) => (f === 0 ? 1 : 0));
+          setWalkFrame((f) => ((f + 1) % 4) as 0 | 1 | 2 | 3);
           lastFrameToggle.current = now;
         }
       }
