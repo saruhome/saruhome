@@ -154,12 +154,14 @@ function RolePanel({
   setActiveRole: (role: Role | null) => void;
   onSelect: (role: Role) => void;
 }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { playHover } = useGameAudio();
   const isDesigner = role.id === "designer";
   const isActive = activeRole === role.id;
   const isLocked = lockedRole === role.id;
   const isOtherLocked = lockedRole !== null && !isLocked;
+  const isCompressedKoreanDesigner = isDesigner && language === "kr" && activeRole === "dancer";
+  const designerTitle = t("uxuiDesigner").replace(/^UX[\s-]*/, "");
   const state: SpriteState = isLocked ? "celebrate" : isActive ? (isDesigner ? "design" : "dance") : "idle";
   const desktopFlexClass =
     activeRole === "designer"
@@ -209,8 +211,8 @@ function RolePanel({
           <p className="mb-2 inline-block skew-x-[-12deg] border px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.primary}1c`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
           </p>
-          <h2 className="max-w-[7.8ch] skew-x-[-9deg] font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white drop-shadow-[7px_8px_0_rgba(0,0,0,0.38)] transition-[opacity,transform] duration-500 md:text-[clamp(4.2rem,7.6vw,8.3rem)]">
-            {isDesigner ? <>UX<br />{t("uxuiDesigner").replace(/^UX[\s-]*/, "")}</> : t("dancer")}
+          <h2 className={`max-w-[7.8ch] skew-x-[-9deg] font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white drop-shadow-[7px_8px_0_rgba(0,0,0,0.38)] transition-[opacity,transform] duration-500 ${isCompressedKoreanDesigner ? "md:text-[clamp(2.8rem,3.1vw,3.8rem)]" : "md:text-[clamp(4.2rem,7.6vw,8.3rem)]"}`}>
+            {isDesigner ? <><span className="block">UX</span><span className={`block ${language === "kr" ? "whitespace-nowrap [word-break:keep-all]" : ""}`}>{designerTitle}</span></> : t("dancer")}
           </h2>
           <p className="mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/70 md:mt-3 md:text-sm">
             {isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}
