@@ -153,3 +153,18 @@
 - [x] 캐릭터 발밑의 역할별 아케이드 하이라이트와 실제 픽셀 GIF 루프 통합
 - [x] 데스크톱·모바일에서 idle·hover·선택 모션의 픽셀 선명도와 레이아웃 검증
 - [ ] GitHub 푸시 및 Manus 체크포인트 저장
+
+## Vercel pnpm lockfile 배포 복구
+
+- [x] `package.json`과 `pnpm-lock.yaml`의 specifier 불일치 확인
+- [x] 현재 의존성 명세에서 lockfile 재생성
+- [x] `pnpm install --frozen-lockfile`과 프로덕션 빌드 통과 검증
+- [x] 수정된 lockfile을 GitHub에 푸시하고 Vercel 배포 상태 확인
+
+## 아카이브 반대 보행 프레임
+
+- [x] 현재 이동 상태의 팔·다리 프레임과 방향 전환 구조 확인
+- [x] 오른다리·왼팔 후방 / 오른팔·왼다리 전방의 반대 보행 프레임 제작
+- [x] 양 프레임을 키보드·터치 이동 루프에 교차 연결
+- [x] 데스크톱 키보드 이동과 공용 터치 이동 경로에서 보행 프레임 전환 구조 검증
+- [ ] GitHub 푸시 및 Manus 체크포인트 저장

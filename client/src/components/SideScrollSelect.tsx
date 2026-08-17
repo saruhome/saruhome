@@ -24,6 +24,11 @@ const CHIBI_SPRITE_SHEET = {
   dancer: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
 } as const;
 
+const CHIBI_OPPOSITE_WALK_FRAME = {
+  designer: assetUrl("designer-chibi-walk-opposite_0f339cc8.png", "designer-chibi-walk-opposite.png"),
+  dancer: assetUrl("dancer-chibi-walk-opposite_c3d76514.png", "dancer-chibi-walk-opposite.png"),
+} as const;
+
 const spritePosition = {
   idle: "0% 0%",
   walk: "100% 0%",
@@ -53,11 +58,10 @@ function PixelCharacter({
   const dark = variant === "designer" ? "#0e7490" : "#c2410c";
   const roleLabel = variant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
-  const [spriteReady, setSpriteReady] = useState(false);
   const spriteState = jumping ? "jump" : walking ? "walk" : "idle";
-  const currentSpritePosition = walking
-    ? frame === 0 ? spritePosition.idle : spritePosition.walk
-    : spritePosition[spriteState];
+  const usesOppositeWalkFrame = walking && frame === 1;
+  const activeSprite = usesOppositeWalkFrame ? CHIBI_OPPOSITE_WALK_FRAME[variant] : CHIBI_SPRITE_SHEET[variant];
+  const currentSpritePosition = usesOppositeWalkFrame ? "0% 0%" : spritePosition[spriteState];
 
   return (
     <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
@@ -67,27 +71,14 @@ function PixelCharacter({
           transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
         }}
       >
-        {!spriteReady && (
-          <div className="absolute inset-0 mx-auto w-20 [image-rendering:pixelated]" aria-hidden="true">
-            <div className="absolute left-1/2 top-0 h-6 w-16 -translate-x-1/2 rounded-t-sm" style={{ background: variant === "designer" ? "#132534" : "#f4c98c" }} />
-            <div className="absolute left-1/2 top-4 h-11 w-12 -translate-x-1/2 rounded-sm" style={{ background: variant === "designer" ? "#f1c8a7" : "#f7d0ac" }} />
-            {variant === "designer" && <div className="absolute left-1/2 top-8 h-2 w-14 -translate-x-1/2 border-x-2 border-cyan-200/90" />}
-            <div className="absolute left-1/2 top-[3.7rem] h-12 w-16 -translate-x-1/2 border-4 rounded-[3px]" style={{ background: accent, borderColor: dark }} />
-            <div className={`absolute left-3 top-[6.1rem] h-10 w-5 rounded-sm ${walking ? "archive-run-limb-left" : ""}`} style={{ background: dark }} />
-            <div className={`absolute right-3 top-[6.1rem] h-10 w-5 rounded-sm ${walking ? "archive-run-limb-right" : ""}`} style={{ background: dark }} />
-          </div>
-        )}
-        <img src={CHIBI_SPRITE_SHEET[variant]} alt="" aria-hidden="true" draggable={false} onLoad={() => setSpriteReady(true)} onError={() => setSpriteReady(false)} className="sr-only" />
-        {spriteReady && (
-          <div
-            className={`relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges] ${walking ? "archive-run-cycle" : ""}`}
-            style={{
-              backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
-              backgroundPosition: currentSpritePosition,
-              backgroundSize: "200% 200%",
-            }}
-          />
-        )}
+        <div
+          className={`relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges] ${walking ? "archive-run-cycle" : ""}`}
+          style={{
+            backgroundImage: `url(${activeSprite})`,
+            backgroundPosition: currentSpritePosition,
+            backgroundSize: usesOppositeWalkFrame ? "100% 100%" : "200% 200%",
+          }}
+        />
       </div>
       <div
         className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap border px-2 py-0.5 font-rajdhani text-[0.6rem] font-black tracking-[0.2em] text-white"
