@@ -107,3 +107,7 @@ Both archives now use a shared 32px desktop left guide, the same guide used by t
 ## 2026-08-18 — Dancer Leftward Motion and Wall Collision
 
 The Dancer hover GIF now contains five left-facing frames at the Designer-matched 940ms cadence. The single full V pose uses an enlarged 960px safe canvas and retains every fingertip; the problematic source pose is excluded from the loop. In the Dancer archive, ArrowLeft at the minimum boundary mounts both the Orange left-wall impact emitter and the transparent falling-frame asset together; the live DOM confirmed both are present during the 720ms collision state before returning to idle.
+
+## 2026-08-18 — Selected Role Full-Screen Cover
+
+When a role is confirmed, the selected lobby panel removes its diagonal clipping and expands to the full screen while the unselected panel collapses to zero space. The resulting archive wrapper, stage section, world background, gradient, and scanline layers all report the exact viewport dimensions (1280×1100 in desktop verification), confirming no exposed split-panel or body-background edge remains after Dancer selection.

@@ -18,6 +18,8 @@ const START_X = ARCHIVE_LEFT_MARGIN + CHARACTER_DESKTOP_WIDTH / 2;
 const END_PADDING = 300;
 const SELECT_RADIUS = 140;
 const SPEED = 260; // px/sec
+const RUN_ACCELERATION = 1180; // px/sec²
+const RUN_DECELERATION = 1480; // px/sec²
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
 const DOUBLE_JUMP_MS = 320;
@@ -53,6 +55,7 @@ const ARCHIVE_STAGES = {
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 type DustBurst = { id: number; phase: "start" | "stop" };
 type Collision = { id: number; edge: "left" | "right" };
+type Recovery = { id: number; edge: "left" | "right" };
 
 function PixelCharacter({
   variant,
@@ -61,6 +64,7 @@ function PixelCharacter({
   crouching,
   walking,
   collision,
+  recovery,
   frame,
   dustBurst,
 }: {
@@ -70,6 +74,7 @@ function PixelCharacter({
   crouching: boolean;
   walking: boolean;
   collision: Collision | null;
+  recovery: Recovery | null;
   frame: 0 | 1 | 2 | 3;
   dustBurst: DustBurst | null;
 }) {
@@ -94,31 +99,34 @@ function PixelCharacter({
           style={{ transform: shouldMirrorFall ? "scaleX(-1)" : "none" }}
         />
       ) : (
-        <div
-          className="absolute inset-x-0 bottom-2 h-[92%] origin-bottom transition-transform duration-100 ease-out"
-          style={{
-            transform: `scaleX(${shouldMirrorRun ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
-          }}
-        >
-          {walking ? (
-          <img
-            src={variant === "dancer" && facing === "left" ? DANCER_LEFT_RUN_GIF : CHIBI_RUN_GIF[variant]}
-            alt=""
-            draggable={false}
-            className="relative h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
-          />
-          ) : (
+        <div className={`absolute inset-0 origin-bottom ${recovery ? `archive-recover-rise archive-recover-${recovery.edge}` : ""}`}>
           <div
-            className="relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+            className="absolute inset-x-0 bottom-2 h-[92%] origin-bottom transition-transform duration-100 ease-out"
             style={{
-              backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
-              backgroundPosition: currentSpritePosition,
-              backgroundSize: "200% 200%",
+              transform: `scaleX(${shouldMirrorRun ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
             }}
-          />
-          )}
+          >
+            {walking ? (
+              <img
+                src={variant === "dancer" && facing === "left" ? DANCER_LEFT_RUN_GIF : CHIBI_RUN_GIF[variant]}
+                alt=""
+                draggable={false}
+                className="relative h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+              />
+            ) : (
+              <div
+                className="relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+                style={{
+                  backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
+                  backgroundPosition: currentSpritePosition,
+                  backgroundSize: "200% 200%",
+                }}
+              />
+            )}
+          </div>
         </div>
       )}
+      {walking && <span className={`archive-stride-sparks archive-stride-${facing} absolute bottom-5 left-1/2 h-5 w-20 -translate-x-1/2`} style={{ "--stride-color": accent } as React.CSSProperties} aria-hidden="true"><i /><i /><i /></span>}
       {dustBurst && (
         <div
           key={dustBurst.id}
@@ -290,16 +298,19 @@ export default function SideScrollSelect({
   const [isMoving, setIsMoving] = useState(false);
   const [dustBurst, setDustBurst] = useState<DustBurst | null>(null);
   const [collision, setCollision] = useState<Collision | null>(null);
+  const [recovery, setRecovery] = useState<Recovery | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
 
   const keys = useRef({ left: false, right: false });
   const charXRef = useRef(START_X);
+  const velocityRef = useRef(0);
   const rafRef = useRef<number | undefined>(undefined);
   const lastFrameToggle = useRef(0);
   const dustTimer = useRef<number | undefined>(undefined);
   const collisionTimer = useRef<number | undefined>(undefined);
+  const recoveryTimer = useRef<number | undefined>(undefined);
   const collisionLockUntil = useRef(0);
   const lastJumpPress = useRef(0);
 
@@ -349,16 +360,22 @@ export default function SideScrollSelect({
 
   const triggerCollision = useCallback((edge: Collision["edge"]) => {
     const id = Date.now();
-    collisionLockUntil.current = performance.now() + 720;
+    collisionLockUntil.current = performance.now() + 840;
     keys.current.left = false;
     keys.current.right = false;
+    velocityRef.current = 0;
     setTouchDirection(null);
     setIsMoving(false);
     setCollision({ id, edge });
     emitDust("stop");
     playWallCrash(spriteVariant);
     if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
-    collisionTimer.current = window.setTimeout(() => setCollision((current) => (current?.id === id ? null : current)), 720);
+    if (recoveryTimer.current) window.clearTimeout(recoveryTimer.current);
+    collisionTimer.current = window.setTimeout(() => {
+      setCollision((current) => (current?.id === id ? null : current));
+      setRecovery({ id, edge });
+      recoveryTimer.current = window.setTimeout(() => setRecovery((current) => (current?.id === id ? null : current)), 320);
+    }, 520);
   }, [emitDust, playWallCrash, spriteVariant]);
 
   const startTouchMove = useCallback((direction: TouchDirection) => {
@@ -377,7 +394,6 @@ export default function SideScrollSelect({
     keys.current.left = false;
     keys.current.right = false;
     if (wasMoving) emitDust("stop");
-    setIsMoving(false);
     setTouchDirection(null);
   }, [emitDust]);
 
@@ -390,6 +406,7 @@ export default function SideScrollSelect({
   useEffect(() => () => {
     if (dustTimer.current) window.clearTimeout(dustTimer.current);
     if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
+    if (recoveryTimer.current) window.clearTimeout(recoveryTimer.current);
   }, []);
 
   // Game loop: continuous movement + walk-cycle timing while a direction key is held
@@ -398,21 +415,35 @@ export default function SideScrollSelect({
     const step = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
-      if (keys.current.left !== keys.current.right) {
-        const dir = keys.current.left ? -1 : 1;
+      const inputDirection = keys.current.left === keys.current.right ? 0 : keys.current.left ? -1 : 1;
+      const targetVelocity = inputDirection * SPEED;
+      const rate = inputDirection === 0 ? RUN_DECELERATION : RUN_ACCELERATION;
+      const velocityDelta = targetVelocity - velocityRef.current;
+      const velocityStep = Math.sign(velocityDelta) * Math.min(Math.abs(velocityDelta), rate * dt);
+      velocityRef.current = Math.abs(velocityDelta) < 0.5 ? targetVelocity : velocityRef.current + velocityStep;
+      const velocity = velocityRef.current;
+
+      if (Math.abs(velocity) > 0.5) {
+        const dir = velocity < 0 ? -1 : 1;
         const minX = 80;
         const maxX = levelWidth - 80;
-        const nextX = charXRef.current + dir * SPEED * dt;
+        const nextX = charXRef.current + velocity * dt;
         const hasHitWall = nextX < minX || nextX > maxX;
         const boundedX = Math.min(Math.max(nextX, minX), maxX);
         charXRef.current = boundedX;
         setCharX(boundedX);
-        if (hasHitWall && now >= collisionLockUntil.current) triggerCollision(dir === -1 ? "left" : "right");
+        if (hasHitWall && now >= collisionLockUntil.current) {
+          triggerCollision(dir === -1 ? "left" : "right");
+        }
         setFacing(dir === -1 ? "left" : "right");
+        setIsMoving(Math.abs(velocity) > 18);
         if (now - lastFrameToggle.current > WALK_FRAME_MS) {
           setWalkFrame((f) => ((f + 1) % 4) as 0 | 1 | 2 | 3);
           lastFrameToggle.current = now;
         }
+      } else {
+        velocityRef.current = 0;
+        setIsMoving(false);
       }
       rafRef.current = requestAnimationFrame(step);
     };
@@ -454,13 +485,11 @@ export default function SideScrollSelect({
         const wasMoving = keys.current.left !== keys.current.right;
         keys.current.left = false;
         if (wasMoving && keys.current.left === keys.current.right) emitDust("stop");
-        setIsMoving(keys.current.right);
       }
       if (e.key === "ArrowRight") {
         const wasMoving = keys.current.left !== keys.current.right;
         keys.current.right = false;
         if (wasMoving && keys.current.left === keys.current.right) emitDust("stop");
-        setIsMoving(keys.current.left);
       }
       if (e.key === "ArrowDown") setCrouching(false);
     };
@@ -473,7 +502,7 @@ export default function SideScrollSelect({
   }, [activeItem, emitDust, playNavigate, triggerJumpOrSelect, triggerSelect]);
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
-  const walking = isMoving && !jumping && !crouching && collision === null;
+  const walking = isMoving && !jumping && !crouching && collision === null && recovery === null;
   const playerLabel = spriteVariant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const archiveLabel = isCyan ? "DESIGN ARCHIVE" : "DANCE ARCHIVE";
 
@@ -553,6 +582,7 @@ export default function SideScrollSelect({
             crouching={crouching}
             walking={walking}
             collision={collision}
+            recovery={recovery}
             frame={walkFrame}
             dustBurst={dustBurst}
           />

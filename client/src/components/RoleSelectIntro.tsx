@@ -50,7 +50,7 @@ const roles: RoleOption[] = [
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
     spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
-    gestureGif: assetUrl("dancer-hover-jump-loop_639a60f2.gif", "dancer-hover-jump-loop.gif"),
+    gestureGif: assetUrl("dancer-hover-jump-loop_e7852574.gif", "dancer-hover-jump-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -72,7 +72,8 @@ function ChibiAvatar({ role, state, className = "" }: { role: RoleOption; state:
   // Hover GIFs are direct image elements: the source frame sequence controls the motion
   // without a wrapper transform or an added bounce animation.
   if (isGesture) {
-    return <img className={`h-44 w-40 object-contain [image-rendering:pixelated] [image-rendering:crisp-edges] sm:h-56 sm:w-52 lg:h-72 lg:w-64 ${className}`} src={role.gestureGif} alt="" aria-hidden="true" />;
+    const arrivalClass = role.id === "designer" ? "lobby-hover-arrive-right" : "lobby-hover-arrive-left";
+    return <img className={`lobby-hover-scale origin-bottom h-44 w-40 object-contain [image-rendering:pixelated] [image-rendering:crisp-edges] sm:h-56 sm:w-52 lg:h-72 lg:w-64 ${arrivalClass} ${className}`} src={role.gestureGif} alt="" aria-hidden="true" />;
   }
 
   const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
@@ -147,14 +148,19 @@ function RolePanel({
   const designerTitle = t("uxuiDesigner").replace(/^UX[\s-]*/, "");
   const state: SpriteState = isLocked ? "celebrate" : isActive ? "design" : "idle";
   const avatarPosition = isDesigner
-    ? isActive ? "md:right-[calc(33.333%-6.5rem)] lg:right-[calc(33.333%-8rem)]" : "right-5 sm:right-10"
+    ? isActive ? "md:left-[calc(66.666%-8rem)]" : "left-5 sm:left-10"
     : isActive ? "md:left-[calc(33.333%-6.5rem)] lg:left-[calc(33.333%-8rem)]" : "left-5 sm:left-10";
   const desktopFlexClass =
-    activeRole === "designer"
+    lockedRole
+      ? isLocked ? "h-full basis-full md:flex-1" : "h-0 basis-0 opacity-0 md:flex-[0]"
+      : activeRole === "designer"
       ? isDesigner ? "md:flex-[0.75]" : "md:flex-[0.25]"
       : activeRole === "dancer"
         ? isDesigner ? "md:flex-[0.25]" : "md:flex-[0.75]"
         : "md:flex-[0.5]";
+  const panelClipClass = isLocked ? "" : isDesigner
+    ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]"
+    : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]";
 
   return (
     <button
@@ -175,7 +181,7 @@ function RolePanel({
         }
         onSelect(role.id);
       }}
-      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,filter,opacity] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${isDesigner ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]" : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"}`}
+      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,basis,height,filter,opacity] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${panelClipClass}`}
     >
       <RoleWorld role={role} activeRole={activeRole} />
       <div className="absolute inset-0 pixel-corner-frame" style={{ "--frame-color": role.primary } as React.CSSProperties} />

@@ -159,10 +159,7 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* About Me Section */}
         <div className="mb-12">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">
-              {t("aboutMe")}
-            </p>
+          <div className="mb-4 flex flex-wrap items-center justify-start gap-3">
             <button
               type="button"
               onClick={onBack}
@@ -170,6 +167,9 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
             >
               &lt; {t("back").toUpperCase()}
             </button>
+            <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">
+              {t("aboutMe")}
+            </p>
           </div>
           <h2 className="font-bebas text-4xl font-bold text-light-primary mb-6 text-shadow-cyan">
             {t("designerAndDancer")}

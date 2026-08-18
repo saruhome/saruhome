@@ -684,3 +684,48 @@
   16% { opacity: 1; transform: translateX(0) scale(1); }
   100% { opacity: 0; transform: translateX(-12px) scale(0.85); }
 }
+
+.archive-stride-sparks { overflow: hidden; pointer-events: none; }
+.archive-stride-sparks i { position: absolute; bottom: 2px; display: block; height: 3px; background: var(--stride-color); opacity: 0; animation: archive-stride-spark 0.38s steps(3, end) infinite; }
+.archive-stride-sparks i:nth-child(1) { left: 8%; width: 20px; animation-delay: 0s; }
+.archive-stride-sparks i:nth-child(2) { left: 38%; width: 12px; animation-delay: 0.11s; }
+.archive-stride-sparks i:nth-child(3) { left: 62%; width: 8px; animation-delay: 0.22s; }
+.archive-stride-right { transform: translateX(-50%) scaleX(-1); }
+
+.archive-recover-rise { animation: archive-recover-rise 0.32s steps(4, end) both; }
+.archive-recover-left { --recover-turn: -16deg; }
+.archive-recover-right { --recover-turn: 16deg; }
+
+@keyframes archive-stride-spark {
+  0% { opacity: 0; transform: translateX(8px) scaleX(0.3); }
+  35% { opacity: 0.8; transform: translateX(0) scaleX(1); }
+  100% { opacity: 0; transform: translateX(-14px) scaleX(0.5); }
+}
+
+@keyframes archive-recover-rise {
+  0% { opacity: 0.45; transform: translateY(20px) rotate(var(--recover-turn)) scaleY(0.78); }
+  48% { opacity: 1; transform: translateY(4px) rotate(calc(var(--recover-turn) * 0.28)) scaleY(1.04); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scaleY(1); }
+}
+
+.lobby-hover-scale {
+  animation-duration: 0.65s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+  will-change: transform;
+}
+
+.lobby-hover-arrive-right { animation-name: lobby-hover-arrive-right; }
+.lobby-hover-arrive-left { animation-name: lobby-hover-arrive-left; }
+
+@keyframes lobby-hover-arrive-right {
+  0% { opacity: 0.3; transform: translateX(-42px) scale(0.78); }
+  58% { opacity: 1; transform: translateX(5px) scale(1.54); }
+  100% { opacity: 1; transform: translateX(0) scale(1.5); }
+}
+
+@keyframes lobby-hover-arrive-left {
+  0% { opacity: 0.3; transform: translateX(42px) scale(0.78); }
+  58% { opacity: 1; transform: translateX(-5px) scale(1.54); }
+  100% { opacity: 1; transform: translateX(0) scale(1.5); }
+}
