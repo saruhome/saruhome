@@ -514,7 +514,16 @@
 
 .pixel-signpost-face {
   box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82), inset 0 -4px 0 rgba(0, 0, 0, 0.22);
-  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, -12px 100%);
+  clip-path: none;
+}
+
+.pixel-game-shell button[class*="skew-x"],
+.pixel-game-shell button[class*="skew-x"] > [class*="skew-x"] {
+  --tw-skew-x: 0deg !important;
+}
+
+.pixel-game-shell a.pixel-hud-panel:hover {
+  transform: none !important;
 }
 
 .pixel-signpost-meta { text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.86); }

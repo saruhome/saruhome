@@ -149,7 +149,7 @@ const designProjectsByLang: Record<Language, DesignProject[]> = {
   ],
 };
 
-function AboutMeSkillsSlide() {
+function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
   return (
     <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-dark-primary px-4 py-16 md:px-8 md:py-24 lg:px-12">
@@ -159,9 +159,18 @@ function AboutMeSkillsSlide() {
       <div className="relative z-10 mx-auto w-full max-w-5xl">
         {/* About Me Section */}
         <div className="mb-12">
-          <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300 mb-4">
-            {t("aboutMe")}
-          </p>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">
+              {t("aboutMe")}
+            </p>
+            <button
+              type="button"
+              onClick={onBack}
+              className="pixel-hud-panel border-cyan-300/55 bg-[#020b18] px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
+            >
+              &lt; {t("back").toUpperCase()}
+            </button>
+          </div>
           <h2 className="font-bebas text-4xl font-bold text-light-primary mb-6 text-shadow-cyan">
             {t("designerAndDancer")}
           </h2>
@@ -211,12 +220,14 @@ function AboutMeSkillsSlide() {
             </div>
           </div>
         </div>
+
+        <ContactSlide embedded />
       </div>
     </section>
   );
 }
 
-function ContactSlide() {
+function ContactSlide({ embedded = false }: { embedded?: boolean }) {
   const { t } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -229,11 +240,11 @@ function ContactSlide() {
   };
 
   return (
-    <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-[#07111f] px-4 py-16 md:px-8 md:py-24 lg:px-12">
-      <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
-      <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-25" />
+    <section className={embedded ? "relative mt-12 border-t-2 border-cyan-300/30 pt-12" : "relative h-auto w-full overflow-visible bg-[#07111f] px-4 py-16 md:h-full md:overflow-y-auto md:px-8 md:py-24 lg:px-12"}>
+      {!embedded && <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />}
+      {!embedded && <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-25" />}
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl">
+      <div className={embedded ? "relative" : "relative z-10 mx-auto w-full max-w-5xl"}>
         <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm mb-4">{t("contact").toUpperCase()}</p>
         <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("getInTouch")}</h2>
 
@@ -315,9 +326,9 @@ function ContactSlide() {
             </div>
             <button
               type="submit"
-              className="w-full skew-x-[-12deg] border-2 border-cyan-300/50 bg-cyan-300/20 px-4 py-2 font-rajdhani text-sm font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:bg-cyan-300 hover:text-[#06101e]"
+              className="w-full border-2 border-cyan-300/50 bg-cyan-300/20 px-4 py-2 font-rajdhani text-sm font-black uppercase tracking-[0.2em] text-cyan-100 transition-colors duration-300 hover:bg-cyan-300 hover:text-[#06101e]"
             >
-              <span className="inline-block skew-x-[12deg]">{t("sendMessage")}</span>
+              {t("sendMessage")}
             </button>
           </form>
         </div>
@@ -326,18 +337,7 @@ function ContactSlide() {
   );
 }
 
-type DesignerView = "game" | "about" | "contact" | { type: "caseStudy"; projectId: string };
-
-function BackButton({ label, onClick }: { label: string; onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="absolute left-4 top-4 z-50 skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e] md:left-8 md:top-8 md:px-4 md:text-sm"
-    >
-      <span className="inline-block skew-x-[12deg]">&lt; {label}</span>
-    </button>
-  );
-}
+type DesignerView = "game" | "about" | { type: "caseStudy"; projectId: string };
 
 export default function DesignerPortfolioSlider({
   onBack,
@@ -357,18 +357,7 @@ export default function DesignerPortfolioSlider({
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-dark-primary">
         <LanguageSwitcher elevated />
-        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
-        <AboutMeSkillsSlide />
-      </div>
-    );
-  }
-
-  if (view === "contact") {
-    return (
-      <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-        <LanguageSwitcher elevated />
-        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
-        <ContactSlide />
+        <AboutMeSkillsSlide onBack={() => setView("game")} />
       </div>
     );
   }
@@ -376,7 +365,6 @@ export default function DesignerPortfolioSlider({
   const items = [
     ...designProjects.map((project) => ({ id: project.id, label: project.title, sublabel: project.tag })),
     { id: "about", label: t("aboutNav") },
-    { id: "contact", label: t("contactNav") },
   ];
 
   return (
@@ -393,7 +381,6 @@ export default function DesignerPortfolioSlider({
         title={t("designPortfolio")}
         onSelect={(id) => {
           if (id === "about") setView("about");
-          else if (id === "contact") setView("contact");
           else setView({ type: "caseStudy", projectId: id });
         }}
       />

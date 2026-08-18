@@ -13,8 +13,6 @@ const ITEM_SPACING = 380;
 const START_X = 160;
 const END_PADDING = 300;
 const SELECT_RADIUS = 140;
-const HIT_RADIUS = 110;
-const PUSH_SCALE = 0.8;
 const SPEED = 260; // px/sec
 const WALK_FRAME_MS = 130;
 const JUMP_MS = 380;
@@ -118,7 +116,6 @@ function Signpost({
   item,
   x,
   active,
-  push,
   isCyan,
   pressLabel,
   onSelect,
@@ -127,7 +124,6 @@ function Signpost({
   item: SideScrollItem;
   x: number;
   active: boolean;
-  push: number;
   isCyan: boolean;
   pressLabel: string;
   onSelect: (id: string) => void;
@@ -140,24 +136,20 @@ function Signpost({
       onMouseEnter={onHover}
       style={{ left: x }}
       aria-label={item.label}
-      className={`absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-4 transition-transform duration-200 md:bottom-[22.5rem] ${
-        active ? "scale-110" : "scale-100"
-      }`}
+      className="absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[22.5rem]"
     >
-      <div style={{ transform: `translateX(${push}px) rotate(${push * 0.06}deg)`, transition: "transform 150ms ease-out" }}>
-        <div
-          className={`pixel-signpost-face skew-x-[-12deg] whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-colors duration-200 ${
-            active
-              ? isCyan
-                ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
-                : "border-orange-200 bg-orange-300 text-[#1b0603]"
-              : isCyan
-                ? "border-cyan-300/50 bg-black/60 text-cyan-100"
-                : "border-orange-300/50 bg-black/60 text-orange-100"
-          }`}
-        >
-          <span className="inline-block skew-x-[12deg]">{item.label}</span>
-        </div>
+      <div
+        className={`pixel-signpost-face whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-colors duration-200 ${
+          active
+            ? isCyan
+              ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
+              : "border-orange-200 bg-orange-300 text-[#1b0603]"
+            : isCyan
+              ? "border-cyan-300/50 bg-black/60 text-cyan-100"
+              : "border-orange-300/50 bg-black/60 text-orange-100"
+        }`}
+      >
+        {item.label}
       </div>
       {item.sublabel && (
         <span className={`pixel-signpost-meta font-rajdhani text-[1.2rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/80" : "text-orange-200/80"}`}>
@@ -480,16 +472,12 @@ export default function SideScrollSelect({
         style={{ width: levelWidth, transform: `translateX(${-cameraX}px)` }}
       >
         {items.map((item, i) => {
-          const dist = itemPositions[i] - charX;
-          const absDist = Math.abs(dist);
-          const push = absDist < HIT_RADIUS ? (HIT_RADIUS - absDist) * PUSH_SCALE * (dist >= 0 ? 1 : -1) : 0;
           return (
             <Signpost
               key={item.id}
               item={item}
               x={itemPositions[i]}
               active={activeItem?.id === item.id}
-              push={push}
               isCyan={isCyan}
               pressLabel={t("pressToSelect")}
               onSelect={(id) => { playConfirm(); onSelect(id); }}
