@@ -32,6 +32,13 @@ const CHIBI_RUN_GIF = {
   dancer: assetUrl("dancer-side-run-loop_cb381184.gif", "dancer-side-run-loop.gif"),
 } as const;
 
+const DANCER_LEFT_RUN_GIF = assetUrl("dancer-side-run-left-loop_f29c9af5.gif", "dancer-side-run-left-loop.gif");
+
+const CHIBI_WALL_FALL = {
+  designer: assetUrl("designer-wall-fall_cc620221.png", "designer-wall-fall.png"),
+  dancer: assetUrl("dancer-wall-fall_922eac76.png", "dancer-wall-fall.png"),
+} as const;
+
 const spritePosition = {
   idle: "0% 0%",
   walk: "100% 0%",
@@ -45,6 +52,7 @@ const ARCHIVE_STAGES = {
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 type DustBurst = { id: number; phase: "start" | "stop" };
+type Collision = { id: number; edge: "left" | "right" };
 
 function PixelCharacter({
   variant,
@@ -52,6 +60,7 @@ function PixelCharacter({
   jumping,
   crouching,
   walking,
+  collision,
   frame,
   dustBurst,
 }: {
@@ -60,6 +69,7 @@ function PixelCharacter({
   jumping: boolean;
   crouching: boolean;
   walking: boolean;
+  collision: Collision | null;
   frame: 0 | 1 | 2 | 3;
   dustBurst: DustBurst | null;
 }) {
@@ -69,23 +79,35 @@ function PixelCharacter({
   const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
   const spriteState = jumping ? "jump" : walking ? "walk" : "idle";
   const currentSpritePosition = spritePosition[spriteState];
+  const baseFallFacing = variant === "dancer" ? "left" : "right";
+  const shouldMirrorFall = collision !== null && collision.edge !== baseFallFacing;
+  const shouldMirrorRun = facing === "left" && !(walking && variant === "dancer");
 
   return (
     <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
-      <div
-        className="absolute inset-x-0 bottom-2 h-[92%] origin-bottom transition-transform duration-100 ease-out"
-        style={{
-          transform: `scaleX(${facing === "left" ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
-        }}
-      >
-        {walking ? (
+      {collision ? (
+        <img
+          src={CHIBI_WALL_FALL[variant]}
+          alt=""
+          draggable={false}
+          className="absolute inset-x-0 bottom-0 h-[88%] w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+          style={{ transform: shouldMirrorFall ? "scaleX(-1)" : "none" }}
+        />
+      ) : (
+        <div
+          className="absolute inset-x-0 bottom-2 h-[92%] origin-bottom transition-transform duration-100 ease-out"
+          style={{
+            transform: `scaleX(${shouldMirrorRun ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
+          }}
+        >
+          {walking ? (
           <img
-            src={CHIBI_RUN_GIF[variant]}
+            src={variant === "dancer" && facing === "left" ? DANCER_LEFT_RUN_GIF : CHIBI_RUN_GIF[variant]}
             alt=""
             draggable={false}
             className="relative h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
           />
-        ) : (
+          ) : (
           <div
             className="relative h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
             style={{
@@ -94,8 +116,9 @@ function PixelCharacter({
               backgroundSize: "200% 200%",
             }}
           />
-        )}
-      </div>
+          )}
+        </div>
+      )}
       {dustBurst && (
         <div
           key={dustBurst.id}
@@ -255,25 +278,29 @@ export default function SideScrollSelect({
   title: string;
 }) {
   const { t } = useLanguage();
-  const { playConfirm, playHover, playJump, playNavigate } = useGameAudio();
+  const { playConfirm, playHover, playJump, playNavigate, playWallCrash } = useGameAudio();
   const isCyan = accentColor === "cyan";
 
   // Spawn on the first project signpost's centre; it shares the Back HUD left guide above.
   const [charX, setCharX] = useState(START_X);
-  const [facing, setFacing] = useState<"left" | "right">("right");
+  const [facing, setFacing] = useState<"left" | "right">(spriteVariant === "dancer" ? "left" : "right");
   const [jumping, setJumping] = useState(false);
   const [crouching, setCrouching] = useState(false);
   const [walkFrame, setWalkFrame] = useState<0 | 1 | 2 | 3>(0);
   const [isMoving, setIsMoving] = useState(false);
   const [dustBurst, setDustBurst] = useState<DustBurst | null>(null);
+  const [collision, setCollision] = useState<Collision | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
 
   const keys = useRef({ left: false, right: false });
+  const charXRef = useRef(START_X);
   const rafRef = useRef<number | undefined>(undefined);
   const lastFrameToggle = useRef(0);
   const dustTimer = useRef<number | undefined>(undefined);
+  const collisionTimer = useRef<number | undefined>(undefined);
+  const collisionLockUntil = useRef(0);
   const lastJumpPress = useRef(0);
 
   const itemPositions = useMemo(() => items.map((_, i) => START_X + i * ITEM_SPACING), [items]);
@@ -320,7 +347,22 @@ export default function SideScrollSelect({
     dustTimer.current = window.setTimeout(() => setDustBurst((burst) => (burst?.id === id ? null : burst)), 420);
   }, []);
 
+  const triggerCollision = useCallback((edge: Collision["edge"]) => {
+    const id = Date.now();
+    collisionLockUntil.current = performance.now() + 720;
+    keys.current.left = false;
+    keys.current.right = false;
+    setTouchDirection(null);
+    setIsMoving(false);
+    setCollision({ id, edge });
+    emitDust("stop");
+    playWallCrash(spriteVariant);
+    if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
+    collisionTimer.current = window.setTimeout(() => setCollision((current) => (current?.id === id ? null : current)), 720);
+  }, [emitDust, playWallCrash, spriteVariant]);
+
   const startTouchMove = useCallback((direction: TouchDirection) => {
+    if (performance.now() < collisionLockUntil.current) return;
     const wasMoving = keys.current.left !== keys.current.right;
     keys.current.left = direction === "left";
     keys.current.right = direction === "right";
@@ -347,6 +389,7 @@ export default function SideScrollSelect({
 
   useEffect(() => () => {
     if (dustTimer.current) window.clearTimeout(dustTimer.current);
+    if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
   }, []);
 
   // Game loop: continuous movement + walk-cycle timing while a direction key is held
@@ -357,7 +400,14 @@ export default function SideScrollSelect({
       last = now;
       if (keys.current.left !== keys.current.right) {
         const dir = keys.current.left ? -1 : 1;
-        setCharX((x) => Math.min(Math.max(x + dir * SPEED * dt, 80), levelWidth - 80));
+        const minX = 80;
+        const maxX = levelWidth - 80;
+        const nextX = charXRef.current + dir * SPEED * dt;
+        const hasHitWall = nextX < minX || nextX > maxX;
+        const boundedX = Math.min(Math.max(nextX, minX), maxX);
+        charXRef.current = boundedX;
+        setCharX(boundedX);
+        if (hasHitWall && now >= collisionLockUntil.current) triggerCollision(dir === -1 ? "left" : "right");
         setFacing(dir === -1 ? "left" : "right");
         if (now - lastFrameToggle.current > WALK_FRAME_MS) {
           setWalkFrame((f) => ((f + 1) % 4) as 0 | 1 | 2 | 3);
@@ -370,10 +420,11 @@ export default function SideScrollSelect({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [levelWidth]);
+  }, [levelWidth, triggerCollision]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      if ((e.key === "ArrowLeft" || e.key === "ArrowRight") && performance.now() < collisionLockUntil.current) return;
       if (e.key === "ArrowLeft") {
         const wasMoving = keys.current.left !== keys.current.right;
         keys.current.left = true;
@@ -422,7 +473,7 @@ export default function SideScrollSelect({
   }, [activeItem, emitDust, playNavigate, triggerJumpOrSelect, triggerSelect]);
 
   const cameraX = Math.min(Math.max(charX - viewportWidth / 2, 0), Math.max(0, levelWidth - viewportWidth));
-  const walking = isMoving && !jumping && !crouching;
+  const walking = isMoving && !jumping && !crouching && collision === null;
   const playerLabel = spriteVariant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const archiveLabel = isCyan ? "DESIGN ARCHIVE" : "DANCE ARCHIVE";
 
@@ -492,12 +543,16 @@ export default function SideScrollSelect({
         })}
 
         <div className="absolute bottom-[5.4rem] z-10 -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
+          {collision && (
+            <span className={`pixel-wall-impact pixel-wall-impact-${collision.edge} pointer-events-none absolute bottom-16 z-20 h-24 w-20`} style={{ "--impact-color": isCyan ? "#37E7FF" : "#FF6B17" } as React.CSSProperties} aria-hidden="true"><i /><i /><i /></span>
+          )}
           <PixelCharacter
             variant={spriteVariant}
             facing={facing}
             jumping={jumping}
             crouching={crouching}
             walking={walking}
+            collision={collision}
             frame={walkFrame}
             dustBurst={dustBurst}
           />

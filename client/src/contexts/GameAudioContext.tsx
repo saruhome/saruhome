@@ -16,6 +16,7 @@ type GameAudioContextValue = {
   stopMusic: () => void;
   playHover: () => void;
   playRoleHoverJump: (role: PlayerRole) => void;
+  playWallCrash: (role: PlayerRole) => void;
   playNavigate: () => void;
   playJump: () => void;
   playConfirm: () => void;
@@ -124,6 +125,15 @@ export function GameAudioProvider({ children }: { children: ReactNode }) {
           { frequency: 294, offset: 0.09, duration: 0.085, gain: 0.055, type: "sawtooth" },
           { frequency: 440, offset: 0.375, duration: 0.12, gain: 0.05, type: "square" },
           { frequency: 220, offset: 0.65, duration: 0.08, gain: 0.045, type: "triangle" },
+        ]),
+    playWallCrash: (role) => playTones(role === "designer"
+      ? [
+          { frequency: 185, offset: 0, duration: 0.08, gain: 0.065, type: "square" },
+          { frequency: 96, offset: 0.065, duration: 0.14, gain: 0.055, type: "sawtooth" },
+        ]
+      : [
+          { frequency: 130, offset: 0, duration: 0.08, gain: 0.07, type: "square" },
+          { frequency: 78, offset: 0.065, duration: 0.15, gain: 0.06, type: "sawtooth" },
         ]),
     playNavigate: () => playTones([{ frequency: 330, offset: 0, duration: 0.055, gain: 0.05 }, { frequency: 494, offset: 0.045, duration: 0.07, gain: 0.04 }]),
     playJump: () => playTones([{ frequency: 220, offset: 0, duration: 0.18, gain: 0.09, type: "sine" }, { frequency: 660, offset: 0.045, duration: 0.13, gain: 0.05, type: "triangle" }]),

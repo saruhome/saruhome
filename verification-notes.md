@@ -103,3 +103,7 @@ Hover now triggers the role sound at timeline start, the bar flare peak at the m
 ## 2026-08-18 — Archive Spawn and Left-Guide Alignment
 
 Both archives now use a shared 32px desktop left guide, the same guide used by the `BACK TO SELECT` HUD. The first project centre is x=160 for both Designer and Dancer, while the 256px chibi player begins at x=32 and therefore centres at x=160. Browser measurements confirm the exact match in both archives: Back left edge x=32, character left edge x=32, first project centre x=160, and character centre x=160.
+
+## 2026-08-18 — Dancer Leftward Motion and Wall Collision
+
+The Dancer hover GIF now contains five left-facing frames at the Designer-matched 940ms cadence. The single full V pose uses an enlarged 960px safe canvas and retains every fingertip; the problematic source pose is excluded from the loop. In the Dancer archive, ArrowLeft at the minimum boundary mounts both the Orange left-wall impact emitter and the transparent falling-frame asset together; the live DOM confirmed both are present during the 720ms collision state before returning to idle.

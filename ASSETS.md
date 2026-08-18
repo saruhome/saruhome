@@ -20,7 +20,10 @@
 | Pixel designer archive | Cyan design workshop archive environment | `/manus-storage/pixel-designer-archive-stage_95952f5a.png` |
 | Pixel dancer archive | Orange dance battle archive environment | `/manus-storage/pixel-dancer-archive-stage_f52ebca6.png` |
 | Pixel case-study console | Shared command-console backdrop for project detail | `/manus-storage/pixel-case-study-console_be8cc839.png` |
-| Dancer central hover loop | Player 02 five-pose hover GIF with expanded V/run-frame safe area, 940ms cadence matching Player 01 | `/manus-storage/dancer-hover-jump-loop_30b5092c.gif` |
+| Dancer central hover loop | Player 02 five-pose left-facing hover GIF; full V-pose fingertip safe area and 940ms Player 01-matched cadence | `/manus-storage/dancer-hover-jump-loop_639a60f2.gif` |
+| Dancer left run loop | Player 02 four-pose mirrored leftward archive run | `/manus-storage/dancer-side-run-left-loop_f29c9af5.gif` |
+| Designer wall fall | Player 01 collision and falling-frame sprite | `/manus-storage/designer-wall-fall_cc620221.png` |
+| Dancer wall fall | Player 02 collision and falling-frame sprite | `/manus-storage/dancer-wall-fall_922eac76.png` |
 
 ## Role palette specification
 
