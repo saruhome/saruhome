@@ -366,19 +366,6 @@
   }
 }
 
-@keyframes chibi-preview-jump {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  44% {
-    transform: translateY(-11px) scale(0.985, 1.03);
-  }
-  62% {
-    transform: translateY(-8px) scale(0.995, 1.02);
-  }
-}
-
 @keyframes chibi-tablet-draw {
   0%,
   100% {
@@ -430,7 +417,6 @@
 }
 
 .chibi-design { animation: chibi-design 1.06s ease-in-out infinite; }
-.chibi-preview-jump { animation: chibi-preview-jump 1.06s ease-in-out infinite; }
 .chibi-dance { animation: chibi-dance 0.92s ease-in-out infinite; }
 .chibi-floor-highlight {
   animation: chibi-floor-pulse 1.06s steps(2, end) infinite;

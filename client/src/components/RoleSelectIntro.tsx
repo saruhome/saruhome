@@ -65,19 +65,22 @@ const spritePositions: Record<SpriteState, string> = {
   dance: "100% 0%",
 };
 
-function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
-  const isDancerHover = role.id === "dancer" && state === "design";
-  const animationClass = isDancerHover ? "chibi-preview-jump" : state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
-  // Both roles use real multi-pose GIFs during the lobby hover; the Dancer GIF is a vertical jump loop.
+function ChibiAvatar({ role, state, className = "" }: { role: RoleOption; state: SpriteState; className?: string }) {
   const isGesture = state === "design";
 
+  // Hover GIFs are direct image elements: the source frame sequence controls the motion
+  // without a wrapper transform or an added bounce animation.
+  if (isGesture) {
+    return <img className={`h-44 w-40 object-contain [image-rendering:pixelated] [image-rendering:crisp-edges] sm:h-56 sm:w-52 lg:h-72 lg:w-64 ${className}`} src={role.gestureGif} alt="" aria-hidden="true" />;
+  }
+
+  const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
+
   return (
-    <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
-      <div className="chibi-floor-highlight absolute bottom-[9%] left-[83%] h-[5%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
-      <div className={`absolute inset-0 z-10 ${animationClass}`}>
-        {isGesture ? (
-          <img className="h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]" src={role.gestureGif} alt="" />
-        ) : (
+    <div className={className} aria-hidden="true">
+      <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64">
+        <div className="chibi-floor-highlight absolute bottom-[9%] left-[83%] h-[5%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
+        <div className={`absolute inset-0 z-10 ${animationClass}`}>
           <div
             className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
             style={{
@@ -86,7 +89,7 @@ function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) 
               backgroundSize: "200% 200%",
             }}
           />
-        )}
+        </div>
       </div>
     </div>
   );
@@ -138,6 +141,9 @@ function RolePanel({
   const isCompressedKoreanDesigner = isDesigner && language === "kr" && activeRole === "dancer";
   const designerTitle = t("uxuiDesigner").replace(/^UX[\s-]*/, "");
   const state: SpriteState = isLocked ? "celebrate" : isActive ? "design" : "idle";
+  const avatarPosition = isDesigner
+    ? isActive ? "md:right-[calc(33.333%-6.5rem)] lg:right-[calc(33.333%-8rem)]" : "right-5 sm:right-10"
+    : isActive ? "md:left-[calc(33.333%-6.5rem)] lg:left-[calc(33.333%-8rem)]" : "left-5 sm:left-10";
   const desktopFlexClass =
     activeRole === "designer"
       ? isDesigner ? "md:flex-[0.75]" : "md:flex-[0.25]"
@@ -202,9 +208,11 @@ function RolePanel({
         </div>
       </div>
 
-      <div className={`pointer-events-none absolute z-20 bottom-16 ${isDesigner ? "right-5 sm:right-10" : "left-5 sm:left-10"} ${isActive ? "md:hidden" : "block"} ${isOtherLocked ? "hidden" : "block"}`}>
-        <ChibiAvatar role={role} state={state} />
-      </div>
+      <ChibiAvatar
+        role={role}
+        state={state}
+        className={`pointer-events-none absolute z-20 bottom-16 transition-[left,right] duration-500 ease-in-out ${avatarPosition} ${isOtherLocked ? "hidden" : "block"}`}
+      />
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
         <div className={`max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
@@ -237,7 +245,6 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [lockedRole, setLockedRole] = useState<Role | null>(null);
   const selectTimer = useRef<number | undefined>(undefined);
-  const activePlayer = activeRole ? roles.find((role) => role.id === activeRole) : null;
 
   useEffect(() => () => { if (selectTimer.current) window.clearTimeout(selectTimer.current); }, []);
 
@@ -274,11 +281,6 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       <div className="relative z-10 flex h-full flex-col md:flex-row">
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} lockedRole={lockedRole} setActiveRole={setActiveRole} onSelect={handleRoleSelection} />)}
       </div>
-      {activePlayer && !lockedRole && (
-        <div className="pointer-events-none fixed bottom-16 left-1/2 z-[25] hidden -translate-x-1/2 md:block" aria-hidden="true">
-          <ChibiAvatar role={activePlayer} state="design" />
-        </div>
-      )}
     </section>
   );
 }

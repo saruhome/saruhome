@@ -77,3 +77,9 @@ The regenerated dancer source GIF is a 640×900 full-body canvas: the dancer’s
 The revised desktop capture renders the active dancer as a complete visible silhouette at the viewport midpoint, outside both role panels and therefore outside their diagonal clip paths. Switching to the designer confirms the same midpoint anchor for Player 01. The central hover layer now sits below the role copy layer, preserving the readable PLAYER labels and titles while maintaining the requested centered character placement.
 
 After the final stack-order refinement, the active designer GIF remains fully visible at the exact horizontal midpoint with the cyan floor highlight directly beneath it. The inactive role retains its own panel-local idle character, so the hover layer only ever shows one active player and no character is cropped by a role panel edge.
+
+## 2026-08-18 — Slide-Synced Direct GIF Revision
+
+The fixed global hover overlay has been removed. The active character now remains inside its expanding role panel and transitions its left/right offset with the same 500ms easing as the panel flex change, arriving at the viewport midpoint as the selected panel slides open. The dancer hover source is now a direct `IMG` element whose computed `animationName` is `none` and whose computed `transform` is `none`; the source GIF provides the only frame motion, with no added vertical bounce. During desktop dancer hover its measured centre X is exactly the viewport centre X.
+
+The Designer hover path uses the same panel-local slide system. Its direct GIF image also reports `animationName: none`, `transform: none`, and an exact midpoint centre X after the panel transition. The obsolete `chibi-preview-jump` keyframes have been removed from the style layer so no dormant vertical bounce treatment can be applied to the Dancer path.
