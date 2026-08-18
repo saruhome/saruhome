@@ -95,3 +95,7 @@ In the desktop dancer hover capture, the expanded orange bar flares beneath the 
 Computed desktop hover styles confirm that the Dancer GIF and its orange bar both use `cubic-bezier(0.22, 1, 0.36, 1)` for `0.65s`. Their measured centre X values are both exactly the viewport centre, so the bar does not lag or detach while the panel slide is settling.
 
 The Designer path was then checked with the same slide. Its cyan bar widens and brightens under the direct GIF at the central arrival point, while the Dancer retains the orange version. This verifies that the feedback is role-colour driven rather than a dancer-only treatment and that the bar follows each role’s directional slide.
+
+## 2026-08-18 — Hover Timeline Effects
+
+Hover now triggers the role sound at timeline start, the bar flare peak at the matching 375ms high-tone cue, and a final impact tone at the 650ms central arrival. A desktop Dancer inspection confirms three non-blurring pixel speed lines render during the slide and a five-particle orange landing-dust emitter is mounted after arrival. The bar animation has a 650ms duration, while the dust runs only 340ms, preserving a short landing accent rather than a persistent trail.

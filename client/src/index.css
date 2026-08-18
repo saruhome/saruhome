@@ -438,10 +438,60 @@
   animation: chibi-hover-bar-flare 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.chibi-slide-speed-lines {
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+.chibi-slide-speed-lines i {
+  position: absolute;
+  display: block;
+  right: 10%;
+  height: 3px;
+  background: var(--speed-primary);
+  box-shadow: 4px 0 0 color-mix(in srgb, var(--speed-primary) 42%, transparent);
+  transform-origin: right center;
+  animation: chibi-slide-speed-line 0.65s steps(5, end) both;
+}
+
+.chibi-slide-speed-lines i:nth-child(1) { top: 22%; width: 38%; animation-delay: 0.02s; }
+.chibi-slide-speed-lines i:nth-child(2) { top: 48%; width: 55%; animation-delay: 0.08s; }
+.chibi-slide-speed-lines i:nth-child(3) { top: 71%; width: 27%; animation-delay: 0.14s; }
+
+.chibi-hover-land-dust { image-rendering: pixelated; }
+.chibi-hover-land-dust i {
+  position: absolute;
+  display: block;
+  width: 7px;
+  height: 7px;
+  background: var(--dust-primary);
+  box-shadow: 3px 3px 0 var(--dust-shadow), -1px 0 0 color-mix(in srgb, var(--dust-primary) 76%, white);
+  animation: chibi-hover-land-dust 0.34s steps(4, end) both;
+}
+
+.chibi-hover-land-dust i:nth-child(1) { left: 28%; bottom: 2px; animation-delay: 0s; }
+.chibi-hover-land-dust i:nth-child(2) { left: 43%; bottom: 9px; width: 5px; height: 5px; animation-delay: 0.02s; }
+.chibi-hover-land-dust i:nth-child(3) { left: 56%; bottom: 4px; width: 6px; height: 6px; animation-delay: 0.04s; }
+.chibi-hover-land-dust i:nth-child(4) { left: 68%; bottom: 12px; width: 4px; height: 4px; animation-delay: 0.01s; }
+.chibi-hover-land-dust i:nth-child(5) { left: 18%; bottom: 8px; width: 4px; height: 4px; animation-delay: 0.05s; }
+
 @keyframes chibi-hover-bar-flare {
   0% { filter: brightness(0.72) saturate(0.85); opacity: 0.58; transform: scaleX(0.66); }
   58% { filter: brightness(1.65) saturate(1.25); opacity: 1; transform: scaleX(1.22); }
   100% { filter: brightness(1.18) saturate(1.08); opacity: 0.96; transform: scaleX(1.06); }
+}
+
+@keyframes chibi-slide-speed-line {
+  0% { opacity: 0; transform: scaleX(0.15) translateX(52px); }
+  20% { opacity: 0.78; }
+  72% { opacity: 0.34; transform: scaleX(1) translateX(-18px); }
+  100% { opacity: 0; transform: scaleX(0.22) translateX(-42px); }
+}
+
+@keyframes chibi-hover-land-dust {
+  0% { opacity: 0; transform: translate(0, 8px) scale(0.45); }
+  18% { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--dust-drift, 0), -19px) scale(0.8); }
 }
 .archive-run-cycle { animation: archive-run-cycle 0.26s steps(2, end) infinite; }
 .archive-run-limb-left { transform-origin: 50% 8%; animation: archive-run-limb-left 0.26s steps(2, end) infinite; }

@@ -16,6 +16,7 @@ import { assetUrl } from "../lib/assetUrl";
 type Role = "designer" | "dancer";
 type View = "main" | Role;
 type SpriteState = "idle" | "walk" | "jump" | "celebrate" | "design" | "dance";
+const HOVER_MOVE_MS = 650;
 
 type RoleOption = {
   id: Role;
@@ -122,20 +123,24 @@ function RoleWorld({ role, activeRole }: { role: RoleOption; activeRole: Role | 
 function RolePanel({
   role,
   activeRole,
+  landingRole,
   lockedRole,
-  setActiveRole,
+  onHoverStart,
+  onHoverEnd,
   onSelect,
 }: {
   role: RoleOption;
   activeRole: Role | null;
+  landingRole: Role | null;
   lockedRole: Role | null;
-  setActiveRole: (role: Role | null) => void;
+  onHoverStart: (role: Role) => void;
+  onHoverEnd: () => void;
   onSelect: (role: Role) => void;
 }) {
   const { t, language } = useLanguage();
-  const { playRoleHoverJump } = useGameAudio();
   const isDesigner = role.id === "designer";
   const isActive = activeRole === role.id;
+  const isLanding = landingRole === role.id;
   const isLocked = lockedRole === role.id;
   const isOtherLocked = lockedRole !== null && !isLocked;
   const isCompressedKoreanDesigner = isDesigner && language === "kr" && activeRole === "dancer";
@@ -157,16 +162,15 @@ function RolePanel({
       aria-label={`Explore ${isDesigner ? t("uxuiDesigner") : t("dancer")} portfolio`}
       aria-pressed={isLocked}
       disabled={lockedRole !== null}
-      onMouseEnter={() => { if (!lockedRole) { setActiveRole(role.id); playRoleHoverJump(role.id); } }}
-      onMouseLeave={() => !lockedRole && setActiveRole(null)}
-      onFocus={() => !lockedRole && setActiveRole(role.id)}
-      onBlur={() => !lockedRole && setActiveRole(null)}
-      onTouchStart={() => { if (!lockedRole) { setActiveRole(role.id); playRoleHoverJump(role.id); } }}
+      onMouseEnter={() => !lockedRole && onHoverStart(role.id)}
+      onMouseLeave={() => !lockedRole && onHoverEnd()}
+      onFocus={() => !lockedRole && onHoverStart(role.id)}
+      onBlur={() => !lockedRole && onHoverEnd()}
+      onTouchStart={() => !lockedRole && onHoverStart(role.id)}
       onClick={() => {
         if (lockedRole) return;
         if (!isActive) {
-          setActiveRole(role.id);
-          playRoleHoverJump(role.id);
+          onHoverStart(role.id);
           return;
         }
         onSelect(role.id);
@@ -214,13 +218,31 @@ function RolePanel({
         className={`pointer-events-none absolute z-20 bottom-16 will-change-[left,right] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${avatarPosition} ${isOtherLocked ? "hidden" : "block"}`}
       />
       {isActive && !isOtherLocked && (
-        <span
-          className={`pointer-events-none absolute bottom-[4.35rem] z-10 block h-2.5 w-40 will-change-[left,right,transform,filter] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-52 lg:w-64 ${avatarPosition}`}
-          style={{ "--hover-bar-primary": role.primary, "--hover-bar-shadow": role.dark } as React.CSSProperties}
-          aria-hidden="true"
-        >
-          <span className="chibi-hover-bar absolute inset-0" />
-        </span>
+        <>
+          <span
+            className={`chibi-slide-speed-lines pointer-events-none absolute bottom-24 z-[9] block h-32 w-44 will-change-[left,right] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-60 lg:w-72 ${avatarPosition} ${isDesigner ? "-translate-x-16" : "translate-x-16"}`}
+            style={{ "--speed-primary": role.primary } as React.CSSProperties}
+            aria-hidden="true"
+          >
+            <i /><i /><i />
+          </span>
+          <span
+            className={`pointer-events-none absolute bottom-[4.35rem] z-10 block h-2.5 w-40 will-change-[left,right,transform,filter] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-52 lg:w-64 ${avatarPosition}`}
+            style={{ "--hover-bar-primary": role.primary, "--hover-bar-shadow": role.dark } as React.CSSProperties}
+            aria-hidden="true"
+          >
+            <span className="chibi-hover-bar absolute inset-0" />
+          </span>
+          {isLanding && (
+            <span
+              className={`chibi-hover-land-dust pointer-events-none absolute bottom-[4.7rem] z-30 block h-14 w-44 transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-60 lg:w-72 ${avatarPosition}`}
+              style={{ "--dust-primary": role.primary, "--dust-shadow": role.dark } as React.CSSProperties}
+              aria-hidden="true"
+            >
+              <i /><i /><i /><i /><i />
+            </span>
+          )}
+        </>
       )}
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
@@ -250,12 +272,32 @@ function RolePanel({
 function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const { t } = useLanguage();
   const { selectRole: setSelectedRole } = useRoleTheme();
-  const { launchArchiveAudio } = useGameAudio();
+  const { launchArchiveAudio, playRoleHoverJump } = useGameAudio();
   const [activeRole, setActiveRole] = useState<Role | null>(null);
+  const [landingRole, setLandingRole] = useState<Role | null>(null);
   const [lockedRole, setLockedRole] = useState<Role | null>(null);
   const selectTimer = useRef<number | undefined>(undefined);
+  const hoverTimer = useRef<number | undefined>(undefined);
 
-  useEffect(() => () => { if (selectTimer.current) window.clearTimeout(selectTimer.current); }, []);
+  useEffect(() => () => {
+    if (selectTimer.current) window.clearTimeout(selectTimer.current);
+    if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
+  }, []);
+
+  const handleHoverStart = (role: Role) => {
+    if (lockedRole || activeRole === role) return;
+    if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
+    setLandingRole(null);
+    setActiveRole(role);
+    playRoleHoverJump(role);
+    hoverTimer.current = window.setTimeout(() => setLandingRole(role), HOVER_MOVE_MS);
+  };
+
+  const handleHoverEnd = () => {
+    if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
+    setLandingRole(null);
+    setActiveRole(null);
+  };
 
   const handleRoleSelection = (role: Role) => {
     if (lockedRole) return;
@@ -288,7 +330,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       </header>
 
       <div className="relative z-10 flex h-full flex-col md:flex-row">
-        {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} lockedRole={lockedRole} setActiveRole={setActiveRole} onSelect={handleRoleSelection} />)}
+        {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} landingRole={landingRole} lockedRole={lockedRole} onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd} onSelect={handleRoleSelection} />)}
       </div>
     </section>
   );
