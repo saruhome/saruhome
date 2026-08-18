@@ -67,7 +67,8 @@ const spritePositions: Record<SpriteState, string> = {
 
 function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
   const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
-  const isGesture = state === "design" || state === "dance";
+  // The Dancer keeps her own idle sprite while sharing the Designer's hover motion curve and timing.
+  const isGesture = state === "design" && role.id === "designer";
 
   return (
     <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
@@ -135,7 +136,7 @@ function RolePanel({
   const isOtherLocked = lockedRole !== null && !isLocked;
   const isCompressedKoreanDesigner = isDesigner && language === "kr" && activeRole === "dancer";
   const designerTitle = t("uxuiDesigner").replace(/^UX[\s-]*/, "");
-  const state: SpriteState = isLocked ? "celebrate" : isActive ? (isDesigner ? "design" : "dance") : "idle";
+  const state: SpriteState = isLocked ? "celebrate" : isActive ? "design" : "idle";
   const desktopFlexClass =
     activeRole === "designer"
       ? isDesigner ? "md:flex-[0.75]" : "md:flex-[0.25]"
