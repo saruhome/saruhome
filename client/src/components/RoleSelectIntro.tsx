@@ -49,7 +49,7 @@ const roles: RoleOption[] = [
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
     spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
-    gestureGif: assetUrl("dancer-hover-jump-loop_3eb8676c.gif", "dancer-hover-jump-loop.gif"),
+    gestureGif: assetUrl("dancer-hover-jump-loop_7f187152.gif", "dancer-hover-jump-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -202,7 +202,7 @@ function RolePanel({
         </div>
       </div>
 
-      <div className={`pointer-events-none absolute z-20 bottom-16 ${isDesigner ? "right-5 sm:right-10" : isActive ? "left-[30%] sm:left-[34%]" : "left-5 sm:left-10"} ${isOtherLocked ? "hidden" : "block"}`}>
+      <div className={`pointer-events-none absolute z-20 bottom-16 ${isDesigner ? "right-5 sm:right-10" : "left-5 sm:left-10"} ${isActive ? "md:hidden" : "block"} ${isOtherLocked ? "hidden" : "block"}`}>
         <ChibiAvatar role={role} state={state} />
       </div>
 
@@ -237,6 +237,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [lockedRole, setLockedRole] = useState<Role | null>(null);
   const selectTimer = useRef<number | undefined>(undefined);
+  const activePlayer = activeRole ? roles.find((role) => role.id === activeRole) : null;
 
   useEffect(() => () => { if (selectTimer.current) window.clearTimeout(selectTimer.current); }, []);
 
@@ -273,6 +274,11 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       <div className="relative z-10 flex h-full flex-col md:flex-row">
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} lockedRole={lockedRole} setActiveRole={setActiveRole} onSelect={handleRoleSelection} />)}
       </div>
+      {activePlayer && !lockedRole && (
+        <div className="pointer-events-none fixed bottom-16 left-1/2 z-[25] hidden -translate-x-1/2 md:block" aria-hidden="true">
+          <ChibiAvatar role={activePlayer} state="design" />
+        </div>
+      )}
     </section>
   );
 }

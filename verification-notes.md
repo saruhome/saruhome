@@ -69,3 +69,11 @@ After rebuilding the GIF with a shared palette and explicit transparent index, t
 Directly opening the latest storage GIF confirms that its dancer frames exist, but the current disposal mode accumulates multiple poses and leaves a green palette fringe. The asset pipeline must preserve only the connected background as transparent and use non-accumulating frames before the GIF can replace the lobby character.
 
 After preserving the dancer character core during background cleanup and placing the active Dancer avatar inside the expanded panel’s clipping-safe area, the desktop lobby visibly renders the multi-pose dancer GIF on hover. The displayed frame shows a distinct raised-arm movement and no X-axis wiggle; the GIF is now visibly distinct from the static idle sprite.
+
+## 2026-08-18 — Central Hover Timing Revision
+
+The regenerated dancer source GIF is a 640×900 full-body canvas: the dancer’s hair, hands, legs, and shoes all remain inside its bounds. Its five frame durations are now exactly `220, 160, 180, 220, 160ms` (940ms total), matching the designer GIF frame-for-frame. The desktop hover DOM requests the new storage asset and positions the active avatar from the viewport midpoint. The initial immediate capture retained the centered orange floor anchor but did not yet display the GIF body, so an additional settled-frame visual verification is required before release.
+
+The revised desktop capture renders the active dancer as a complete visible silhouette at the viewport midpoint, outside both role panels and therefore outside their diagonal clip paths. Switching to the designer confirms the same midpoint anchor for Player 01. The central hover layer now sits below the role copy layer, preserving the readable PLAYER labels and titles while maintaining the requested centered character placement.
+
+After the final stack-order refinement, the active designer GIF remains fully visible at the exact horizontal midpoint with the cyan floor highlight directly beneath it. The inactive role retains its own panel-local idle character, so the hover layer only ever shows one active player and no character is cropped by a role panel edge.
