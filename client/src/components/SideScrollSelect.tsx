@@ -36,15 +36,11 @@ const CHIBI_RUN_GIF = {
 
 const DANCER_LEFT_RUN_GIF = assetUrl("dancer-side-run-left-loop_f29c9af5.gif", "dancer-side-run-left-loop.gif");
 
-const CHIBI_WALL_FALL = {
-  designer: assetUrl("designer-wall-fall_cc620221.png", "designer-wall-fall.png"),
-  dancer: assetUrl("dancer-wall-fall_922eac76.png", "dancer-wall-fall.png"),
-} as const;
-
 const spritePosition = {
   idle: "0% 0%",
   walk: "100% 0%",
   jump: "0% 100%",
+  crouch: "0% 100%",
 } as const;
 
 const ARCHIVE_STAGES = {
@@ -82,7 +78,7 @@ function PixelCharacter({
   const dark = variant === "designer" ? "#0e7490" : "#c2410c";
   const roleLabel = variant === "designer" ? "PLAYER 01" : "PLAYER 02";
   const bobOffset = walking ? (frame === 0 ? -3 : 1) : 0;
-  const spriteState = jumping ? "jump" : walking ? "walk" : "idle";
+  const spriteState = jumping ? "jump" : crouching ? "crouch" : walking || recovery ? "walk" : "idle";
   const currentSpritePosition = spritePosition[spriteState];
   const baseFallFacing = variant === "dancer" ? "left" : "right";
   const shouldMirrorFall = collision !== null && collision.edge !== baseFallFacing;
@@ -91,19 +87,22 @@ function PixelCharacter({
   return (
     <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
       {collision ? (
-        <img
-          src={CHIBI_WALL_FALL[variant]}
-          alt=""
-          draggable={false}
-          className="absolute inset-x-0 bottom-0 h-[88%] w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
-          style={{ transform: shouldMirrorFall ? "scaleX(-1)" : "none" }}
+        <div
+          className="pixel-wall-sit absolute inset-x-0 bottom-2 h-[92%] origin-bottom bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+          style={{
+            backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
+            backgroundPosition: spritePosition.jump,
+            backgroundSize: "200% 200%",
+            "--sit-facing": shouldMirrorFall ? -1 : 1,
+          } as React.CSSProperties}
+          aria-hidden="true"
         />
       ) : (
         <div className={`absolute inset-0 origin-bottom ${recovery ? `archive-recover-rise archive-recover-${recovery.edge}` : ""}`}>
           <div
             className="absolute inset-x-0 bottom-2 h-[92%] origin-bottom transition-transform duration-100 ease-out"
             style={{
-              transform: `scaleX(${shouldMirrorRun ? -1 : 1}) translateY(${jumping ? -38 : crouching ? 15 : bobOffset}px) scaleY(${crouching ? 0.74 : 1})`,
+              transform: `scaleX(${shouldMirrorRun ? -1 : 1}) translateY(${jumping ? -38 : bobOffset}px)`,
             }}
           >
             {walking ? (

@@ -39,7 +39,7 @@ const roles: RoleOption[] = [
     title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
     spriteSheet: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
-    gestureGif: assetUrl("designer-arcade-pixel-loop_be985bda.gif", "designer-arcade-pixel-loop.gif"),
+    gestureGif: assetUrl("designer-arcade-pixel-loop-clean_35163308.gif", "designer-arcade-pixel-loop.gif"),
     primary: "#37E7FF",
     dark: "#06101E",
     stats: ["FLOW 98", "UX 96", "SYSTEMS 92"],
@@ -146,9 +146,10 @@ function RolePanel({
   const isOtherLocked = lockedRole !== null && !isLocked;
   const isCompressedKoreanDesigner = isDesigner && language === "kr" && activeRole === "dancer";
   const designerTitle = t("uxuiDesigner").replace(/^UX[\s-]*/, "");
-  const state: SpriteState = isLocked ? "celebrate" : isActive ? "design" : "idle";
+  // Preserve the hover GIF scale through selection instead of switching back to a smaller sprite.
+  const state: SpriteState = isActive ? "design" : "idle";
   const avatarPosition = isDesigner
-    ? isActive ? "md:left-[calc(66.666%-8rem)]" : "left-5 sm:left-10"
+    ? isActive ? "md:right-[calc(33.333%-6.5rem)] lg:right-[calc(33.333%-8rem)]" : "right-5 sm:right-10"
     : isActive ? "md:left-[calc(33.333%-6.5rem)] lg:left-[calc(33.333%-8rem)]" : "left-5 sm:left-10";
   const desktopFlexClass =
     lockedRole
@@ -226,7 +227,7 @@ function RolePanel({
       {isActive && !isOtherLocked && (
         <>
           <span
-            className={`chibi-slide-speed-lines pointer-events-none absolute bottom-24 z-[9] block h-32 w-44 will-change-[left,right] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-60 lg:w-72 ${avatarPosition} ${isDesigner ? "-translate-x-16" : "translate-x-16"}`}
+            className={`chibi-slide-speed-lines ${isDesigner ? "chibi-slide-speed-lines-designer -translate-x-16" : "chibi-slide-speed-lines-dancer translate-x-16"} pointer-events-none absolute bottom-24 z-[9] block h-32 w-44 will-change-[left,right] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-60 lg:w-72 ${avatarPosition}`}
             style={{ "--speed-primary": role.primary } as React.CSSProperties}
             aria-hidden="true"
           >
@@ -264,13 +265,13 @@ function RolePanel({
           </p>
           {(isLocked || isActive) && (
             <span className="mt-4 inline-block pixel-hud-panel px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-white/90" style={{ borderColor: `${role.primary}88`, "--hud-glow": role.primary } as React.CSSProperties}>
-              {isLocked ? `${t("loadingPlayer")}…` : t("ready")}
+              {isLocked ? "LET'S GO" : t("ready")}
             </span>
           )}
         </div>
       </div>
 
-      {isLocked && <div className="pointer-events-none absolute inset-0 z-40 grid place-items-center bg-black/40"><span className="selected-hit border-2 px-5 py-3 font-rajdhani text-sm font-black uppercase tracking-[0.32em]" style={{ borderColor: role.primary, color: role.primary, background: `${role.dark}d9` }}>{t("ready")}</span></div>}
+      {isLocked && <div className="pointer-events-none absolute inset-0 z-40 grid place-items-center bg-black/40"><span className="selected-hit border-2 px-5 py-3 font-rajdhani text-[1.85rem] font-black uppercase leading-none tracking-[0.2em] md:px-7 md:py-4 md:text-[3rem]" style={{ borderColor: role.primary, color: role.primary, background: `${role.dark}d9` }}>LET&apos;S GO</span></div>}
     </button>
   );
 }

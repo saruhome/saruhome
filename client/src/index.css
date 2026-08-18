@@ -458,6 +458,18 @@
 .chibi-slide-speed-lines i:nth-child(2) { top: 48%; width: 55%; animation-delay: 0.08s; }
 .chibi-slide-speed-lines i:nth-child(3) { top: 71%; width: 27%; animation-delay: 0.14s; }
 
+/* Player 01 travels from the left toward the centre: mirror the trailing pixels so they
+   travel in toward the character from the left instead of borrowing Player 02's direction. */
+.chibi-slide-speed-lines-designer i {
+  left: 10%;
+  right: auto;
+  box-shadow: -4px 0 0 color-mix(in srgb, var(--speed-primary) 42%, transparent);
+  transform-origin: left center;
+  animation-name: chibi-slide-speed-line-mirrored;
+  animation-timing-function: cubic-bezier(0.16, 0.9, 0.32, 1);
+}
+.chibi-slide-speed-lines-dancer i { animation-timing-function: cubic-bezier(0.16, 0.9, 0.32, 1); }
+
 .chibi-hover-land-dust { image-rendering: pixelated; }
 .chibi-hover-land-dust i {
   position: absolute;
@@ -488,6 +500,13 @@
   100% { opacity: 0; transform: scaleX(0.22) translateX(-42px); }
 }
 
+@keyframes chibi-slide-speed-line-mirrored {
+  0% { opacity: 0; transform: scaleX(0.15) translateX(-52px); }
+  20% { opacity: 0.74; }
+  70% { opacity: 0.3; transform: scaleX(1) translateX(16px); }
+  100% { opacity: 0; transform: scaleX(0.18) translateX(36px); }
+}
+
 @keyframes chibi-hover-land-dust {
   0% { opacity: 0; transform: translate(0, 8px) scale(0.45); }
   18% { opacity: 1; transform: translate(0, 0) scale(1); }
@@ -507,6 +526,16 @@
   0% { opacity: 0; transform: translate(-50%, 3px) scale(0.45); }
   20% { opacity: 1; transform: translate(-50%, 0) scale(1); }
   100% { opacity: 0; transform: translate(-50%, -6px) scale(0.92); }
+}
+
+.pixel-wall-sit {
+  animation: pixel-wall-sit 0.52s steps(4, end) both;
+}
+
+@keyframes pixel-wall-sit {
+  0% { opacity: 0.7; transform: translateY(-10px) rotate(calc(var(--sit-facing) * -8deg)) scaleX(var(--sit-facing)); }
+  38% { opacity: 1; transform: translateY(5px) rotate(calc(var(--sit-facing) * 4deg)) scaleX(var(--sit-facing)); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg) scaleX(var(--sit-facing)); }
 }
 
 .pixel-dust-burst {

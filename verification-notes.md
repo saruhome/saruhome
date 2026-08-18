@@ -111,3 +111,11 @@ The Dancer hover GIF now contains five left-facing frames at the Designer-matche
 ## 2026-08-18 — Selected Role Full-Screen Cover
 
 When a role is confirmed, the selected lobby panel removes its diagonal clipping and expands to the full screen while the unselected panel collapses to zero space. The resulting archive wrapper, stage section, world background, gradient, and scanline layers all report the exact viewport dimensions (1280×1100 in desktop verification), confirming no exposed split-panel or body-background edge remains after Dancer selection.
+
+## 2026-08-18 — Archive Crouch Input
+
+In both archives, pressing ArrowDown selects the bottom-left source pose at background position `0% 100%`. The render transform remains uniform (`matrix(1,0,0,1,0,0)` for Designer; a facing-only `matrix(-1,0,0,1,0,0)` for Dancer), confirming the frame itself—not vertical scale compression—creates the crouch. Releasing ArrowDown restores the regular idle state.
+
+## 2026-08-18 — Lobby GIF Cleanup and Directional Trail
+
+The current Designer hover source is the cleaned five-frame GIF, with its exterior red/purple edge pixels removed while the hair, cyan streak, face, glasses, jacket, and full-body silhouette remain intact. The desktop hover render reports the intended 1.5× transform, and the Designer’s cyan speed lines now use a left-anchored, mirrored trajectory so the effect comes from behind the left-to-right arrival rather than borrowing the Dancer’s direction.
