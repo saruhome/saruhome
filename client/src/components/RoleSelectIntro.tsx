@@ -49,7 +49,7 @@ const roles: RoleOption[] = [
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
     spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
-    gestureGif: assetUrl("dancer-arcade-pixel-loop_ee9766f6.gif", "dancer-arcade-pixel-loop.gif"),
+    gestureGif: assetUrl("dancer-hover-jump-loop_3eb8676c.gif", "dancer-hover-jump-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -68,8 +68,8 @@ const spritePositions: Record<SpriteState, string> = {
 function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
   const isDancerHover = role.id === "dancer" && state === "design";
   const animationClass = isDancerHover ? "chibi-preview-jump" : state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
-  // The Dancer keeps her own idle sprite while sharing the Designer's hover motion curve and timing.
-  const isGesture = state === "design" && role.id === "designer";
+  // Both roles use real multi-pose GIFs during the lobby hover; the Dancer GIF is a vertical jump loop.
+  const isGesture = state === "design";
 
   return (
     <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64" aria-hidden="true">
@@ -130,7 +130,7 @@ function RolePanel({
   onSelect: (role: Role) => void;
 }) {
   const { t, language } = useLanguage();
-  const { playHover } = useGameAudio();
+  const { playRoleHoverJump } = useGameAudio();
   const isDesigner = role.id === "designer";
   const isActive = activeRole === role.id;
   const isLocked = lockedRole === role.id;
@@ -151,16 +151,16 @@ function RolePanel({
       aria-label={`Explore ${isDesigner ? t("uxuiDesigner") : t("dancer")} portfolio`}
       aria-pressed={isLocked}
       disabled={lockedRole !== null}
-      onMouseEnter={() => { if (!lockedRole) { setActiveRole(role.id); playHover(); } }}
+      onMouseEnter={() => { if (!lockedRole) { setActiveRole(role.id); playRoleHoverJump(role.id); } }}
       onMouseLeave={() => !lockedRole && setActiveRole(null)}
       onFocus={() => !lockedRole && setActiveRole(role.id)}
       onBlur={() => !lockedRole && setActiveRole(null)}
-      onTouchStart={() => { if (!lockedRole) { setActiveRole(role.id); playHover(); } }}
+      onTouchStart={() => { if (!lockedRole) { setActiveRole(role.id); playRoleHoverJump(role.id); } }}
       onClick={() => {
         if (lockedRole) return;
         if (!isActive) {
           setActiveRole(role.id);
-          playHover();
+          playRoleHoverJump(role.id);
           return;
         }
         onSelect(role.id);
@@ -202,7 +202,7 @@ function RolePanel({
         </div>
       </div>
 
-      <div className={`pointer-events-none absolute z-20 bottom-16 ${isDesigner ? "right-5 sm:right-10" : "left-5 sm:left-10"} ${isOtherLocked ? "hidden" : "block"}`}>
+      <div className={`pointer-events-none absolute z-20 bottom-16 ${isDesigner ? "right-5 sm:right-10" : isActive ? "left-[30%] sm:left-[34%]" : "left-5 sm:left-10"} ${isOtherLocked ? "hidden" : "block"}`}>
         <ChibiAvatar role={role} state={state} />
       </div>
 
