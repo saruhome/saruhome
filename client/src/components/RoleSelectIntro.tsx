@@ -154,12 +154,39 @@ function RolePanel({
       onMouseLeave={() => !lockedRole && setActiveRole(null)}
       onFocus={() => !lockedRole && setActiveRole(role.id)}
       onBlur={() => !lockedRole && setActiveRole(null)}
-      onTouchStart={() => !lockedRole && setActiveRole(role.id)}
-      onClick={() => onSelect(role.id)}
+      onTouchStart={() => { if (!lockedRole) { setActiveRole(role.id); playHover(); } }}
+      onClick={() => {
+        if (lockedRole) return;
+        if (!isActive) {
+          setActiveRole(role.id);
+          playHover();
+          return;
+        }
+        onSelect(role.id);
+      }}
       className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,filter,opacity] duration-500 ease-in-out md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${isDesigner ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]" : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"}`}
     >
       <RoleWorld role={role} activeRole={activeRole} />
       <div className="absolute inset-0 pixel-corner-frame" style={{ "--frame-color": role.primary } as React.CSSProperties} />
+      <div
+        className={`pointer-events-none absolute inset-2 z-20 border-2 transition-opacity duration-200 md:hidden ${isActive ? "opacity-100" : "opacity-0"}`}
+        style={{ borderColor: role.primary, boxShadow: `inset 0 0 0 2px ${role.dark}, 0 0 18px ${role.primary}` }}
+        aria-hidden="true"
+      />
+
+      <div
+        className={`pointer-events-none absolute top-4 z-30 md:hidden ${isDesigner ? "left-4" : "right-4"}`}
+        aria-live="polite"
+      >
+        <span
+          className={`pixel-hud-panel inline-block border px-2 py-1 font-rajdhani text-[0.52rem] font-black uppercase tracking-[0.16em] transition-all duration-200 ${
+            isActive ? "animate-pulse text-white" : "text-white/65"
+          }`}
+          style={{ borderColor: `${role.primary}${isActive ? "ee" : "66"}`, "--hud-glow": role.primary, background: `${role.dark}df` } as React.CSSProperties}
+        >
+          {isActive ? `${t("ready")} // TAP AGAIN` : "TAP TO PREVIEW"}
+        </span>
+      </div>
 
       <div
         className={`pointer-events-none absolute top-5 z-20 hidden w-44 pixel-hud-panel p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] md:block ${isDesigner ? "left-7" : "right-7"}`}
