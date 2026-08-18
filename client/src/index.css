@@ -427,6 +427,22 @@
   clip-path: polygon(12% 0, 88% 0, 100% 50%, 88% 100%, 12% 100%, 0 50%);
   image-rendering: pixelated;
 }
+
+.chibi-hover-bar {
+  background:
+    linear-gradient(90deg, transparent 0 8%, color-mix(in srgb, var(--hover-bar-primary) 76%, transparent) 8% 24%, transparent 24% 76%, color-mix(in srgb, var(--hover-bar-primary) 76%, transparent) 76% 92%, transparent 92%),
+    linear-gradient(90deg, transparent 0 18%, var(--hover-bar-primary) 18% 82%, transparent 82%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hover-bar-primary) 68%, transparent), 0 0 18px color-mix(in srgb, var(--hover-bar-primary) 74%, transparent), inset 0 -3px 0 color-mix(in srgb, var(--hover-bar-shadow) 80%, transparent);
+  clip-path: polygon(9% 0, 91% 0, 100% 50%, 91% 100%, 9% 100%, 0 50%);
+  image-rendering: pixelated;
+  animation: chibi-hover-bar-flare 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes chibi-hover-bar-flare {
+  0% { filter: brightness(0.72) saturate(0.85); opacity: 0.58; transform: scaleX(0.66); }
+  58% { filter: brightness(1.65) saturate(1.25); opacity: 1; transform: scaleX(1.22); }
+  100% { filter: brightness(1.18) saturate(1.08); opacity: 0.96; transform: scaleX(1.06); }
+}
 .archive-run-cycle { animation: archive-run-cycle 0.26s steps(2, end) infinite; }
 .archive-run-limb-left { transform-origin: 50% 8%; animation: archive-run-limb-left 0.26s steps(2, end) infinite; }
 .archive-run-limb-right { transform-origin: 50% 8%; animation: archive-run-limb-right 0.26s steps(2, end) infinite; }

@@ -83,3 +83,15 @@ After the final stack-order refinement, the active designer GIF remains fully vi
 The fixed global hover overlay has been removed. The active character now remains inside its expanding role panel and transitions its left/right offset with the same 500ms easing as the panel flex change, arriving at the viewport midpoint as the selected panel slides open. The dancer hover source is now a direct `IMG` element whose computed `animationName` is `none` and whose computed `transform` is `none`; the source GIF provides the only frame motion, with no added vertical bounce. During desktop dancer hover its measured centre X is exactly the viewport centre X.
 
 The Designer hover path uses the same panel-local slide system. Its direct GIF image also reports `animationName: none`, `transform: none`, and an exact midpoint centre X after the panel transition. The obsolete `chibi-preview-jump` keyframes have been removed from the style layer so no dormant vertical bounce treatment can be applied to the Dancer path.
+
+## 2026-08-18 — Dancer Frame Safe-Area Review
+
+The dancer source sheet places the running and V poses close to their visual cell boundaries. The existing GIF crop used a narrow 630px window and a protective cleanup zone that excluded the extended right-hand and shoe regions from consistent background processing. The generated frame contact sheet confirms that the running and V frames have substantially less right-side safety margin than the idle frame. The rebuild will use wider per-pose source windows, a larger shared canvas, and a connected-background pass that preserves the complete purple-outlined silhouette.
+
+The rebuilt GIF uses a 840×960 shared canvas and pose-specific crops up to 900px wide. Its final contact sheet confirms that the runner’s forward shoe and the V pose’s raised hand both remain inside the cyan frame boundary, with transparent safety room on their right edges. The matched 5-frame cadence remains 940ms total (`220, 160, 180, 220, 160ms`).
+
+In the desktop dancer hover capture, the expanded orange bar flares beneath the character while the V frame appears with both raised arms and the right outline intact. The player image remains aligned at the centre boundary as the Dancer panel opens; the bar follows the identical left/right transition path rather than appearing as a fixed overlay.
+
+Computed desktop hover styles confirm that the Dancer GIF and its orange bar both use `cubic-bezier(0.22, 1, 0.36, 1)` for `0.65s`. Their measured centre X values are both exactly the viewport centre, so the bar does not lag or detach while the panel slide is settling.
+
+The Designer path was then checked with the same slide. Its cyan bar widens and brightens under the direct GIF at the central arrival point, while the Dancer retains the orange version. This verifies that the feedback is role-colour driven rather than a dancer-only treatment and that the bar follows each role’s directional slide.

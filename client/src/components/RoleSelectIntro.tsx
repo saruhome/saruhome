@@ -49,7 +49,7 @@ const roles: RoleOption[] = [
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
     spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
-    gestureGif: assetUrl("dancer-hover-jump-loop_7f187152.gif", "dancer-hover-jump-loop.gif"),
+    gestureGif: assetUrl("dancer-hover-jump-loop_30b5092c.gif", "dancer-hover-jump-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
     stats: ["RHYTHM 99", "ENERGY 97", "PRESENCE 95"],
@@ -171,7 +171,7 @@ function RolePanel({
         }
         onSelect(role.id);
       }}
-      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,filter,opacity] duration-500 ease-in-out md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${isDesigner ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]" : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"}`}
+      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,filter,opacity] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${isDesigner ? "md:[clip-path:polygon(0_0,100%_0,calc(100%_-_6vw)_100%,0_100%)]" : "md:[clip-path:polygon(6vw_0,100%_0,100%_100%,0_100%)]"}`}
     >
       <RoleWorld role={role} activeRole={activeRole} />
       <div className="absolute inset-0 pixel-corner-frame" style={{ "--frame-color": role.primary } as React.CSSProperties} />
@@ -211,8 +211,17 @@ function RolePanel({
       <ChibiAvatar
         role={role}
         state={state}
-        className={`pointer-events-none absolute z-20 bottom-16 transition-[left,right] duration-500 ease-in-out ${avatarPosition} ${isOtherLocked ? "hidden" : "block"}`}
+        className={`pointer-events-none absolute z-20 bottom-16 will-change-[left,right] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${avatarPosition} ${isOtherLocked ? "hidden" : "block"}`}
       />
+      {isActive && !isOtherLocked && (
+        <span
+          className={`pointer-events-none absolute bottom-[4.35rem] z-10 block h-2.5 w-40 will-change-[left,right,transform,filter] transition-[left,right] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-52 lg:w-64 ${avatarPosition}`}
+          style={{ "--hover-bar-primary": role.primary, "--hover-bar-shadow": role.dark } as React.CSSProperties}
+          aria-hidden="true"
+        >
+          <span className="chibi-hover-bar absolute inset-0" />
+        </span>
+      )}
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
         <div className={`max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>

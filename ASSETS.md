@@ -20,7 +20,7 @@
 | Pixel designer archive | Cyan design workshop archive environment | `/manus-storage/pixel-designer-archive-stage_95952f5a.png` |
 | Pixel dancer archive | Orange dance battle archive environment | `/manus-storage/pixel-dancer-archive-stage_f52ebca6.png` |
 | Pixel case-study console | Shared command-console backdrop for project detail | `/manus-storage/pixel-case-study-console_be8cc839.png` |
-| Dancer central hover loop | Player 02 five-pose hover GIF, 940ms cadence matching Player 01 | `/manus-storage/dancer-hover-jump-loop_7f187152.gif` |
+| Dancer central hover loop | Player 02 five-pose hover GIF with expanded V/run-frame safe area, 940ms cadence matching Player 01 | `/manus-storage/dancer-hover-jump-loop_30b5092c.gif` |
 
 ## Role palette specification
 
