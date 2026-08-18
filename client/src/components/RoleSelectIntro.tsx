@@ -66,7 +66,8 @@ const spritePositions: Record<SpriteState, string> = {
 };
 
 function ChibiAvatar({ role, state }: { role: RoleOption; state: SpriteState }) {
-  const animationClass = state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
+  const isDancerHover = role.id === "dancer" && state === "design";
+  const animationClass = isDancerHover ? "chibi-preview-jump" : state === "idle" ? "chibi-idle" : state === "walk" ? "chibi-walk" : state === "jump" ? "chibi-jump" : state === "design" ? "chibi-design" : state === "dance" ? "chibi-dance" : "chibi-celebrate";
   // The Dancer keeps her own idle sprite while sharing the Designer's hover motion curve and timing.
   const isGesture = state === "design" && role.id === "designer";
 
