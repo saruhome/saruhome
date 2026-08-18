@@ -10,7 +10,11 @@ import { assetUrl } from "../lib/assetUrl";
  */
 
 const ITEM_SPACING = 380;
-const START_X = 160;
+// Desktop archive content begins on the same 32px guide as the BACK TO SELECT HUD.
+// The 256px chibi footprint therefore starts at x=32 while its centre lands on the first project.
+const ARCHIVE_LEFT_MARGIN = 32;
+const CHARACTER_DESKTOP_WIDTH = 256;
+const START_X = ARCHIVE_LEFT_MARGIN + CHARACTER_DESKTOP_WIDTH / 2;
 const END_PADDING = 300;
 const SELECT_RADIUS = 140;
 const SPEED = 260; // px/sec
@@ -254,7 +258,8 @@ export default function SideScrollSelect({
   const { playConfirm, playHover, playJump, playNavigate } = useGameAudio();
   const isCyan = accentColor === "cyan";
 
-  const [charX, setCharX] = useState(60);
+  // Spawn on the first project signpost's centre; it shares the Back HUD left guide above.
+  const [charX, setCharX] = useState(START_X);
   const [facing, setFacing] = useState<"left" | "right">("right");
   const [jumping, setJumping] = useState(false);
   const [crouching, setCrouching] = useState(false);

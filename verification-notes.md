@@ -99,3 +99,7 @@ The Designer path was then checked with the same slide. Its cyan bar widens and 
 ## 2026-08-18 — Hover Timeline Effects
 
 Hover now triggers the role sound at timeline start, the bar flare peak at the matching 375ms high-tone cue, and a final impact tone at the 650ms central arrival. A desktop Dancer inspection confirms three non-blurring pixel speed lines render during the slide and a five-particle orange landing-dust emitter is mounted after arrival. The bar animation has a 650ms duration, while the dust runs only 340ms, preserving a short landing accent rather than a persistent trail.
+
+## 2026-08-18 — Archive Spawn and Left-Guide Alignment
+
+Both archives now use a shared 32px desktop left guide, the same guide used by the `BACK TO SELECT` HUD. The first project centre is x=160 for both Designer and Dancer, while the 256px chibi player begins at x=32 and therefore centres at x=160. Browser measurements confirm the exact match in both archives: Back left edge x=32, character left edge x=32, first project centre x=160, and character centre x=160.
