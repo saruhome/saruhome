@@ -29,6 +29,7 @@
 | Dancer left run loop | Player 02 four-pose mirrored leftward archive run | `/manus-storage/dancer-side-run-left-loop_f29c9af5.gif` |
 | Designer wall fall | Player 01 collision and falling-frame sprite | `/manus-storage/designer-wall-fall_cc620221.png` |
 | Dancer wall fall | Player 02 collision and falling-frame sprite | `/manus-storage/dancer-wall-fall_922eac76.png` |
+| FH Joanneum interaction console reference | Designer Quick Menu와 지원형 Interaction Design 정보 계층의 시각 기준 | `/manus-storage/fh-joanneum-interaction-console-reference_d0476753.png` |
 
 ## Role palette specification
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
+import { ACHIEVEMENTS, useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
 
 /**
@@ -62,6 +63,25 @@ export type SideScrollItem = { id: string; label: string; sublabel?: string };
 type DustBurst = { id: number; phase: "start" | "stop" };
 type Collision = { id: number; edge: "left" | "right" };
 type Recovery = { id: number; edge: "left" | "right" };
+type AutoTarget = { id: string; x: number };
+type ArchivePulse = "jump" | "land" | "crash" | null;
+
+const ROLE_DIALOGUE = {
+  designer: {
+    Sokdak: "A living language needs room to move.",
+    "Locaverse GmbH": "Space is part of every interaction.",
+    "Smart Wash": "Small feedback makes technology feel human.",
+    Campy: "Research is where the signal becomes clear.",
+    "Seek and Sight": "Design should make every learner feel invited.",
+    About: "The body notices what interfaces forget.",
+    crash: "Ouch… still exploring the edge cases.",
+  },
+  dancer: {
+    "Dance Performance": "Rhythm is everything here.",
+    About: "Every stage begins with a first step!",
+    crash: "Ouch! That wall has serious rhythm.",
+  },
+} as const;
 
 function PixelCharacter({
   variant,
@@ -186,8 +206,9 @@ function Signpost({
       aria-label={item.label}
       className="absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[22.5rem]"
     >
+      {active && <span className={`pixel-signpost-arrow absolute -top-9 font-bebas text-3xl ${isCyan ? "text-cyan-200" : "text-orange-200"}`} aria-hidden="true">▼</span>}
       <div
-        className={`pixel-signpost-face whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-colors duration-200 ${
+        className={`pixel-signpost-face whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-colors duration-200 ${active ? "pixel-signpost-nearby" : ""} ${
           active
             ? isCyan
               ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
@@ -213,75 +234,10 @@ function Signpost({
   );
 }
 
-type TouchDirection = "left" | "right";
-
-function MobileTouchControls({
-  isCyan,
-  movingDirection,
-  canSelect,
-  onMoveStart,
-  onMoveEnd,
-  onJump,
-  onSelect,
-}: {
-  isCyan: boolean;
-  movingDirection: TouchDirection | null;
-  canSelect: boolean;
-  onMoveStart: (direction: TouchDirection) => void;
-  onMoveEnd: () => void;
-  onJump: () => void;
-  onSelect: () => void;
-}) {
-  const buttonBase = "grid h-14 w-14 select-none place-items-center border-2 bg-black/75 font-bebas text-3xl text-white shadow-[0_0_18px_rgba(0,0,0,0.38)] transition-transform duration-150 active:scale-95";
-  const passiveAccent = isCyan ? "border-cyan-300/70 text-cyan-100" : "border-orange-300/70 text-orange-100";
-  const activeAccent = isCyan ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-orange-200 bg-orange-300 text-[#1b0603]";
-  const pointerHandlers = (direction: TouchDirection) => ({
-    onPointerDown: (event: React.PointerEvent<HTMLButtonElement>) => {
-      event.preventDefault();
-      event.currentTarget.setPointerCapture(event.pointerId);
-      onMoveStart(direction);
-    },
-    onPointerUp: (event: React.PointerEvent<HTMLButtonElement>) => {
-      if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-      onMoveEnd();
-    },
-    onPointerCancel: onMoveEnd,
-    onLostPointerCapture: onMoveEnd,
-  });
-
-  return (
-    <div className="absolute inset-x-0 bottom-[5rem] z-40 flex items-end justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-12 md:hidden pointer-events-none">
-      <div className="pointer-events-auto pixel-hud-panel flex items-center gap-1.5 border-white/25 bg-[#05080dcc] p-1.5" style={{ touchAction: "none" }}>
-        <button type="button" aria-label="Move left" aria-pressed={movingDirection === "left"} className={`${buttonBase} ${movingDirection === "left" ? activeAccent : passiveAccent}`} {...pointerHandlers("left")}>←</button>
-        <button type="button" aria-label="Move right" aria-pressed={movingDirection === "right"} className={`${buttonBase} ${movingDirection === "right" ? activeAccent : passiveAccent}`} {...pointerHandlers("right")}>→</button>
-      </div>
-
-      <div className="pointer-events-auto flex items-center gap-2" style={{ touchAction: "manipulation" }}>
-        <button
-          type="button"
-          onPointerDown={(event) => { event.preventDefault(); onJump(); }}
-          aria-label="Jump"
-          className={`grid h-16 w-16 select-none place-items-center border-2 bg-black/80 font-rajdhani text-xs font-black tracking-[0.12em] text-white shadow-[3px_3px_0_rgba(0,0,0,0.82)] transition-transform duration-150 active:scale-95 ${passiveAccent}`}
-        >
-          JUMP
-        </button>
-        <button
-          type="button"
-          onPointerDown={(event) => { event.preventDefault(); onSelect(); }}
-          disabled={!canSelect}
-          aria-label="Select current archive item"
-          className={`grid h-16 w-16 select-none place-items-center border-2 bg-black/80 font-rajdhani text-[0.62rem] font-black tracking-[0.12em] text-white shadow-[3px_3px_0_rgba(0,0,0,0.82)] transition-transform duration-150 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 ${canSelect ? passiveAccent : "border-white/20"}`}
-        >
-          SELECT
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export default function SideScrollSelect({
   items,
   onSelect,
+  onQuickSelect,
   onBack,
   backLabel,
   accentColor,
@@ -291,6 +247,7 @@ export default function SideScrollSelect({
 }: {
   items: SideScrollItem[];
   onSelect: (id: string) => void;
+  onQuickSelect?: (id: string) => void;
   onBack: () => void;
   backLabel: string;
   accentColor: "cyan" | "orange";
@@ -299,7 +256,8 @@ export default function SideScrollSelect({
   title: string;
 }) {
   const { t } = useLanguage();
-  const { playConfirm, playHover, playJump, playNavigate, playWallCrash } = useGameAudio();
+  const { playConfirm, playFootstep, playHover, playJump, playLand, playNavigate, playUnlock, playWallCrash } = useGameAudio();
+  const { clearLatestAchievement, collectItem, latestAchievement, markDoubleJump, markProjectExplored, markSignpostVisited, progress } = useGameProgress();
   const isCyan = accentColor === "cyan";
 
   // Spawn on the first project signpost's centre; it shares the Back HUD left guide above.
@@ -313,7 +271,11 @@ export default function SideScrollSelect({
   const [collision, setCollision] = useState<Collision | null>(null);
   const [recovery, setRecovery] = useState<Recovery | null>(null);
   const [showHelp, setShowHelp] = useState(false);
-  const [touchDirection, setTouchDirection] = useState<TouchDirection | null>(null);
+  const [showQuickMenu, setShowQuickMenu] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
+  const [archivePulse, setArchivePulse] = useState<ArchivePulse>(null);
+  const [unlockBanner, setUnlockBanner] = useState<{ id: number; label: string } | null>(null);
+  const [dialogue, setDialogue] = useState<string | null>(null);
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
 
   const keys = useRef({ left: false, right: false });
@@ -324,11 +286,26 @@ export default function SideScrollSelect({
   const dustTimer = useRef<number | undefined>(undefined);
   const collisionTimer = useRef<number | undefined>(undefined);
   const recoveryTimer = useRef<number | undefined>(undefined);
+  const autoSelectTimer = useRef<number | undefined>(undefined);
+  const autoTargetRef = useRef<AutoTarget | null>(null);
   const collisionLockUntil = useRef(0);
   const lastJumpPress = useRef(0);
+  const activeItemRef = useRef<string | null>(null);
+  const pulseTimer = useRef<number | undefined>(undefined);
+  const unlockTimer = useRef<number | undefined>(undefined);
+  const secretPlatformReached = useRef(false);
 
   const itemPositions = useMemo(() => items.map((_, i) => START_X + i * ITEM_SPACING), [items]);
   const levelWidth = START_X + Math.max(0, items.length - 1) * ITEM_SPACING + END_PADDING;
+  const hiddenCollectibles = useMemo(() => [
+    { id: `${spriteVariant}-star-signal`, x: Math.min(levelWidth - 120, (itemPositions[0] ?? START_X) + 210), bottom: "27rem", glyph: "✦", label: "Hidden star signal" },
+    { id: `${spriteVariant}-key-node`, x: Math.min(levelWidth - 120, (itemPositions[Math.min(2, itemPositions.length - 1)] ?? START_X) + 150), bottom: "31rem", glyph: "◆", label: "Hidden access key" },
+    { id: `${spriteVariant}-badge-node`, x: Math.min(levelWidth - 120, (itemPositions[itemPositions.length - 1] ?? START_X) + 120), bottom: "24rem", glyph: "▣", label: "Hidden explorer badge" },
+  ], [itemPositions, levelWidth, spriteVariant]);
+  const secretPlatform = useMemo(() => ({
+    id: `${spriteVariant}-sky-platform`,
+    x: Math.min(levelWidth - 180, (itemPositions[Math.min(1, itemPositions.length - 1)] ?? START_X) + 145),
+  }), [itemPositions, levelWidth, spriteVariant]);
 
   const activeItem = useMemo(() => {
     const candidates = items
@@ -341,28 +318,18 @@ export default function SideScrollSelect({
   const triggerJump = useCallback(() => {
     if (jumping) return;
     setJumping(true);
+    setArchivePulse("jump");
     playJump();
-    window.setTimeout(() => setJumping(false), JUMP_MS);
-  }, [jumping, playJump]);
-
-  const triggerSelect = useCallback(() => {
-    if (!activeItem) return;
-    playConfirm();
-    onSelect(activeItem.id);
-  }, [activeItem, onSelect, playConfirm]);
-
-  const triggerJumpOrSelect = useCallback(() => {
-    const now = performance.now();
-    const isDoubleJump = now - lastJumpPress.current <= DOUBLE_JUMP_MS;
-    lastJumpPress.current = isDoubleJump ? 0 : now;
-
-    if (isDoubleJump && activeItem) {
-      triggerSelect();
-      return;
+    if (!secretPlatformReached.current && Math.abs(charXRef.current - secretPlatform.x) < 118) {
+      secretPlatformReached.current = true;
+      window.setTimeout(() => collectItem(secretPlatform.id), Math.round(JUMP_MS * 0.5));
     }
-
-    triggerJump();
-  }, [activeItem, triggerJump, triggerSelect]);
+    window.setTimeout(() => {
+      setJumping(false);
+      setArchivePulse("land");
+      playLand(spriteVariant);
+    }, JUMP_MS);
+  }, [collectItem, jumping, playJump, playLand, secretPlatform, spriteVariant]);
 
   const emitDust = useCallback((phase: DustBurst["phase"]) => {
     const id = Date.now();
@@ -371,15 +338,68 @@ export default function SideScrollSelect({
     dustTimer.current = window.setTimeout(() => setDustBurst((burst) => (burst?.id === id ? null : burst)), 420);
   }, []);
 
+  const completeAutoEntry = useCallback((id: string) => {
+    autoTargetRef.current = null;
+    velocityRef.current = 0;
+    setIsMoving(false);
+    emitDust("stop");
+    playConfirm();
+    playUnlock(spriteVariant);
+    markProjectExplored(spriteVariant, id);
+    setUnlockBanner({ id: Date.now(), label: id === "about" || id === "bio" ? "ARCHIVE NODE UNLOCKED" : "PROJECT UNLOCKED" });
+    if (autoSelectTimer.current) window.clearTimeout(autoSelectTimer.current);
+    if (unlockTimer.current) window.clearTimeout(unlockTimer.current);
+    unlockTimer.current = window.setTimeout(() => setUnlockBanner(null), 650);
+    autoSelectTimer.current = window.setTimeout(() => onSelect(id), 760);
+  }, [emitDust, markProjectExplored, onSelect, playConfirm, playUnlock, spriteVariant]);
+
+  const queueProjectEntry = useCallback((id: string) => {
+    const index = items.findIndex((item) => item.id === id);
+    if (index < 0 || performance.now() < collisionLockUntil.current) return;
+    const targetX = itemPositions[index];
+    keys.current.left = false;
+    keys.current.right = false;
+    autoTargetRef.current = { id, x: targetX };
+    setFacing(targetX < charXRef.current ? "left" : "right");
+    setIsMoving(true);
+    emitDust("start");
+    playNavigate();
+  }, [emitDust, itemPositions, items, playNavigate]);
+
+  const triggerSelect = useCallback(() => {
+    if (!activeItem) return;
+    queueProjectEntry(activeItem.id);
+  }, [activeItem, queueProjectEntry]);
+
+  const selectFromQuickMenu = useCallback((id: string) => {
+    setShowQuickMenu(false);
+    (onQuickSelect ?? onSelect)(id);
+  }, [onQuickSelect, onSelect]);
+
+  const triggerJumpOrSelect = useCallback(() => {
+    const now = performance.now();
+    const isDoubleJump = now - lastJumpPress.current <= DOUBLE_JUMP_MS;
+    lastJumpPress.current = isDoubleJump ? 0 : now;
+
+    if (isDoubleJump && activeItem) {
+      markDoubleJump();
+      triggerSelect();
+      return;
+    }
+
+    triggerJump();
+  }, [activeItem, markDoubleJump, triggerJump, triggerSelect]);
+
   const triggerCollision = useCallback((edge: Collision["edge"]) => {
     const id = Date.now();
     collisionLockUntil.current = performance.now() + 840;
     keys.current.left = false;
     keys.current.right = false;
     velocityRef.current = 0;
-    setTouchDirection(null);
     setIsMoving(false);
     setCollision({ id, edge });
+    setArchivePulse("crash");
+    setDialogue(ROLE_DIALOGUE[spriteVariant].crash);
     emitDust("stop");
     playWallCrash(spriteVariant);
     if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
@@ -391,25 +411,6 @@ export default function SideScrollSelect({
     }, 520);
   }, [emitDust, playWallCrash, spriteVariant]);
 
-  const startTouchMove = useCallback((direction: TouchDirection) => {
-    if (performance.now() < collisionLockUntil.current) return;
-    const wasMoving = keys.current.left !== keys.current.right;
-    keys.current.left = direction === "left";
-    keys.current.right = direction === "right";
-    if (!wasMoving) emitDust("start");
-    setIsMoving(true);
-    setTouchDirection(direction);
-    playNavigate();
-  }, [emitDust, playNavigate]);
-
-  const endTouchMove = useCallback(() => {
-    const wasMoving = keys.current.left !== keys.current.right;
-    keys.current.left = false;
-    keys.current.right = false;
-    if (wasMoving) emitDust("stop");
-    setTouchDirection(null);
-  }, [emitDust]);
-
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth);
     window.addEventListener("resize", onResize);
@@ -420,7 +421,27 @@ export default function SideScrollSelect({
     if (dustTimer.current) window.clearTimeout(dustTimer.current);
     if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
     if (recoveryTimer.current) window.clearTimeout(recoveryTimer.current);
+    if (autoSelectTimer.current) window.clearTimeout(autoSelectTimer.current);
+    if (pulseTimer.current) window.clearTimeout(pulseTimer.current);
+    if (unlockTimer.current) window.clearTimeout(unlockTimer.current);
   }, []);
+
+  useEffect(() => {
+    if (!archivePulse) return;
+    if (pulseTimer.current) window.clearTimeout(pulseTimer.current);
+    pulseTimer.current = window.setTimeout(() => setArchivePulse(null), archivePulse === "crash" ? 260 : 150);
+    return () => { if (pulseTimer.current) window.clearTimeout(pulseTimer.current); };
+  }, [archivePulse]);
+
+  useEffect(() => {
+    const currentId = activeItem?.id ?? null;
+    if (!currentId || currentId === activeItemRef.current) return;
+    activeItemRef.current = currentId;
+    markSignpostVisited(spriteVariant, currentId, items.length);
+    const dialogueMap = ROLE_DIALOGUE[spriteVariant] as Record<string, string>;
+    const activeLabel = activeItem?.label ?? "";
+    setDialogue(dialogueMap[activeLabel] ?? (spriteVariant === "designer" ? "A new interaction signal is close." : "New move, new story — let’s go!"));
+  }, [activeItem, items.length, markSignpostVisited, spriteVariant]);
 
   // Game loop: continuous movement + walk-cycle timing while a direction key is held
   useEffect(() => {
@@ -428,7 +449,17 @@ export default function SideScrollSelect({
     const step = (now: number) => {
       const dt = (now - last) / 1000;
       last = now;
-      const inputDirection = keys.current.left === keys.current.right ? 0 : keys.current.left ? -1 : 1;
+      const queuedTarget = autoTargetRef.current;
+      if (queuedTarget && Math.abs(queuedTarget.x - charXRef.current) <= 4) {
+        charXRef.current = queuedTarget.x;
+        setCharX(queuedTarget.x);
+        completeAutoEntry(queuedTarget.id);
+        rafRef.current = requestAnimationFrame(step);
+        return;
+      }
+      const inputDirection = queuedTarget
+        ? queuedTarget.x < charXRef.current ? -1 : 1
+        : keys.current.left === keys.current.right ? 0 : keys.current.left ? -1 : 1;
       const targetVelocity = inputDirection * SPEED;
       const rate = inputDirection === 0 ? RUN_DECELERATION : RUN_ACCELERATION;
       const velocityDelta = targetVelocity - velocityRef.current;
@@ -452,6 +483,7 @@ export default function SideScrollSelect({
         setIsMoving(Math.abs(velocity) > 18);
         if (now - lastFrameToggle.current > WALK_FRAME_MS) {
           setWalkFrame((f) => ((f + 1) % 4) as 0 | 1 | 2 | 3);
+          playFootstep(spriteVariant);
           lastFrameToggle.current = now;
         }
       } else {
@@ -464,7 +496,7 @@ export default function SideScrollSelect({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [levelWidth, triggerCollision]);
+  }, [completeAutoEntry, levelWidth, playFootstep, spriteVariant, triggerCollision]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -521,7 +553,7 @@ export default function SideScrollSelect({
 
   return (
     <section
-      className={`relative h-full w-full overflow-hidden ${isCyan ? "bg-[#07111f]" : "bg-[#1a0503]"}`}
+      className={`archive-world-pulse-${archivePulse ?? "idle"} relative h-full w-full overflow-hidden ${isCyan ? "bg-[#07111f]" : "bg-[#1a0503]"}`}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-75"
@@ -535,6 +567,8 @@ export default function SideScrollSelect({
       />
       <div className={`pointer-events-none absolute inset-0 ${isCyan ? "bg-[linear-gradient(180deg,rgba(3,12,25,0.4),rgba(3,12,25,0.04)_45%,rgba(3,12,25,0.7))]" : "bg-[linear-gradient(180deg,rgba(30,5,3,0.42),rgba(64,11,4,0.04)_45%,rgba(30,5,3,0.72))]"}`} />
       <div className="pointer-events-none absolute inset-0 opacity-35 arcade-scanline" />
+      <div className="pixel-ambient-dust pointer-events-none absolute inset-0 z-[3]" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+      <div className={`pixel-distant-runner pointer-events-none absolute bottom-[16rem] z-[4] h-3 w-7 ${isCyan ? "bg-cyan-300/45" : "bg-orange-300/45"}`} aria-hidden="true" />
 
       <div className="absolute inset-x-4 top-4 z-30 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3">
         <button
@@ -550,7 +584,70 @@ export default function SideScrollSelect({
         <div className="pixel-hud-panel border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
           {archiveLabel}
         </div>
+        <div className={`pixel-hud-panel hidden border px-3 py-1.5 font-rajdhani text-[0.6rem] font-black uppercase tracking-[0.14em] sm:block ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
+          <span className="text-white/60">PROJECTS EXPLORED </span>{progress.exploredByRole[spriteVariant].length}/{items.length}
+          <span className="mx-2 inline-block h-1.5 w-12 border border-current align-middle"><i className="block h-full bg-current" style={{ width: `${Math.round((progress.exploredByRole[spriteVariant].length / items.length) * 100)}%` }} /></span>
+          <span className="mx-2 text-white/25">|</span>✦ {Math.min(progress.collected.length, 3)}/3
+        </div>
+        <button
+          type="button"
+          onClick={() => setShowAchievements((open) => !open)}
+          aria-expanded={showAchievements}
+          aria-controls="archive-achievements"
+          className={`pixel-hud-panel border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+        >
+          ★ {progress.unlockedAchievements.length}/5
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowQuickMenu((open) => !open)}
+          aria-expanded={showQuickMenu}
+          aria-controls="archive-quick-menu"
+          className={`pixel-hud-panel ml-auto border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white transition-colors ${isCyan ? "border-cyan-300/70 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+        >
+          {t("skipToProjects")}
+        </button>
       </div>
+
+      {showQuickMenu && (
+        <aside id="archive-quick-menu" className={`absolute right-4 top-[5.25rem] z-40 w-[min(21rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:right-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`} aria-label={t("quickMenu")}>
+          <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2">
+            <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>{t("quickMenu")}</p>
+            <span className="font-rajdhani text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/50">DIRECT ACCESS</span>
+          </div>
+          <div className="grid gap-2">
+            {items.map((item, index) => (
+              <button key={item.id} type="button" onClick={() => selectFromQuickMenu(item.id)} className={`flex items-center gap-3 border p-3 text-left transition-colors ${isCyan ? "border-cyan-300/35 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/35 hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"}`}>
+                <span className="font-bebas text-xl">{String(index + 1).padStart(2, "0")}</span>
+                <span className="font-rajdhani text-sm font-black uppercase tracking-[0.12em]">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </aside>
+      )}
+
+      {showAchievements && (
+        <aside id="archive-achievements" className={`absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
+          <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2"><p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>ACHIEVEMENTS</p><span className="font-rajdhani text-[0.6rem] font-bold text-white/50">{progress.unlockedAchievements.length}/5 UNLOCKED</span></div>
+          <div className="grid gap-2">{Object.values(ACHIEVEMENTS).map((achievement) => {
+            const unlocked = progress.unlockedAchievements.includes(achievement.id);
+            return <div key={achievement.id} className={`border p-2.5 ${unlocked ? (isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100") : "border-white/15 text-white/30"}`}><p className="font-rajdhani text-xs font-black tracking-[0.16em]">{unlocked ? "★" : "◇"} {achievement.title}</p><p className="mt-1 font-rajdhani text-xs leading-snug text-white/60">{achievement.detail}</p></div>;
+          })}</div>
+        </aside>
+      )}
+
+      {unlockBanner && (
+        <div key={unlockBanner.id} className={`pixel-unlock-banner pointer-events-none absolute left-1/2 top-[22%] z-50 w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 border-4 bg-[#05080df0] p-4 text-center ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
+          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.42em]">LEVEL CLEAR</p>
+          <p className="mt-1 font-bebas text-4xl tracking-[0.1em] text-white">{unlockBanner.label}</p>
+          <p className="mt-1 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em]">ACCESSING CASE STUDY…</p>
+        </div>
+      )}
+      {latestAchievement && (
+        <button type="button" onClick={clearLatestAchievement} className={`pixel-achievement-toast absolute left-1/2 top-[5.6rem] z-50 w-[min(24rem,calc(100vw-2rem))] -translate-x-1/2 border-2 bg-[#05080df3] p-3 text-left ${isCyan ? "border-cyan-300 text-cyan-100" : "border-orange-300 text-orange-100"}`}>
+          <span className="font-bebas text-2xl">★ {latestAchievement.title}</span><span className="mt-1 block font-rajdhani text-xs text-white/75">{latestAchievement.detail}</span>
+        </button>
+      )}
 
       <div className="relative z-10 px-4 pt-28 text-center md:px-8 md:pt-28">
         <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.42em] md:text-sm ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
@@ -560,9 +657,6 @@ export default function SideScrollSelect({
           {title}
         </h1>
       </div>
-
-      {/* Static floor */}
-      <div className={`absolute inset-x-0 bottom-36 z-10 h-2 shadow-[0_0_24px_currentColor] md:bottom-28 ${isCyan ? "bg-cyan-300/40 text-cyan-300" : "bg-orange-300/40 text-orange-300"}`} />
 
       {/* Scrolling world */}
       <div
@@ -578,11 +672,25 @@ export default function SideScrollSelect({
               active={activeItem?.id === item.id}
               isCyan={isCyan}
               pressLabel={t("pressToSelect")}
-              onSelect={(id) => { playConfirm(); onSelect(id); }}
+              onSelect={queueProjectEntry}
               onHover={playHover}
             />
           );
         })}
+
+        {hiddenCollectibles.map((collectible) => !progress.collected.includes(collectible.id) && (
+          <button
+            key={collectible.id}
+            type="button"
+            aria-label={collectible.label}
+            title={collectible.label}
+            onClick={() => collectItem(collectible.id)}
+            className={`pixel-collectible absolute z-20 -translate-x-1/2 font-bebas text-3xl ${isCyan ? "text-cyan-200" : "text-orange-200"}`}
+            style={{ left: collectible.x, bottom: collectible.bottom }}
+          >
+            {collectible.glyph}
+          </button>
+        ))}
 
         <div className="absolute bottom-[5.4rem] z-10 -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
           {collision && (
@@ -599,6 +707,9 @@ export default function SideScrollSelect({
             frame={walkFrame}
             dustBurst={dustBurst}
           />
+          {dialogue && activeItem && !isMoving && !collision && (
+            <span className={`pixel-dialogue pointer-events-none absolute bottom-[calc(100%+0.75rem)] left-1/2 w-[min(17rem,64vw)] -translate-x-1/2 border-2 bg-[#05080dea] p-2 text-center font-rajdhani text-xs font-bold leading-snug text-white ${isCyan ? "border-cyan-300/65" : "border-orange-300/65"}`}>“{dialogue}”</span>
+          )}
         </div>
       </div>
 
@@ -633,15 +744,6 @@ export default function SideScrollSelect({
         </button>
       </div>
 
-      <MobileTouchControls
-        isCyan={isCyan}
-        movingDirection={touchDirection}
-        canSelect={Boolean(activeItem)}
-        onMoveStart={startTouchMove}
-        onMoveEnd={endTouchMove}
-        onJump={triggerJumpOrSelect}
-        onSelect={triggerSelect}
-      />
     </section>
   );
 }

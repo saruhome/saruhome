@@ -13,6 +13,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import { GameAudioProvider } from "./contexts/GameAudioContext";
+import { GameProgressProvider } from "./contexts/GameProgressContext";
 import Home from "./pages/Home";
 
 function Router() {
@@ -31,12 +32,14 @@ function App() {
       <LanguageProvider>
         <ThemeProvider defaultTheme="dark">
           <RoleProvider>
-            <GameAudioProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Router />
-              </TooltipProvider>
-            </GameAudioProvider>
+            <GameProgressProvider>
+              <GameAudioProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <Router />
+                </TooltipProvider>
+              </GameAudioProvider>
+            </GameProgressProvider>
           </RoleProvider>
         </ThemeProvider>
       </LanguageProvider>

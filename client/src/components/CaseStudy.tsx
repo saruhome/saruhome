@@ -3,6 +3,9 @@ import HorizontalSlider from "./HorizontalSlider";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { assetUrl } from "../lib/assetUrl";
+import { applicationCaseStudyContent, type ApplicationCaseStudy } from "../lib/applicationCaseStudyContent";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useGameProgress } from "../contexts/GameProgressContext";
 
 /**
  * Design System — Pixel Command Console
@@ -1112,93 +1115,11 @@ function ResearchPage({ project }: { project: CaseStudyProject }) {
   );
 }
 
-function InfoArchitecturePage({ project }: { project: CaseStudyProject }) {
-  const ia = project.infoArchitecture;
-  return (
-    <PageShell>
-      <div className={`grid gap-8 items-center ${ia.imageUrl ? "md:grid-cols-2" : "max-w-3xl"}`}>
-        <div>
-          <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-6 text-shadow-cyan">
-            {ia.title}
-          </h2>
-          <p className="font-rajdhani text-base md:text-lg text-white/70 leading-relaxed">
-            {ia.description}
-          </p>
-        </div>
-        {ia.imageUrl && (
-          <div className="pixel-hud-panel relative overflow-hidden border-cyan-300/45 bg-[#020711]">
-            <FadeInImage src={ia.imageUrl} alt={ia.title} className="w-full h-auto" />
-          </div>
-        )}
-      </div>
-    </PageShell>
-  );
-}
-
-function DesignShowcasePage({
-  showcase,
-}: {
-  showcase: CaseStudyProject["designShowcase"][number];
-}) {
-  return (
-    <PageShell>
-      <div className={`grid gap-8 items-center ${showcase.imageUrl ? "md:grid-cols-2" : "max-w-3xl"}`}>
-        <div>
-          <h3 className="font-bebas text-2xl md:text-3xl font-bold text-cyan-300 mb-4">{showcase.title}</h3>
-          <p className="font-rajdhani text-base text-white/70 leading-relaxed">{showcase.description}</p>
-        </div>
-        {showcase.imageUrl && (
-          <div className="pixel-hud-panel relative overflow-hidden border-cyan-300/45 bg-[#020711]">
-            <FadeInImage src={showcase.imageUrl} alt={showcase.title} className="w-full h-auto" />
-          </div>
-        )}
-      </div>
-    </PageShell>
-  );
-}
-
-function TakeawaysPage({ project }: { project: CaseStudyProject }) {
-  const { t } = useLanguage();
-  return (
-    <PageShell>
-      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
-        {t("finalTakeaways")}
-      </h2>
-      <div className="space-y-4">
-        {project.takeaways.map((takeaway, idx) => (
-          <div
-            key={idx}
-            className="pixel-hud-panel flex gap-4 border-l-4 border-cyan-300/60 bg-[#020711e8] p-4"
-          >
-            <span className="text-cyan-300 font-bold text-lg flex-shrink-0">→</span>
-            <p className="font-rajdhani text-base text-white/70 leading-relaxed">{takeaway}</p>
-          </div>
-        ))}
-      </div>
-    </PageShell>
-  );
-}
-
-function BusinessImpactPage({ project }: { project: CaseStudyProject }) {
-  const { t } = useLanguage();
-  return (
-    <PageShell>
-      <h2 className="skew-x-[-8deg] font-bebas text-3xl md:text-4xl font-bold text-white mb-12 text-shadow-cyan">
-        {t("businessImpact")}
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {project.metrics!.map((metric, idx) => (
-          <div key={idx} className="pixel-hud-panel border-cyan-300/40 bg-[#020711e8] p-6">
-            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.18em] text-cyan-200 mb-2">
-              {metric.label}
-            </p>
-            <p className="font-bebas text-3xl font-bold text-cyan-300">{metric.value}</p>
-          </div>
-        ))}
-      </div>
-    </PageShell>
-  );
-}
+// Legacy source material remains available during the content migration; the application dossier below is the rendered route.
+void caseStudyDataByLang;
+void FadeInImage;
+void OverviewPage;
+void ResearchPage;
 
 function FooterPage({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
@@ -1215,6 +1136,55 @@ function FooterPage({ onBack }: { onBack: () => void }) {
   );
 }
 
+/** Application dossier pages: a readable evidence structure inside the existing 16-bit command-console shell. */
+function ApplicationOverviewPage({ project }: { project: ApplicationCaseStudy }) {
+  const { t } = useLanguage();
+  const { collectItem, progress } = useGameProgress();
+  const collectibleId = `case-study-${project.id}`;
+  return (
+    <PageShell>
+      <p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200 md:text-sm">{project.kicker}</p>
+      <h1 className="mt-5 font-bebas text-[clamp(2.8rem,7vw,5.8rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade"><TerminalText text={project.title} speed={65} /></h1>
+      <div className="mt-8 grid gap-7 md:grid-cols-[1.3fr_0.7fr]">
+        <div>
+          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.24em] text-cyan-200">{t("projectOverview")}</p>
+          <p className="mt-3 max-w-3xl font-rajdhani text-base leading-relaxed text-white/80 md:text-lg">{project.overview}</p>
+        </div>
+        <div className="pixel-hud-panel border-cyan-300/40 bg-[#020711e8] p-5">
+          <div className="space-y-4 font-rajdhani text-sm text-white/80">
+            <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("myRole")}</p><p className="mt-1 leading-relaxed">{project.role}</p></div>
+            <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("project")}</p><p className="mt-1">{project.projectType}</p></div>
+            <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("timeline")}</p><p className="mt-1">{project.timeline}</p></div>
+            {project.link && <a className="inline-block border border-cyan-300/60 px-3 py-2 font-black uppercase tracking-[0.16em] text-cyan-100 transition-colors hover:bg-cyan-300 hover:text-[#06101e]" href={project.link} target="_blank" rel="noreferrer">↗ {t("openProject")}</a>}
+          </div>
+        </div>
+      </div>
+      {!progress.collected.includes(collectibleId) && <button type="button" onClick={() => collectItem(collectibleId)} aria-label="Collect hidden project data chip" title="Hidden project data chip" className="pixel-collectible mt-6 inline-block border border-cyan-300/45 bg-[#020711e8] px-3 py-1 font-bebas text-xl text-cyan-200">◆ DATA CHIP</button>}
+    </PageShell>
+  );
+}
+
+function ApplicationResearchPage({ project }: { project: ApplicationCaseStudy }) {
+  const { t } = useLanguage();
+  return <PageShell><div className="grid gap-8 md:grid-cols-[0.8fr_1.2fr]"><div><p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200">01 // {t("problem")}</p><h2 className="mt-3 font-bebas text-3xl leading-none text-white text-shadow-cyan md:text-5xl">{t("problem")}</h2><p className="mt-6 font-rajdhani text-base leading-relaxed text-white/80">{project.challenge}</p></div><div><p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200">02 // {t("researchInsights")}</p><div className="mt-5 space-y-3">{project.researchInsights.map((insight, index) => <div key={insight} className="pixel-hud-panel border-l-4 border-cyan-300/65 bg-[#020711e8] p-4"><span className="font-bebas text-xl text-cyan-300">0{index + 1}</span><p className="mt-1 font-rajdhani leading-relaxed text-white/75">{insight}</p></div>)}</div></div></div></PageShell>;
+}
+
+function ApplicationProcessPage({ project }: { project: ApplicationCaseStudy }) {
+  const { t } = useLanguage();
+  const stages = [["01", "IA", project.process.informationArchitecture], ["02", "WIREFRAMES", project.process.wireframes], ["03", "HIGH-FIDELITY", project.process.highFidelity], ["04", "PROTOTYPE", project.process.prototype], ["05", "TESTING", project.process.testing]] as const;
+  return <PageShell><p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200">03 // {t("designProcess")}</p><h2 className="mt-3 font-bebas text-3xl leading-none text-white text-shadow-cyan md:text-5xl">IA → WIREFRAMES → HI-FI → PROTOTYPE → TEST</h2><div className="mt-8 grid gap-3 md:grid-cols-5">{stages.map(([step, label, description]) => <article key={step} className="pixel-hud-panel border-cyan-300/40 bg-[#020711e8] p-4"><p className="font-bebas text-2xl text-cyan-300">{step}</p><h3 className="mt-2 font-rajdhani text-xs font-black tracking-[0.14em] text-white">{label}</h3><p className="mt-3 font-rajdhani text-sm leading-relaxed text-white/70">{description}</p></article>)}</div></PageShell>;
+}
+
+function ApplicationInteractionsPage({ project }: { project: ApplicationCaseStudy }) {
+  const { t } = useLanguage();
+  return <PageShell><p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200">04 // {t("keyInteractions")}</p><h2 className="mt-3 font-bebas text-3xl leading-none text-white text-shadow-cyan md:text-5xl">{t("keyInteractions")}</h2><div className="mt-8 grid gap-5 md:grid-cols-3">{project.keyInteractions.map((interaction, index) => <article key={interaction} className="pixel-hud-panel border-cyan-300/45 bg-[#020711e8] p-5"><span className="font-bebas text-3xl text-cyan-300">{`0${index + 1}`}</span><p className="mt-4 font-rajdhani leading-relaxed text-white/75">{interaction}</p></article>)}</div></PageShell>;
+}
+
+function ApplicationImpactPage({ project }: { project: ApplicationCaseStudy }) {
+  const { t } = useLanguage();
+  return <PageShell><div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr]"><div><p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200">05 // {t("resultsImpact")}</p><h2 className="mt-3 font-bebas text-3xl leading-none text-white text-shadow-cyan md:text-5xl">{t("resultsImpact")}</h2><div className="mt-7 space-y-3">{project.impact.map((item) => <div key={item} className="pixel-hud-panel border-l-4 border-cyan-300/65 bg-[#020711e8] p-4 font-rajdhani leading-relaxed text-white/75">→ {item}</div>)}</div></div><div className="pixel-hud-panel self-end border-cyan-300/45 bg-[#020711e8] p-6"><p className="font-rajdhani text-xs font-black uppercase tracking-[0.24em] text-cyan-200">{t("tools")}</p><ul className="mt-4 space-y-3">{project.tools.map((tool) => <li key={tool} className="border border-cyan-300/35 px-3 py-2 font-rajdhani text-sm font-bold text-cyan-100">{tool}</li>)}</ul></div></div></PageShell>;
+}
+
 export default function CaseStudy({
   projectId,
   onBack,
@@ -1224,7 +1194,7 @@ export default function CaseStudy({
 }) {
   const { t, language } = useLanguage();
   const { selectedRole, palette } = useRoleTheme();
-  const project = caseStudyDataByLang[language][projectId];
+  const project = applicationCaseStudyContent[language].find((item) => item.id === projectId);
 
   if (!project) {
     return (
@@ -1243,19 +1213,17 @@ export default function CaseStudy({
   }
 
   const pages = [
-    <OverviewPage key="overview" project={project} />,
-    <ResearchPage key="research" project={project} />,
-    <InfoArchitecturePage key="ia" project={project} />,
-    ...project.designShowcase.map((showcase) => (
-      <DesignShowcasePage key={showcase.title} showcase={showcase} />
-    )),
-    <TakeawaysPage key="takeaways" project={project} />,
-    ...(project.metrics ? [<BusinessImpactPage key="impact" project={project} />] : []),
+    <ApplicationOverviewPage key="overview" project={project} />,
+    <ApplicationResearchPage key="research" project={project} />,
+    <ApplicationProcessPage key="process" project={project} />,
+    <ApplicationInteractionsPage key="interactions" project={project} />,
+    <ApplicationImpactPage key="impact" project={project} />,
     <FooterPage key="footer" onBack={onBack} />,
   ];
 
   return (
     <div className="role-theme-scope relative h-auto min-h-dvh overflow-visible bg-black text-white md:h-dvh md:overflow-hidden" data-player-role={selectedRole}>
+      <LanguageSwitcher elevated />
       <StickyNavigation onBack={onBack} />
       <HorizontalSlider showDots showArrows accentColor={palette.accentColor}>
         {pages}

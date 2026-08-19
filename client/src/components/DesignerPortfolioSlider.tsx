@@ -5,6 +5,7 @@ import CaseStudy from "./CaseStudy";
 import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useRoleTheme } from "../contexts/RoleContext";
+import { useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
 
 type DesignProject = {
@@ -32,35 +33,35 @@ const designProjectsByLang: Record<Language, DesignProject[]> = {
     },
     {
       id: "02",
-      title: "Seek and Sight",
-      tag: "EDTECH / ONGOING",
-      description:
-        "Inclusive STEAM Literacy Platform for Children — Landing page, character system, and weekly content design for a nonprofit learning platform.",
-      link: null,
-    },
-    {
-      id: "03",
       title: "Locaverse GmbH",
-      tag: "CLIENT PROJECT / 2023",
+      tag: "SPATIAL COLLABORATION / CLIENT",
       description:
-        "Business.Locaverse.at Redesign — Lead-generation landing page redesign for a mobile-service marketplace.",
+        "Spatial collaboration and service-ecosystem UX — a focused business route from local value to trusted action.",
       link: "https://www.behance.net/gallery/197726323/UIUX-Design-Locaverse-GmbH",
     },
     {
-      id: "04",
+      id: "03",
       title: "Smart Wash",
-      tag: "PERSONAL PROJECT / 2022",
+      tag: "CONTEXT-AWARE MOBILE UX",
       description:
-        "Smart Home Appliance UX/UI — Weather-aware washing machine app that recommends the right wash mode.",
+        "Weather-aware appliance companion — ambient context, tactile feedback, and manual user control in one mobile flow.",
       link: "https://www.behance.net/gallery/167922001/UIUX-Design-Smart-Wash",
     },
     {
-      id: "05",
-      title: "ecotek",
-      tag: "SCHOOL PROJECT / 2023",
+      id: "04",
+      title: "Campy",
+      tag: "UX RESEARCH / MOBILE REDESIGN",
       description:
-        "Sustainable Brand Identity — Logo, brand system, and marketing website for a fictional sustainability company.",
-      link: "https://www.behance.net/gallery/167813977/Brand-Design-ecotek",
+        "Research-led mobile redesign proposal linking user insights, interaction states, and visual identity.",
+      link: "https://www.behance.net/gallery/197225963/UIUX-Design-Campy",
+    },
+    {
+      id: "05",
+      title: "Seek and Sight",
+      tag: "INCLUSIVE EDTECH / ONGOING",
+      description:
+        "Inclusive STEAM literacy platform — adaptive learning, audience-aware information design, and character-led feedback.",
+      link: null,
     },
   ],
   kr: [
@@ -74,35 +75,35 @@ const designProjectsByLang: Record<Language, DesignProject[]> = {
     },
     {
       id: "02",
-      title: "Seek and Sight",
-      tag: "에듀테크 / 진행 중",
-      description:
-        "아동을 위한 포용적 STEAM 문해력 플랫폼 — 비영리 학습 플랫폼을 위한 랜딩 페이지, 캐릭터 시스템, 주간 콘텐츠 디자인.",
-      link: null,
-    },
-    {
-      id: "03",
       title: "Locaverse GmbH",
-      tag: "클라이언트 프로젝트 / 2023",
+      tag: "공간적 협업 / 클라이언트",
       description:
-        "Business.Locaverse.at 리디자인 — 모바일 서비스 마켓플레이스를 위한 리드 제너레이션 랜딩 페이지 개편.",
+        "공간적 협업과 서비스 생태계 UX — 지역 기반 가치를 신뢰도 있는 행동으로 연결하는 집중된 사업자 경로.",
       link: "https://www.behance.net/gallery/197726323/UIUX-Design-Locaverse-GmbH",
     },
     {
-      id: "04",
+      id: "03",
       title: "Smart Wash",
-      tag: "개인 프로젝트 / 2022",
+      tag: "맥락 인지형 모바일 UX",
       description:
-        "스마트 홈 가전 UX/UI — 날씨 정보를 활용해 적절한 세탁 모드를 추천하는 세탁기 앱.",
+        "날씨 인지형 가전 동반자 — 주변 맥락, 촉각적 피드백, 수동 제어권을 하나의 모바일 플로우에 통합.",
       link: "https://www.behance.net/gallery/167922001/UIUX-Design-Smart-Wash",
     },
     {
-      id: "05",
-      title: "ecotek",
-      tag: "학교 프로젝트 / 2023",
+      id: "04",
+      title: "Campy",
+      tag: "UX 리서치 / 모바일 리디자인",
       description:
-        "지속 가능한 브랜드 아이덴티티 — 가상 친환경 기업을 위한 로고, 브랜드 시스템, 마케팅 웹사이트.",
-      link: "https://www.behance.net/gallery/167813977/Brand-Design-ecotek",
+        "사용자 인사이트, 인터랙션 상태, 비주얼 아이덴티티를 연결하는 리서치 중심 모바일 리디자인 제안.",
+      link: "https://www.behance.net/gallery/197225963/UIUX-Design-Campy",
+    },
+    {
+      id: "05",
+      title: "Seek and Sight",
+      tag: "포용적 에듀테크 / 진행 중",
+      description:
+        "포용적 STEAM 문해력 플랫폼 — 적응형 학습, 대상 인지형 정보 설계, 캐릭터 기반 피드백.",
+      link: null,
     },
   ],
   de: [
@@ -116,41 +117,42 @@ const designProjectsByLang: Record<Language, DesignProject[]> = {
     },
     {
       id: "02",
-      title: "Seek and Sight",
-      tag: "EDTECH / LAUFEND",
-      description:
-        "Inklusive STEAM-Literaturplattform für Kinder — Landing Page, Charaktersystem und wöchentliches Content-Design für eine gemeinnützige Lernplattform.",
-      link: null,
-    },
-    {
-      id: "03",
       title: "Locaverse GmbH",
-      tag: "KUNDENPROJEKT / 2023",
+      tag: "RÄUMLICHE KOLLABORATION / KUNDE",
       description:
-        "Business.Locaverse.at Redesign — Lead-Generierungs-Landingpage-Redesign für einen Marktplatz für mobile Dienstleistungen.",
+        "UX für räumliche Kollaboration und Service-Ökosysteme — ein fokussierter Business-Pfad von lokalem Nutzen zu vertrauensvoller Aktion.",
       link: "https://www.behance.net/gallery/197726323/UIUX-Design-Locaverse-GmbH",
     },
     {
-      id: "04",
+      id: "03",
       title: "Smart Wash",
-      tag: "PERSÖNLICHES PROJEKT / 2022",
+      tag: "KONTEXTSENSITIVE MOBILE UX",
       description:
-        "Smart-Home-Geräte-UX/UI — Wetterbasierte Waschmaschinen-App, die den passenden Waschmodus empfiehlt.",
+        "Wetterbewusster Gerätebegleiter — Umgebungskontext, taktiles Feedback und manuelle Kontrolle in einem Mobile Flow.",
       link: "https://www.behance.net/gallery/167922001/UIUX-Design-Smart-Wash",
     },
     {
-      id: "05",
-      title: "ecotek",
-      tag: "SCHULPROJEKT / 2023",
+      id: "04",
+      title: "Campy",
+      tag: "UX RESEARCH / MOBILE REDESIGN",
       description:
-        "Nachhaltige Markenidentität — Logo, Markensystem und Marketing-Website für ein fiktives Nachhaltigkeitsunternehmen.",
-      link: "https://www.behance.net/gallery/167813977/Brand-Design-ecotek",
+        "Research-getriebene Mobile-Redesign-Proposal, die User Insights, Interaktionszustände und visuelle Identität verbindet.",
+      link: "https://www.behance.net/gallery/197225963/UIUX-Design-Campy",
+    },
+    {
+      id: "05",
+      title: "Seek and Sight",
+      tag: "INKLUSIVE EDTECH / LAUFEND",
+      description:
+        "Inklusive STEAM-Literacy-Plattform — adaptives Lernen, zielgruppenbewusste Informationsarchitektur und character-basiertes Feedback.",
+      link: null,
     },
   ],
 };
 
 function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
   const { t } = useLanguage();
+  const { collectItem, progress } = useGameProgress();
   return (
     <section className="relative h-auto w-full overflow-visible md:h-full md:overflow-y-auto bg-dark-primary px-4 py-16 md:px-8 md:py-24 lg:px-12">
       <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
@@ -190,6 +192,14 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
               <p className="font-rajdhani text-base leading-relaxed text-light-secondary">
                 {t("bio")}
               </p>
+              <div className="mt-6 grid gap-2">
+                {[t("basedIn"), t("origin"), t("practice"), t("interactionFocus"), t("mastersIntent")].map((signal) => (
+                  <p key={signal} className="border-l-4 border-cyan-300/70 bg-[#020b18cc] px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.14em] text-cyan-100">
+                    {signal}
+                  </p>
+                ))}
+              </div>
+              {!progress.collected.includes("designer-about-signal") && <button type="button" onClick={() => collectItem("designer-about-signal")} className="pixel-collectible mt-5 self-start border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">✦ BIO SIGNAL</button>}
             </div>
           </div>
         </div>
@@ -229,6 +239,7 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
 
 function ContactSlide({ embedded = false }: { embedded?: boolean }) {
   const { t } = useLanguage();
+  const { collectItem, progress } = useGameProgress();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -247,6 +258,7 @@ function ContactSlide({ embedded = false }: { embedded?: boolean }) {
       <div className={embedded ? "relative" : "relative z-10 mx-auto w-full max-w-5xl"}>
         <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm mb-4">{t("contact").toUpperCase()}</p>
         <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("getInTouch")}</h2>
+        {!progress.collected.includes("designer-contact-key") && <button type="button" onClick={() => collectItem("designer-contact-key")} className="pixel-collectible mb-5 inline-block border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">◆ CONTACT KEY</button>}
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <a
@@ -379,6 +391,10 @@ export default function DesignerPortfolioSlider({
         spriteVariant="designer"
         eyebrow={t("player01Archive")}
         title={t("designPortfolio")}
+        onQuickSelect={(id) => {
+          if (id === "about") setView("about");
+          else setView({ type: "caseStudy", projectId: id });
+        }}
         onSelect={(id) => {
           if (id === "about") setView("about");
           else setView({ type: "caseStudy", projectId: id });

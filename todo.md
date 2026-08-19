@@ -401,3 +401,49 @@
 - [x] 충돌·ArrowDown·기상 상태에 전용 프레임 연결
 - [x] 두 아카이브에서 포즈·기본 비율·전환을 시각 검증
 - [ ] 전체 변경 GitHub 커밋·푸시 및 라이브 체크포인트 저장
+
+## 참고 기반 보행·자동 프로젝트 진입
+
+- [ ] 첨부 보행 프레임의 팔·다리 교차 리듬과 현재 아카이브 run GIF 비교
+- [ ] 두 캐릭터 보행 프레임·발걸음 이펙트를 참고 리듬에 맞게 보정
+- [ ] 모바일 하단 조작 버튼과 관련 안내 제거
+- [ ] 프로젝트 선택 시 웹·모바일 모두 선택 표지판까지 자동 보행 후 진입
+- [ ] 이동 중 재선택·경계·키보드 입력 처리와 자동 진입 흐름 검증
+- [ ] GitHub 푸시 및 Manus 체크포인트 저장
+
+## 아카이브 발밑 가로 선 제거
+
+- [ ] 아카이브 캐릭터 하단 가로 선·바를 생성하는 요소와 스타일 점검
+- [ ] 두 아카이브에서 캐릭터 발밑 가로 선·바 제거
+- [ ] 보행·충돌·쭈그림 중 캐릭터 발밑의 불필요한 선이 남지 않는지 검증
+
+## FH Joanneum Interaction Design 지원형 포트폴리오 강화
+
+- [ ] Designer About을 Sunghee Im·Vienna·Korean background·dancer-to-embodied interaction 서사·프리랜스 2+년·FH Joanneum 지원 의도로 재구성
+- [ ] SokDak, Locaverse GmbH, Smart Wash, Campy, Seek and Sight의 케이스 스터디를 Research→Process→Interaction→Impact 중심의 공통 구조로 보강
+- [ ] 로비와 아카이브에 픽셀 HUD 형태의 Quick Menu / Skip to Projects 빠른 진입 경로 추가
+- [ ] Contact를 yimsungh@gmail.com·LinkedIn·Behance·이력서 다운로드로 정리
+- [ ] 메인 아카이브를 Interaction Design·UX·Mobile·Spatial 작업 중심으로 선별하고 EN·KR·DE 번역 연결 확인
+- [ ] 데스크톱·모바일에서 빠른 메뉴·키보드 게임 이동·케이스 스터디·다국어 전환 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 아카이브 레벨 클리어 게임 피드백
+
+ - [x] 표지판 근접 시 역할색 글로우·깜빡이는 방향 화살표·선택 가능 신호 강화
+ - [x] 이동 시작·지속 이동·정지에서 역할색 먼지·발걸음 파티클을 더 선명하게 보강
+ - [x] 점프·착지에 절제된 화면 흔들림과 캐릭터 착지 반동 추가
+ - [x] 자동 보행 선택 도착 시 `PROJECT UNLOCKED` / `CASE STUDY CLEARED` 픽셀 연출과 효과음 동기화
+ - [x] Designer·Dancer 아카이브와 Quick Menu·키보드 선택 경로에서 연출·상태 전환 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 아케이드 탐험·진행·스토리텔링 확장
+
+ - [x] 역할·아카이브별 방문 프로젝트 수, 수집품, 업적을 localStorage 기반으로 저장하는 진행 상태 모델 구현
+ - [x] Archive HUD에 Projects Explored 진행 바·작은 트로피 업적 아이콘·수집품 수 표시
+ - [x] 첫 프로젝트·양 역할 진입·모든 표지판 방문·더블 점프 선택 업적 감지와 해금 토스트 구현
+ - [x] 프로젝트·About·Contact와 숨은 점프 지점에 픽셀 별·열쇠·배지 수집품 배치 및 전체 수집 시 비밀 지원자 메시지 해금
+ - [x] 배경 모니터 깜빡임·부유 먼지·멀리 이동하는 실루엣을 추가하고 숨은 발판·비밀 표지판 탐험 지점 구현
+ - [x] 표지판 근접 독백과 벽 충돌 대사를 Designer의 차분한 톤·Dancer의 활기찬 톤으로 다국어 작성
+ - [x] 첫 방문 `PRESS ANY KEY TO START`·단계형 키보드 말풍선 튜토리얼·`ARCHIVE ACCESS GRANTED` 전환 구현 및 재방문 스킵 처리
+ - [x] 데스크톱·모바일·키보드·Quick Menu 경로에서 게임 연출·접근성·다국어·저장 상태를 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장

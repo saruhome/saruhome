@@ -18,8 +18,11 @@ type GameAudioContextValue = {
   playRoleHoverJump: (role: PlayerRole) => void;
   playWallCrash: (role: PlayerRole) => void;
   playNavigate: () => void;
+  playFootstep: (role: PlayerRole) => void;
   playJump: () => void;
+  playLand: (role: PlayerRole) => void;
   playConfirm: () => void;
+  playUnlock: (role: PlayerRole) => void;
 };
 
 const GameAudioContext = createContext<GameAudioContextValue | undefined>(undefined);
@@ -136,8 +139,17 @@ export function GameAudioProvider({ children }: { children: ReactNode }) {
           { frequency: 78, offset: 0.065, duration: 0.15, gain: 0.06, type: "sawtooth" },
         ]),
     playNavigate: () => playTones([{ frequency: 330, offset: 0, duration: 0.055, gain: 0.05 }, { frequency: 494, offset: 0.045, duration: 0.07, gain: 0.04 }]),
+    playFootstep: (role) => playTones(role === "designer"
+      ? [{ frequency: 115, offset: 0, duration: 0.045, gain: 0.034, type: "square" }, { frequency: 230, offset: 0.018, duration: 0.03, gain: 0.018, type: "triangle" }]
+      : [{ frequency: 82, offset: 0, duration: 0.052, gain: 0.042, type: "square" }, { frequency: 164, offset: 0.02, duration: 0.035, gain: 0.021, type: "sawtooth" }]),
     playJump: () => playTones([{ frequency: 220, offset: 0, duration: 0.18, gain: 0.09, type: "sine" }, { frequency: 660, offset: 0.045, duration: 0.13, gain: 0.05, type: "triangle" }]),
+    playLand: (role) => playTones(role === "designer"
+      ? [{ frequency: 150, offset: 0, duration: 0.06, gain: 0.06, type: "square" }, { frequency: 300, offset: 0.035, duration: 0.04, gain: 0.025, type: "triangle" }]
+      : [{ frequency: 104, offset: 0, duration: 0.07, gain: 0.068, type: "square" }, { frequency: 208, offset: 0.04, duration: 0.045, gain: 0.028, type: "sawtooth" }]),
     playConfirm: () => playTones([{ frequency: 392, offset: 0, duration: 0.09, gain: 0.07 }, { frequency: 523, offset: 0.075, duration: 0.11, gain: 0.065 }, { frequency: 784, offset: 0.15, duration: 0.16, gain: 0.055 }]),
+    playUnlock: (role) => playTones(role === "designer"
+      ? [{ frequency: 392, offset: 0, duration: 0.07, gain: 0.075 }, { frequency: 523, offset: 0.08, duration: 0.07, gain: 0.07 }, { frequency: 784, offset: 0.16, duration: 0.1, gain: 0.065 }, { frequency: 1047, offset: 0.28, duration: 0.18, gain: 0.055, type: "triangle" }]
+      : [{ frequency: 196, offset: 0, duration: 0.07, gain: 0.08 }, { frequency: 294, offset: 0.075, duration: 0.07, gain: 0.075 }, { frequency: 440, offset: 0.15, duration: 0.1, gain: 0.07, type: "sawtooth" }, { frequency: 659, offset: 0.26, duration: 0.18, gain: 0.06, type: "triangle" }]),
   }), [launchArchiveAudio, muted, playTones, startRoleMusic, stopMusic]);
 
   return <GameAudioContext.Provider value={value}>{children}</GameAudioContext.Provider>;

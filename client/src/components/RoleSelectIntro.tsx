@@ -5,6 +5,7 @@ import DesignerPortfolioSlider from "./DesignerPortfolioSlider";
 import DancerPortfolioSlider from "./DancerPortfolioSlider";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
+import { useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
 
 /**
@@ -31,6 +32,7 @@ type RoleOption = {
 };
 
 const PIXEL_LOBBY = assetUrl("pixel-portfolio-lobby-reference_c2b7d5df.png", "pixel-portfolio-lobby-reference.png");
+const FH_CONSOLE_REFERENCE = "/manus-storage/fh-joanneum-interaction-console-reference_d0476753.png";
 
 const roles: RoleOption[] = [
   {
@@ -271,7 +273,7 @@ function RolePanel({
         </div>
       </div>
 
-      {isLocked && <div className="pointer-events-none absolute inset-0 z-40 grid place-items-center bg-black/40"><span className="selected-hit border-2 px-5 py-3 font-rajdhani text-[1.85rem] font-black uppercase leading-none tracking-[0.2em] md:px-7 md:py-4 md:text-[3rem]" style={{ borderColor: role.primary, color: role.primary, background: `${role.dark}d9` }}>LET&apos;S GO</span></div>}
+      {isLocked && <div className="pointer-events-none absolute inset-0 z-40 grid place-items-center bg-black/40"><span className="selected-hit border-2 px-5 py-3 text-center font-rajdhani text-[1.1rem] font-black uppercase leading-none tracking-[0.16em] md:px-7 md:py-4 md:text-[2.1rem]" style={{ borderColor: role.primary, color: role.primary, background: `${role.dark}d9` }}><small className="mb-2 block text-[0.55em] tracking-[0.32em] text-white">LET&apos;S GO</small>ARCHIVE ACCESS<br />GRANTED</span></div>}
     </button>
   );
 }
@@ -280,9 +282,13 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   const { t } = useLanguage();
   const { selectRole: setSelectedRole } = useRoleTheme();
   const { launchArchiveAudio, playRoleHoverJump } = useGameAudio();
+  const { markRolePlayed, markTutorialSeen, progress } = useGameProgress();
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [landingRole, setLandingRole] = useState<Role | null>(null);
   const [lockedRole, setLockedRole] = useState<Role | null>(null);
+  const [showQuickMenu, setShowQuickMenu] = useState(false);
+  const [showStartScreen, setShowStartScreen] = useState(() => !progress.tutorialSeen);
+  const [tutorialStep, setTutorialStep] = useState<number | null>(null);
   const selectTimer = useRef<number | undefined>(undefined);
   const hoverTimer = useRef<number | undefined>(undefined);
 
@@ -290,6 +296,25 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
     if (selectTimer.current) window.clearTimeout(selectTimer.current);
     if (hoverTimer.current) window.clearTimeout(hoverTimer.current);
   }, []);
+
+  useEffect(() => {
+    if (!showStartScreen) return;
+    const begin = () => { setShowStartScreen(false); setTutorialStep(0); };
+    window.addEventListener("keydown", begin, { once: true });
+    return () => window.removeEventListener("keydown", begin);
+  }, [showStartScreen]);
+
+  useEffect(() => {
+    if (tutorialStep === null) return;
+    const advance = (event: KeyboardEvent) => {
+      if (tutorialStep === 0 && (event.key === "ArrowLeft" || event.key === "ArrowRight")) setTutorialStep(1);
+      else if (tutorialStep === 1 && event.key === "ArrowUp") setTutorialStep(2);
+      else if (tutorialStep === 2 && event.key === "ArrowDown") setTutorialStep(3);
+      else if (tutorialStep === 3 && (event.key === "Enter" || event.key === " ")) { markTutorialSeen(); setTutorialStep(null); }
+    };
+    window.addEventListener("keydown", advance);
+    return () => window.removeEventListener("keydown", advance);
+  }, [markTutorialSeen, tutorialStep]);
 
   const handleHoverStart = (role: Role) => {
     if (lockedRole || activeRole === role) return;
@@ -310,9 +335,19 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
     if (lockedRole) return;
     setSelectedRole(role);
     launchArchiveAudio(role);
+    markRolePlayed(role);
     setLockedRole(role);
     setActiveRole(role);
     selectTimer.current = window.setTimeout(() => onSelect(role), 420);
+  };
+
+  const handleQuickArchive = (role: Role) => {
+    if (lockedRole) return;
+    setShowQuickMenu(false);
+    setSelectedRole(role);
+    launchArchiveAudio(role);
+    markRolePlayed(role);
+    onSelect(role);
   };
 
   return (
@@ -336,9 +371,48 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         </div>
       </header>
 
+      <div className="absolute right-3 top-3 z-50 md:right-8 md:top-7">
+        <button
+          type="button"
+          onClick={() => setShowQuickMenu((open) => !open)}
+          aria-expanded={showQuickMenu}
+          aria-controls="lobby-quick-menu"
+          className="pixel-hud-panel border-2 border-white/55 bg-[#05080de8] px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
+        >
+          {t("quickMenu")}
+        </button>
+        {showQuickMenu && (
+          <aside id="lobby-quick-menu" className="absolute right-0 top-[calc(100%+0.5rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
+            <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-[0.16] [image-rendering:pixelated]" style={{ backgroundImage: `url(${FH_CONSOLE_REFERENCE})` }} />
+            <div className="relative">
+              <div className="mb-3 border-b border-white/25 pb-2">
+                <p className="font-rajdhani text-xs font-black uppercase tracking-[0.22em] text-cyan-200">{t("skipToProjects")}</p>
+                <p className="mt-1 font-rajdhani text-[0.62rem] uppercase tracking-[0.12em] text-white/60">DIRECT ARCHIVE ACCESS // NO GAMEPLAY REQUIRED</p>
+              </div>
+              <div className="grid gap-2">
+                <button type="button" onClick={() => handleQuickArchive("designer")} className="border border-cyan-300/60 bg-[#06101ed9] p-3 text-left transition-colors hover:bg-cyan-300 hover:text-[#06101e]"><span className="font-bebas text-xl">01</span><span className="ml-3 font-rajdhani text-sm font-black uppercase tracking-[0.14em]">{t("designerQuickAccess")}</span></button>
+                <button type="button" onClick={() => handleQuickArchive("dancer")} className="border border-orange-300/60 bg-[#200806d9] p-3 text-left text-orange-100 transition-colors hover:bg-orange-300 hover:text-[#1b0603]"><span className="font-bebas text-xl">02</span><span className="ml-3 font-rajdhani text-sm font-black uppercase tracking-[0.14em]">{t("dancerQuickAccess")}</span></button>
+              </div>
+            </div>
+          </aside>
+        )}
+      </div>
+
       <div className="relative z-10 flex h-full flex-col md:flex-row">
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} landingRole={landingRole} lockedRole={lockedRole} onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd} onSelect={handleRoleSelection} />)}
       </div>
+      {tutorialStep !== null && (
+        <div className="pointer-events-none absolute bottom-24 left-1/2 z-[60] w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
+          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-cyan-200">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
+          <p className="mt-2 font-bebas text-2xl tracking-[0.08em] text-white">{[t("tutorialMove"), t("tutorialJump"), t("tutorialCrouch"), t("tutorialConfirm")][tutorialStep]}</p>
+          <p className="mt-2 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/60">{t("tutorialHint")}</p>
+        </div>
+      )}
+      {showStartScreen && (
+        <button type="button" onClick={() => { setShowStartScreen(false); setTutorialStep(0); }} className="absolute inset-0 z-[90] grid place-items-center bg-[#020711f5] text-center">
+          <span className="pixel-press-start border-4 border-cyan-200 bg-[#05080df4] px-8 py-7 font-bebas text-[clamp(2.6rem,7vw,6rem)] leading-none tracking-[0.13em] text-white shadow-[9px_9px_0_rgba(0,0,0,0.8)]">PRESS ANY KEY<br /><small className="mt-3 block font-rajdhani text-[0.22em] font-black tracking-[0.42em] text-cyan-200">TO START // PORTFOLIO QUEST</small></span>
+        </button>
+      )}
     </section>
   );
 }

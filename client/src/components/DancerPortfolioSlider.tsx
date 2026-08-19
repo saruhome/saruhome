@@ -471,6 +471,7 @@ export default function DancerPortfolioSlider({
         spriteVariant="dancer"
         eyebrow={ui.playerArchive}
         title={ui.dancePortfolio}
+        onQuickSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
         onSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
       />
     </div>

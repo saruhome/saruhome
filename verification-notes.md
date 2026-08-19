@@ -1,5 +1,9 @@
 # Visual Verification Notes
 
+## 2026-08-19 — Reference Walk Cycle Review
+
+`WalkCycle_01c.png` is a 420×105px, four-step horizontal strip. Its relevant motion principle is the readable alternation of an extended stride and a passing step, with the forward leg always counterbalanced by the opposite arm. The existing Designer 2×2 run sheet already contains four full-body side-profile poses that match this rhythm: two opposite extended strides plus two passing/high-knee positions. The rebuilt archive animation will normalize all four into a shared transparent canvas and play them in a clear `stride A → pass A → stride B → pass B` loop without a floor bar beneath the feet.
+
 ## 2026-08-17 — Character Lobby Pixel Motion
 
 Desktop lobby verification confirmed that the previous CSS tablet and arm overlays are no longer present. Both hover states now load role-specific GIF files assembled from the existing chibi pixel-sprite frames: `designer-arcade-pixel-loop_be985bda.gif` and `dancer-arcade-pixel-loop_ee9766f6.gif`. The characters retain a full-body chibi pixel silhouette, while cyan and orange arcade floor highlights remain beneath the corresponding character without crossing the title or HUD areas.
@@ -123,3 +127,15 @@ The current Designer hover source is the cleaned five-frame GIF, with its exteri
 ## 2026-08-19 — Dedicated Crouch and Butt-Sit Frames
 
 The previous jump-sprite reuse has been removed. Designer and Dancer now load separate PNG assets for ArrowDown crouch and maximum-boundary seated stumble. Browser checks confirmed `designer-crouch_ff8e0f7d.png` and `dancer-crouch_5e4d23c2.png` are used for ArrowDown, while boundary collisions use `designer-wall-sit_042877db.png` and `dancer-wall-sit_e2918a65.png`. These are distinct assembled pixel poses, preserving the source chibi proportions without the former airborne jump silhouette.
+
+## 2026-08-19 — FH Joanneum Application Upgrade
+
+Desktop verification confirms that the lobby keeps the split Cyan/Orange player-select world while adding a hard-edged `QUICK MENU`. Its menu exposes `SKIP TO PROJECTS` and direct Player 01/Player 02 archive access without triggering the role-selection game animation. The selected Designer archive retains its character, signposts, fixed sound/language HUDs, and `SKIP TO PROJECTS` control; the archive menu directly lists SokDak, Locaverse GmbH, Smart Wash, Campy, Seek and Sight, and About.
+
+The Campy Quick Menu destination opened the new pixel command-console case-study shell directly. The first slide presents Project Overview, My Role, Project type, Timeline, and a verified Behance link; the subsequent visible route contains The Challenge, Research & Insights, IA → Wireframes → High-fidelity → Prototype → Testing, Key Features & Interactions, Results & Impact, and Tools. The next-slide control rendered the Research & Insights layout correctly. The Language HUD was added to the case study and verified through EN → KR → DE: labels, Overview copy, challenge, research, process, interaction, impact, and project button text all switched with the same console layout.
+
+## 2026-08-19 — Arcade Exploration, Feedback, and Onboarding
+
+On the refreshed Designer archive, the first signpost now shows a role-coloured down arrow, bright near-state, and Designer dialogue while the player is in selection radius. The HUD shows `PROJECTS EXPLORED 0/6`, the shared collectible counter, a trophy button, `SKIP TO PROJECTS`, ambient dust, a distant moving silhouette, and three distinct hidden collectible glyphs. Selecting SokDak reached the new case-study route through the automatic selection path, where a project data-chip collectible is mounted in the Overview.
+
+The first-visit overlay visibly blocks the lobby with `PRESS ANY KEY TO START // PORTFOLIO QUEST`. After click-through, a German-language four-step pixel tutorial rendered and advanced correctly through ArrowRight, ArrowUp, ArrowDown, and Enter; its final Enter interaction removed the tutorial. This confirms the first-run game onboarding, keyboard progression, and recurrence-friendly local state hand-off without covering the existing Quick Menu on normal visits.
