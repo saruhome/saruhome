@@ -119,3 +119,7 @@ In both archives, pressing ArrowDown selects the bottom-left source pose at back
 ## 2026-08-18 — Lobby GIF Cleanup and Directional Trail
 
 The current Designer hover source is the cleaned five-frame GIF, with its exterior red/purple edge pixels removed while the hair, cyan streak, face, glasses, jacket, and full-body silhouette remain intact. The desktop hover render reports the intended 1.5× transform, and the Designer’s cyan speed lines now use a left-anchored, mirrored trajectory so the effect comes from behind the left-to-right arrival rather than borrowing the Dancer’s direction.
+
+## 2026-08-19 — Dedicated Crouch and Butt-Sit Frames
+
+The previous jump-sprite reuse has been removed. Designer and Dancer now load separate PNG assets for ArrowDown crouch and maximum-boundary seated stumble. Browser checks confirmed `designer-crouch_ff8e0f7d.png` and `dancer-crouch_5e4d23c2.png` are used for ArrowDown, while boundary collisions use `designer-wall-sit_042877db.png` and `dancer-wall-sit_e2918a65.png`. These are distinct assembled pixel poses, preserving the source chibi proportions without the former airborne jump silhouette.

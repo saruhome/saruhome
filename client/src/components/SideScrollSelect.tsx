@@ -36,6 +36,16 @@ const CHIBI_RUN_GIF = {
 
 const DANCER_LEFT_RUN_GIF = assetUrl("dancer-side-run-left-loop_f29c9af5.gif", "dancer-side-run-left-loop.gif");
 
+const CHIBI_CROUCH_FRAME = {
+  designer: assetUrl("designer-crouch_ff8e0f7d.png", "designer-crouch.png"),
+  dancer: assetUrl("dancer-crouch_5e4d23c2.png", "dancer-crouch.png"),
+} as const;
+
+const CHIBI_WALL_SIT = {
+  designer: assetUrl("designer-wall-sit_042877db.png", "designer-wall-sit.png"),
+  dancer: assetUrl("dancer-wall-sit_e2918a65.png", "dancer-wall-sit.png"),
+} as const;
+
 const spritePosition = {
   idle: "0% 0%",
   walk: "100% 0%",
@@ -87,15 +97,12 @@ function PixelCharacter({
   return (
     <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
       {collision ? (
-        <div
-          className="pixel-wall-sit absolute inset-x-0 bottom-2 h-[92%] origin-bottom bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
-          style={{
-            backgroundImage: `url(${CHIBI_SPRITE_SHEET[variant]})`,
-            backgroundPosition: spritePosition.jump,
-            backgroundSize: "200% 200%",
-            "--sit-facing": shouldMirrorFall ? -1 : 1,
-          } as React.CSSProperties}
-          aria-hidden="true"
+        <img
+          src={CHIBI_WALL_SIT[variant]}
+          alt=""
+          draggable={false}
+          className="pixel-wall-sit absolute inset-x-0 bottom-2 h-[92%] w-full origin-bottom object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+          style={{ "--sit-facing": shouldMirrorFall ? -1 : 1 } as React.CSSProperties}
         />
       ) : (
         <div className={`absolute inset-0 origin-bottom ${recovery ? `archive-recover-rise archive-recover-${recovery.edge}` : ""}`}>
@@ -108,6 +115,13 @@ function PixelCharacter({
             {walking ? (
               <img
                 src={variant === "dancer" && facing === "left" ? DANCER_LEFT_RUN_GIF : CHIBI_RUN_GIF[variant]}
+                alt=""
+                draggable={false}
+                className="relative h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+              />
+            ) : crouching ? (
+              <img
+                src={CHIBI_CROUCH_FRAME[variant]}
                 alt=""
                 draggable={false}
                 className="relative h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
