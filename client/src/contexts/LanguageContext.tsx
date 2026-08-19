@@ -118,6 +118,7 @@ export const translations = {
     tutorialConfirm: "Enter confirms the active node",
     tutorialHint: "Follow the signals, or use Quick Menu at any time",
     tutorialSkip: "ESC // Skip tutorial",
+    tutorialClose: "Close tutorial",
 
     // Side-scroll run/select screen
     controls: "Controls",
@@ -241,6 +242,7 @@ export const translations = {
     tutorialConfirm: "Enter로 활성 노드 선택",
     tutorialHint: "신호를 따라가거나 언제든 빠른 메뉴를 사용하세요",
     tutorialSkip: "ESC를 눌러 건너뛰기",
+    tutorialClose: "튜토리얼 닫기",
 
     // Side-scroll run/select screen
     controls: "조작법",
@@ -364,6 +366,7 @@ export const translations = {
     tutorialConfirm: "Enter bestätigt den aktiven Knoten",
     tutorialHint: "Folge den Signalen oder nutze jederzeit das Schnellmenü",
     tutorialSkip: "ESC drücken zum Überspringen",
+    tutorialClose: "Tutorial schließen",
 
     // Side-scroll run/select screen
     controls: "Steuerung",

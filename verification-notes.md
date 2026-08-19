@@ -163,3 +163,7 @@ The tutorial is now a modal input layer. Its capture-phase keyboard listener pre
 ## 2026-08-19 — ESC Tutorial Skip
 
 The Tutorial 1/4 modal displays the current-language skip cue in its upper-right corner. In the German locale, `ESC drücken zum Überspringen` rendered above the modal. Pressing Escape dismissed the tutorial instantly from the first step and returned to the neutral, unselected player lobby without triggering any role, Quick Menu, or archive action.
+
+## 2026-08-19 — Mobile Tutorial X Close
+
+The tutorial modal now presents a 40px square, keyboard-accessible X button alongside the existing upper-right ESC cue. It uses the same neutral hard-edge HUD appearance. In the first-visit flow, activating the X button closed Tutorial 1/4 immediately and returned only to the unselected lobby, confirming the touch equivalent of ESC does not select a player or activate the Quick Menu.
