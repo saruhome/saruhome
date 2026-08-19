@@ -151,3 +151,7 @@ The initial `PRESS ANY KEY` view now uses only black, white, and grey: a neutral
 ## 2026-08-19 — Centered Tutorial and Default Pixel Speech Bubble
 
 On desktop, all four tutorial steps now occupy the viewport midpoint rather than the lower third; the central card retains its neutral HUD styling and leaves both player titles and bottom controls visible. In the Designer archive, the dialogue moved into a dedicated safety zone above the signpost row with enough vertical separation from the SokDak title and subtitle. It now renders as a white, black-outlined, hard-shadowed default dot-game speech bubble with a black pixel tail and white inner tail, rather than a role-coloured HUD panel.
+
+## 2026-08-19 — Character-Head Dialogue Anchor
+
+The dialogue anchor now compensates for the chibi sprite's transparent top margin, placing its pixel tail immediately above the actual head silhouette instead of using the signpost as a reference. The Designer and Dancer archives both keep the white dot speech bubble horizontally centred on the character while the character moves through the archive.
