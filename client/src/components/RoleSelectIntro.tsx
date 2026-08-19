@@ -299,9 +299,14 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
 
   useEffect(() => {
     if (!showStartScreen) return;
-    const begin = () => { setShowStartScreen(false); setTutorialStep(0); };
-    window.addEventListener("keydown", begin, { once: true });
-    return () => window.removeEventListener("keydown", begin);
+    const begin = (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setShowStartScreen(false);
+      setTutorialStep(0);
+    };
+    window.addEventListener("keydown", begin, true);
+    return () => window.removeEventListener("keydown", begin, true);
   }, [showStartScreen]);
 
   useEffect(() => {
@@ -409,7 +414,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         </div>
       )}
       {showStartScreen && (
-        <button type="button" onClick={() => { setShowStartScreen(false); setTutorialStep(0); }} className="absolute inset-0 z-[90] grid place-items-center bg-[#020711f5] text-center">
+        <button type="button" autoFocus onClick={() => { setShowStartScreen(false); setTutorialStep(0); }} onKeyDown={(event) => { event.preventDefault(); event.stopPropagation(); setShowStartScreen(false); setTutorialStep(0); }} className="absolute inset-0 z-[90] grid place-items-center bg-[#020711f5] text-center">
           <span className="pixel-press-start border-4 border-cyan-200 bg-[#05080df4] px-8 py-7 font-bebas text-[clamp(2.6rem,7vw,6rem)] leading-none tracking-[0.13em] text-white shadow-[9px_9px_0_rgba(0,0,0,0.8)]">PRESS ANY KEY<br /><small className="mt-3 block font-rajdhani text-[0.22em] font-black tracking-[0.42em] text-cyan-200">TO START // PORTFOLIO QUEST</small></span>
         </button>
       )}

@@ -234,6 +234,22 @@ function Signpost({
   );
 }
 
+function AchievementRoleIcon({ role, unlocked }: { role: "designer" | "dancer"; unlocked: boolean }) {
+  const tone = role === "designer" ? "text-cyan-200 border-cyan-300/70 bg-[#06101e]" : "text-orange-200 border-orange-300/70 bg-[#200806]";
+  return (
+    <span className={`relative grid h-9 w-9 shrink-0 overflow-hidden border-2 ${tone} ${unlocked ? "opacity-100" : "opacity-35 grayscale"}`} aria-hidden="true">
+      {role === "designer" ? <>
+        <i className="absolute left-1 top-1 h-2 w-2 bg-current" /><i className="absolute right-1 top-1 h-2 w-3 border border-current" />
+        <i className="absolute bottom-1 left-1 h-3 w-4 border border-current" /><i className="absolute bottom-1 right-1 h-2 w-2 bg-current" />
+        <i className="absolute left-4 top-3 h-4 w-px bg-current" /><i className="absolute left-3 top-5 h-px w-4 bg-current" />
+      </> : <>
+        <i className="absolute bottom-1 left-1 h-2 w-1 bg-current" /><i className="absolute bottom-1 left-3 h-4 w-1 bg-current" /><i className="absolute bottom-1 left-5 h-6 w-1 bg-current" /><i className="absolute bottom-1 left-7 h-3 w-1 bg-current" />
+        <i className="absolute right-1 top-1 h-3 w-3 border-2 border-current" /><i className="absolute right-2 top-2 h-px w-1 bg-current" />
+      </>}
+    </span>
+  );
+}
+
 export default function SideScrollSelect({
   items,
   onSelect,
@@ -628,10 +644,10 @@ export default function SideScrollSelect({
 
       {showAchievements && (
         <aside id="archive-achievements" className={`absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
-          <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2"><p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>ACHIEVEMENTS</p><span className="font-rajdhani text-[0.6rem] font-bold text-white/50">{progress.unlockedAchievements.length}/5 UNLOCKED</span></div>
+          <div className="mb-3 flex items-center gap-2 border-b border-white/20 pb-2"><AchievementRoleIcon role={spriteVariant} unlocked /><div className="min-w-0 flex-1"><p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>{spriteVariant === "designer" ? "DESIGNER BADGES" : "DANCER BADGES"}</p><span className="font-rajdhani text-[0.6rem] font-bold text-white/50">{progress.unlockedAchievements.length}/5 UNLOCKED</span></div></div>
           <div className="grid gap-2">{Object.values(ACHIEVEMENTS).map((achievement) => {
             const unlocked = progress.unlockedAchievements.includes(achievement.id);
-            return <div key={achievement.id} className={`border p-2.5 ${unlocked ? (isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100") : "border-white/15 text-white/30"}`}><p className="font-rajdhani text-xs font-black tracking-[0.16em]">{unlocked ? "★" : "◇"} {achievement.title}</p><p className="mt-1 font-rajdhani text-xs leading-snug text-white/60">{achievement.detail}</p></div>;
+            return <div key={achievement.id} className={`flex gap-2 border p-2.5 ${unlocked ? (isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100") : "border-white/15 text-white/30"}`}><AchievementRoleIcon role={spriteVariant} unlocked={unlocked} /><div className="min-w-0"><p className="font-rajdhani text-xs font-black tracking-[0.16em]">{unlocked ? "★" : "◇"} {achievement.title}</p><p className="mt-1 font-rajdhani text-xs leading-snug text-white/60">{achievement.detail}</p></div></div>;
           })}</div>
         </aside>
       )}
