@@ -167,3 +167,7 @@ The Tutorial 1/4 modal displays the current-language skip cue in its upper-right
 ## 2026-08-19 — Mobile Tutorial X Close
 
 The tutorial modal now presents a 40px square, keyboard-accessible X button alongside the existing upper-right ESC cue. It uses the same neutral hard-edge HUD appearance. In the first-visit flow, activating the X button closed Tutorial 1/4 immediately and returned only to the unselected lobby, confirming the touch equivalent of ESC does not select a player or activate the Quick Menu.
+
+## 2026-08-19 — Compact Mobile Tutorial Copy
+
+The tutorial now branches at the `sm` breakpoint. Small screens use a narrower 20rem-max card, reduced padding, 0.6rem step label, 1.25rem action type, concise localised action labels, and a one-line Quick Menu hint; the longer ESC cue is hidden because the accessible X touch control remains visible. The desktop verification retained the full German action and hint text inside the previous wider tutorial card, confirming the content-density reduction is limited to the mobile layout.

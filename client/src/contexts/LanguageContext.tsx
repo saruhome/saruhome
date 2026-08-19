@@ -119,6 +119,11 @@ export const translations = {
     tutorialHint: "Follow the signals, or use Quick Menu at any time",
     tutorialSkip: "ESC // Skip tutorial",
     tutorialClose: "Close tutorial",
+    tutorialMobileMove: "← → Move",
+    tutorialMobileJump: "↑ Jump + select",
+    tutorialMobileCrouch: "↓ Crouch",
+    tutorialMobileConfirm: "ENTER Select",
+    tutorialMobileHint: "Quick Menu anytime",
 
     // Side-scroll run/select screen
     controls: "Controls",
@@ -243,6 +248,11 @@ export const translations = {
     tutorialHint: "신호를 따라가거나 언제든 빠른 메뉴를 사용하세요",
     tutorialSkip: "ESC를 눌러 건너뛰기",
     tutorialClose: "튜토리얼 닫기",
+    tutorialMobileMove: "← → 이동",
+    tutorialMobileJump: "↑ 점프·선택",
+    tutorialMobileCrouch: "↓ 앉기",
+    tutorialMobileConfirm: "ENTER 선택",
+    tutorialMobileHint: "빠른 메뉴 이용 가능",
 
     // Side-scroll run/select screen
     controls: "조작법",
@@ -367,6 +377,11 @@ export const translations = {
     tutorialHint: "Folge den Signalen oder nutze jederzeit das Schnellmenü",
     tutorialSkip: "ESC drücken zum Überspringen",
     tutorialClose: "Tutorial schließen",
+    tutorialMobileMove: "← → Bewegen",
+    tutorialMobileJump: "↑ Springen",
+    tutorialMobileCrouch: "↓ Ducken",
+    tutorialMobileConfirm: "ENTER wählen",
+    tutorialMobileHint: "Schnellmenü verfügbar",
 
     // Side-scroll run/select screen
     controls: "Steuerung",
