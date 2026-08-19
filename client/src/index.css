@@ -799,3 +799,16 @@
   58% { opacity: 1; transform: translateX(-5px) scale(1.54); }
   100% { opacity: 1; transform: translateX(0) scale(1.5); }
 }
+
+@media (orientation: landscape) and (max-height: 34rem) and (max-width: 64rem) {
+  .tutorial-modal { align-items: center; padding-inline: 1rem; }
+  .tutorial-card { width: min(30rem, calc(100vw - 7.5rem)) !important; padding: 0.65rem 0.9rem !important; transform: translateY(0.35rem); }
+  .tutorial-close { top: 0.6rem; right: 0.6rem; }
+  .tutorial-close button { width: 2.15rem; height: 2.15rem; font-size: 1rem; }
+  .tutorial-skip-cue { display: none !important; }
+  .tutorial-card p:first-child { font-size: 0.54rem; letter-spacing: 0.16em; }
+  .tutorial-card p:nth-child(2) { margin-top: 0.15rem; font-size: 1.05rem; line-height: 1.05; }
+  .tutorial-card p:nth-child(3) { margin-top: 0.2rem; font-size: 0.5rem; letter-spacing: 0.08em; }
+  .tutorial-mobile-copy { display: inline !important; }
+  .tutorial-desktop-copy { display: none !important; }
+}

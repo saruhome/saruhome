@@ -171,3 +171,7 @@ The tutorial modal now presents a 40px square, keyboard-accessible X button alon
 ## 2026-08-19 — Compact Mobile Tutorial Copy
 
 The tutorial now branches at the `sm` breakpoint. Small screens use a narrower 20rem-max card, reduced padding, 0.6rem step label, 1.25rem action type, concise localised action labels, and a one-line Quick Menu hint; the longer ESC cue is hidden because the accessible X touch control remains visible. The desktop verification retained the full German action and hint text inside the previous wider tutorial card, confirming the content-density reduction is limited to the mobile layout.
+
+## 2026-08-19 — Landscape Mobile Tutorial Layout
+
+A dedicated `landscape` rule now targets short mobile/tablet viewports up to 64rem wide. It expands the tutorial card to use the available horizontal room while reserving space for the top-right X control, reduces vertical padding and type scale, hides the long ESC cue, and forces the concise mobile copy even when a rotated device crosses the normal `sm` width breakpoint. The desktop tutorial was rechecked after the rule: it retains the full translated action and hint content with the original wide-card composition.
