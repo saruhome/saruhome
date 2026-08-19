@@ -1,5 +1,11 @@
 # Visual Verification Notes
 
+## 2026-08-19 — Desktop Entry and Quick-Access Pass
+
+The reset desktop start state now keeps Player 01 and Player 02 visibly readable behind a lighter split-world shade. The central `PRESS ANY KEY` frame is narrower and more transparent, with a retained hard pixel border; it no longer dominates the role titles and characters. A separate top-right Quick Menu appears before starting the game and opens both direct archive routes. The verified Designer quick-access route reaches the Design Archive without requiring a role-hover or gameplay sequence.
+
+The desktop archive HUD now surfaces a compact `MOVE // JUMP // ENTER SELECT` reminder in the wide top row without colliding with Player, Archive, Progress, Achievement, or Quick Menu modules. The SokDak showcase continues to use a dark console surround and a large bright UI exhibition field with wide inner spacing and clear framing.
+
 ## 2026-08-19 — Behance Project Readability Pass
 
 The Designer archive keeps its dark cyan pixel-world environment while the SokDak signpost now uses a bright white project label, high-contrast cyan outline, status pixel, framed subtitle, and a clearly separated `ENTER` selection state. The verified archive order is SokDak → Locaverse GmbH → Smart Wash → Campy → Seek and Sight; no pure graphic, social-ad, or poster entry appears in the main path.

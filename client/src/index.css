@@ -891,6 +891,67 @@
 .lobby-hover-arrive-right { animation-name: lobby-hover-arrive-right; }
 .lobby-hover-arrive-left { animation-name: lobby-hover-arrive-left; }
 
+/* Design Philosophy: Desktop portfolio-first arcade — reveal the two players and their routes before gameplay, then offer a direct archive path without flattening the 16-bit lobby. */
+.pixel-start-overlay {
+  background:
+    linear-gradient(90deg, rgba(3, 8, 16, 0.72) 0%, rgba(3, 8, 16, 0.44) 42%, rgba(18, 6, 4, 0.44) 58%, rgba(18, 6, 4, 0.72) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.34));
+}
+
+.pixel-press-start {
+  min-width: min(35rem, calc(100vw - 3rem));
+  background: rgba(5, 8, 13, 0.78);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.72), 0 0 0 2px rgba(255,255,255,.12), 0 0 26px rgba(255,255,255,.1);
+}
+
+.pixel-start-quick-menu,
+.lobby-quick-access {
+  box-shadow: 4px 4px 0 rgba(0,0,0,.75), 0 0 16px rgba(255,255,255,.12);
+}
+
+.lobby-selection-cue {
+  box-shadow: 4px 4px 0 rgba(0,0,0,.76), 0 0 14px color-mix(in srgb, var(--cue-glow) 48%, transparent);
+  animation: lobby-selection-cue 1.2s steps(3, end) infinite;
+}
+
+@keyframes lobby-selection-cue {
+  0%, 100% { filter: brightness(0.95); transform: translateY(0); }
+  50% { filter: brightness(1.28); transform: translateY(-2px); }
+}
+
+@media (min-width: 1024px) {
+  .pixel-start-overlay {
+    background:
+      linear-gradient(90deg, rgba(3, 8, 16, 0.62) 0%, rgba(3, 8, 16, 0.28) 42%, rgba(18, 6, 4, 0.28) 58%, rgba(18, 6, 4, 0.62) 100%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.24));
+  }
+
+  .pixel-press-start { min-width: min(31rem, calc(100vw - 4rem)); }
+  .pixel-start-quick-menu { top: 2rem; right: 2rem; min-width: 12.5rem; }
+  .lobby-quick-access { min-width: 12.5rem; }
+  .lobby-archive-access { background: rgba(2, 7, 16, 0.82); box-shadow: 5px 5px 0 rgba(0,0,0,.78), 0 0 16px color-mix(in srgb, var(--hud-glow) 20%, transparent); }
+  .lobby-role-copy { text-shadow: 0 2px 0 rgba(0,0,0,.65), 0 0 18px rgba(0,0,0,.75); }
+  .role-panel:hover .lobby-role-copy,
+  .role-panel:focus-visible .lobby-role-copy { transform: translateY(-4px) scale(1.02); }
+  .case-study-exhibit-image { max-height: min(55dvh, 40rem); }
+}
+
+@media (min-width: 1440px) {
+  .pixel-press-start { min-width: 28rem; }
+  .pixel-start-quick-menu { top: 2.5rem; right: 2.5rem; }
+  .lobby-quick-access { min-width: 13.5rem; }
+  .case-study-image-area { padding: clamp(1.5rem, 2.5vw, 2.5rem); }
+  .case-study-exhibit-frame { padding: clamp(0.85rem, 1.25vw, 1.25rem); }
+  .case-study-exhibit-image { max-height: min(58dvh, 44rem); }
+}
+
+@media (min-width: 1536px) {
+  .case-study-page-shell { padding-inline: clamp(3rem, 5vw, 7rem); }
+  .case-study-image-area { gap: clamp(1.5rem, 2vw, 2.5rem); }
+  .case-study-exhibit-frame figcaption { grid-template-columns: minmax(12rem, 0.42fr) 1fr; align-items: start; gap: 1rem; }
+  .case-study-exhibit-frame figcaption span { font-size: 0.94rem; }
+}
+
 @keyframes lobby-hover-arrive-right {
   0% { opacity: 0.3; transform: translateX(-42px) scale(0.78); }
   58% { opacity: 1; transform: translateX(5px) scale(1.54); }

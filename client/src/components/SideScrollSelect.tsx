@@ -587,7 +587,7 @@ export default function SideScrollSelect({
       <div className="pixel-ambient-dust pointer-events-none absolute inset-0 z-[3]" aria-hidden="true"><i /><i /><i /><i /><i /></div>
       <div className={`pixel-distant-runner pointer-events-none absolute bottom-[16rem] z-[4] h-3 w-7 ${isCyan ? "bg-cyan-300/45" : "bg-orange-300/45"}`} aria-hidden="true" />
 
-      <div className="absolute inset-x-4 top-4 z-30 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3">
+      <div className="absolute inset-x-4 top-4 z-30 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3 2xl:inset-x-12 2xl:top-8 2xl:gap-4">
         <button
           type="button"
           onClick={onBack}
@@ -600,6 +600,9 @@ export default function SideScrollSelect({
         </div>
         <div className="pixel-hud-panel border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
           {archiveLabel}
+        </div>
+        <div className="pixel-hud-panel hidden border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.58rem] font-black uppercase tracking-[0.14em] text-white/75 xl:block">
+          ← → MOVE <span className="mx-1.5 text-white/30">//</span> ↑ JUMP <span className="mx-1.5 text-white/30">//</span> ENTER SELECT
         </div>
         <div className={`pixel-hud-panel hidden border px-3 py-1.5 font-rajdhani text-[0.6rem] font-black uppercase tracking-[0.14em] sm:block ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
           <span className="text-white/60">PROJECTS EXPLORED </span>{progress.exploredByRole[spriteVariant].length}/{items.length}
@@ -666,7 +669,7 @@ export default function SideScrollSelect({
         </button>
       )}
 
-      <div className="relative z-10 px-4 pt-28 text-center md:px-8 md:pt-28">
+      <div className="relative z-10 px-4 pt-28 text-center md:px-8 md:pt-28 2xl:pt-32">
         <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.42em] md:text-sm ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
           {eyebrow}
         </p>
@@ -731,17 +734,17 @@ export default function SideScrollSelect({
       </div>
 
       {/* Controls help */}
-      <div className="absolute bottom-4 right-24 z-20 md:bottom-6 md:right-[6.5rem]">
+      <div className="absolute bottom-4 right-24 z-20 md:bottom-6 md:right-[6.5rem] 2xl:bottom-8 2xl:right-12">
         {showHelp && (
           <div
-            className={`pixel-hud-panel mb-4 w-[min(28rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-6 font-rajdhani text-base text-white/80 ${
+            className={`pixel-hud-panel mb-4 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 font-rajdhani text-sm text-white/85 ${
               isCyan ? "border-cyan-300/50" : "border-orange-300/50"
             }`}
           >
             <p className={`mb-4 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
               {t("controls")}
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               <li>← → {t("moveHint")}</li>
               <li>↑ {t("jumpHint")}</li>
               <li>↓ {t("crouchHint")}</li>

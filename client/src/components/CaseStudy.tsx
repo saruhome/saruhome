@@ -1081,7 +1081,7 @@ function PageShell({ children }: { children: ReactNode }) {
       <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-70 [image-rendering:pixelated]" style={{ backgroundImage: `url(${CASE_STUDY_CONSOLE})` }} />
       <div className="pointer-events-none absolute inset-0 bg-[#020711]/42" />
       <div className="pointer-events-none absolute inset-0 opacity-30 arcade-scanline" />
-      <div className="relative z-10 mx-auto w-full max-w-6xl pixel-hud-panel !bg-[rgba(2,7,17,0.82)] border-cyan-300/55 p-5 md:p-8">{children}</div>
+      <div className="relative z-10 mx-auto w-full max-w-6xl pixel-hud-panel !bg-[rgba(2,7,17,0.82)] border-cyan-300/55 p-5 md:max-w-7xl md:p-8">{children}</div>
     </section>
   );
 }

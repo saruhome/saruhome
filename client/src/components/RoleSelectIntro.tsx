@@ -111,7 +111,7 @@ function RoleWorld({ role, activeRole }: { role: RoleOption; activeRole: Role | 
         backgroundSize: "200% 100%",
         backgroundPosition: isDesigner ? "left center" : "right center",
         imageRendering: "pixelated",
-        filter: isActive ? "brightness(1.12) saturate(1.25)" : "brightness(0.68) saturate(0.82)",
+        filter: isActive ? "brightness(1.16) saturate(1.28)" : "brightness(0.82) saturate(0.9)",
         transform: isActive ? "scale(1.035)" : "scale(1)",
       }}
       aria-hidden="true"
@@ -209,13 +209,13 @@ function RolePanel({
       </div>
 
       <div
-        className={`pointer-events-none absolute top-5 z-20 hidden w-44 pixel-hud-panel p-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.18em] md:block ${isDesigner ? "left-7" : "right-7"}`}
+        className={`lobby-archive-access pointer-events-none absolute top-5 z-20 hidden w-48 pixel-hud-panel p-3 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.18em] md:block ${isDesigner ? "left-7" : "right-7"}`}
         style={{
           borderColor: `${role.primary}66`,
           "--hud-glow": role.primary,
         } as React.CSSProperties}
       >
-        <span className="block text-white/45">{t("archiveAccess")}</span>
+          <span className="block text-white/75">{t("archiveAccess")}</span>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {role.stats.map((stat) => <span key={stat} className="border px-1.5 py-0.5" style={{ borderColor: `${role.primary}88`, color: role.primary }}>{stat}</span>)}
         </div>
@@ -255,16 +255,21 @@ function RolePanel({
       )}
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
-        <div className={`max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
+        <div className={`lobby-role-copy max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
           <p className="mb-2 inline-block pixel-tag px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.dark}e8`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
           </p>
           <h2 className={`max-w-[7.8ch] pixel-title font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white transition-[opacity,transform] duration-500 ${isCompressedKoreanDesigner ? "md:text-[clamp(2.8rem,3.1vw,3.8rem)]" : "md:text-[clamp(4.2rem,7.6vw,8.3rem)]"}`}>
             {isDesigner ? <><span className="block">UX</span><span className={`block ${language === "kr" ? "whitespace-nowrap [word-break:keep-all]" : ""}`}>{designerTitle}</span></> : t("dancer")}
           </h2>
-          <p className="mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/70 md:mt-3 md:text-sm">
+          <p className="mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/85 md:mt-3 md:text-[0.95rem]">
             {isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}
           </p>
+          {isActive && !isLocked && (
+            <span className="lobby-selection-cue mt-4 inline-block border-2 bg-black/75 px-3 py-1.5 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.22em] text-white" style={{ borderColor: `${role.primary}cc`, color: role.primary, "--cue-glow": role.primary } as React.CSSProperties}>
+              CLICK TO ENTER ARCHIVE
+            </span>
+          )}
           {(isLocked || isActive) && (
             <span className="mt-4 inline-block pixel-hud-panel px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.22em] text-white/90" style={{ borderColor: `${role.primary}88`, "--hud-glow": role.primary } as React.CSSProperties}>
               {isLocked ? "LET'S GO" : t("ready")}
@@ -371,7 +376,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
           <span className="font-bebas text-sm tracking-[0.14em] text-white">01 <span className="text-white/40">/</span> 02</span>
         </div>
         <div className="hidden md:block">
-          <p className="choose-banner font-rajdhani text-xs font-black uppercase tracking-[0.46em] text-white/70">{t("chooseYourPlayer")}</p>
+          <p className="choose-banner font-rajdhani text-xs font-black uppercase tracking-[0.46em] text-white/90">{t("chooseYourPlayer")}</p>
           <div className="mt-1 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-cyan-300/70" />
             <span className="font-bebas text-2xl tracking-[0.18em] text-white">01 <span className="text-white/40">VS</span> 02</span>
@@ -386,9 +391,10 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
           onClick={() => setShowQuickMenu((open) => !open)}
           aria-expanded={showQuickMenu}
           aria-controls="lobby-quick-menu"
-          className="pixel-hud-panel border-2 border-white/55 bg-[#05080de8] px-3 py-2 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
+          className="lobby-quick-access pixel-hud-panel border-2 border-white/75 bg-[#05080df0] px-3 py-2 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.16em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
         >
-          {t("quickMenu")}
+          <span className="block">{t("quickMenu")}</span>
+          <span className="mt-0.5 block text-[0.5rem] tracking-[0.15em] text-cyan-100/80">{t("skipToProjects")}</span>
         </button>
         {showQuickMenu && (
           <aside id="lobby-quick-menu" className="absolute right-0 top-[calc(100%+0.5rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
@@ -421,9 +427,16 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         </div>
       )}
       {showStartScreen && (
-        <button type="button" autoFocus onClick={() => { setShowStartScreen(false); setTutorialStep(0); }} onKeyDown={(event) => { event.preventDefault(); event.stopPropagation(); setShowStartScreen(false); setTutorialStep(0); }} className="absolute inset-0 z-[90] grid place-items-center bg-[#070707f5] text-center">
-          <span className="pixel-press-start border-4 border-white/75 bg-[#05080df4] px-8 py-7 font-bebas text-[clamp(2.6rem,7vw,6rem)] leading-none tracking-[0.13em] text-white shadow-[9px_9px_0_rgba(0,0,0,0.8)]">PRESS ANY KEY<br /><small className="mt-3 block font-rajdhani text-[0.22em] font-black tracking-[0.42em] text-white/65">TO START // PORTFOLIO QUEST</small></span>
-        </button>
+        <div className="pixel-start-overlay absolute inset-0 z-[90] grid place-items-center text-center" onClick={() => { setShowStartScreen(false); setTutorialStep(0); }}>
+          <div className="pixel-press-start border-4 border-white/75 px-7 py-5 font-bebas text-[clamp(2.3rem,5.8vw,5rem)] leading-none tracking-[0.13em] text-white shadow-[8px_8px_0_rgba(0,0,0,0.72)]">
+            PRESS ANY KEY
+            <small className="mt-2 block font-rajdhani text-[0.23em] font-black tracking-[0.36em] text-white/80">TO START // PORTFOLIO QUEST</small>
+          </div>
+          <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute top-6 right-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-left font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
+            <span className="block">{t("quickMenu")}</span>
+            <span className="mt-0.5 block text-[0.52rem] tracking-[0.14em] text-cyan-100/85">{t("skipToProjects")}</span>
+          </button>
+        </div>
       )}
     </section>
   );
