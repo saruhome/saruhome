@@ -184,12 +184,12 @@ function RolePanel({
         }
         onSelect(role.id);
       }}
-      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,basis,height,filter,opacity] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:h-full ${desktopFlexClass} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${panelClipClass}`}
+      className={`role-panel group relative h-1/2 basis-1/2 overflow-hidden text-left text-white outline-none transition-[flex,basis,height,filter,opacity] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:h-full ${desktopFlexClass} ${isActive ? "role-panel-active" : ""} ${isOtherLocked ? "opacity-15 saturate-0" : "opacity-100"} ${panelClipClass}`}
     >
       <RoleWorld role={role} activeRole={activeRole} />
       <div className="absolute inset-0 pixel-corner-frame" style={{ "--frame-color": role.primary } as React.CSSProperties} />
       <div
-        className={`pointer-events-none absolute inset-2 z-20 border-2 transition-opacity duration-200 md:hidden ${isActive ? "opacity-100" : "opacity-0"}`}
+        className={`role-touch-selected-frame pointer-events-none absolute inset-2 z-20 border-2 transition-opacity duration-200 md:hidden ${isActive ? "opacity-100" : "opacity-0"}`}
         style={{ borderColor: role.primary, boxShadow: `inset 0 0 0 2px ${role.dark}, 0 0 18px ${role.primary}` }}
         aria-hidden="true"
       />
@@ -265,8 +265,12 @@ function RolePanel({
           <p className="lobby-role-subtitle mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/85 md:mt-3 md:text-[0.95rem]">
             {isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}
           </p>
+          <span className="mobile-role-entry-cta mt-3 flex min-h-11 w-full max-w-[15.5rem] items-center border-2 px-3 py-2 font-rajdhani text-[0.7rem] font-black uppercase leading-tight tracking-[0.15em] md:hidden" style={{ borderColor: `${role.primary}${isActive ? "ee" : "a8"}`, color: isActive ? role.primary : "rgba(255,255,255,.94)", "--touch-cta-primary": role.primary, "--touch-cta-dark": role.dark } as React.CSSProperties}>
+            <small className="mr-2 border-r pr-2 font-bebas text-base leading-none" style={{ borderColor: `${role.primary}99`, color: role.primary }}>{isDesigner ? "01" : "02"}</small>
+            <span>{isActive ? "TAP TO ENTER ARCHIVE" : "TAP TO PREVIEW"}</span>
+          </span>
           {isActive && !isLocked && (
-            <span className="lobby-selection-cue mt-4 inline-block border-2 bg-black/75 px-3 py-1.5 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.22em] text-white" style={{ borderColor: `${role.primary}cc`, color: role.primary, "--cue-glow": role.primary } as React.CSSProperties}>
+            <span className="lobby-selection-cue mt-4 hidden border-2 bg-black/75 px-3 py-1.5 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.22em] text-white md:inline-block" style={{ borderColor: `${role.primary}cc`, color: role.primary, "--cue-glow": role.primary } as React.CSSProperties}>
               CLICK TO ENTER ARCHIVE
             </span>
           )}

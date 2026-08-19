@@ -975,11 +975,14 @@
     background: rgba(2,7,16,.86);
     box-shadow: 3px 3px 0 rgba(0,0,0,.7), 0 0 12px color-mix(in srgb, var(--hud-glow) 24%, transparent);
   }
+  .role-touch-selected-frame { inset: 0.5rem; border-width: 3px; box-shadow: inset 0 0 0 2px rgba(0,0,0,.8), 0 0 0 2px color-mix(in srgb, var(--frame-color) 30%, transparent), 0 0 18px var(--frame-color) !important; }
   .lobby-role-copy { max-width: min(17rem, 76vw); }
   .lobby-role-title { font-size: clamp(2.7rem, 13vw, 4.1rem); line-height: 0.8; }
   .lobby-role-subtitle { max-width: 23ch; font-size: 0.72rem; line-height: 1.32; letter-spacing: 0.14em; text-shadow: 0 2px 0 rgba(0,0,0,.82); }
-  .role-panel:first-child .lobby-role-copy { padding-bottom: 0.5rem; }
-  .role-panel:last-child .lobby-role-copy { padding-bottom: 3.8rem; }
+  .mobile-role-entry-cta { background: rgba(2,7,16,.83); box-shadow: 4px 4px 0 rgba(0,0,0,.76), 0 0 12px color-mix(in srgb, var(--touch-cta-primary) 28%, transparent); text-shadow: 1px 1px 0 rgba(0,0,0,.8); }
+  .role-panel-active .mobile-role-entry-cta { background: color-mix(in srgb, var(--touch-cta-dark) 80%, #000000); box-shadow: 4px 4px 0 rgba(0,0,0,.76), 0 0 18px var(--touch-cta-primary), inset 0 0 0 1px rgba(255,255,255,.42); animation: mobile-cta-pulse 0.82s steps(2, end) infinite; }
+  .role-panel:first-child .lobby-role-copy { padding-bottom: 1.1rem; }
+  .role-panel:last-child .lobby-role-copy { padding-bottom: 4.6rem; }
   .mobile-bottom-left-hud,
   .mobile-support-hud,
   .mobile-language-hud { bottom: calc(env(safe-area-inset-bottom) + 0.75rem) !important; }
@@ -991,6 +994,11 @@
   .case-study-image-area { margin-inline: -0.15rem; }
   .case-study-exhibit-image { max-height: min(52dvh, 31rem); }
   .case-study-exhibit-frame figcaption { gap: 0.45rem; margin-top: 0.8rem; }
+}
+
+@keyframes mobile-cta-pulse {
+  0%, 100% { filter: brightness(0.95); transform: translateY(0); }
+  50% { filter: brightness(1.25); transform: translateY(-1px); }
 }
 
 @media (min-width: 1440px) {
