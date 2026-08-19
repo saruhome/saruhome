@@ -147,3 +147,7 @@ The start overlay now listens in the capture phase on `window` and on its focuse
 ## 2026-08-19 — Neutral Onboarding HUD
 
 The initial `PRESS ANY KEY` view now uses only black, white, and grey: a neutral dark backdrop, white hard-edge border, pale-grey secondary line, and the same compact HUD contrast as the Sound control. The tutorial prompt uses the matching neutral border and heading instead of Cyan or Orange. After resetting first-visit storage, a real `a` key input dismissed the overlay immediately and displayed the neutral Tutorial 1/4 card while Designer and Dancer retained their respective Cyan and Orange lobby worlds.
+
+## 2026-08-19 — Centered Tutorial and Default Pixel Speech Bubble
+
+On desktop, all four tutorial steps now occupy the viewport midpoint rather than the lower third; the central card retains its neutral HUD styling and leaves both player titles and bottom controls visible. In the Designer archive, the dialogue moved into a dedicated safety zone above the signpost row with enough vertical separation from the SokDak title and subtitle. It now renders as a white, black-outlined, hard-shadowed default dot-game speech bubble with a black pixel tail and white inner tail, rather than a role-coloured HUD panel.

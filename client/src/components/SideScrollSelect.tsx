@@ -724,7 +724,7 @@ export default function SideScrollSelect({
             dustBurst={dustBurst}
           />
           {dialogue && activeItem && !isMoving && !collision && (
-            <span className={`pixel-dialogue pointer-events-none absolute bottom-[calc(100%+0.75rem)] left-1/2 w-[min(17rem,64vw)] -translate-x-1/2 border-2 bg-[#05080dea] p-2 text-center font-rajdhani text-xs font-bold leading-snug text-white ${isCyan ? "border-cyan-300/65" : "border-orange-300/65"}`}>“{dialogue}”</span>
+            <span className="pixel-dialogue pointer-events-none absolute bottom-[calc(100%+7rem)] left-1/2 z-30 w-[min(16rem,68vw)] -translate-x-1/2 bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010] md:bottom-[calc(100%+10rem)]">“{dialogue}”</span>
           )}
         </div>
       </div>

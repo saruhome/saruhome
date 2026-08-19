@@ -598,7 +598,9 @@
 @keyframes pixel-unlock-banner { 0% { opacity:0; transform:translate(-50%,18px) scale(.78); } 42% { opacity:1; transform:translate(-50%,-4px) scale(1.07); } 100% { opacity:1; transform:translate(-50%,0) scale(1); } }
 @keyframes pixel-achievement-toast { 0% { opacity:0; transform:translate(-50%,-14px) scale(.86); } 100% { opacity:1; transform:translate(-50%,0) scale(1); } }
 
-.pixel-dialogue::after { content:""; position:absolute; left:50%; bottom:-7px; width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-top:7px solid currentColor; transform:translateX(-50%); }
+.pixel-dialogue { border: 3px solid #111; box-shadow: 5px 5px 0 #111; image-rendering: pixelated; }
+.pixel-dialogue::after { content:""; position:absolute; left:50%; bottom:-10px; width:0; height:0; border-left:9px solid transparent; border-right:9px solid transparent; border-top:10px solid #111; transform:translateX(-50%); }
+.pixel-dialogue::before { content:""; position:absolute; left:50%; bottom:-5px; z-index:1; width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:6px solid #fff; transform:translateX(-50%); }
 
 /* Design philosophy — unified 16-bit portfolio game UI: crisp hard edges, square pixels, role-colored light, no soft card language. */
 .pixel-world-shade {

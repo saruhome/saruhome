@@ -407,7 +407,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} landingRole={landingRole} lockedRole={lockedRole} onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd} onSelect={handleRoleSelection} />)}
       </div>
       {tutorialStep !== null && (
-        <div className="pointer-events-none absolute bottom-24 left-1/2 z-[60] w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
+        <div className="pointer-events-none absolute left-1/2 top-1/2 z-[60] w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
           <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-white/70">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
           <p className="mt-2 font-bebas text-2xl tracking-[0.08em] text-white">{[t("tutorialMove"), t("tutorialJump"), t("tutorialCrouch"), t("tutorialConfirm")][tutorialStep]}</p>
           <p className="mt-2 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/60">{t("tutorialHint")}</p>
