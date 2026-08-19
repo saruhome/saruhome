@@ -898,6 +898,8 @@
     linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.34));
 }
 
+.pixel-start-mobile-copy { display: none; }
+
 .pixel-press-start {
   min-width: min(35rem, calc(100vw - 3rem));
   background: rgba(5, 8, 13, 0.78);
@@ -936,6 +938,61 @@
   .case-study-exhibit-image { max-height: min(55dvh, 40rem); }
 }
 
+/* Mobile Design Philosophy: touch-first arcade entry. Keep both players visible, move direct access into thumb range, and reserve space for the home indicator. */
+@media (max-width: 767px) {
+  .pixel-start-overlay {
+    align-items: center;
+    background:
+      linear-gradient(180deg, rgba(3, 8, 16, 0.22) 0%, rgba(3, 8, 16, 0.4) 48%, rgba(18, 6, 4, 0.4) 100%),
+      linear-gradient(90deg, rgba(3, 8, 16, 0.22), rgba(18, 6, 4, 0.22));
+  }
+  .pixel-press-start {
+    min-width: min(17rem, calc(100vw - 2.5rem));
+    padding: 0.8rem 0.85rem;
+    font-size: clamp(1.7rem, 10vw, 2.35rem);
+    letter-spacing: 0.105em;
+    background: rgba(5, 8, 13, 0.68);
+    box-shadow: 5px 5px 0 rgba(0,0,0,.72), 0 0 0 2px rgba(255,255,255,.1);
+  }
+  .pixel-start-desktop-copy { display: none; }
+  .pixel-start-mobile-copy { display: inline; }
+  .pixel-start-quick-menu {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom) + 4.3rem);
+    min-width: 10.75rem;
+    min-height: 3.1rem;
+    padding-inline: 0.9rem;
+    text-align: left;
+    transform: translateX(-50%);
+  }
+  .lobby-mobile-touch-hint .pixel-hud-panel {
+    min-height: 2rem;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.13em;
+    background: rgba(2,7,16,.86);
+    box-shadow: 3px 3px 0 rgba(0,0,0,.7), 0 0 12px color-mix(in srgb, var(--hud-glow) 24%, transparent);
+  }
+  .lobby-role-copy { max-width: min(17rem, 76vw); }
+  .lobby-role-title { font-size: clamp(2.7rem, 13vw, 4.1rem); line-height: 0.8; }
+  .lobby-role-subtitle { max-width: 23ch; font-size: 0.72rem; line-height: 1.32; letter-spacing: 0.14em; text-shadow: 0 2px 0 rgba(0,0,0,.82); }
+  .role-panel:first-child .lobby-role-copy { padding-bottom: 0.5rem; }
+  .role-panel:last-child .lobby-role-copy { padding-bottom: 3.8rem; }
+  .mobile-bottom-left-hud,
+  .mobile-support-hud,
+  .mobile-language-hud { bottom: calc(env(safe-area-inset-bottom) + 0.75rem) !important; }
+  .mobile-bottom-left-hud { left: max(0.75rem, env(safe-area-inset-left)) !important; min-width: 3.7rem; height: 2.75rem !important; }
+  .mobile-support-hud { left: calc(max(0.75rem, env(safe-area-inset-left)) + 4.55rem) !important; min-width: 4.5rem; height: 2.75rem !important; }
+  .mobile-language-hud { right: max(0.75rem, env(safe-area-inset-right)) !important; }
+  .mobile-language-hud > button { min-height: 2.75rem; min-width: 5rem; font-size: 0.66rem; }
+  .case-study-page-shell { align-items: flex-start; }
+  .case-study-image-area { margin-inline: -0.15rem; }
+  .case-study-exhibit-image { max-height: min(52dvh, 31rem); }
+  .case-study-exhibit-frame figcaption { gap: 0.45rem; margin-top: 0.8rem; }
+}
+
 @media (min-width: 1440px) {
   .pixel-press-start { min-width: 28rem; }
   .pixel-start-quick-menu { top: 2.5rem; right: 2.5rem; }
@@ -965,6 +1022,15 @@
 }
 
 @media (orientation: landscape) and (max-height: 34rem) and (max-width: 64rem) {
+  .pixel-start-overlay {
+    background:
+      linear-gradient(90deg, rgba(3, 8, 16, 0.26), rgba(18, 6, 4, 0.26)),
+      linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.22));
+  }
+  .pixel-press-start { min-width: min(21rem, calc(100vw - 10rem)); padding: 0.55rem 0.8rem; font-size: clamp(1.5rem, 5.2vw, 2.4rem); letter-spacing: 0.1em; }
+  .pixel-start-desktop-copy { display: none; }
+  .pixel-start-mobile-copy { display: inline; }
+  .pixel-start-quick-menu { top: 0.75rem; right: 0.75rem; bottom: auto; left: auto; min-width: 8.5rem; min-height: 2.6rem; padding: 0.45rem 0.6rem; transform: none; }
   .tutorial-modal { align-items: center; padding-inline: 1rem; }
   .tutorial-card { width: min(30rem, calc(100vw - 7.5rem)) !important; padding: 0.65rem 0.9rem !important; transform: translateY(0.35rem); }
   .tutorial-close { top: 0.6rem; right: 0.6rem; }
@@ -976,3 +1042,25 @@
   .tutorial-mobile-copy { display: inline !important; }
   .tutorial-desktop-copy { display: none !important; }
 }
+
+/* Mobile archive touch dock: fixed low enough for thumbs, high enough to clear Sound / Support / Language and the home indicator. */
+.archive-touch-controls { pointer-events: none; }
+.archive-touch-controls button { pointer-events: auto; }
+.archive-touch-button {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-width: 2px;
+  background: rgba(2, 7, 16, 0.9);
+  box-shadow: 4px 4px 0 rgba(0,0,0,.76), 0 0 12px currentColor;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: 1.65rem;
+  line-height: 1;
+  touch-action: none;
+}
+.archive-touch-button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 rgba(0,0,0,.76), 0 0 16px currentColor; filter: brightness(1.28); }
+.archive-touch-action { width: 3.6rem; grid-template-rows: 1fr auto; padding: 0.25rem 0.2rem; }
+.archive-touch-action span { font-family: "Bebas Neue", Impact, sans-serif; font-size: 1.25rem; line-height: 0.9; }
+.archive-touch-action small { font-family: "Rajdhani", sans-serif; font-size: 0.49rem; font-weight: 800; letter-spacing: 0.12em; }
+@media (min-width: 768px) { .archive-touch-controls { display: none; } }

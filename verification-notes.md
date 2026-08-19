@@ -1,5 +1,11 @@
 # Visual Verification Notes
 
+## 2026-08-19 — Mobile Entry Visual Pass
+
+The 390×844 start capture now renders `TAP TO START` with the smaller hard-edge frame centered in the inter-role gap. The top `CHOOSE YOUR PLAYER` label, Player 01 `TAP TO PREVIEW` hint, and the top-right Quick Menu no longer overlap. The direct Quick Menu button is placed above the bottom Sound / Support / Language row, providing a clear thumb-reachable hierarchy while preserving separate safe areas for each control.
+
+The 844×390 landscape mobile capture also uses `TAP TO START`. Its compact central frame preserves both role titles, while the Quick Menu remains at the upper-right edge and does not collide with the Player 02 metadata module.
+
 ## 2026-08-19 — Desktop Entry and Quick-Access Pass
 
 The reset desktop start state now keeps Player 01 and Player 02 visibly readable behind a lighter split-world shade. The central `PRESS ANY KEY` frame is narrower and more transparent, with a retained hard pixel border; it no longer dominates the role titles and characters. A separate top-right Quick Menu appears before starting the game and opens both direct archive routes. The verified Designer quick-access route reaches the Design Archive without requiring a role-hover or gameplay sequence.

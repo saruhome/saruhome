@@ -195,7 +195,7 @@ function RolePanel({
       />
 
       <div
-        className={`pointer-events-none absolute top-4 z-30 md:hidden ${isDesigner ? "left-4" : "right-4"}`}
+          className={`lobby-mobile-touch-hint pointer-events-none absolute top-14 z-30 md:hidden ${isDesigner ? "left-4" : "right-4"}`}
         aria-live="polite"
       >
         <span
@@ -259,10 +259,10 @@ function RolePanel({
           <p className="mb-2 inline-block pixel-tag px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.dark}e8`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
           </p>
-          <h2 className={`max-w-[7.8ch] pixel-title font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white transition-[opacity,transform] duration-500 ${isCompressedKoreanDesigner ? "md:text-[clamp(2.8rem,3.1vw,3.8rem)]" : "md:text-[clamp(4.2rem,7.6vw,8.3rem)]"}`}>
+          <h2 className={`lobby-role-title max-w-[7.8ch] pixel-title font-bebas text-[clamp(3.2rem,12vw,5.8rem)] leading-[0.78] tracking-[0.035em] text-white transition-[opacity,transform] duration-500 ${isCompressedKoreanDesigner ? "md:text-[clamp(2.8rem,3.1vw,3.8rem)]" : "md:text-[clamp(4.2rem,7.6vw,8.3rem)]"}`}>
             {isDesigner ? <><span className="block">UX</span><span className={`block ${language === "kr" ? "whitespace-nowrap [word-break:keep-all]" : ""}`}>{designerTitle}</span></> : t("dancer")}
           </h2>
-          <p className="mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/85 md:mt-3 md:text-[0.95rem]">
+          <p className="lobby-role-subtitle mt-2 max-w-[28ch] skew-x-[-8deg] font-rajdhani text-xs font-semibold uppercase tracking-[0.18em] text-white/85 md:mt-3 md:text-[0.95rem]">
             {isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}
           </p>
           {isActive && !isLocked && (
@@ -429,8 +429,8 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       {showStartScreen && (
         <div className="pixel-start-overlay absolute inset-0 z-[90] grid place-items-center text-center" onClick={() => { setShowStartScreen(false); setTutorialStep(0); }}>
           <div className="pixel-press-start border-4 border-white/75 px-7 py-5 font-bebas text-[clamp(2.3rem,5.8vw,5rem)] leading-none tracking-[0.13em] text-white shadow-[8px_8px_0_rgba(0,0,0,0.72)]">
-            PRESS ANY KEY
-            <small className="mt-2 block font-rajdhani text-[0.23em] font-black tracking-[0.36em] text-white/80">TO START // PORTFOLIO QUEST</small>
+            <span className="pixel-start-desktop-copy">PRESS ANY KEY</span><span className="pixel-start-mobile-copy">TAP TO START</span>
+            <small className="mt-2 block font-rajdhani text-[0.23em] font-black tracking-[0.36em] text-white/80"><span className="pixel-start-desktop-copy">TO START // PORTFOLIO QUEST</span><span className="pixel-start-mobile-copy">TAP ANYWHERE TO ENTER</span></small>
           </div>
           <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute top-6 right-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-left font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
             <span className="block">{t("quickMenu")}</span>
@@ -456,7 +456,7 @@ export default function RoleSelectIntro() {
       <button
         type="button"
         onClick={toggleMuted}
-        className="pixel-hud-panel fixed bottom-4 left-4 z-[70] grid h-10 place-items-center border-[var(--player-primary)] bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black md:bottom-6 md:left-6"
+          className="mobile-bottom-left-hud pixel-hud-panel fixed bottom-4 left-4 z-[70] grid h-10 place-items-center border-[var(--player-primary)] bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black md:bottom-6 md:left-6"
         aria-pressed={!muted}
         aria-label={muted ? "Enable portfolio audio" : "Mute portfolio audio"}
       >
@@ -467,7 +467,7 @@ export default function RoleSelectIntro() {
           href="https://buymeacoffee.com/saruhome"
           target="_blank"
           rel="noreferrer"
-          className="pixel-hud-panel fixed bottom-4 left-[6.85rem] z-[70] grid h-10 place-items-center border-[#ffdd00]/70 bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[#ffdd00] hover:text-black md:bottom-6 md:left-[8.5rem]"
+          className="mobile-support-hud pixel-hud-panel fixed bottom-4 left-[6.85rem] z-[70] grid h-10 place-items-center border-[#ffdd00]/70 bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[#ffdd00] hover:text-black md:bottom-6 md:left-[8.5rem]"
           aria-label="Support this portfolio on Buy Me a Coffee (opens in a new tab)"
         >
           Support

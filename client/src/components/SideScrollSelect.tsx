@@ -388,6 +388,24 @@ export default function SideScrollSelect({
     queueProjectEntry(activeItem.id);
   }, [activeItem, queueProjectEntry]);
 
+  const beginTouchMove = useCallback((direction: "left" | "right") => {
+    if (performance.now() < collisionLockUntil.current) return;
+    const wasMoving = keys.current.left !== keys.current.right;
+    keys.current.left = direction === "left";
+    keys.current.right = direction === "right";
+    setFacing(direction);
+    setIsMoving(true);
+    if (!wasMoving) emitDust("start");
+    playNavigate();
+  }, [emitDust, playNavigate]);
+
+  const endTouchMove = useCallback(() => {
+    const wasMoving = keys.current.left !== keys.current.right;
+    keys.current.left = false;
+    keys.current.right = false;
+    if (wasMoving) emitDust("stop");
+  }, [emitDust]);
+
   const selectFromQuickMenu = useCallback((id: string) => {
     setShowQuickMenu(false);
     (onQuickSelect ?? onSelect)(id);
@@ -712,7 +730,7 @@ export default function SideScrollSelect({
           </button>
         ))}
 
-        <div className="absolute bottom-[5.4rem] z-10 -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
+        <div className="absolute bottom-[8.65rem] z-10 -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
           {collision && (
             <span className={`pixel-wall-impact pixel-wall-impact-${collision.edge} pointer-events-none absolute bottom-16 z-20 h-24 w-20`} style={{ "--impact-color": isCyan ? "#37E7FF" : "#FF6B17" } as React.CSSProperties} aria-hidden="true"><i /><i /><i /></span>
           )}
@@ -762,6 +780,33 @@ export default function SideScrollSelect({
         >
           ?
         </button>
+      </div>
+
+      <div className="archive-touch-controls absolute inset-x-0 bottom-0 z-30 flex items-end justify-between gap-3 px-4 pb-[calc(env(safe-area-inset-bottom)+4.25rem)] md:hidden">
+        <div className="flex gap-2" aria-label="Move archive character">
+          <button
+            type="button"
+            aria-label="Move left"
+            onPointerDown={(event) => { event.preventDefault(); beginTouchMove("left"); }}
+            onPointerUp={endTouchMove}
+            onPointerLeave={endTouchMove}
+            onPointerCancel={endTouchMove}
+            className={`archive-touch-button ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}
+          >←</button>
+          <button
+            type="button"
+            aria-label="Move right"
+            onPointerDown={(event) => { event.preventDefault(); beginTouchMove("right"); }}
+            onPointerUp={endTouchMove}
+            onPointerLeave={endTouchMove}
+            onPointerCancel={endTouchMove}
+            className={`archive-touch-button ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}
+          >→</button>
+        </div>
+        <div className="flex gap-2" aria-label="Archive actions">
+          <button type="button" onClick={triggerJump} className={`archive-touch-button archive-touch-action font-rajdhani ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}><span>↑</span><small>JUMP</small></button>
+          <button type="button" onClick={triggerSelect} className={`archive-touch-button archive-touch-action font-rajdhani ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}><span>↵</span><small>SELECT</small></button>
+        </div>
       </div>
 
     </section>

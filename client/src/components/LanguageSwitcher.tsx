@@ -13,7 +13,7 @@ export function LanguageSwitcher({ elevated = false }: { elevated?: boolean }) {
   ];
 
   return (
-    <div className={`fixed bottom-4 right-4 z-[70] md:bottom-6 md:right-6 ${elevated ? "" : ""}`}>
+    <div className={`mobile-language-hud fixed bottom-4 right-4 z-[70] md:bottom-6 md:right-6 ${elevated ? "" : ""}`}>
       {isOpen && (
         <div
           id="language-options"
