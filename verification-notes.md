@@ -143,3 +143,7 @@ The first-visit overlay visibly blocks the lobby with `PRESS ANY KEY TO START //
 ## 2026-08-19 — Role Achievement Icons and Any-Key Entry
 
 The start overlay now listens in the capture phase on `window` and on its focused button, so any physical key advances the first-visit screen before other lobby interactions consume it. The Designer achievement panel rendered a Cyan pixel interface/cursor module for its `DESIGNER BADGES`; the Dancer panel rendered a distinct Orange equalizer-and-rhythm-disc module for `DANCER BADGES`. Both header and every locked/unlocked achievement row retain role-specific silhouette, palette, and reduced opacity for locked states.
+
+## 2026-08-19 — Neutral Onboarding HUD
+
+The initial `PRESS ANY KEY` view now uses only black, white, and grey: a neutral dark backdrop, white hard-edge border, pale-grey secondary line, and the same compact HUD contrast as the Sound control. The tutorial prompt uses the matching neutral border and heading instead of Cyan or Orange. After resetting first-visit storage, a real `a` key input dismissed the overlay immediately and displayed the neutral Tutorial 1/4 card while Designer and Dancer retained their respective Cyan and Orange lobby worlds.

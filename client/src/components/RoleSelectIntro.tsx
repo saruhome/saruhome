@@ -408,14 +408,14 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       </div>
       {tutorialStep !== null && (
         <div className="pointer-events-none absolute bottom-24 left-1/2 z-[60] w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
-          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-cyan-200">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
+          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-white/70">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
           <p className="mt-2 font-bebas text-2xl tracking-[0.08em] text-white">{[t("tutorialMove"), t("tutorialJump"), t("tutorialCrouch"), t("tutorialConfirm")][tutorialStep]}</p>
           <p className="mt-2 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/60">{t("tutorialHint")}</p>
         </div>
       )}
       {showStartScreen && (
-        <button type="button" autoFocus onClick={() => { setShowStartScreen(false); setTutorialStep(0); }} onKeyDown={(event) => { event.preventDefault(); event.stopPropagation(); setShowStartScreen(false); setTutorialStep(0); }} className="absolute inset-0 z-[90] grid place-items-center bg-[#020711f5] text-center">
-          <span className="pixel-press-start border-4 border-cyan-200 bg-[#05080df4] px-8 py-7 font-bebas text-[clamp(2.6rem,7vw,6rem)] leading-none tracking-[0.13em] text-white shadow-[9px_9px_0_rgba(0,0,0,0.8)]">PRESS ANY KEY<br /><small className="mt-3 block font-rajdhani text-[0.22em] font-black tracking-[0.42em] text-cyan-200">TO START // PORTFOLIO QUEST</small></span>
+        <button type="button" autoFocus onClick={() => { setShowStartScreen(false); setTutorialStep(0); }} onKeyDown={(event) => { event.preventDefault(); event.stopPropagation(); setShowStartScreen(false); setTutorialStep(0); }} className="absolute inset-0 z-[90] grid place-items-center bg-[#070707f5] text-center">
+          <span className="pixel-press-start border-4 border-white/75 bg-[#05080df4] px-8 py-7 font-bebas text-[clamp(2.6rem,7vw,6rem)] leading-none tracking-[0.13em] text-white shadow-[9px_9px_0_rgba(0,0,0,0.8)]">PRESS ANY KEY<br /><small className="mt-3 block font-rajdhani text-[0.22em] font-black tracking-[0.42em] text-white/65">TO START // PORTFOLIO QUEST</small></span>
         </button>
       )}
     </section>
