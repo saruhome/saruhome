@@ -1,5 +1,11 @@
 # Visual Verification Notes
 
+## 2026-08-19 — Behance Project Readability Pass
+
+The Designer archive keeps its dark cyan pixel-world environment while the SokDak signpost now uses a bright white project label, high-contrast cyan outline, status pixel, framed subtitle, and a clearly separated `ENTER` selection state. The verified archive order is SokDak → Locaverse GmbH → Smart Wash → Campy → Seek and Sight; no pure graphic, social-ad, or poster entry appears in the main path.
+
+The SokDak case study now opens an additional bright project-exhibition slide inside the unchanged dark command-console shell. The project UI is displayed on a near-white field with a cyan double frame, a restrained glow, stronger caption contrast, and generous spacing, so the light Behance screen remains the focal point without changing archive character, sound, or movement systems.
+
 ## 2026-08-19 — Reference Walk Cycle Review
 
 `WalkCycle_01c.png` is a 420×105px, four-step horizontal strip. Its relevant motion principle is the readable alternation of an extended stride and a passing step, with the forward leg always counterbalanced by the opposite arm. The existing Designer 2×2 run sheet already contains four full-body side-profile poses that match this rhythm: two opposite extended strides plus two passing/high-knee positions. The rebuilt archive animation will normalize all four into a shared transparent canvas and play them in a clear `stride A → pass A → stride B → pass B` loop without a floor bar beneath the feet.

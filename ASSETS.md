@@ -30,6 +30,11 @@
 | Designer wall fall | Player 01 collision and falling-frame sprite | `/manus-storage/designer-wall-fall_cc620221.png` |
 | Dancer wall fall | Player 02 collision and falling-frame sprite | `/manus-storage/dancer-wall-fall_922eac76.png` |
 | FH Joanneum interaction console reference | Designer Quick Menu와 지원형 Interaction Design 정보 계층의 시각 기준 | `/manus-storage/fh-joanneum-interaction-console-reference_d0476753.png` |
+| SokDak exhibit | Bright project-exhibition UI screen for the case-study showcase | `/manus-storage/sokdak-hero_b6371c09.jpg` |
+| Locaverse exhibit | Landing page and expert-report project screens for the case-study showcase | `/manus-storage/locaverse-hero_c8fb863c.jpg`, `/manus-storage/locaverse-report_07387eb9.jpg` |
+| Smart Wash exhibit | Weather-aware home and interaction-flow screens for the case-study showcase | `/manus-storage/smartwash-hero_89808175.jpg`, `/manus-storage/smartwash-wireframe_16129c6e.jpg` |
+| Campy exhibit | Behance research-briefing project screen for the case-study showcase | `/manus-storage/campy-exhibit_176bde4a.png` |
+| Seek and Sight exhibit | Inclusive EdTech high-fidelity project screen for the case-study showcase | `/manus-storage/seekandsight-hifi_b9005159.jpg` |
 
 ## Role palette specification
 

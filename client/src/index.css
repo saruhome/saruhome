@@ -573,10 +573,10 @@
 @keyframes archive-camera-land { 0% { transform: translateY(-2px); } 45% { transform: translateY(2px); filter: brightness(1.16); } 100% { transform: translateY(0); } }
 @keyframes archive-camera-crash { 0%,100% { transform: translateX(0); } 28% { transform: translateX(-3px); } 60% { transform: translateX(3px); filter: brightness(1.14); } }
 
-.pixel-signpost-nearby { animation: pixel-signpost-nearby 0.62s steps(3, end) infinite; }
-.pixel-signpost-arrow { animation: pixel-signpost-arrow 0.62s steps(2, end) infinite; text-shadow: 3px 3px 0 rgba(0,0,0,.78); }
-@keyframes pixel-signpost-nearby { 0%,100% { filter: brightness(1) drop-shadow(0 0 0 transparent); transform: translateY(0); } 50% { filter: brightness(1.42) drop-shadow(0 0 9px currentColor); transform: translateY(-2px); } }
-@keyframes pixel-signpost-arrow { 0%,100% { opacity: .48; transform: translateY(-2px); } 50% { opacity: 1; transform: translateY(3px); } }
+.pixel-signpost-nearby { animation: pixel-signpost-nearby 0.56s steps(3, end) infinite; }
+.pixel-signpost-arrow { animation: pixel-signpost-arrow 0.56s steps(2, end) infinite; text-shadow: 3px 3px 0 rgba(0,0,0,.88), 0 0 12px currentColor; }
+@keyframes pixel-signpost-nearby { 0%,100% { filter: brightness(1.04) drop-shadow(0 0 4px currentColor); transform: translateY(0) scale(1); } 50% { filter: brightness(1.5) drop-shadow(0 0 15px currentColor); transform: translateY(-3px) scale(1.035); } }
+@keyframes pixel-signpost-arrow { 0%,100% { opacity: .55; transform: translateY(-2px); } 50% { opacity: 1; transform: translateY(4px); } }
 
 .pixel-ambient-dust i { position:absolute; width:3px; height:3px; background:rgba(255,255,255,.48); box-shadow:2px 2px 0 rgba(255,255,255,.12); animation: pixel-ambient-drift 6s steps(12,end) infinite; }
 .pixel-ambient-dust i:nth-child(1) { left:11%; top:28%; animation-delay:0s; }
@@ -648,8 +648,93 @@
   opacity: 0.3;
 }
 
+/* Design Philosophy: Behance project imagery becomes a bright, museum-like display field inside the dark arcade console — hard borders, pixel shadows, restrained role-colored signal light. */
+.case-study-image-area {
+  --case-study-accent: #37e7ff;
+  --case-study-accent-soft: #eafbff;
+  position: relative;
+  padding: clamp(0.75rem, 2.2vw, 2rem);
+  color: #111820;
+  background: #f3f6f8;
+  border: 4px solid #e6edf2;
+  box-shadow: inset 0 0 0 2px #101820, 8px 8px 0 rgba(0, 0, 0, 0.78), 0 0 22px color-mix(in srgb, var(--case-study-accent) 36%, transparent);
+}
+
+.role-theme-scope[data-player-role="dancer"] .case-study-image-area {
+  --case-study-accent: #ff6b17;
+  --case-study-accent-soft: #fff1e8;
+}
+
+.case-study-exhibit-frame {
+  min-width: 0;
+  margin: 0;
+  padding: clamp(0.55rem, 1.15vw, 0.9rem);
+  background: #ffffff;
+  border: 3px solid #101820;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--case-study-accent) 58%, #ffffff), 6px 6px 0 rgba(6, 13, 20, 0.32), 0 0 18px color-mix(in srgb, var(--case-study-accent) 34%, transparent);
+}
+
+.case-study-exhibit-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  color: #111820;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.case-study-exhibit-label span:last-child {
+  color: color-mix(in srgb, var(--case-study-accent) 78%, #101820);
+}
+
+.case-study-exhibit-image {
+  display: block;
+  width: 100%;
+  max-height: min(48dvh, 31rem);
+  object-fit: contain;
+  background: #f8fafc;
+  border: 2px solid #111820;
+  box-shadow: 0 0 0 2px var(--case-study-accent-soft), 0 0 0 4px var(--case-study-accent), 0 7px 13px rgba(5, 10, 16, 0.28);
+  image-rendering: auto;
+}
+
+.case-study-exhibit-frame figcaption {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.9rem;
+  font-family: "Rajdhani", sans-serif;
+  color: #27323d;
+  line-height: 1.38;
+}
+
+.case-study-exhibit-frame figcaption strong {
+  color: #0a1119;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.case-study-exhibit-frame figcaption span {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .case-study-page-shell { padding-top: 6.75rem; padding-bottom: 5.75rem; }
+  .case-study-image-area { padding: 0.7rem; border-width: 3px; box-shadow: inset 0 0 0 1px #101820, 5px 5px 0 rgba(0, 0, 0, 0.72), 0 0 14px color-mix(in srgb, var(--case-study-accent) 30%, transparent); }
+  .case-study-exhibit-frame { padding: 0.5rem; border-width: 2px; box-shadow: 0 0 0 2px color-mix(in srgb, var(--case-study-accent) 58%, #ffffff), 4px 4px 0 rgba(6, 13, 20, 0.24), 0 0 12px color-mix(in srgb, var(--case-study-accent) 28%, transparent); }
+  .case-study-exhibit-image { max-height: min(42dvh, 25rem); box-shadow: 0 0 0 1px var(--case-study-accent-soft), 0 0 0 3px var(--case-study-accent), 0 5px 9px rgba(5, 10, 16, 0.24); }
+  .case-study-exhibit-label { font-size: 0.55rem; letter-spacing: 0.1em; }
+  .case-study-exhibit-frame figcaption strong { font-size: 0.9rem; }
+  .case-study-exhibit-frame figcaption span { font-size: 0.8rem; }
+}
+
 .pixel-signpost-face {
-  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.82), inset 0 -4px 0 rgba(0, 0, 0, 0.22);
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.88), inset 0 -4px 0 rgba(0, 0, 0, 0.25), 0 0 0 2px rgba(255,255,255,.14);
   clip-path: none;
 }
 
@@ -662,7 +747,25 @@
   transform: none !important;
 }
 
-.pixel-signpost-meta { text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.86); }
+.pixel-signpost-card { outline: none; }
+.pixel-signpost-project-face::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,.2);
+}
+.pixel-signpost-status { box-shadow: 2px 2px 0 rgba(0,0,0,.55), 0 0 8px currentColor; }
+.pixel-signpost-card:hover .pixel-signpost-project-face,
+.pixel-signpost-card:focus-visible .pixel-signpost-project-face {
+  filter: brightness(1.22) drop-shadow(0 0 10px currentColor);
+  transform: translateY(-2px);
+}
+.pixel-signpost-card:focus-visible .pixel-signpost-project-face { outline: 3px solid white; outline-offset: 3px; }
+.pixel-signpost-meta { box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.74); text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.9); }
+.pixel-signpost-action { animation: pixel-signpost-action 0.72s steps(2, end) infinite; box-shadow: 4px 4px 0 rgba(0,0,0,.8), 0 0 12px currentColor; }
+@keyframes pixel-signpost-action { 0%,100% { filter: brightness(.94); transform: translateY(0); } 50% { filter: brightness(1.3); transform: translateY(-2px); } }
 
 .pixel-signpost-pole {
   background-image: repeating-linear-gradient(180deg, rgba(255,255,255,0.28) 0 8px, transparent 8px 14px);

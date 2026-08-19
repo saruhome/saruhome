@@ -204,29 +204,30 @@ function Signpost({
       onMouseEnter={onHover}
       style={{ left: x }}
       aria-label={item.label}
-      className="absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[22.5rem]"
+      className="pixel-signpost-card absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[22.5rem]"
     >
       {active && <span className={`pixel-signpost-arrow absolute -top-9 font-bebas text-3xl ${isCyan ? "text-cyan-200" : "text-orange-200"}`} aria-hidden="true">▼</span>}
       <div
-        className={`pixel-signpost-face whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-colors duration-200 ${active ? "pixel-signpost-nearby" : ""} ${
+        className={`pixel-signpost-face pixel-signpost-project-face relative whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-all duration-200 ${active ? "pixel-signpost-nearby" : ""} ${
           active
             ? isCyan
               ? "border-cyan-200 bg-cyan-300 text-[#06101e]"
               : "border-orange-200 bg-orange-300 text-[#1b0603]"
             : isCyan
-              ? "border-cyan-300/50 bg-black/60 text-cyan-100"
-              : "border-orange-300/50 bg-black/60 text-orange-100"
+              ? "border-cyan-200/90 bg-[#020813]/90 text-white"
+              : "border-orange-200/90 bg-[#130403]/90 text-white"
         }`}
       >
+        <span className={`pixel-signpost-status mr-2 inline-block h-2 w-2 align-middle ${isCyan ? "bg-cyan-200" : "bg-orange-200"}`} aria-hidden="true" />
         {item.label}
       </div>
       {item.sublabel && (
-        <span className={`pixel-signpost-meta font-rajdhani text-[1.2rem] uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200/80" : "text-orange-200/80"}`}>
+        <span className={`pixel-signpost-meta border-x-2 bg-black/65 px-2 py-0.5 font-rajdhani text-[0.72rem] font-black uppercase tracking-[0.18em] text-white/90 ${isCyan ? "border-cyan-200/65" : "border-orange-200/65"}`}>
           {item.sublabel}
         </span>
       )}
       {active && (
-        <span className={`animate-pulse whitespace-nowrap font-rajdhani text-[1.24rem] font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-100" : "text-orange-100"}`}>
+        <span className={`pixel-signpost-action whitespace-nowrap border-2 bg-black/80 px-2 py-1 font-rajdhani text-[0.82rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
           {pressLabel}
         </span>
       )}
