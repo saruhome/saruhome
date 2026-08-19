@@ -312,13 +312,16 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   useEffect(() => {
     if (tutorialStep === null) return;
     const advance = (event: KeyboardEvent) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
       if (tutorialStep === 0 && (event.key === "ArrowLeft" || event.key === "ArrowRight")) setTutorialStep(1);
       else if (tutorialStep === 1 && event.key === "ArrowUp") setTutorialStep(2);
       else if (tutorialStep === 2 && event.key === "ArrowDown") setTutorialStep(3);
       else if (tutorialStep === 3 && (event.key === "Enter" || event.key === " ")) { markTutorialSeen(); setTutorialStep(null); }
     };
-    window.addEventListener("keydown", advance);
-    return () => window.removeEventListener("keydown", advance);
+    window.addEventListener("keydown", advance, true);
+    return () => window.removeEventListener("keydown", advance, true);
   }, [markTutorialSeen, tutorialStep]);
 
   const handleHoverStart = (role: Role) => {
@@ -407,10 +410,12 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} landingRole={landingRole} lockedRole={lockedRole} onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd} onSelect={handleRoleSelection} />)}
       </div>
       {tutorialStep !== null && (
-        <div className="pointer-events-none absolute left-1/2 top-1/2 z-[60] w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
-          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-white/70">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
-          <p className="mt-2 font-bebas text-2xl tracking-[0.08em] text-white">{[t("tutorialMove"), t("tutorialJump"), t("tutorialCrouch"), t("tutorialConfirm")][tutorialStep]}</p>
-          <p className="mt-2 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/60">{t("tutorialHint")}</p>
+        <div className="absolute inset-0 z-[60] grid place-items-center bg-black/10" role="dialog" aria-modal="true" aria-label={t("tutorialLabel")} onPointerDown={(event) => { event.preventDefault(); event.stopPropagation(); }}>
+          <div className="w-[min(31rem,calc(100vw-2rem))] border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
+            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-white/70">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
+            <p className="mt-2 font-bebas text-2xl tracking-[0.08em] text-white">{[t("tutorialMove"), t("tutorialJump"), t("tutorialCrouch"), t("tutorialConfirm")][tutorialStep]}</p>
+            <p className="mt-2 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.15em] text-white/60">{t("tutorialHint")}</p>
+          </div>
         </div>
       )}
       {showStartScreen && (

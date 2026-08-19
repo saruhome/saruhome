@@ -155,3 +155,7 @@ On desktop, all four tutorial steps now occupy the viewport midpoint rather than
 ## 2026-08-19 — Character-Head Dialogue Anchor
 
 The dialogue anchor now compensates for the chibi sprite's transparent top margin, placing its pixel tail immediately above the actual head silhouette instead of using the signpost as a reference. The Designer and Dancer archives both keep the white dot speech bubble horizontally centred on the character while the character moves through the archive.
+
+## 2026-08-19 — Tutorial Input Isolation
+
+The tutorial is now a modal input layer. Its capture-phase keyboard listener prevents propagation and default browser/game handling before it advances its own step. After resetting first-visit state, the initial `a` opened Tutorial 1/4 without selecting either role, and ArrowRight advanced only to Tutorial 2/4 while both Cyan and Orange player panels remained in their neutral lobby state. The modal also intercepts pointer input, preventing background role and Quick Menu activation until the final tutorial confirmation closes it.
