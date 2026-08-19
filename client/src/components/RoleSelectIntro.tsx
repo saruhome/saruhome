@@ -315,7 +315,8 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
-      if (tutorialStep === 0 && (event.key === "ArrowLeft" || event.key === "ArrowRight")) setTutorialStep(1);
+      if (event.key === "Escape") { markTutorialSeen(); setTutorialStep(null); }
+      else if (tutorialStep === 0 && (event.key === "ArrowLeft" || event.key === "ArrowRight")) setTutorialStep(1);
       else if (tutorialStep === 1 && event.key === "ArrowUp") setTutorialStep(2);
       else if (tutorialStep === 2 && event.key === "ArrowDown") setTutorialStep(3);
       else if (tutorialStep === 3 && (event.key === "Enter" || event.key === " ")) { markTutorialSeen(); setTutorialStep(null); }
@@ -411,6 +412,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
       </div>
       {tutorialStep !== null && (
         <div className="absolute inset-0 z-[60] grid place-items-center bg-black/10" role="dialog" aria-modal="true" aria-label={t("tutorialLabel")} onPointerDown={(event) => { event.preventDefault(); event.stopPropagation(); }}>
+          <p className="pointer-events-none absolute right-4 top-4 border border-white/40 bg-[#05080ddd] px-2 py-1 font-rajdhani text-[0.58rem] font-black uppercase tracking-[0.16em] text-white/70 sm:right-6 sm:top-6">{t("tutorialSkip")}</p>
           <div className="w-[min(31rem,calc(100vw-2rem))] border-4 border-white/65 bg-[#05080df0] p-4 text-center shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
             <p className="font-rajdhani text-xs font-black uppercase tracking-[0.3em] text-white/70">{t("tutorialLabel")} // {tutorialStep + 1}/4</p>
             <p className="mt-2 font-bebas text-2xl tracking-[0.08em] text-white">{[t("tutorialMove"), t("tutorialJump"), t("tutorialCrouch"), t("tutorialConfirm")][tutorialStep]}</p>

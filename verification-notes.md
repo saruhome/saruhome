@@ -159,3 +159,7 @@ The dialogue anchor now compensates for the chibi sprite's transparent top margi
 ## 2026-08-19 — Tutorial Input Isolation
 
 The tutorial is now a modal input layer. Its capture-phase keyboard listener prevents propagation and default browser/game handling before it advances its own step. After resetting first-visit state, the initial `a` opened Tutorial 1/4 without selecting either role, and ArrowRight advanced only to Tutorial 2/4 while both Cyan and Orange player panels remained in their neutral lobby state. The modal also intercepts pointer input, preventing background role and Quick Menu activation until the final tutorial confirmation closes it.
+
+## 2026-08-19 — ESC Tutorial Skip
+
+The Tutorial 1/4 modal displays the current-language skip cue in its upper-right corner. In the German locale, `ESC drücken zum Überspringen` rendered above the modal. Pressing Escape dismissed the tutorial instantly from the first step and returned to the neutral, unselected player lobby without triggering any role, Quick Menu, or archive action.
