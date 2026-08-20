@@ -657,7 +657,7 @@ export default function SideScrollSelect({
         </div>
       )}
       {latestAchievement && (
-        <button type="button" onClick={clearLatestAchievement} className={`pixel-achievement-toast absolute left-1/2 top-[5.6rem] z-50 w-[min(24rem,calc(100vw-2rem))] -translate-x-1/2 border-2 bg-[#05080df3] p-3 text-left ${isCyan ? "border-cyan-300 text-cyan-100" : "border-orange-300 text-orange-100"}`}>
+        <button type="button" onClick={clearLatestAchievement} className={`pixel-achievement-toast absolute left-1/2 top-48 z-[60] w-[min(24rem,calc(100vw-2rem))] -translate-x-1/2 border-2 bg-[#05080df3] p-3 text-left md:top-56 2xl:top-60 ${isCyan ? "border-cyan-300 text-cyan-100" : "border-orange-300 text-orange-100"}`}>
           <span className="font-bebas text-2xl">★ {latestAchievement.title}</span><span className="mt-1 block font-rajdhani text-xs text-white/75">{latestAchievement.detail}</span>
         </button>
       )}
@@ -757,7 +757,7 @@ export default function SideScrollSelect({
         </button>
       </div>
 
-      <div className="archive-touch-controls absolute inset-x-0 bottom-0 z-30 flex items-end justify-between gap-3 px-4 pb-[calc(env(safe-area-inset-bottom)+4.25rem)] md:hidden">
+      <div className="archive-touch-controls absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] z-30 flex items-end justify-between gap-3 px-4 md:hidden">
         <div className="flex gap-2" aria-label="Move archive character">
           <button
             type="button"

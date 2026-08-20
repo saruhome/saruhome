@@ -8,6 +8,16 @@ In-browser checks confirmed the German equivalent `ZU PROJEKTEN SPRINGEN` in the
 
 The 390×844 first-visit capture additionally confirms that the dedicated start-overlay access button now sits alone in the lower-right safe area and shows only `SKIP TO PROJECTS`. The standard four-segment utility rail is conditionally absent while the start overlay is active, preventing the previous overlapping duplicate row; it appears after entry at the same right-aligned baseline.
 
+## 2026-08-20 — Mobile Selection and Archive Overlap Diagnostic
+
+The 390×844 live touch-flow capture now places the active Designer sprite in the upper panel’s outer-right lane rather than moving it across the role copy. The sprite, cyan floor marker, CTA, and role title occupy distinct rectangles; the desktop-only arrival transform is disabled on compact touch layouts. The Designer Archive capture shows a sequential vertical lane of HUD → title → Enter cue → selected signpost → metadata → character-head dialogue → sprite → touch dock → utility rail. The Dancer Archive still requires the same independent live capture before final acceptance.
+
+After the mobile alignment pass, the four-segment utility rail is horizontally centered at 390px. The active Designer screenshot retains separated text, CTA, sprite, and floor marker. The Designer Archive screenshot keeps the touch buttons above the rail with a visible vertical gap; the rail does not cover any touch target, signpost, speech bubble, or character.
+
+The independent 390×844 Dancer flow confirmed the same mobile separation: the active Dancer stays within its lower panel, and the Archive renders HUD → title → Enter cue → performance card → character-head dialogue → sprite → touch buttons → centered utility rail. The `DUAL PLAYER` achievement toast was previously sharing the title lane; it now uses a dedicated title-below lane. A 1920×1080 Dancer Archive capture confirms that the wide HUD, title, horizontal signposts, character dialogue, sprite, and desktop right-bottom utility rail remain independently positioned.
+
+The final mobile measurement records the touch dock at y=728–776 and the centered 4-button utility rail at y=788–832, leaving a 12px visual safety gap between their bounding boxes. The rail’s horizontal bounds are x=25.5–364.5 on the 390px viewport, establishing an exact centered alignment. The same frame shows separate title, cue, activity card, dialogue, sprite, and control lanes; the 1920×1080 Designer Archive uses the corresponding independent wide-layout lanes.
+
 ## 2026-08-20 — Unified Bottom Utility Menu Bar
 
 The lobby and both archive gameplay views now use one left-aligned utility rail in the requested order: **Quick Menu → Language → Music → Support**. It is a single hard-edged module with shared height, internal separators, consistent labels, and one visual baseline instead of four separately positioned controls. The rail observes desktop and safe-area mobile offsets, and its compact 390px rules retain a single non-wrapping row.

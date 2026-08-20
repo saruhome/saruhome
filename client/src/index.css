@@ -940,6 +940,8 @@
 
 /* Mobile Design Philosophy: touch-first arcade entry. Keep both players visible, move direct access into thumb range, and reserve space for the home indicator. */
 @media (max-width: 767px) {
+  /* Touch selection uses the coloured frame and CTA; large desktop arrival transforms would leave the mobile player lanes. */
+  .lobby-hover-scale { animation: none !important; transform: none !important; }
   .pixel-start-overlay {
     align-items: center;
     background:
@@ -1190,7 +1192,7 @@
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.68);
 }
 
-.utility-menu-slot { position: relative; display: flex; margin-block: 4px; }
+.utility-menu-slot { position: relative; display: flex; margin: 4px; }
 .utility-menu-divider { width: 1px; margin-block: 4px; background: rgba(255, 255, 255, 0.28); }
 
 .utility-menu-item {
@@ -1212,7 +1214,7 @@
 }
 
 .utility-menu-item:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
-.utility-menu-rail > .utility-menu-item { margin-block: 4px; }
+.utility-menu-rail > .utility-menu-item { margin: 4px; }
 .utility-menu-quick { min-width: 8.8rem; color: #fff; }
 .utility-menu-language { min-width: 4.5rem; color: rgba(255, 255, 255, 0.86); }
 .utility-menu-sound { min-width: 5.1rem; }
@@ -1228,7 +1230,9 @@
 
 @media (max-width: 767px) {
   .utility-menu-bar {
-    right: max(0.75rem, env(safe-area-inset-right));
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
   }
   .utility-menu-rail { height: 2.75rem; min-height: 2.75rem; }

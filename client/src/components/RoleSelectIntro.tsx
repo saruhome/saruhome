@@ -150,9 +150,11 @@ function RolePanel({
   const designerTitle = t("uxuiDesigner").replace(/^UX[\s-]*/, "");
   // Preserve the hover GIF scale through selection instead of switching back to a smaller sprite.
   const state: SpriteState = isActive ? "design" : "idle";
+  // Mobile keeps each avatar in its own outer safety lane. Only desktop may travel inward.
+  // The same anchor is shared by sprite, floor bar, speed lines, and landing dust.
   const avatarPosition = isDesigner
-    ? isActive ? "md:right-[calc(33.333%-6.5rem)] lg:right-[calc(33.333%-8rem)]" : "right-5 sm:right-10"
-    : isActive ? "md:left-[calc(33.333%-6.5rem)] lg:left-[calc(33.333%-8rem)]" : "left-5 sm:left-10";
+    ? `right-5 sm:right-10 ${isActive ? "md:right-[calc(33.333%-6.5rem)] lg:right-[calc(33.333%-8rem)]" : ""}`
+    : `left-5 sm:left-10 ${isActive ? "md:left-[calc(33.333%-6.5rem)] lg:left-[calc(33.333%-8rem)]" : ""}`;
   const desktopFlexClass =
     lockedRole
       ? isLocked ? "h-full basis-full md:flex-1" : "h-0 basis-0 opacity-0 md:flex-[0]"

@@ -610,3 +610,19 @@
 - [x] 네 메뉴 세그먼트의 수직 여백을 4px 기준으로 통일
 - [x] 데스크톱·390px 모바일 화면 및 타입·프로덕션 빌드 검증
 - [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 모바일 선택 이동 및 Archive 겹침 수정
+
+- [x] 우측 하단 Quick·Language·Music·Support의 사방 4px 인셋을 모든 세그먼트에 적용
+- [x] 모바일 Designer hover·터치 선택 시 캐릭터의 좌측 밀림과 콘텐츠 겹침 원인 측정
+- [x] 모바일 Designer 선택 상태를 별도 안전 레인에 고정해 역할 텍스트·CTA와 분리
+- [x] Designer·Dancer Archive의 HUD·표지판·말풍선·캐릭터·조작 영역 잔여 겹침 제거
+- [x] 390px 모바일과 데스크톱 캡처, 타입·프로덕션 빌드 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 모바일 공통 메뉴 중앙 정렬
+
+- [x] 390px 모바일에서 Quick·Language·Music·Support 4버튼을 화면 중앙 기준선으로 배치
+- [x] 시작 오버레이·Archive 터치 조작부와의 safe-area 간격 유지
+- [x] 로비·Designer Archive·Dancer Archive 모바일 캡처 및 타입·프로덕션 빌드 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
