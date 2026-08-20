@@ -1,5 +1,13 @@
 # Visual Verification Notes
 
+## 2026-08-20 — Right-Aligned Bottom Utility Refinement
+
+The shared four-segment utility rail now uses the right bottom safe-area edge in both the lobby and Designer Archive. Its visible order remains **Skip to Projects → Language → Music → Support**, with one clear-line Quick Menu label and no secondary label inside the trigger. Every rail segment, including the embedded Language control, has a 4px vertical inset inside the surrounding hard-edge frame.
+
+In-browser checks confirmed the German equivalent `ZU PROJEKTEN SPRINGEN` in the active locale and a consistent right-aligned baseline in both views. The archive header remains dedicated to Back, player state, control hint, progress, and achievement state; no Language utility returned to the upper HUD. `pnpm run check` and `pnpm run build` both passed after the change.
+
+The 390×844 first-visit capture additionally confirms that the dedicated start-overlay access button now sits alone in the lower-right safe area and shows only `SKIP TO PROJECTS`. The standard four-segment utility rail is conditionally absent while the start overlay is active, preventing the previous overlapping duplicate row; it appears after entry at the same right-aligned baseline.
+
 ## 2026-08-20 — Unified Bottom Utility Menu Bar
 
 The lobby and both archive gameplay views now use one left-aligned utility rail in the requested order: **Quick Menu → Language → Music → Support**. It is a single hard-edged module with shared height, internal separators, consistent labels, and one visual baseline instead of four separately positioned controls. The rail observes desktop and safe-area mobile offsets, and its compact 390px rules retain a single non-wrapping row.

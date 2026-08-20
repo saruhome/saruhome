@@ -389,9 +389,8 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
         </div>
       </header>
 
-      <UtilityMenuBar
-        quickLabel={t("quickMenu")}
-        quickHint={t("skipToProjects")}
+      {!showStartScreen && <UtilityMenuBar
+        quickLabel={t("skipToProjects")}
         quickExpanded={showQuickMenu}
         onQuickToggle={() => setShowQuickMenu((open) => !open)}
         muted={muted}
@@ -411,7 +410,7 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
             </div>
           </aside>
         )}
-      />
+      />}
 
       <div className="relative z-10 flex h-full flex-col md:flex-row">
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} landingRole={landingRole} lockedRole={lockedRole} onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd} onSelect={handleRoleSelection} />)}
@@ -432,9 +431,8 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
             <span className="pixel-start-desktop-copy">PRESS ANY KEY</span><span className="pixel-start-mobile-copy">TAP TO START</span>
             <small className="mt-2 block font-rajdhani text-[0.23em] font-black tracking-[0.36em] text-white/80"><span className="pixel-start-desktop-copy">TO START // PORTFOLIO QUEST</span><span className="pixel-start-mobile-copy">TAP ANYWHERE TO ENTER</span></small>
           </div>
-          <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute bottom-6 left-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-left font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
-            <span className="block">{t("quickMenu")}</span>
-            <span className="mt-0.5 block text-[0.52rem] tracking-[0.14em] text-cyan-100/85">{t("skipToProjects")}</span>
+          <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute bottom-6 right-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-right font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
+            <span className="block">{t("skipToProjects")}</span>
           </button>
         </div>
       )}

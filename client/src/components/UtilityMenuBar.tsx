@@ -7,7 +7,6 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
  */
 export function UtilityMenuBar({
   quickLabel,
-  quickHint,
   quickExpanded,
   onQuickToggle,
   quickPanel,
@@ -15,7 +14,6 @@ export function UtilityMenuBar({
   onToggleMuted,
 }: {
   quickLabel: string;
-  quickHint?: string;
   quickExpanded: boolean;
   onQuickToggle: () => void;
   quickPanel: ReactNode;
@@ -34,7 +32,6 @@ export function UtilityMenuBar({
             className="utility-menu-item utility-menu-quick"
           >
             <span>{quickLabel}</span>
-            {quickHint && <small>{quickHint}</small>}
           </button>
           {quickPanel}
         </div>

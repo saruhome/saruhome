@@ -929,7 +929,7 @@
   }
 
   .pixel-press-start { min-width: min(31rem, calc(100vw - 4rem)); }
-  .pixel-start-quick-menu { top: 2rem; right: 2rem; min-width: 12.5rem; }
+  .pixel-start-quick-menu { top: auto; right: 1.5rem; bottom: 1.5rem; min-width: 12.5rem; }
   .lobby-quick-access { min-width: 12.5rem; }
   .lobby-archive-access { background: rgba(2, 7, 16, 0.82); box-shadow: 5px 5px 0 rgba(0,0,0,.78), 0 0 16px color-mix(in srgb, var(--hud-glow) 20%, transparent); }
   .lobby-role-copy { text-shadow: 0 2px 0 rgba(0,0,0,.65), 0 0 18px rgba(0,0,0,.75); }
@@ -958,14 +958,14 @@
   .pixel-start-mobile-copy { display: inline; }
   .pixel-start-quick-menu {
     top: auto;
-    right: auto;
-    left: 50%;
-    bottom: calc(env(safe-area-inset-bottom) + 4.3rem);
+    right: max(0.75rem, env(safe-area-inset-right));
+    left: auto;
+    bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
     min-width: 10.75rem;
     min-height: 3.1rem;
     padding-inline: 0.9rem;
-    text-align: left;
-    transform: translateX(-50%);
+    text-align: right;
+    transform: none;
   }
   .lobby-mobile-touch-hint .pixel-hud-panel {
     min-height: 2rem;
@@ -1133,8 +1133,9 @@
   .pixel-game-shell:has(.lobby-bottom-menu) .mobile-language-hud { left: 7.55rem !important; right: auto !important; bottom: 1.5rem !important; }
   .pixel-game-shell:has(.lobby-bottom-menu) .mobile-bottom-left-hud { left: 12.18rem !important; bottom: 1.5rem !important; }
   .pixel-game-shell:has(.lobby-bottom-menu) .mobile-support-hud { left: 15.55rem !important; bottom: 1.5rem !important; }
-  .pixel-start-quick-menu { top: auto !important; right: auto !important; bottom: 1.5rem !important; left: 1.5rem !important; }
+  .pixel-start-quick-menu { top: auto !important; right: 1.5rem !important; bottom: 1.5rem !important; left: auto !important; }
   .pixel-game-shell:has(.lobby-start-active) .lobby-bottom-menu,
+  .pixel-game-shell:has(.lobby-start-active) .utility-menu-bar,
   .pixel-game-shell:has(.lobby-start-active) .mobile-language-hud,
   .pixel-game-shell:has(.lobby-start-active) .mobile-bottom-left-hud,
   .pixel-game-shell:has(.lobby-start-active) .mobile-support-hud { opacity: 0; pointer-events: none; }
@@ -1174,13 +1175,14 @@
 .utility-menu-bar {
   position: fixed;
   z-index: 70;
-  left: max(1.5rem, env(safe-area-inset-left));
+  right: max(1.5rem, env(safe-area-inset-right));
   bottom: max(1.5rem, env(safe-area-inset-bottom));
 }
 
 .utility-menu-rail {
   display: flex;
   align-items: stretch;
+  height: 3.25rem;
   min-height: 3.25rem;
   overflow: visible;
   border: 2px solid rgba(255, 255, 255, 0.72);
@@ -1188,12 +1190,12 @@
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.68);
 }
 
-.utility-menu-slot { position: relative; display: flex; }
-.utility-menu-divider { width: 1px; margin-block: 0.55rem; background: rgba(255, 255, 255, 0.28); }
+.utility-menu-slot { position: relative; display: flex; margin-block: 4px; }
+.utility-menu-divider { width: 1px; margin-block: 4px; background: rgba(255, 255, 255, 0.28); }
 
 .utility-menu-item {
   display: grid;
-  min-height: 3rem;
+  min-height: calc(3.25rem - 8px);
   place-items: center;
   border: 0;
   background: transparent;
@@ -1210,8 +1212,8 @@
 }
 
 .utility-menu-item:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
-.utility-menu-quick { min-width: 8.8rem; grid-template-rows: auto auto; gap: 0.22rem; color: #fff; }
-.utility-menu-quick small { font-size: 0.46rem; font-weight: 700; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.58); }
+.utility-menu-rail > .utility-menu-item { margin-block: 4px; }
+.utility-menu-quick { min-width: 8.8rem; color: #fff; }
 .utility-menu-language { min-width: 4.5rem; color: rgba(255, 255, 255, 0.86); }
 .utility-menu-sound { min-width: 5.1rem; }
 .utility-menu-support { min-width: 5rem; color: #ffe05b; text-decoration: none; }
@@ -1226,14 +1228,12 @@
 
 @media (max-width: 767px) {
   .utility-menu-bar {
-    left: max(0.75rem, env(safe-area-inset-left));
+    right: max(0.75rem, env(safe-area-inset-right));
     bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
   }
-  .utility-menu-rail { min-height: 2.75rem; }
-  .utility-menu-divider { margin-block: 0.4rem; }
-  .utility-menu-item { min-height: 2.5rem; padding-inline: 0.42rem; font-size: 0.5rem; letter-spacing: 0.08em; }
+  .utility-menu-rail { height: 2.75rem; min-height: 2.75rem; }
+  .utility-menu-item { min-height: calc(2.75rem - 8px); padding-inline: 0.42rem; font-size: 0.5rem; letter-spacing: 0.08em; }
   .utility-menu-quick { min-width: 6.65rem; }
-  .utility-menu-quick small { font-size: 0.36rem; letter-spacing: 0.08em; }
   .utility-menu-language { min-width: 3.7rem; }
   .utility-menu-sound { min-width: 4.25rem; }
   .utility-menu-support { min-width: 4.15rem; }

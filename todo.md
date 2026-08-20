@@ -602,3 +602,11 @@
 - [x] 로비·Designer Archive·Dancer Archive에 공통 메뉴 바로 구현하고 기존 위치 오버라이드 제거
 - [x] 데스크톱에서 메뉴 바·팝오버·Made with Manus의 비겹침과 Archive 중복 Language 제거 검증
 - [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 우측 하단 공통 메뉴 미세 조정
+
+- [x] 공통 메뉴 바를 로비와 두 Archive의 우측 하단 safe area로 이동
+- [x] Quick Menu 레이블에서 보조 문구를 제거하고 `SKIP TO PROJECTS`만 표시
+- [x] 네 메뉴 세그먼트의 수직 여백을 4px 기준으로 통일
+- [x] 데스크톱·390px 모바일 화면 및 타입·프로덕션 빌드 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장

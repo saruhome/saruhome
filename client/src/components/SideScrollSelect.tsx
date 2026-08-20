@@ -785,7 +785,7 @@ export default function SideScrollSelect({
       </div>
 
       <UtilityMenuBar
-        quickLabel={t("quickMenu")}
+        quickLabel={t("skipToProjects")}
         quickExpanded={showQuickMenu}
         onQuickToggle={() => setShowQuickMenu((open) => !open)}
         muted={muted}
