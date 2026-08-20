@@ -721,7 +721,12 @@ export default function SideScrollSelect({
             dustBurst={dustBurst}
           />
           {dialogue && activeItem && !isMoving && !collision && (
-            <span className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%-1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] -translate-x-1/2 bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010]">“{dialogue}”</span>
+            <span
+              className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%-1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010] transition-transform duration-100 ease-out"
+              style={{ transform: `translateX(-50%) translateY(${jumping ? -38 : 0}px)` }}
+            >
+              “{dialogue}”
+            </span>
           )}
         </div>
       </div>

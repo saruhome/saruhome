@@ -20,6 +20,10 @@ The final mobile measurement records the touch dock at y=728–776 and the cente
 
 The menu inset refinement changes all four utility-button segments from 4px to a uniform 2px inset on every side. The 390×844 Dancer Archive capture preserves the centered rail and its separate touch-control lane after the tighter spacing; no signpost, dialogue, sprite, touch control, or utility button is covered.
 
+## 2026-08-20 — Jump Dialogue Synchronization
+
+The Archive dialogue now uses the same `jumping` state, 38px vertical transform, and 100ms ease-out transition as the visible character sprite. It stays attached above the character’s head through the ascent, then returns to its resting safety position on landing. Instrumented live flows confirm the dialogue’s vertical movement and recovery on both 390×844 mobile and 1920×1080 desktop without changing the signpost or touch-control lanes.
+
 ## 2026-08-20 — Unified Bottom Utility Menu Bar
 
 The lobby and both archive gameplay views now use one left-aligned utility rail in the requested order: **Quick Menu → Language → Music → Support**. It is a single hard-edged module with shared height, internal separators, consistent labels, and one visual baseline instead of four separately positioned controls. The rail observes desktop and safe-area mobile offsets, and its compact 390px rules retain a single non-wrapping row.
