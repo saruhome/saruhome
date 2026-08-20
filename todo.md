@@ -542,3 +542,10 @@
 - [x] 세로 분할 로비의 상·하단 여백과 Quick Menu 터치 크기 보정
 - [x] SOUND·SUPPORT·LANG와 Made with Manus 표기의 안전 영역·겹침 점검
 - [ ] 모바일 세로·가로 시각 검증, GitHub `main` 동기화, 라이브 체크포인트 저장
+
+## 모바일 하단 메뉴 순서·안전 영역 정렬
+
+- [x] 하단 Quick Menu·Language·Music·Support의 현재 고정 위치·안전 영역 충돌 점검
+- [x] 모바일 하단 행을 Quick Menu → Language → Music → Support 순서로 재배치
+- [x] 세로·가로 모바일에서 메뉴 크기·간격·언어 팝오버와의 충돌 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장

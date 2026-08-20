@@ -369,7 +369,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
   };
 
   return (
-    <section className="relative h-[100dvh] overflow-hidden bg-black text-white">
+    <section className={`relative h-[100dvh] overflow-hidden bg-black text-white ${showStartScreen ? "lobby-start-active" : ""}`}>
       <div className="pointer-events-none absolute inset-0 bg-[#04080e]" />
       <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-55" />
       <div className="pointer-events-none absolute left-1/2 top-0 z-20 h-full w-px -translate-x-1/2 bg-white/20 shadow-[0_0_28px_rgba(255,255,255,0.4)]" />
@@ -389,7 +389,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         </div>
       </header>
 
-      <div className="absolute right-3 top-3 z-50 md:right-8 md:top-7">
+      <div className="mobile-quick-menu-hud absolute right-3 top-3 z-50 md:right-8 md:top-7">
         <button
           type="button"
           onClick={() => setShowQuickMenu((open) => !open)}

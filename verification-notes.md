@@ -8,6 +8,8 @@ The 844×390 landscape mobile capture also uses `TAP TO START`. Its compact cent
 
 The latest 390×844 lobby capture shows matching Player 01 and Player 02 `TAP TO PREVIEW` CTA modules with distinct cyan/orange hard-edge frames. Their placement leaves the start frame, Quick Menu, and bottom Sound / Support / Language controls in separate zones; the center-bottom remains unoccupied for the platform badge safe area.
 
+The mobile lobby bottom controls now follow the requested Quick Menu → Language → Music → Support order on one safe-area baseline. During the start overlay, only the dedicated overlay Quick Menu remains visible; the background row is suppressed so no duplicate Quick Menu or overlapping bottom controls appear.
+
 ## 2026-08-19 — Desktop Entry and Quick-Access Pass
 
 The reset desktop start state now keeps Player 01 and Player 02 visibly readable behind a lighter split-world shade. The central `PRESS ANY KEY` frame is narrower and more transparent, with a retained hard pixel border; it no longer dominates the role titles and characters. A separate top-right Quick Menu appears before starting the game and opens both direct archive routes. The verified Designer quick-access route reaches the Design Archive without requiring a role-hover or gameplay sequence.
