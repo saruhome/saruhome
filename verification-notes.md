@@ -8,6 +8,8 @@ Automated captures confirm the same hierarchy at 390×844 and 1920×1080. Mobile
 
 After restoring the required anchor, the dialogue follows the character again: at 390×844 it sits immediately above the character head and below the SokDak lane, while at 1920×1080 it is immediately above the character head with clear space below the selected signpost’s metadata. It is no longer attached to the selected project card.
 
+For the Dancer Archive, 596×806 and 1920×1080 captures now show four separated bands: `PRESS ENTER TO SELECT`, the active Dance Performance card, the character-head dialogue, and the Player 02 sprite. The active card has been raised and the Enter cue offset above it, leaving the dialogue attached to the character rather than compressed between the card and sprite.
+
 ## 2026-08-19 — Mobile Entry Visual Pass
 
 The 390×844 start capture now renders `TAP TO START` with the smaller hard-edge frame centered in the inter-role gap. The top `CHOOSE YOUR PLAYER` label, Player 01 `TAP TO PREVIEW` hint, and the top-right Quick Menu no longer overlap. The direct Quick Menu button is placed above the bottom Sound / Support / Language row, providing a clear thumb-reachable hierarchy while preserving separate safe areas for each control.
