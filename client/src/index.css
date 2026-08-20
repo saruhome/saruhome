@@ -596,7 +596,7 @@
 .pixel-unlock-banner { animation: pixel-unlock-banner .62s steps(5,end) both; box-shadow:8px 8px 0 rgba(0,0,0,.76),0 0 28px currentColor; }
 .pixel-achievement-toast { animation: pixel-achievement-toast .38s steps(4,end) both; box-shadow:5px 5px 0 rgba(0,0,0,.72),0 0 18px currentColor; }
 @keyframes pixel-unlock-banner { 0% { opacity:0; transform:translate(-50%,18px) scale(.78); } 42% { opacity:1; transform:translate(-50%,-4px) scale(1.07); } 100% { opacity:1; transform:translate(-50%,0) scale(1); } }
-@keyframes pixel-achievement-toast { 0% { opacity:0; transform:translate(-50%,-14px) scale(.86); } 100% { opacity:1; transform:translate(-50%,0) scale(1); } }
+@keyframes pixel-achievement-toast { 0% { opacity:0; transform:scale(.86); } 100% { opacity:1; transform:scale(1); } }
 
 .pixel-dialogue { border: 3px solid #111; box-shadow: 5px 5px 0 #111; image-rendering: pixelated; }
 .pixel-dialogue::after { content:""; position:absolute; left:50%; bottom:-10px; width:0; height:0; border-left:9px solid transparent; border-right:9px solid transparent; border-top:10px solid #111; transform:translateX(-50%); }

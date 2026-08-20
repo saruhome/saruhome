@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 import { ACHIEVEMENTS, useGameProgress } from "../contexts/GameProgressContext";
@@ -656,10 +657,13 @@ export default function SideScrollSelect({
           <p className="mt-1 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em]">ACCESSING CASE STUDY…</p>
         </div>
       )}
-      {latestAchievement && (
-        <button type="button" onClick={clearLatestAchievement} className={`pixel-achievement-toast absolute left-1/2 top-48 z-[60] w-[min(24rem,calc(100vw-2rem))] -translate-x-1/2 border-2 bg-[#05080df3] p-3 text-left md:top-56 2xl:top-60 ${isCyan ? "border-cyan-300 text-cyan-100" : "border-orange-300 text-orange-100"}`}>
-          <span className="font-bebas text-2xl">★ {latestAchievement.title}</span><span className="mt-1 block font-rajdhani text-xs text-white/75">{latestAchievement.detail}</span>
-        </button>
+      {latestAchievement && createPortal(
+        <div className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-4" aria-live="polite">
+          <button type="button" onClick={clearLatestAchievement} className={`pixel-achievement-toast pointer-events-auto w-[min(31rem,calc(100vw-2rem))] border-2 bg-[#05080d] p-4 text-left shadow-[8px_8px_0_rgba(0,0,0,0.75)] ${isCyan ? "border-cyan-300 text-cyan-100" : "border-orange-300 text-orange-100"}`}>
+            <span className="font-bebas text-2xl">★ {latestAchievement.title}</span><span className="mt-1 block font-rajdhani text-xs text-white/75">{latestAchievement.detail}</span>
+          </button>
+        </div>,
+        document.body,
       )}
 
       <div className="archive-title-zone pointer-events-none absolute inset-x-4 top-[7.1rem] z-50 text-center md:inset-x-8 md:top-[8.25rem] 2xl:top-[9rem]">

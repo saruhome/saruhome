@@ -24,6 +24,18 @@ The menu inset refinement changes all four utility-button segments from 4px to a
 
 The Archive dialogue now uses the same `jumping` state, 38px vertical transform, and 100ms ease-out transition as the visible character sprite. It stays attached above the character’s head through the ascent, then returns to its resting safety position on landing. Instrumented live flows confirm the dialogue’s vertical movement and recovery on both 390×844 mobile and 1920×1080 desktop without changing the signpost or touch-control lanes.
 
+## 2026-08-20 — Achievement Overlay Diagnostic
+
+The supplied 848×272 capture was read in two overlapping horizontal tiles. It confirms that the `FIRST SIGNAL` achievement panel is currently centered only in the scrolling world, where it occludes the Enter prompt, active SokDak card, its metadata, and part of the adjacent Locaverse card. The corrective layout must therefore center it in the viewport as a top-level overlay rather than place it inside any world or signpost lane.
+
+The first automated desktop selection attempt reached the Designer Archive but did not complete its active-signpost selection, so `FIRST SIGNAL` was not emitted in that run. The central overlay implementation is present in the rendered Archive tree; a direct signpost activation path is required to validate the achievement’s live visual placement before release.
+
+Direct signpost activation then reproduced the `FIRST SIGNAL` toast and exposed the underlying issue: a CSS `fixed` descendant still used the transformed Archive container as its containing block, so it sat within the world rather than the viewport. The panel is now rendered through a document-body portal. The first portal capture sampled after Case Study navigation, so the validation probe now samples immediately after the achievement state is emitted and before the route transition.
+
+In follow-up automated runs, the normal project-selection route completed before the image capture request despite the shortened delay, leaving no toast DOM to measure. This is a probe-timing limitation rather than a panel position result: the implementation now renders the panel at `document.body` with `fixed inset-0` and `place-items-center`, removing the transformed Archive parent that caused the screenshot’s off-center position. The final probe is reduced to near-frame sampling to capture the transient toast before navigation.
+
+The near-frame geometry probe identified one remaining horizontal offset: the legacy toast entry animation still applied `translateX(-50%)`, which shifted a grid-centered panel left. That X transform has been removed. To meet the requirement that the panel never leave the exact center, the entry animation now uses opacity and scale only—no X or Y translation. Combined with the document-body portal and viewport-sized grid, the toast’s layout center remains exactly at the viewport center on every animation frame and is independent of the Archive camera.
+
 ## 2026-08-20 — Unified Bottom Utility Menu Bar
 
 The lobby and both archive gameplay views now use one left-aligned utility rail in the requested order: **Quick Menu → Language → Music → Support**. It is a single hard-edged module with shared height, internal separators, consistent labels, and one visual baseline instead of four separately positioned controls. The rail observes desktop and safe-area mobile offsets, and its compact 390px rules retain a single non-wrapping row.
