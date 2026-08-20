@@ -186,7 +186,6 @@ function Signpost({
   active,
   isCyan,
   pressLabel,
-  dialogue,
   onSelect,
   onHover,
 }: {
@@ -195,7 +194,6 @@ function Signpost({
   active: boolean;
   isCyan: boolean;
   pressLabel: string;
-  dialogue: string | null;
   onSelect: (id: string) => void;
   onHover: () => void;
 }) {
@@ -209,7 +207,6 @@ function Signpost({
       className="pixel-signpost-card archive-signpost-lane absolute bottom-80 z-40 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[clamp(22.5rem,38vh,30rem)]"
     >
       {active && <span className={`pixel-signpost-arrow absolute -top-9 font-bebas text-3xl ${isCyan ? "text-cyan-200" : "text-orange-200"}`} aria-hidden="true">▼</span>}
-      {active && dialogue && <span className="archive-signpost-dialogue pointer-events-none absolute bottom-[calc(100%+3.75rem)] left-1/2 z-30 w-[min(16rem,calc(100vw-2rem))] -translate-x-1/2 bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010]">“{dialogue}”</span>}
       <div
         className={`pixel-signpost-face pixel-signpost-project-face relative whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-all duration-200 ${active ? "pixel-signpost-nearby" : ""} ${
           active
@@ -713,7 +710,6 @@ export default function SideScrollSelect({
               active={activeItem?.id === item.id}
               isCyan={isCyan}
               pressLabel={t("pressToSelect")}
-              dialogue={activeItem?.id === item.id ? dialogue : null}
               onSelect={queueProjectEntry}
               onHover={playHover}
             />
@@ -749,6 +745,9 @@ export default function SideScrollSelect({
             frame={walkFrame}
             dustBurst={dustBurst}
           />
+          {dialogue && activeItem && !isMoving && !collision && (
+            <span className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%-1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] -translate-x-1/2 bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010]">“{dialogue}”</span>
+          )}
         </div>
       </div>
 

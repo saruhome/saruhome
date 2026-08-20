@@ -6,6 +6,8 @@ The desktop Design Archive now keeps the top HUD on its own row, the `DESIGN-POR
 
 Automated captures confirm the same hierarchy at 390×844 and 1920×1080. Mobile uses two compact HUD rows, then title, dialogue/action, the selected SokDak card, character, and touch dock in order. Desktop keeps a wide HUD row, clear title field, uniformly spaced horizontal signpost rail, and a separate lower character floor lane. No tested HUD, title, signpost, dialogue, character, or touch-control boxes overlap.
 
+After restoring the required anchor, the dialogue follows the character again: at 390×844 it sits immediately above the character head and below the SokDak lane, while at 1920×1080 it is immediately above the character head with clear space below the selected signpost’s metadata. It is no longer attached to the selected project card.
+
 ## 2026-08-19 — Mobile Entry Visual Pass
 
 The 390×844 start capture now renders `TAP TO START` with the smaller hard-edge frame centered in the inter-role gap. The top `CHOOSE YOUR PLAYER` label, Player 01 `TAP TO PREVIEW` hint, and the top-right Quick Menu no longer overlap. The direct Quick Menu button is placed above the bottom Sound / Support / Language row, providing a clear thumb-reachable hierarchy while preserving separate safe areas for each control.
