@@ -389,7 +389,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         </div>
       </header>
 
-      <div className="mobile-quick-menu-hud absolute right-3 top-3 z-50 md:right-8 md:top-7">
+      <div className="lobby-bottom-menu fixed bottom-4 left-4 z-[70] md:bottom-6 md:left-6">
         <button
           type="button"
           onClick={() => setShowQuickMenu((open) => !open)}
@@ -401,7 +401,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
           <span className="mt-0.5 block text-[0.5rem] tracking-[0.15em] text-cyan-100/80">{t("skipToProjects")}</span>
         </button>
         {showQuickMenu && (
-          <aside id="lobby-quick-menu" className="absolute right-0 top-[calc(100%+0.5rem)] w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
+          <aside id="lobby-quick-menu" className="absolute bottom-[calc(100%+0.5rem)] left-0 w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
             <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-[0.16] [image-rendering:pixelated]" style={{ backgroundImage: `url(${FH_CONSOLE_REFERENCE})` }} />
             <div className="relative">
               <div className="mb-3 border-b border-white/25 pb-2">
@@ -436,7 +436,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
             <span className="pixel-start-desktop-copy">PRESS ANY KEY</span><span className="pixel-start-mobile-copy">TAP TO START</span>
             <small className="mt-2 block font-rajdhani text-[0.23em] font-black tracking-[0.36em] text-white/80"><span className="pixel-start-desktop-copy">TO START // PORTFOLIO QUEST</span><span className="pixel-start-mobile-copy">TAP ANYWHERE TO ENTER</span></small>
           </div>
-          <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute top-6 right-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-left font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
+          <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute bottom-6 left-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-left font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
             <span className="block">{t("quickMenu")}</span>
             <span className="mt-0.5 block text-[0.52rem] tracking-[0.14em] text-cyan-100/85">{t("skipToProjects")}</span>
           </button>

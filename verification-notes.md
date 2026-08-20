@@ -12,6 +12,8 @@ For the Dancer Archive, 596×806 and 1920×1080 captures now show four separated
 
 The Archive quick access control has been removed from the upper HUD. At 596×806 and 1920×1080, the bottom row reads Quick Menu → Language → Sound → Support from left to right; the upper HUD contains only archive state and navigation. The Quick Menu popover is now anchored above the bottom Quick Menu button.
 
+The desktop lobby was checked both before and after dismissing the start/tutorial overlays. No Quick Menu remains in the upper-right zone; the lobby bottom row presents Quick Menu, Language, Sound, and Support from left to right.
+
 ## 2026-08-19 — Mobile Entry Visual Pass
 
 The 390×844 start capture now renders `TAP TO START` with the smaller hard-edge frame centered in the inter-role gap. The top `CHOOSE YOUR PLAYER` label, Player 01 `TAP TO PREVIEW` hint, and the top-right Quick Menu no longer overlap. The direct Quick Menu button is placed above the bottom Sound / Support / Language row, providing a clear thumb-reachable hierarchy while preserving separate safe areas for each control.

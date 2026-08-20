@@ -578,3 +578,10 @@
 - [x] Archive 상단 HUD의 Quick Menu를 제거하고 하단 공통 행에 배치
 - [x] Quick Menu → Language → Music → Support 순서와 팝오버 안전 영역을 웹·모바일에서 검증
 - [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 로비 Quick Menu 하단 공통 메뉴 통일
+
+- [x] 첨부 화면의 우측 상단 로비 Quick Menu와 하단 메뉴 충돌 구조 점검
+- [x] 로비 우측 상단 Quick Menu 제거 및 하단 공통 메뉴 행으로 이동
+- [x] Quick Menu → Language → Music → Support 순서를 데스크톱·모바일 로비와 Archive에서 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
