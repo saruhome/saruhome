@@ -1114,4 +1114,15 @@
   .archive-character-slot { bottom: 9rem; scale: 0.82; transform-origin: bottom center; }
   .archive-character-dialogue { bottom: calc(100% - 1.15rem); width: min(14rem, calc(100vw - 2rem)); padding: 0.55rem 0.7rem; font-size: 0.68rem; }
   .archive-touch-controls { z-index: 55; }
+  .archive-bottom-menu { left: max(0.75rem, env(safe-area-inset-left)); bottom: calc(env(safe-area-inset-bottom) + 0.75rem); gap: 0; }
+  .archive-bottom-support { position: fixed; left: calc(max(0.75rem, env(safe-area-inset-left)) + 15.05rem); bottom: calc(env(safe-area-inset-bottom) + 0.75rem); }
+  .pixel-game-shell:has(.archive-bottom-menu) .mobile-language-hud { left: calc(max(0.75rem, env(safe-area-inset-left)) + 6.05rem) !important; right: auto !important; }
+  .pixel-game-shell:has(.archive-bottom-menu) .mobile-bottom-left-hud { left: calc(max(0.75rem, env(safe-area-inset-left)) + 10.68rem) !important; }
+}
+
+@media (min-width: 768px) {
+  .archive-bottom-menu { left: 1.5rem; bottom: 1.5rem; }
+  .archive-bottom-support { position: fixed; left: 15.55rem; bottom: 1.5rem; }
+  .pixel-game-shell:has(.archive-bottom-menu) .mobile-language-hud { left: 7.55rem !important; right: auto !important; bottom: 1.5rem !important; }
+  .pixel-game-shell:has(.archive-bottom-menu) .mobile-bottom-left-hud { left: 12.18rem !important; bottom: 1.5rem !important; }
 }

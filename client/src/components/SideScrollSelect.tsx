@@ -636,33 +636,7 @@ export default function SideScrollSelect({
         >
           ★ {progress.unlockedAchievements.length}/5
         </button>
-        <button
-          type="button"
-          onClick={() => setShowQuickMenu((open) => !open)}
-          aria-expanded={showQuickMenu}
-          aria-controls="archive-quick-menu"
-          className={`archive-quick pixel-hud-panel ml-auto border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white transition-colors ${isCyan ? "border-cyan-300/70 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 hover:bg-orange-300 hover:text-[#1b0603]"}`}
-        >
-          {t("skipToProjects")}
-        </button>
       </div>
-
-      {showQuickMenu && (
-        <aside id="archive-quick-menu" className={`absolute right-4 top-[5.25rem] z-40 w-[min(21rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:right-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`} aria-label={t("quickMenu")}>
-          <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2">
-            <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>{t("quickMenu")}</p>
-            <span className="font-rajdhani text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/50">DIRECT ACCESS</span>
-          </div>
-          <div className="grid gap-2">
-            {items.map((item, index) => (
-              <button key={item.id} type="button" onClick={() => selectFromQuickMenu(item.id)} className={`flex items-center gap-3 border p-3 text-left transition-colors ${isCyan ? "border-cyan-300/35 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/35 hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"}`}>
-                <span className="font-bebas text-xl">{String(index + 1).padStart(2, "0")}</span>
-                <span className="font-rajdhani text-sm font-black uppercase tracking-[0.12em]">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </aside>
-      )}
 
       {showAchievements && (
         <aside id="archive-achievements" className={`absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
@@ -807,6 +781,44 @@ export default function SideScrollSelect({
           <button type="button" onClick={triggerJump} className={`archive-touch-button archive-touch-action font-rajdhani ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}><span>↑</span><small>JUMP</small></button>
           <button type="button" onClick={triggerSelect} className={`archive-touch-button archive-touch-action font-rajdhani ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}><span>↵</span><small>SELECT</small></button>
         </div>
+      </div>
+
+      <div className="archive-bottom-menu fixed bottom-4 left-4 z-[70] flex items-center gap-2 md:bottom-6 md:left-6">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setShowQuickMenu((open) => !open)}
+            aria-expanded={showQuickMenu}
+            aria-controls="archive-quick-menu"
+            className={`archive-bottom-quick pixel-hud-panel grid h-10 min-w-[5.65rem] place-items-center border-2 bg-[#05080dcc] px-2 font-rajdhani text-[0.56rem] font-black uppercase tracking-[0.1em] text-white/90 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition-colors ${isCyan ? "border-cyan-300/70 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          >
+            {t("quickMenu")}
+          </button>
+          {showQuickMenu && (
+            <aside id="archive-quick-menu" className={`archive-quick-popover absolute bottom-[calc(100%+0.5rem)] left-0 z-[80] w-[min(21rem,calc(100vw-1.5rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`} aria-label={t("quickMenu")}>
+              <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2">
+                <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>{t("quickMenu")}</p>
+                <span className="font-rajdhani text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/50">DIRECT ACCESS</span>
+              </div>
+              <div className="grid gap-2">
+                {items.map((item, index) => (
+                  <button key={item.id} type="button" onClick={() => selectFromQuickMenu(item.id)} className={`flex min-h-11 items-center gap-3 border p-3 text-left transition-colors ${isCyan ? "border-cyan-300/35 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/35 hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"}`}>
+                    <span className="font-bebas text-xl">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="font-rajdhani text-sm font-black uppercase tracking-[0.12em]">{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </aside>
+          )}
+        </div>
+        <a
+          href="https://buymeacoffee.com/saruhome"
+          target="_blank"
+          rel="noreferrer"
+          className="archive-bottom-support pixel-hud-panel grid h-10 min-w-[4.55rem] place-items-center border-[#ffdd00]/70 bg-[#05080dcc] px-2 font-rajdhani text-[0.54rem] font-black uppercase tracking-[0.12em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[#ffdd00] hover:text-black"
+        >
+          Support
+        </a>
       </div>
 
     </section>

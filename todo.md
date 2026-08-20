@@ -571,3 +571,10 @@
 - [x] 프로젝트 카드·ENTER 안내·캐릭터 머리 말풍선을 독립 레인으로 분리
 - [x] 모바일·데스크톱 Dancer Archive 캡처에서 비겹침 검증
 - [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## Archive Quick Menu 하단 공통 메뉴 통일
+
+- [x] 로비·Designer Archive·Dancer Archive의 Quick Menu 위치와 상단 HUD 충돌 점검
+- [x] Archive 상단 HUD의 Quick Menu를 제거하고 하단 공통 행에 배치
+- [x] Quick Menu → Language → Music → Support 순서와 팝오버 안전 영역을 웹·모바일에서 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
