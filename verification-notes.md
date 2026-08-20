@@ -1,5 +1,11 @@
 # Visual Verification Notes
 
+## 2026-08-20 — Design Archive Safety-Lane Pass
+
+The desktop Design Archive now keeps the top HUD on its own row, the `DESIGN-PORTFOLIO` title beneath it, and the first project rail below the title. SokDak’s selected dialogue and `ENTER` action sit above its signpost rather than above the character. The character remains on the floor lane below all signposts, so the visible HUD, title, active signpost, dialogue, and character occupy distinct vertical bands.
+
+Automated captures confirm the same hierarchy at 390×844 and 1920×1080. Mobile uses two compact HUD rows, then title, dialogue/action, the selected SokDak card, character, and touch dock in order. Desktop keeps a wide HUD row, clear title field, uniformly spaced horizontal signpost rail, and a separate lower character floor lane. No tested HUD, title, signpost, dialogue, character, or touch-control boxes overlap.
+
 ## 2026-08-19 — Mobile Entry Visual Pass
 
 The 390×844 start capture now renders `TAP TO START` with the smaller hard-edge frame centered in the inter-role gap. The top `CHOOSE YOUR PLAYER` label, Player 01 `TAP TO PREVIEW` hint, and the top-right Quick Menu no longer overlap. The direct Quick Menu button is placed above the bottom Sound / Support / Language row, providing a clear thumb-reachable hierarchy while preserving separate safe areas for each control.

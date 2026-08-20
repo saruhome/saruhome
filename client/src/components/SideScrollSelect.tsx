@@ -186,6 +186,7 @@ function Signpost({
   active,
   isCyan,
   pressLabel,
+  dialogue,
   onSelect,
   onHover,
 }: {
@@ -194,6 +195,7 @@ function Signpost({
   active: boolean;
   isCyan: boolean;
   pressLabel: string;
+  dialogue: string | null;
   onSelect: (id: string) => void;
   onHover: () => void;
 }) {
@@ -204,9 +206,10 @@ function Signpost({
       onMouseEnter={onHover}
       style={{ left: x }}
       aria-label={item.label}
-      className="pixel-signpost-card absolute bottom-[15.5rem] z-20 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[22.5rem]"
+      className="pixel-signpost-card archive-signpost-lane absolute bottom-80 z-40 flex -translate-x-1/2 flex-col items-center gap-2 md:bottom-[clamp(22.5rem,38vh,30rem)]"
     >
       {active && <span className={`pixel-signpost-arrow absolute -top-9 font-bebas text-3xl ${isCyan ? "text-cyan-200" : "text-orange-200"}`} aria-hidden="true">▼</span>}
+      {active && dialogue && <span className="archive-signpost-dialogue pointer-events-none absolute bottom-[calc(100%+3.75rem)] left-1/2 z-30 w-[min(16rem,calc(100vw-2rem))] -translate-x-1/2 bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010]">“{dialogue}”</span>}
       <div
         className={`pixel-signpost-face pixel-signpost-project-face relative whitespace-nowrap border-4 px-6 py-4 font-rajdhani text-base font-black uppercase tracking-[0.15em] transition-all duration-200 ${active ? "pixel-signpost-nearby" : ""} ${
           active
@@ -227,7 +230,7 @@ function Signpost({
         </span>
       )}
       {active && (
-        <span className={`pixel-signpost-action whitespace-nowrap border-2 bg-black/80 px-2 py-1 font-rajdhani text-[0.82rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
+        <span className={`pixel-signpost-action absolute bottom-[calc(100%+0.65rem)] left-1/2 z-40 -translate-x-1/2 whitespace-nowrap border-2 bg-black/90 px-2 py-1 font-rajdhani text-[0.82rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
           {pressLabel}
         </span>
       )}
@@ -605,18 +608,18 @@ export default function SideScrollSelect({
       <div className="pixel-ambient-dust pointer-events-none absolute inset-0 z-[3]" aria-hidden="true"><i /><i /><i /><i /><i /></div>
       <div className={`pixel-distant-runner pointer-events-none absolute bottom-[16rem] z-[4] h-3 w-7 ${isCyan ? "bg-cyan-300/45" : "bg-orange-300/45"}`} aria-hidden="true" />
 
-      <div className="absolute inset-x-4 top-4 z-30 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3 2xl:inset-x-12 2xl:top-8 2xl:gap-4">
+      <div className="archive-hud absolute inset-x-4 top-4 z-60 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3 2xl:inset-x-12 2xl:top-8 2xl:gap-4">
         <button
           type="button"
           onClick={onBack}
-          className={`pixel-hud-panel shrink-0 skew-x-[-12deg] border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`archive-back pixel-hud-panel shrink-0 skew-x-[-12deg] border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
           <span className="inline-block skew-x-[12deg]">&lt; {backLabel}</span>
         </button>
-        <div className={`pixel-hud-panel shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
+        <div className={`archive-player pixel-hud-panel shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
           {playerLabel}
         </div>
-        <div className="pixel-hud-panel border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
+        <div className="archive-label pixel-hud-panel border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
           {archiveLabel}
         </div>
         <div className="pixel-hud-panel hidden border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.58rem] font-black uppercase tracking-[0.14em] text-white/75 xl:block">
@@ -632,7 +635,7 @@ export default function SideScrollSelect({
           onClick={() => setShowAchievements((open) => !open)}
           aria-expanded={showAchievements}
           aria-controls="archive-achievements"
-          className={`pixel-hud-panel border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`archive-achievement pixel-hud-panel border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
           ★ {progress.unlockedAchievements.length}/5
         </button>
@@ -641,7 +644,7 @@ export default function SideScrollSelect({
           onClick={() => setShowQuickMenu((open) => !open)}
           aria-expanded={showQuickMenu}
           aria-controls="archive-quick-menu"
-          className={`pixel-hud-panel ml-auto border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white transition-colors ${isCyan ? "border-cyan-300/70 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`archive-quick pixel-hud-panel ml-auto border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white transition-colors ${isCyan ? "border-cyan-300/70 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
           {t("skipToProjects")}
         </button>
@@ -687,7 +690,7 @@ export default function SideScrollSelect({
         </button>
       )}
 
-      <div className="relative z-10 px-4 pt-28 text-center md:px-8 md:pt-28 2xl:pt-32">
+      <div className="archive-title-zone pointer-events-none absolute inset-x-4 top-[7.1rem] z-50 text-center md:inset-x-8 md:top-[8.25rem] 2xl:top-[9rem]">
         <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.42em] md:text-sm ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
           {eyebrow}
         </p>
@@ -698,7 +701,7 @@ export default function SideScrollSelect({
 
       {/* Scrolling world */}
       <div
-        className="absolute bottom-0 left-0 h-full"
+        className="absolute bottom-0 left-0 z-10 h-full"
         style={{ width: levelWidth, transform: `translateX(${-cameraX}px)` }}
       >
         {items.map((item, i) => {
@@ -710,6 +713,7 @@ export default function SideScrollSelect({
               active={activeItem?.id === item.id}
               isCyan={isCyan}
               pressLabel={t("pressToSelect")}
+              dialogue={activeItem?.id === item.id ? dialogue : null}
               onSelect={queueProjectEntry}
               onHover={playHover}
             />
@@ -730,7 +734,7 @@ export default function SideScrollSelect({
           </button>
         ))}
 
-        <div className="absolute bottom-[8.65rem] z-10 -translate-x-1/2 md:bottom-[4.1rem]" style={{ left: charX }}>
+        <div className="archive-character-slot absolute bottom-36 z-20 -translate-x-1/2 md:bottom-[4.5rem]" style={{ left: charX }}>
           {collision && (
             <span className={`pixel-wall-impact pixel-wall-impact-${collision.edge} pointer-events-none absolute bottom-16 z-20 h-24 w-20`} style={{ "--impact-color": isCyan ? "#37E7FF" : "#FF6B17" } as React.CSSProperties} aria-hidden="true"><i /><i /><i /></span>
           )}
@@ -745,9 +749,6 @@ export default function SideScrollSelect({
             frame={walkFrame}
             dustBurst={dustBurst}
           />
-          {dialogue && activeItem && !isMoving && !collision && (
-            <span className="pixel-dialogue pointer-events-none absolute bottom-[calc(100%-2rem)] left-1/2 z-30 w-[min(14rem,calc(100vw-2rem))] -translate-x-1/2 bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010]">“{dialogue}”</span>
-          )}
         </div>
       </div>
 
