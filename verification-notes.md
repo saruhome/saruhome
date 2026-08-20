@@ -18,6 +18,8 @@ The independent 390×844 Dancer flow confirmed the same mobile separation: the a
 
 The final mobile measurement records the touch dock at y=728–776 and the centered 4-button utility rail at y=788–832, leaving a 12px visual safety gap between their bounding boxes. The rail’s horizontal bounds are x=25.5–364.5 on the 390px viewport, establishing an exact centered alignment. The same frame shows separate title, cue, activity card, dialogue, sprite, and control lanes; the 1920×1080 Designer Archive uses the corresponding independent wide-layout lanes.
 
+The menu inset refinement changes all four utility-button segments from 4px to a uniform 2px inset on every side. The 390×844 Dancer Archive capture preserves the centered rail and its separate touch-control lane after the tighter spacing; no signpost, dialogue, sprite, touch control, or utility button is covered.
+
 ## 2026-08-20 — Unified Bottom Utility Menu Bar
 
 The lobby and both archive gameplay views now use one left-aligned utility rail in the requested order: **Quick Menu → Language → Music → Support**. It is a single hard-edged module with shared height, internal separators, consistent labels, and one visual baseline instead of four separately positioned controls. The rail observes desktop and safe-area mobile offsets, and its compact 390px rules retain a single non-wrapping row.

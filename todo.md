@@ -626,3 +626,9 @@
 - [x] 시작 오버레이·Archive 터치 조작부와의 safe-area 간격 유지
 - [x] 로비·Designer Archive·Dancer Archive 모바일 캡처 및 타입·프로덕션 빌드 검증
 - [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 공통 메뉴 2px 인셋 조정
+
+- [x] Quick·Language·Music·Support 네 세그먼트의 사방 인셋을 2px로 통일
+- [x] 모바일 중앙 정렬과 Archive 터치 조작부 안전 간격 재검증
+- [ ] 타입·프로덕션 빌드 및 GitHub `main`·라이브 체크포인트 저장
