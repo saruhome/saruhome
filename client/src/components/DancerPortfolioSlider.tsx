@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import SideScrollSelect from "./SideScrollSelect";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
@@ -201,13 +201,27 @@ interface LightboxProps {
 }
 
 function Lightbox({ media, title, backLabel, onClose }: LightboxProps) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    closeButtonRef.current?.focus();
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={title}
+      aria-labelledby="dancer-lightbox-title"
     >
       <div
         className="relative w-full max-w-4xl"
@@ -215,11 +229,12 @@ function Lightbox({ media, title, backLabel, onClose }: LightboxProps) {
       >
         {/* Back button */}
         <button
+          ref={closeButtonRef}
           onClick={onClose}
-          className="absolute -top-12 left-0 z-10 skew-x-[-12deg] border-2 border-orange-300/60 bg-black/70 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:bg-orange-300 hover:text-[#1b0603] md:-top-16"
+          className="absolute -top-12 left-0 z-10 border-2 border-orange-300/60 bg-black/70 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:bg-orange-300 hover:text-[#1b0603] md:-top-16"
           aria-label={backLabel}
         >
-          <span className="inline-block skew-x-[12deg]">&lt; {backLabel}</span>
+          <span>&lt; {backLabel}</span>
         </button>
 
         {/* Media container */}
@@ -247,7 +262,7 @@ function Lightbox({ media, title, backLabel, onClose }: LightboxProps) {
 
         {/* Title */}
         <div className="mt-4 text-center">
-          <h3 className="font-bebas text-2xl font-bold text-orange-100 md:text-3xl">
+          <h3 id="dancer-lightbox-title" className="font-bebas text-2xl font-bold text-orange-100 md:text-3xl">
             {title}
           </h3>
         </div>
@@ -417,9 +432,9 @@ function BackButton({ label, onClick }: { label: string; onClick: () => void }) 
   return (
     <button
       onClick={onClick}
-      className="absolute left-4 top-4 z-50 skew-x-[-12deg] border-2 border-orange-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-300 hover:text-[#1b0603] md:left-8 md:top-8 md:px-4 md:text-sm"
+      className="absolute left-4 top-4 z-50 border-2 border-orange-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-orange-300 hover:text-[#1b0603] md:left-8 md:top-8 md:px-4 md:text-sm"
     >
-      <span className="inline-block skew-x-[12deg]">&lt; {label}</span>
+      <span>&lt; {label}</span>
     </button>
   );
 }

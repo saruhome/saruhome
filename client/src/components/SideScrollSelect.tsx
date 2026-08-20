@@ -609,9 +609,9 @@ export default function SideScrollSelect({
         <button
           type="button"
           onClick={onBack}
-          className={`archive-back pixel-hud-panel shrink-0 skew-x-[-12deg] border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`archive-back pixel-hud-panel shrink-0 border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
-          <span className="inline-block skew-x-[12deg]">&lt; {backLabel}</span>
+          <span>&lt; {backLabel}</span>
         </button>
         <div className={`archive-player pixel-hud-panel shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
           {playerLabel}

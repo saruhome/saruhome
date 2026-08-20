@@ -271,7 +271,7 @@ function RolePanel({
           </span>
           {isActive && !isLocked && (
             <span className="lobby-selection-cue mt-4 hidden border-2 bg-black/75 px-3 py-1.5 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.22em] text-white md:inline-block" style={{ borderColor: `${role.primary}cc`, color: role.primary, "--cue-glow": role.primary } as React.CSSProperties}>
-              CLICK TO ENTER ARCHIVE
+              ENTER ARCHIVE
             </span>
           )}
           {(isLocked || isActive) && (

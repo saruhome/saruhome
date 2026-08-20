@@ -1065,9 +1065,9 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
         <button
           onClick={onBack}
-          className="skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
+          className="border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
         >
-          <span className="inline-block skew-x-[12deg]">&lt; {t("backToWorks").toUpperCase()}</span>
+          <span>&lt; {t("backToWorks").toUpperCase()}</span>
         </button>
         <div className="pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100">{t("caseStudy")}</div>
       </div>
@@ -1176,9 +1176,9 @@ function FooterPage({ onBack }: { onBack: () => void }) {
       <p className="font-rajdhani text-sm text-white/60 mb-6">{t("endOfCaseStudy")}</p>
       <button
         onClick={onBack}
-        className="skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-4 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
+        className="border-2 border-cyan-300/45 bg-black/55 px-4 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
       >
-        <span className="inline-block skew-x-[12deg]">&lt; {t("backToWorks").toUpperCase()}</span>
+        <span>&lt; {t("backToWorks").toUpperCase()}</span>
       </button>
     </PageShell>
   );
@@ -1285,9 +1285,9 @@ export default function CaseStudy({
           <p className="font-rajdhani text-white/60 mb-4">{t("projectNotFound")}</p>
           <button
             onClick={onBack}
-            className="skew-x-[-12deg] border-2 border-cyan-300/45 bg-black/55 px-4 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
+            className="border-2 border-cyan-300/45 bg-black/55 px-4 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
           >
-            <span className="inline-block skew-x-[12deg]">&lt; {t("back").toUpperCase()}</span>
+            <span>&lt; {t("back").toUpperCase()}</span>
           </button>
         </div>
       </div>
@@ -1303,12 +1303,21 @@ export default function CaseStudy({
     <ApplicationImpactPage key="impact" project={project} />,
     <FooterPage key="footer" onBack={onBack} />,
   ];
+  const pageLabels = [
+    t("projectOverview"),
+    "UI Showcase",
+    t("researchInsights"),
+    t("designProcess"),
+    t("keyInteractions"),
+    t("resultsImpact"),
+    t("endOfCaseStudy"),
+  ];
 
   return (
     <div className="role-theme-scope relative h-auto min-h-dvh overflow-visible bg-black text-white md:h-dvh md:overflow-hidden" data-player-role={selectedRole}>
       <LanguageSwitcher elevated />
       <StickyNavigation onBack={onBack} />
-      <HorizontalSlider showDots showArrows accentColor={palette.accentColor}>
+      <HorizontalSlider showDots showArrows accentColor={palette.accentColor} slideLabels={pageLabels} ariaLabel={`${project.title} case study sections`}>
         {pages}
       </HorizontalSlider>
     </div>

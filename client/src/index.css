@@ -1148,3 +1148,24 @@
   .pixel-game-shell:has(.lobby-bottom-menu) .mobile-bottom-left-hud { left: calc(max(0.75rem, env(safe-area-inset-left)) + 10.68rem) !important; }
   .pixel-game-shell:has(.lobby-bottom-menu) .mobile-support-hud { left: calc(max(0.75rem, env(safe-area-inset-left)) + 15.05rem) !important; }
 }
+
+/* Product UX accessibility: crisp focus stays native to the pixel system without relying on color alone. */
+.pixel-game-shell :is(button, a, [role="button"]):focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(55, 231, 255, 0.34), 4px 4px 0 rgba(0, 0, 0, 0.65);
+}
+
+@media (max-width: 767px) {
+  .case-study-progress { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .terminal-cursor { display: none; }
+}

@@ -14,6 +14,14 @@ The Archive quick access control has been removed from the upper HUD. At 596×80
 
 The desktop lobby was checked both before and after dismissing the start/tutorial overlays. No Quick Menu remains in the upper-right zone; the lobby bottom row presents Quick Menu, Language, Sound, and Support from left to right.
 
+The revised case-study slider exposes both a compact visual status (`01 / 07 Project Overview`) and explicit accessible section labels for every dot and arrow. The desktop exhibition field retains its bright UI image treatment while the new progress rail remains within the bottom console safe area.
+
+Keyboard focus on the case-study utility controls now receives a high-contrast white pixel outline with a cyan signal ring, making the currently actionable control visible against the dark console background.
+
+The Dancer media lightbox now opens as a labelled modal with focus sent to its back control. In-browser verification confirmed that Escape closes the lightbox and returns the viewer to the intact dance-media grid.
+
+At 390×844, the case-study overview keeps its back navigation, project title, readable overview, role panel, and primary project link in a single scroll-first column. The visible UI details remain high-contrast, and the application console reported no client errors after the UX changes.
+
 ## 2026-08-19 — Mobile Entry Visual Pass
 
 The 390×844 start capture now renders `TAP TO START` with the smaller hard-edge frame centered in the inter-role gap. The top `CHOOSE YOUR PLAYER` label, Player 01 `TAP TO PREVIEW` hint, and the top-right Quick Menu no longer overlap. The direct Quick Menu button is placed above the bottom Sound / Support / Language row, providing a clear thumb-reachable hierarchy while preserving separate safe areas for each control.

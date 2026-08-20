@@ -1,12 +1,18 @@
 import { useState, useRef, useEffect, ReactNode } from "react";
 import { useIsMobile } from "@/hooks/useMobile";
 
+/**
+ * Design System — Project-first pixel console navigation.
+ * Keep movement tactile, but make position, destination, and keyboard focus explicit for portfolio review.
+ */
 interface HorizontalSliderProps {
   children: ReactNode[];
   onSlideChange?: (index: number) => void;
   showDots?: boolean;
   showArrows?: boolean;
   accentColor?: "cyan" | "orange";
+  slideLabels?: string[];
+  ariaLabel?: string;
 }
 
 const ACCENT_CLASSES = {
@@ -28,6 +34,8 @@ export default function HorizontalSlider({
   showDots = true,
   showArrows = true,
   accentColor = "cyan",
+  slideLabels,
+  ariaLabel = "Case study sections",
 }: HorizontalSliderProps) {
   const accent = ACCENT_CLASSES[accentColor];
   const stageBackground = accentColor === "orange" ? "bg-[#1a0503]" : "bg-[#07111f]";
@@ -41,6 +49,7 @@ export default function HorizontalSlider({
 
   const totalSlides = children.length;
   const isMobile = useIsMobile();
+  const activeSlideLabel = slideLabels?.[currentSlide] ?? `Slide ${currentSlide + 1}`;
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     setIsDragging(true);
@@ -103,6 +112,8 @@ export default function HorizontalSlider({
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (e.defaultPrevented || target?.closest("input, textarea, select, [contenteditable='true'], [role='textbox'], [data-disable-slider-keys]")) return;
       if (e.key === "ArrowLeft") prevSlide();
       if (e.key === "ArrowRight") nextSlide();
     };
@@ -117,18 +128,18 @@ export default function HorizontalSlider({
   // in height per slide, so stack slides vertically and let the page scroll.
   if (isMobile) {
     return (
-      <div className={`flex w-full flex-col ${stageBackground}`}>
+      <div className={`flex w-full flex-col ${stageBackground}`} role="region" aria-label={ariaLabel}>
         {children.map((child, index) => (
-          <div key={index} className="w-full">
+          <section key={index} className="w-full" aria-label={slideLabels?.[index] ?? `Section ${index + 1}`}>
             {child}
-          </div>
+          </section>
         ))}
       </div>
     );
   }
 
   return (
-    <div className={`relative h-full w-full overflow-hidden ${stageBackground}`}>
+    <div className={`relative h-full w-full overflow-hidden ${stageBackground}`} role="region" aria-roledescription="carousel" aria-label={ariaLabel}>
       {/* Slider Container */}
       <div
         ref={containerRef}
@@ -165,10 +176,10 @@ export default function HorizontalSlider({
       {showArrows && currentSlide > 0 && (
         <button
           onClick={prevSlide}
-          className={`absolute left-4 top-1/2 z-20 hidden -translate-y-1/2 skew-x-[-12deg] border-2 bg-black/70 p-2 transition-all duration-300 md:left-8 md:block ${accent.arrow}`}
-          aria-label="Previous slide"
+          className={`absolute left-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 border-2 bg-black/70 transition-all duration-300 md:left-8 md:grid md:place-items-center ${accent.arrow}`}
+          aria-label={`Previous section. Current: ${activeSlideLabel}`}
         >
-          <span className="inline-block skew-x-[12deg] text-lg">←</span>
+          <span className="text-lg">←</span>
         </button>
       )}
 
@@ -176,26 +187,32 @@ export default function HorizontalSlider({
       {showArrows && currentSlide < totalSlides - 1 && (
         <button
           onClick={nextSlide}
-          className={`absolute right-4 top-1/2 z-20 hidden -translate-y-1/2 skew-x-[-12deg] border-2 bg-black/70 p-2 transition-all duration-300 md:right-8 md:block ${accent.arrow}`}
-          aria-label="Next slide"
+          className={`absolute right-4 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 border-2 bg-black/70 transition-all duration-300 md:right-8 md:grid md:place-items-center ${accent.arrow}`}
+          aria-label={`Next section. Current: ${activeSlideLabel}`}
         >
-          <span className="inline-block skew-x-[12deg] text-lg">→</span>
+          <span className="text-lg">→</span>
         </button>
       )}
 
       {/* Dots Indicator */}
       {showDots && (
-        <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2 md:bottom-8">
+        <div className="case-study-progress absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 border border-white/25 bg-[#05080de8] px-3 py-2 md:bottom-8">
+          <p className="font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.16em] text-white/80" aria-live="polite">
+            <span className={accentColor === "cyan" ? "text-cyan-200" : "text-orange-200"}>{String(currentSlide + 1).padStart(2, "0")}</span>
+            <span className="mx-1.5 text-white/35">/</span>{String(totalSlides).padStart(2, "0")}
+            <span className="ml-2 hidden text-white/55 xl:inline">{activeSlideLabel}</span>
+          </p>
           {children.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`h-2 transition-all duration-300 md:h-3 ${
+              className={`h-3 min-w-3 transition-all duration-300 ${
                 index === currentSlide
                   ? `w-8 md:w-10 ${accent.dotActive}`
                   : `w-2 md:w-3 ${accent.dotInactive}`
               }`}
-              aria-label={`Go to slide ${index + 1}`}
+              aria-label={`Go to section ${index + 1}: ${slideLabels?.[index] ?? `Slide ${index + 1}`}`}
+              aria-current={index === currentSlide ? "step" : undefined}
             />
           ))}
         </div>
