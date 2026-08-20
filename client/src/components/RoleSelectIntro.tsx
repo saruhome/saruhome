@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import DesignerPortfolioSlider from "./DesignerPortfolioSlider";
 import DancerPortfolioSlider from "./DancerPortfolioSlider";
+import { UtilityMenuBar } from "./UtilityMenuBar";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 import { useGameProgress } from "../contexts/GameProgressContext";
@@ -287,7 +287,7 @@ function RolePanel({
   );
 }
 
-function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
+function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View) => void; muted: boolean; onToggleMuted: () => void }) {
   const { t } = useLanguage();
   const { selectRole: setSelectedRole } = useRoleTheme();
   const { launchArchiveAudio, playRoleHoverJump } = useGameAudio();
@@ -389,19 +389,15 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
         </div>
       </header>
 
-      <div className="lobby-bottom-menu fixed bottom-4 left-4 z-[70] md:bottom-6 md:left-6">
-        <button
-          type="button"
-          onClick={() => setShowQuickMenu((open) => !open)}
-          aria-expanded={showQuickMenu}
-          aria-controls="lobby-quick-menu"
-          className="lobby-quick-access pixel-hud-panel border-2 border-white/75 bg-[#05080df0] px-3 py-2 font-rajdhani text-[0.66rem] font-black uppercase tracking-[0.16em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
-        >
-          <span className="block">{t("quickMenu")}</span>
-          <span className="mt-0.5 block text-[0.5rem] tracking-[0.15em] text-cyan-100/80">{t("skipToProjects")}</span>
-        </button>
-        {showQuickMenu && (
-          <aside id="lobby-quick-menu" className="absolute bottom-[calc(100%+0.5rem)] left-0 w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
+      <UtilityMenuBar
+        quickLabel={t("quickMenu")}
+        quickHint={t("skipToProjects")}
+        quickExpanded={showQuickMenu}
+        onQuickToggle={() => setShowQuickMenu((open) => !open)}
+        muted={muted}
+        onToggleMuted={onToggleMuted}
+        quickPanel={showQuickMenu && (
+          <aside id="quick-menu-panel" className="utility-menu-popover w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
             <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-[0.16] [image-rendering:pixelated]" style={{ backgroundImage: `url(${FH_CONSOLE_REFERENCE})` }} />
             <div className="relative">
               <div className="mb-3 border-b border-white/25 pb-2">
@@ -415,7 +411,7 @@ function IntroScreen({ onSelect }: { onSelect: (view: View) => void }) {
             </div>
           </aside>
         )}
-      </div>
+      />
 
       <div className="relative z-10 flex h-full flex-col md:flex-row">
         {roles.map((role) => <RolePanel key={role.id} role={role} activeRole={activeRole} landingRole={landingRole} lockedRole={lockedRole} onHoverStart={handleHoverStart} onHoverEnd={handleHoverEnd} onSelect={handleRoleSelection} />)}
@@ -457,27 +453,7 @@ export default function RoleSelectIntro() {
 
   return (
     <main className="pixel-game-shell h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
-      <button
-        type="button"
-        onClick={toggleMuted}
-          className="mobile-bottom-left-hud pixel-hud-panel fixed bottom-4 left-4 z-[70] grid h-10 place-items-center border-[var(--player-primary)] bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[var(--player-primary)] hover:text-black md:bottom-6 md:left-6"
-        aria-pressed={!muted}
-        aria-label={muted ? "Enable portfolio audio" : "Mute portfolio audio"}
-      >
-        {muted ? "Sound Off" : "Sound On"}
-      </button>
-      {view === "main" && (
-        <a
-          href="https://buymeacoffee.com/saruhome"
-          target="_blank"
-          rel="noreferrer"
-          className="mobile-support-hud pixel-hud-panel fixed bottom-4 left-[6.85rem] z-[70] grid h-10 place-items-center border-[#ffdd00]/70 bg-[#05080dcc] px-3 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[#ffdd00] hover:text-black md:bottom-6 md:left-[8.5rem]"
-          aria-label="Support this portfolio on Buy Me a Coffee (opens in a new tab)"
-        >
-          Support
-        </a>
-      )}
-      {view === "main" && <><LanguageSwitcher /><IntroScreen onSelect={setView} /></>}
+      {view === "main" && <IntroScreen onSelect={setView} muted={muted} onToggleMuted={toggleMuted} />}
       {view === "designer" && <DesignerPortfolioSlider onBack={returnToLobby} />}
       {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}
     </main>

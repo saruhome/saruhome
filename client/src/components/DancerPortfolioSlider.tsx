@@ -476,8 +476,6 @@ export default function DancerPortfolioSlider({
 
   return (
     <div className="relative h-dvh overflow-hidden bg-black">
-      <LanguageSwitcher elevated />
-
       <SideScrollSelect
         items={items}
         onBack={onBack}

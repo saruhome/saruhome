@@ -1169,3 +1169,73 @@
   }
   .terminal-cursor { display: none; }
 }
+
+/* Bottom utility architecture: one aligned rail with a shared baseline, not independent fixed controls. */
+.utility-menu-bar {
+  position: fixed;
+  z-index: 70;
+  left: max(1.5rem, env(safe-area-inset-left));
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+}
+
+.utility-menu-rail {
+  display: flex;
+  align-items: stretch;
+  min-height: 3.25rem;
+  overflow: visible;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  background: rgba(5, 8, 13, 0.9);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.68);
+}
+
+.utility-menu-slot { position: relative; display: flex; }
+.utility-menu-divider { width: 1px; margin-block: 0.55rem; background: rgba(255, 255, 255, 0.28); }
+
+.utility-menu-item {
+  display: grid;
+  min-height: 3rem;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  padding: 0.4rem 0.8rem;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.86);
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.utility-menu-item:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.utility-menu-quick { min-width: 8.8rem; grid-template-rows: auto auto; gap: 0.22rem; color: #fff; }
+.utility-menu-quick small { font-size: 0.46rem; font-weight: 700; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.58); }
+.utility-menu-language { min-width: 4.5rem; color: rgba(255, 255, 255, 0.86); }
+.utility-menu-sound { min-width: 5.1rem; }
+.utility-menu-support { min-width: 5rem; color: #ffe05b; text-decoration: none; }
+.utility-menu-support:hover { background: #ffdd00; color: #111; }
+
+.utility-menu-popover {
+  position: absolute;
+  z-index: 80;
+  bottom: calc(100% + 0.65rem);
+  left: 0;
+}
+
+@media (max-width: 767px) {
+  .utility-menu-bar {
+    left: max(0.75rem, env(safe-area-inset-left));
+    bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+  }
+  .utility-menu-rail { min-height: 2.75rem; }
+  .utility-menu-divider { margin-block: 0.4rem; }
+  .utility-menu-item { min-height: 2.5rem; padding-inline: 0.42rem; font-size: 0.5rem; letter-spacing: 0.08em; }
+  .utility-menu-quick { min-width: 6.65rem; }
+  .utility-menu-quick small { font-size: 0.36rem; letter-spacing: 0.08em; }
+  .utility-menu-language { min-width: 3.7rem; }
+  .utility-menu-sound { min-width: 4.25rem; }
+  .utility-menu-support { min-width: 4.15rem; }
+  .utility-menu-popover { width: min(22rem, calc(100vw - 1.5rem)) !important; }
+}

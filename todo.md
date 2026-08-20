@@ -594,3 +594,11 @@
 - [x] 포커스 상태·터치 영역·읽기 순서·모션 선호도·색 대비 점검 및 보완
 - [x] 1920px·모바일 시각·상호작용 검증과 성능 체감 점검
 - [ ] GitHub `main` 동기화와 라이브 체크포인트 저장
+
+## 하단 유틸리티 메뉴 바 재설계
+
+- [x] 좌측 하단 Quick Menu·Language·Music·Support의 개별 고정 좌표·중복·간격 실패 원인 점검
+- [x] 동일 높이·일관된 패딩·구분선·명확한 우선순위의 단일 메뉴 바 설계
+- [x] 로비·Designer Archive·Dancer Archive에 공통 메뉴 바로 구현하고 기존 위치 오버라이드 제거
+- [x] 데스크톱에서 메뉴 바·팝오버·Made with Manus의 비겹침과 Archive 중복 Language 제거 검증
+- [ ] GitHub `main` 동기화와 라이브 체크포인트 저장

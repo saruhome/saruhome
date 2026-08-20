@@ -3,6 +3,7 @@ import { useLanguage } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 import { ACHIEVEMENTS, useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
+import { UtilityMenuBar } from "./UtilityMenuBar";
 
 /**
  * Side-scroll "run to select" screen.
@@ -273,7 +274,7 @@ export default function SideScrollSelect({
   title: string;
 }) {
   const { t } = useLanguage();
-  const { playConfirm, playFootstep, playHover, playJump, playLand, playNavigate, playUnlock, playWallCrash } = useGameAudio();
+  const { muted, toggleMuted, playConfirm, playFootstep, playHover, playJump, playLand, playNavigate, playUnlock, playWallCrash } = useGameAudio();
   const { clearLatestAchievement, collectItem, latestAchievement, markDoubleJump, markProjectExplored, markSignpostVisited, progress } = useGameProgress();
   const isCyan = accentColor === "cyan";
 
@@ -783,19 +784,14 @@ export default function SideScrollSelect({
         </div>
       </div>
 
-      <div className="archive-bottom-menu fixed bottom-4 left-4 z-[70] flex items-center gap-2 md:bottom-6 md:left-6">
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setShowQuickMenu((open) => !open)}
-            aria-expanded={showQuickMenu}
-            aria-controls="archive-quick-menu"
-            className={`archive-bottom-quick pixel-hud-panel grid h-10 min-w-[5.65rem] place-items-center border-2 bg-[#05080dcc] px-2 font-rajdhani text-[0.56rem] font-black uppercase tracking-[0.1em] text-white/90 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition-colors ${isCyan ? "border-cyan-300/70 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 hover:bg-orange-300 hover:text-[#1b0603]"}`}
-          >
-            {t("quickMenu")}
-          </button>
-          {showQuickMenu && (
-            <aside id="archive-quick-menu" className={`archive-quick-popover absolute bottom-[calc(100%+0.5rem)] left-0 z-[80] w-[min(21rem,calc(100vw-1.5rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`} aria-label={t("quickMenu")}>
+      <UtilityMenuBar
+        quickLabel={t("quickMenu")}
+        quickExpanded={showQuickMenu}
+        onQuickToggle={() => setShowQuickMenu((open) => !open)}
+        muted={muted}
+        onToggleMuted={toggleMuted}
+        quickPanel={showQuickMenu && (
+            <aside id="quick-menu-panel" className={`utility-menu-popover w-[min(21rem,calc(100vw-1.5rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`} aria-label={t("quickMenu")}>
               <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2">
                 <p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>{t("quickMenu")}</p>
                 <span className="font-rajdhani text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/50">DIRECT ACCESS</span>
@@ -809,17 +805,8 @@ export default function SideScrollSelect({
                 ))}
               </div>
             </aside>
-          )}
-        </div>
-        <a
-          href="https://buymeacoffee.com/saruhome"
-          target="_blank"
-          rel="noreferrer"
-          className="archive-bottom-support pixel-hud-panel grid h-10 min-w-[4.55rem] place-items-center border-[#ffdd00]/70 bg-[#05080dcc] px-2 font-rajdhani text-[0.54rem] font-black uppercase tracking-[0.12em] text-white/85 shadow-[3px_3px_0_rgba(0,0,0,0.55)] transition hover:bg-[#ffdd00] hover:text-black"
-        >
-          Support
-        </a>
-      </div>
+        )}
+      />
 
     </section>
   );

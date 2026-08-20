@@ -1,5 +1,11 @@
 # Visual Verification Notes
 
+## 2026-08-20 — Unified Bottom Utility Menu Bar
+
+The lobby and both archive gameplay views now use one left-aligned utility rail in the requested order: **Quick Menu → Language → Music → Support**. It is a single hard-edged module with shared height, internal separators, consistent labels, and one visual baseline instead of four separately positioned controls. The rail observes desktop and safe-area mobile offsets, and its compact 390px rules retain a single non-wrapping row.
+
+In-browser verification confirmed the rail in the lobby and Designer Archive. The previous duplicate Language control in the archive header is removed; the header now contains only archive navigation and progress. Quick Menu opens upward from its own segment and continues to expose direct project routes without adding a top-right shortcut. `pnpm run check` and `pnpm run build` both completed successfully after the change.
+
 ## 2026-08-20 — Design Archive Safety-Lane Pass
 
 The desktop Design Archive now keeps the top HUD on its own row, the `DESIGN-PORTFOLIO` title beneath it, and the first project rail below the title. SokDak’s selected dialogue and `ENTER` action sit above its signpost rather than above the character. The character remains on the floor lane below all signposts, so the visible HUD, title, active signpost, dialogue, and character occupy distinct vertical bands.
