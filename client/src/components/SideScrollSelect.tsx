@@ -10,6 +10,7 @@ import { UtilityMenuBar } from "./UtilityMenuBar";
  * Side-scroll "run to select" screen.
  * Arrow keys run/jump/crouch a 2-head-tall pixel character past a row of
  * signposts (projects / menu items); Enter or a click selects the nearest one.
+ * The Quick Menu uses the same bright project evidence as the case studies for fast visual recognition.
  */
 
 const ITEM_SPACING = 380;
@@ -60,6 +61,14 @@ const ARCHIVE_STAGES = {
   designer: assetUrl("pixel-designer-archive-stage_95952f5a.png", "pixel-designer-archive-stage.png"),
   dancer: assetUrl("pixel-dancer-archive-stage_f52ebca6.png", "pixel-dancer-archive-stage.png"),
 } as const;
+
+const DESIGNER_PROJECT_THUMBNAILS: Record<string, string> = {
+  "01": "/manus-storage/sokdak-hero_b6371c09.jpg",
+  "02": "/manus-storage/locaverse-hero_c8fb863c.jpg",
+  "03": "/manus-storage/smartwash-hero_89808175.jpg",
+  "04": "/manus-storage/campy-exhibit_176bde4a.png",
+  "05": "/manus-storage/seekandsight-hifi_b9005159.jpg",
+};
 
 export type SideScrollItem = { id: string; label: string; sublabel?: string };
 type DustBurst = { id: number; phase: "start" | "stop" };
@@ -811,12 +820,20 @@ export default function SideScrollSelect({
                 <span className="font-rajdhani text-[0.6rem] font-bold uppercase tracking-[0.12em] text-white/50">DIRECT ACCESS</span>
               </div>
               <div className="grid gap-2">
-                {items.map((item, index) => (
-                  <button key={item.id} type="button" onClick={() => selectFromQuickMenu(item.id)} className={`flex min-h-11 items-center gap-3 border p-3 text-left transition-colors ${isCyan ? "border-cyan-300/35 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/35 hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"}`}>
-                    <span className="font-bebas text-xl">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="font-rajdhani text-sm font-black uppercase tracking-[0.12em]">{item.label}</span>
-                  </button>
-                ))}
+                {items.map((item, index) => {
+                  const thumbnail = spriteVariant === "designer" ? DESIGNER_PROJECT_THUMBNAILS[item.id] : undefined;
+                  return (
+                    <button key={item.id} type="button" onClick={() => selectFromQuickMenu(item.id)} className={`flex min-h-11 items-center gap-3 border p-2 text-left transition-colors ${isCyan ? "border-cyan-300/35 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/35 hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"}`}>
+                      <span className="w-5 shrink-0 font-bebas text-xl">{String(index + 1).padStart(2, "0")}</span>
+                      {thumbnail && (
+                        <span className="h-9 w-12 shrink-0 overflow-hidden border border-white/45 bg-white shadow-[2px_2px_0_rgba(0,0,0,0.65)]">
+                          <img src={thumbnail} alt="" className="h-full w-full object-cover [image-rendering:auto!important]" loading="lazy" />
+                        </span>
+                      )}
+                      <span className="min-w-0 font-rajdhani text-sm font-black uppercase tracking-[0.12em]">{item.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </aside>
         )}

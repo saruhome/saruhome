@@ -8,6 +8,11 @@ import { useRoleTheme } from "../contexts/RoleContext";
 import { useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
 
+/**
+ * Design Philosophy — Neo-Arcade portfolio dossier: hard-edged cyan console panels
+ * foreground interaction-design evidence, with the visual CV available directly from About.
+ */
+
 type DesignProject = {
   id: string;
   title: string;
@@ -20,6 +25,8 @@ const DESIGNER_PROFILE_PHOTO = assetUrl(
   "Gemini_Generated_Image_s30zdos30zdos30z_28271392_722495d2.png",
   "Gemini_Generated_Image_s30zdos30zdos30z_28271392.png",
 );
+
+const VISUAL_PORTFOLIO_CV_URL = "/manus-storage/main_0b65b770.pdf";
 
 const designProjectsByLang: Record<Language, DesignProject[]> = {
   en: [
@@ -199,6 +206,17 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
                   </p>
                 ))}
               </div>
+              <a
+                href={VISUAL_PORTFOLIO_CV_URL}
+                download="Sunghee-Im-Visual-Portfolio-CV.pdf"
+                className="pixel-hud-panel mt-5 inline-flex w-fit items-center gap-3 border-2 border-cyan-200 bg-cyan-300 px-4 py-3 font-rajdhani text-sm font-black uppercase tracking-[0.14em] text-[#06101e] shadow-[5px_5px_0_rgba(2,11,24,0.9)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-white active:scale-[0.97]"
+                style={{ "--hud-glow": "#37e7ff", backgroundColor: "#67e8f9", color: "#06101e" } as React.CSSProperties}
+                aria-label={`${t("downloadCV")} — Visual Portfolio CV PDF`}
+              >
+                <span aria-hidden="true">↓</span>
+                <span>{t("downloadCV")}</span>
+                <span className="border-l border-[#06101e]/40 pl-3 text-[0.65rem] tracking-[0.18em]">PDF</span>
+              </a>
               {!progress.collected.includes("designer-about-signal") && <button type="button" onClick={() => collectItem("designer-about-signal")} className="pixel-collectible mt-5 self-start border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">✦ BIO SIGNAL</button>}
             </div>
           </div>
@@ -290,8 +308,8 @@ function ContactSlide({ embedded = false }: { embedded?: boolean }) {
             <p className="font-bebas text-lg text-cyan-300">saruhome</p>
           </a>
           <a
-            href="/resume.pdf"
-            download
+            href={VISUAL_PORTFOLIO_CV_URL}
+            download="Sunghee-Im-Visual-Portfolio-CV.pdf"
             className="pixel-hud-panel border-cyan-300/35 p-6 text-center transition-all hover:border-cyan-200 hover:translate-x-0.5 hover:-translate-y-0.5 cursor-pointer"
             style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
           >

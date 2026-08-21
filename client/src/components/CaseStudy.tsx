@@ -1209,7 +1209,15 @@ function ApplicationExhibitPage({ project }: { project: ApplicationCaseStudy }) 
                 <span>PROJECT SCREEN</span>
                 <span>HI-FI DISPLAY</span>
               </div>
-              <img src={exhibit.src} alt={exhibit.title} className="case-study-exhibit-image" loading="lazy" />
+              <a
+                href={exhibit.src}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="case-study-exhibit-media"
+                aria-label={`Open full-size project image: ${exhibit.title}`}
+              >
+                <img src={exhibit.src} alt={exhibit.title} className="case-study-exhibit-image" loading="lazy" />
+              </a>
               <figcaption>
                 <strong>{exhibit.title}</strong>
                 <span>{exhibit.caption}</span>
