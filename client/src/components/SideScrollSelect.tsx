@@ -638,7 +638,38 @@ export default function SideScrollSelect({
         >
           ★ {progress.unlockedAchievements.length}/5
         </button>
+        <button
+          type="button"
+          onClick={() => setShowHelp((v) => !v)}
+          aria-expanded={showHelp}
+          aria-controls="archive-controls-help"
+          aria-label={t("controls")}
+          className={`pixel-hud-panel grid h-8 w-8 shrink-0 place-items-center border-2 bg-[#05080de8] font-bebas text-lg text-white transition-colors duration-200 md:h-9 md:w-9 ${
+            isCyan ? "border-cyan-300/60 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/60 hover:bg-orange-300 hover:text-[#1b0603]"
+          }`}
+        >
+          ?
+        </button>
       </div>
+
+      {showHelp && (
+        <div
+          id="archive-controls-help"
+          className={`pixel-hud-panel absolute right-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 font-rajdhani text-sm text-white/85 md:right-8 md:top-[5.85rem] ${
+            isCyan ? "border-cyan-300/50" : "border-orange-300/50"
+          }`}
+        >
+          <p className={`mb-4 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
+            {t("controls")}
+          </p>
+          <ul className="space-y-1.5">
+            <li>← → {t("moveHint")}</li>
+            <li>↑ {t("jumpHint")}</li>
+            <li>↓ {t("crouchHint")}</li>
+            <li>Enter {t("pressToSelect")}</li>
+          </ul>
+        </div>
+      )}
 
       {showAchievements && (
         <aside id="archive-achievements" className={`absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
@@ -726,44 +757,13 @@ export default function SideScrollSelect({
           />
           {dialogue && activeItem && !isMoving && !collision && (
             <span
-              className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%-1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010] transition-transform duration-100 ease-out"
+              className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%+1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010] transition-transform duration-100 ease-out"
               style={{ transform: `translateX(-50%) translateY(${jumping ? -38 : 0}px)` }}
             >
               “{dialogue}”
             </span>
           )}
         </div>
-      </div>
-
-      {/* Controls help */}
-      <div className="absolute bottom-4 right-24 z-20 md:bottom-6 md:right-[6.5rem] 2xl:bottom-8 2xl:right-12">
-        {showHelp && (
-          <div
-            className={`pixel-hud-panel mb-4 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 font-rajdhani text-sm text-white/85 ${
-              isCyan ? "border-cyan-300/50" : "border-orange-300/50"
-            }`}
-          >
-            <p className={`mb-4 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
-              {t("controls")}
-            </p>
-            <ul className="space-y-1.5">
-              <li>← → {t("moveHint")}</li>
-              <li>↑ {t("jumpHint")}</li>
-              <li>↓ {t("crouchHint")}</li>
-              <li>Enter {t("pressToSelect")}</li>
-            </ul>
-          </div>
-        )}
-        <button
-          type="button"
-          onClick={() => setShowHelp((v) => !v)}
-          aria-label={t("controls")}
-          className={`pixel-hud-panel grid h-10 w-10 place-items-center border-2 bg-[#05080de8] font-bebas text-2xl text-white transition-colors duration-200 ${
-            isCyan ? "border-cyan-300/60 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/60 hover:bg-orange-300 hover:text-[#1b0603]"
-          }`}
-        >
-          ?
-        </button>
       </div>
 
       <div className="archive-touch-controls absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] z-30 flex items-end justify-between gap-3 px-4 md:hidden">
