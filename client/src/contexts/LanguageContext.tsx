@@ -56,6 +56,9 @@ export const translations = {
     keyInteractions: "Key Features & Interactions",
     resultsImpact: "Results & Impact",
     openProject: "Open Project",
+    copyProjectLink: "Copy Link",
+    linkCopied: "Link Copied",
+    copyLinkFailed: "Copy failed. Please copy the page URL from your browser.",
 
     // About section
     aboutMe: "About Me",
@@ -187,6 +190,9 @@ export const translations = {
     keyInteractions: "핵심 기능 & 인터랙션",
     resultsImpact: "결과 & 임팩트",
     openProject: "프로젝트 열기",
+    copyProjectLink: "링크 복사",
+    linkCopied: "링크 복사됨",
+    copyLinkFailed: "복사에 실패했습니다. 브라우저 주소를 직접 복사해 주세요.",
 
     // About section
     aboutMe: "소개",
@@ -318,6 +324,9 @@ export const translations = {
     keyInteractions: "Kernfunktionen & Interaktionen",
     resultsImpact: "Ergebnisse & Wirkung",
     openProject: "Projekt öffnen",
+    copyProjectLink: "Link kopieren",
+    linkCopied: "Link kopiert",
+    copyLinkFailed: "Kopieren fehlgeschlagen. Bitte kopiere die Seiten-URL im Browser.",
 
     // About section
     aboutMe: "Über mich",

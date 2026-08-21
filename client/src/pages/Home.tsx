@@ -6,5 +6,7 @@
 import RoleSelectIntro from "@/components/RoleSelectIntro";
 
 export default function Home() {
-  return <RoleSelectIntro />;
+  const projectId = new URLSearchParams(window.location.search).get("project");
+  const sharedProjectId = projectId && ["01", "02", "03", "04", "05"].includes(projectId) ? projectId : undefined;
+  return <RoleSelectIntro initialProjectId={sharedProjectId} />;
 }

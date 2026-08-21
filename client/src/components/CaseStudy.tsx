@@ -1042,7 +1042,7 @@ function FadeInImage({ src, alt, className }: { src: string; alt: string; classN
   );
 }
 
-function StickyNavigation({ onBack }: { onBack: () => void }) {
+function StickyNavigation({ onBack, projectId }: { onBack: () => void; projectId: string }) {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -1071,10 +1071,64 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
         </button>
         <div className="flex items-center gap-2">
           <div className="hidden pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100 sm:block">{t("caseStudy")}</div>
+          <ProjectShareButton projectId={projectId} />
           <LanguageSwitcher embedded />
         </div>
       </div>
     </nav>
+  );
+}
+
+function ProjectShareButton({ projectId }: { projectId: string }) {
+  const { t } = useLanguage();
+  const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
+
+  const copyProjectLink = async () => {
+    const shareUrl = `${window.location.origin}/?project=${encodeURIComponent(projectId)}`;
+    const copyWithFallback = () => {
+      const input = document.createElement("textarea");
+      input.value = shareUrl;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.opacity = "0";
+      document.body.appendChild(input);
+      input.select();
+      const copied = document.execCommand("copy");
+      document.body.removeChild(input);
+      return copied;
+    };
+
+    let copied = false;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        copied = true;
+      } else {
+        copied = copyWithFallback();
+      }
+    } catch {
+      copied = copyWithFallback();
+    }
+
+    setStatus(copied ? "copied" : "failed");
+    window.setTimeout(() => setStatus("idle"), 2600);
+  };
+
+  const feedback = status === "copied" ? t("linkCopied") : status === "failed" ? t("copyLinkFailed") : "";
+
+  return (
+    <div className="relative flex items-center">
+      <button
+        type="button"
+        onClick={copyProjectLink}
+        className={`min-h-11 border-2 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 active:scale-[0.97] ${status === "copied" ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-cyan-300/55 bg-[#020711e8] text-cyan-100 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"}`}
+        aria-label={t("copyProjectLink")}
+      >
+        <span aria-hidden="true">{status === "copied" ? "✓" : "⧉"}</span><span className="ml-1 hidden sm:inline">{status === "copied" ? t("linkCopied") : t("copyProjectLink")}</span>
+      </button>
+      <span className="sr-only" aria-live="polite">{feedback}</span>
+      {status === "failed" && <span role="status" className="absolute right-0 top-full z-60 mt-2 w-64 border border-cyan-300/55 bg-[#020711f5] p-2 font-rajdhani text-xs leading-snug text-cyan-100 shadow-[4px_4px_0_rgba(0,0,0,0.72)]">{feedback}</span>}
+    </div>
   );
 }
 
@@ -1326,7 +1380,7 @@ export default function CaseStudy({
 
   return (
     <div className="role-theme-scope relative h-auto min-h-dvh overflow-visible bg-black text-white md:h-dvh md:overflow-hidden" data-player-role={selectedRole}>
-      <StickyNavigation onBack={onBack} />
+      <StickyNavigation onBack={onBack} projectId={project.id} />
       <HorizontalSlider showDots showArrows accentColor={palette.accentColor} slideLabels={pageLabels} ariaLabel={`${project.title} case study sections`}>
         {pages}
       </HorizontalSlider>

@@ -371,16 +371,23 @@ type DesignerView = "game" | "about" | { type: "caseStudy"; projectId: string };
 
 export default function DesignerPortfolioSlider({
   onBack,
+  initialProjectId,
 }: {
   onBack: () => void;
+  initialProjectId?: string;
 }) {
   const { t, language } = useLanguage();
   const { palette } = useRoleTheme();
   const designProjects = designProjectsByLang[language];
-  const [view, setView] = useState<DesignerView>("game");
+  const [view, setView] = useState<DesignerView>(() => initialProjectId ? { type: "caseStudy", projectId: initialProjectId } : "game");
+
+  const closeCaseStudy = () => {
+    window.history.replaceState({}, "", window.location.pathname);
+    setView("game");
+  };
 
   if (typeof view === "object") {
-    return <CaseStudy projectId={view.projectId} onBack={() => setView("game")} />;
+    return <CaseStudy projectId={view.projectId} onBack={closeCaseStudy} />;
   }
 
   if (view === "about") {

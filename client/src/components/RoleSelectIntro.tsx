@@ -444,19 +444,27 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
   );
 }
 
-export default function RoleSelectIntro() {
-  const [view, setView] = useState<View>("main");
+export default function RoleSelectIntro({ initialProjectId }: { initialProjectId?: string }) {
+  const [view, setView] = useState<View>(() => initialProjectId ? "designer" : "main");
+  const [sharedProjectId, setSharedProjectId] = useState(initialProjectId);
   const { muted, toggleMuted, stopMusic } = useGameAudio();
+  const { selectRole } = useRoleTheme();
+
+  useEffect(() => {
+    if (initialProjectId) selectRole("designer");
+  }, [initialProjectId, selectRole]);
 
   const returnToLobby = () => {
     stopMusic();
+    setSharedProjectId(undefined);
+    window.history.replaceState({}, "", window.location.pathname);
     setView("main");
   };
 
   return (
     <main className="pixel-game-shell h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
       {view === "main" && <IntroScreen onSelect={setView} muted={muted} onToggleMuted={toggleMuted} />}
-      {view === "designer" && <DesignerPortfolioSlider onBack={returnToLobby} />}
+      {view === "designer" && <DesignerPortfolioSlider initialProjectId={sharedProjectId} onBack={returnToLobby} />}
       {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}
     </main>
   );
