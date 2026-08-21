@@ -1062,14 +1062,17 @@ function StickyNavigation({ onBack }: { onBack: () => void }) {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 md:px-12 md:py-4 flex items-center justify-between gap-3">
         <button
           onClick={onBack}
-          className="border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
+          className="min-h-11 border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.16em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
         >
           <span>&lt; {t("backToWorks").toUpperCase()}</span>
         </button>
-        <div className="pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100">{t("caseStudy")}</div>
+        <div className="flex items-center gap-2">
+          <div className="hidden pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100 sm:block">{t("caseStudy")}</div>
+          <LanguageSwitcher embedded />
+        </div>
       </div>
     </nav>
   );
@@ -1197,7 +1200,7 @@ function ApplicationExhibitPage({ project }: { project: ApplicationCaseStudy }) 
             <p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200">01 // PROJECT EXHIBITION</p>
             <h2 className="mt-3 font-bebas text-3xl leading-none text-white text-shadow-cyan md:text-5xl">{t("caseStudy")} / UI SHOWCASE</h2>
           </div>
-          <p className="max-w-md font-rajdhani text-sm leading-relaxed text-white/90 md:text-right">Bright display field. Dark console shell. Project interface stays the focal point.</p>
+          <p className="case-study-exhibit-intro max-w-md font-rajdhani text-sm leading-relaxed text-white/90 md:text-right">Bright display field. Dark console shell. Project interface stays the focal point.</p>
         </div>
         <div className={`case-study-image-area grid gap-5 ${exhibits.length > 1 ? "md:grid-cols-2" : ""}`}>
           {exhibits.map((exhibit) => (
@@ -1227,12 +1230,12 @@ function ApplicationOverviewPage({ project }: { project: ApplicationCaseStudy })
     <PageShell>
       <p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200 md:text-sm">{project.kicker}</p>
       <h1 className="mt-5 font-bebas text-[clamp(2.8rem,7vw,5.8rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade"><TerminalText text={project.title} speed={65} /></h1>
-      <div className="mt-8 grid gap-7 md:grid-cols-[1.3fr_0.7fr]">
-        <div>
+      <div className="case-study-overview-grid mt-7 grid gap-5 md:grid-cols-[1.3fr_0.7fr] md:gap-7">
+        <div className="case-study-overview-copy">
           <p className="font-rajdhani text-xs font-black uppercase tracking-[0.24em] text-cyan-200">{t("projectOverview")}</p>
           <p className="mt-3 max-w-3xl font-rajdhani text-base leading-relaxed text-white/90 md:text-lg">{project.overview}</p>
         </div>
-        <div className="pixel-hud-panel border-cyan-300/40 bg-[#020711e8] p-5">
+        <div className="case-study-metadata-panel pixel-hud-panel border-cyan-300/55 bg-[#020711f2] p-5">
           <div className="space-y-4 font-rajdhani text-sm text-white/90">
             <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("myRole")}</p><p className="mt-1 leading-relaxed">{project.role}</p></div>
             <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("project")}</p><p className="mt-1">{project.projectType}</p></div>
@@ -1315,7 +1318,6 @@ export default function CaseStudy({
 
   return (
     <div className="role-theme-scope relative h-auto min-h-dvh overflow-visible bg-black text-white md:h-dvh md:overflow-hidden" data-player-role={selectedRole}>
-      <LanguageSwitcher elevated />
       <StickyNavigation onBack={onBack} />
       <HorizontalSlider showDots showArrows accentColor={palette.accentColor} slideLabels={pageLabels} ariaLabel={`${project.title} case study sections`}>
         {pages}

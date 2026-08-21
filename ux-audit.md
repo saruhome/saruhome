@@ -20,3 +20,18 @@ Priority improvements: simplify non-essential archive UI at rest; make the first
 4. **Preserve quiet utility areas.** Keep the agreed bottom menu order and do not reintroduce a top-right Quick Menu. Utility controls must recede visually from project content.
 
 5. **Use device-neutral action language.** Where an action works with pointer, keyboard, and touch input, prefer an outcome-oriented label such as `Enter Archive` over desktop-only terms such as `Click`.
+
+## 2026-08-21: Portfolio-First Arcade Recomposition
+
+### Audit Findings
+
+The live lobby correctly communicates the Designer/Dancer dual path, but its start overlay and four-step tutorial create two consecutive attention gates before visitors can evaluate work. The active-role arrival animation can also compete with the lower role copy. In the Archive, the wide viewport has a workable vertical order, but its direct list is visually subordinate to the game world, while the compact mobile state requires a stronger reserved lane for the touch dock and lower utility rail. The supplied achievement screenshot additionally confirmed that transient feedback must never participate in world positioning.
+
+### Implementation Contract
+
+1. **One-entry orientation.** The start card will state the portfolio quest in one sentence and expose a true direct-project action. Detailed controls move to the contextual Help surface rather than blocking role selection.
+2. **Five deterministic Archive lanes.** HUD, title/portfolio context, project rail, character-plus-dialogue, and touch/utility controls will use distinct vertical zones. Project cards will be the first visual object after the title; dialogue remains tied to the character and does not cover a card.
+3. **Portfolio-first direct access.** Both Skip and Quick Menu will offer ordered, plain-language project destinations. Progress will be labelled as an exploration status rather than compete with primary actions.
+4. **Responsive role safety.** Desktop role previews may move inward, but mobile avatars retain a dedicated sprite lane separate from the role title and CTA. Every important touch target remains at least 44px tall.
+5. **Bilingual interaction model.** The existing language state will also control character dialogue. EN, KR, and DE copy will preserve the Designer’s calm observational tone and the Dancer’s energetic voice.
+6. **Exhibition contrast.** Case Study remains a dark command shell around a high-luminance project display, with project images, captions, and evidence panels held above the decorative game layer.

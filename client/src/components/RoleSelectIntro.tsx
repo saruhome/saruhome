@@ -153,8 +153,8 @@ function RolePanel({
   // Mobile keeps each avatar in its own outer safety lane. Only desktop may travel inward.
   // The same anchor is shared by sprite, floor bar, speed lines, and landing dust.
   const avatarPosition = isDesigner
-    ? `right-5 sm:right-10 ${isActive ? "md:right-[calc(33.333%-6.5rem)] lg:right-[calc(33.333%-8rem)]" : ""}`
-    : `left-5 sm:left-10 ${isActive ? "md:left-[calc(33.333%-6.5rem)] lg:left-[calc(33.333%-8rem)]" : ""}`;
+    ? `right-5 sm:right-10 ${isActive ? "lg:right-[calc(33.333%-8rem)]" : ""}`
+    : `left-5 sm:left-10 ${isActive ? "lg:left-[calc(33.333%-8rem)]" : ""}`;
   const desktopFlexClass =
     lockedRole
       ? isLocked ? "h-full basis-full md:flex-1" : "h-0 basis-0 opacity-0 md:flex-[0]"
@@ -257,7 +257,7 @@ function RolePanel({
       )}
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
-        <div className={`lobby-role-copy max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
+        <div className={`lobby-role-copy role-copy-safe max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
           <p className="mb-2 inline-block pixel-tag px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.dark}e8`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
           </p>
@@ -313,12 +313,13 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
     const begin = (event: KeyboardEvent) => {
       event.preventDefault();
       event.stopPropagation();
+      markTutorialSeen();
       setShowStartScreen(false);
-      setTutorialStep(0);
+      setTutorialStep(null);
     };
     window.addEventListener("keydown", begin, true);
     return () => window.removeEventListener("keydown", begin, true);
-  }, [showStartScreen]);
+  }, [markTutorialSeen, showStartScreen]);
 
   useEffect(() => {
     if (tutorialStep === null) return;
@@ -428,12 +429,13 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
         </div>
       )}
       {showStartScreen && (
-        <div className="pixel-start-overlay absolute inset-0 z-[90] grid place-items-center text-center" onClick={() => { setShowStartScreen(false); setTutorialStep(0); }}>
+        <div className="pixel-start-overlay absolute inset-0 z-[90] grid place-items-center text-center" onClick={() => { markTutorialSeen(); setShowStartScreen(false); setTutorialStep(null); }}>
           <div className="pixel-press-start border-4 border-white/75 px-7 py-5 font-bebas text-[clamp(2.3rem,5.8vw,5rem)] leading-none tracking-[0.13em] text-white shadow-[8px_8px_0_rgba(0,0,0,0.72)]">
             <span className="pixel-start-desktop-copy">PRESS ANY KEY</span><span className="pixel-start-mobile-copy">TAP TO START</span>
             <small className="mt-2 block font-rajdhani text-[0.23em] font-black tracking-[0.36em] text-white/80"><span className="pixel-start-desktop-copy">TO START // PORTFOLIO QUEST</span><span className="pixel-start-mobile-copy">TAP ANYWHERE TO ENTER</span></small>
+            <small className="pixel-start-orientation mx-auto mt-3 block max-w-[34rem] font-rajdhani text-[0.18em] font-bold normal-case tracking-[0.08em] text-white/75">{t("entryGuide")}</small>
           </div>
-          <button type="button" onClick={(event) => { event.stopPropagation(); setShowStartScreen(false); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute bottom-6 right-6 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-right font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
+          <button type="button" onClick={(event) => { event.stopPropagation(); markTutorialSeen(); setShowStartScreen(false); setTutorialStep(null); setShowQuickMenu(true); }} className="pixel-start-quick-menu absolute bottom-6 right-6 min-h-11 border-2 border-white/70 bg-[#05080ddb] px-4 py-2 text-right font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.18em] text-white transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]">
             <span className="block">{t("skipToProjects")}</span>
           </button>
         </div>

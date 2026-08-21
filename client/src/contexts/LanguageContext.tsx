@@ -124,6 +124,7 @@ export const translations = {
     tutorialMobileCrouch: "↓ Crouch",
     tutorialMobileConfirm: "ENTER Select",
     tutorialMobileHint: "Quick Menu anytime",
+    entryGuide: "A portfolio quest: move to explore, or use Skip to view projects now.",
 
     // Side-scroll run/select screen
     controls: "Controls",
@@ -131,6 +132,7 @@ export const translations = {
     jumpHint: "Jump",
     crouchHint: "Crouch",
     pressToSelect: "Press ENTER to select",
+    projectsExplored: "Projects explored",
   },
   kr: {
     // Main page
@@ -253,6 +255,7 @@ export const translations = {
     tutorialMobileCrouch: "↓ 앉기",
     tutorialMobileConfirm: "ENTER 선택",
     tutorialMobileHint: "빠른 메뉴 이용 가능",
+    entryGuide: "포트폴리오 퀘스트입니다. 움직여 탐색하거나 프로젝트 바로가기를 사용하세요.",
 
     // Side-scroll run/select screen
     controls: "조작법",
@@ -260,6 +263,7 @@ export const translations = {
     jumpHint: "점프",
     crouchHint: "숙이기",
     pressToSelect: "엔터를 눌러 선택",
+    projectsExplored: "탐색한 프로젝트",
   },
   de: {
     // Main page
@@ -382,6 +386,7 @@ export const translations = {
     tutorialMobileCrouch: "↓ Ducken",
     tutorialMobileConfirm: "ENTER wählen",
     tutorialMobileHint: "Schnellmenü verfügbar",
+    entryGuide: "Eine Portfolio-Quest: Erkunden Sie mit Bewegung oder springen Sie direkt zu Projekten.",
 
     // Side-scroll run/select screen
     controls: "Steuerung",
@@ -389,6 +394,7 @@ export const translations = {
     jumpHint: "Springen",
     crouchHint: "Ducken",
     pressToSelect: "ENTER drücken zum Auswählen",
+    projectsExplored: "Erkundete Projekte",
   },
 };
 

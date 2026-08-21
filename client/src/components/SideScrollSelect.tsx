@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useLanguage } from "../contexts/LanguageContext";
+import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 import { ACHIEVEMENTS, useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
@@ -68,22 +68,22 @@ type Recovery = { id: number; edge: "left" | "right" };
 type AutoTarget = { id: string; x: number };
 type ArchivePulse = "jump" | "land" | "crash" | null;
 
-const ROLE_DIALOGUE = {
+const ROLE_DIALOGUE: Record<"designer" | "dancer", Record<string, Record<Language, string>>> = {
   designer: {
-    Sokdak: "A living language needs room to move.",
-    "Locaverse GmbH": "Space is part of every interaction.",
-    "Smart Wash": "Small feedback makes technology feel human.",
-    Campy: "Research is where the signal becomes clear.",
-    "Seek and Sight": "Design should make every learner feel invited.",
-    About: "The body notices what interfaces forget.",
-    crash: "Ouch… still exploring the edge cases.",
+    "01": { en: "A living language needs room to move.", kr: "살아 있는 언어에는 움직일 공간이 필요해요.", de: "Eine lebendige Sprache braucht Raum, um sich zu bewegen." },
+    "02": { en: "Space is part of every interaction.", kr: "공간도 모든 인터랙션의 일부예요.", de: "Raum ist Teil jeder Interaktion." },
+    "03": { en: "Small feedback makes technology feel human.", kr: "작은 피드백이 기술을 더 인간적으로 만들어요.", de: "Kleines Feedback macht Technologie menschlicher." },
+    "04": { en: "Research is where the signal becomes clear.", kr: "리서치에서 신호가 선명해져요.", de: "In der Forschung wird das Signal klar." },
+    "05": { en: "Design should make every learner feel invited.", kr: "디자인은 모든 학습자를 환영해야 해요.", de: "Design sollte jeden Lernenden willkommen heißen." },
+    about: { en: "The body notices what interfaces forget.", kr: "몸은 인터페이스가 놓치는 것을 알아차려요.", de: "Der Körper bemerkt, was Interfaces vergessen." },
+    crash: { en: "Ouch… still exploring the edge cases.", kr: "앗… 경계 조건도 계속 탐색 중이에요.", de: "Autsch … ich erkunde noch die Grenzfälle." },
   },
   dancer: {
-    "Dance Performance": "Rhythm is everything here.",
-    About: "Every stage begins with a first step!",
-    crash: "Ouch! That wall has serious rhythm.",
+    gallery: { en: "Rhythm is everything here.", kr: "여기서는 리듬이 전부예요.", de: "Hier ist Rhythmus alles." },
+    bio: { en: "Every stage begins with a first step!", kr: "모든 무대는 첫걸음에서 시작돼요!", de: "Jede Bühne beginnt mit einem ersten Schritt!" },
+    crash: { en: "Ouch! That wall has serious rhythm.", kr: "앗! 저 벽에도 강한 리듬이 있네요.", de: "Autsch! Diese Wand hat einen ernsten Rhythmus." },
   },
-} as const;
+};
 
 function PixelCharacter({
   variant,
@@ -274,7 +274,7 @@ export default function SideScrollSelect({
   eyebrow: string;
   title: string;
 }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { muted, toggleMuted, playConfirm, playFootstep, playHover, playJump, playLand, playNavigate, playUnlock, playWallCrash } = useGameAudio();
   const { clearLatestAchievement, collectItem, latestAchievement, markDoubleJump, markProjectExplored, markSignpostVisited, progress } = useGameProgress();
   const isCyan = accentColor === "cyan";
@@ -436,7 +436,7 @@ export default function SideScrollSelect({
     setIsMoving(false);
     setCollision({ id, edge });
     setArchivePulse("crash");
-    setDialogue(ROLE_DIALOGUE[spriteVariant].crash);
+    setDialogue(ROLE_DIALOGUE[spriteVariant].crash[language]);
     emitDust("stop");
     playWallCrash(spriteVariant);
     if (collisionTimer.current) window.clearTimeout(collisionTimer.current);
@@ -446,7 +446,7 @@ export default function SideScrollSelect({
       setRecovery({ id, edge });
       recoveryTimer.current = window.setTimeout(() => setRecovery((current) => (current?.id === id ? null : current)), 320);
     }, 520);
-  }, [emitDust, playWallCrash, spriteVariant]);
+  }, [emitDust, language, playWallCrash, spriteVariant]);
 
   useEffect(() => {
     const onResize = () => setViewportWidth(window.innerWidth);
@@ -475,10 +475,12 @@ export default function SideScrollSelect({
     if (!currentId || currentId === activeItemRef.current) return;
     activeItemRef.current = currentId;
     markSignpostVisited(spriteVariant, currentId, items.length);
-    const dialogueMap = ROLE_DIALOGUE[spriteVariant] as Record<string, string>;
-    const activeLabel = activeItem?.label ?? "";
-    setDialogue(dialogueMap[activeLabel] ?? (spriteVariant === "designer" ? "A new interaction signal is close." : "New move, new story — let’s go!"));
-  }, [activeItem, items.length, markSignpostVisited, spriteVariant]);
+    const dialogueMap = ROLE_DIALOGUE[spriteVariant];
+    const fallback = spriteVariant === "designer"
+      ? { en: "A new interaction signal is close.", kr: "새로운 인터랙션 신호가 가까이 있어요.", de: "Ein neues Interaktionssignal ist ganz nah." }
+      : { en: "New move, new story — let’s go!", kr: "새로운 움직임, 새로운 이야기 — 가볼까요!", de: "Neue Bewegung, neue Geschichte — los geht’s!" };
+    setDialogue((dialogueMap[currentId] ?? fallback)[language]);
+  }, [activeItem, items.length, language, markSignpostVisited, spriteVariant]);
 
   // Game loop: continuous movement + walk-cycle timing while a direction key is held
   useEffect(() => {
@@ -625,9 +627,12 @@ export default function SideScrollSelect({
           ← → MOVE <span className="mx-1.5 text-white/30">//</span> ↑ JUMP <span className="mx-1.5 text-white/30">//</span> ENTER SELECT
         </div>
         <div className={`pixel-hud-panel hidden border px-3 py-1.5 font-rajdhani text-[0.6rem] font-black uppercase tracking-[0.14em] sm:block ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
-          <span className="text-white/60">PROJECTS EXPLORED </span>{progress.exploredByRole[spriteVariant].length}/{items.length}
+          <span className="text-white/60">{t("projectsExplored").toUpperCase()} </span>{progress.exploredByRole[spriteVariant].length}/{items.length}
           <span className="mx-2 inline-block h-1.5 w-12 border border-current align-middle"><i className="block h-full bg-current" style={{ width: `${Math.round((progress.exploredByRole[spriteVariant].length / items.length) * 100)}%` }} /></span>
           <span className="mx-2 text-white/25">|</span>✦ {Math.min(progress.collected.length, 3)}/3
+        </div>
+        <div className={`archive-progress-mobile pixel-hud-panel border px-2 py-1 font-rajdhani text-[0.55rem] font-black uppercase tracking-[0.12em] md:hidden ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
+          {progress.exploredByRole[spriteVariant].length}/{items.length} {t("projectsExplored")}
         </div>
         <button
           type="button"
@@ -638,38 +643,7 @@ export default function SideScrollSelect({
         >
           ★ {progress.unlockedAchievements.length}/5
         </button>
-        <button
-          type="button"
-          onClick={() => setShowHelp((v) => !v)}
-          aria-expanded={showHelp}
-          aria-controls="archive-controls-help"
-          aria-label={t("controls")}
-          className={`pixel-hud-panel grid h-8 w-8 shrink-0 place-items-center border-2 bg-[#05080de8] font-bebas text-lg text-white transition-colors duration-200 md:h-9 md:w-9 ${
-            isCyan ? "border-cyan-300/60 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/60 hover:bg-orange-300 hover:text-[#1b0603]"
-          }`}
-        >
-          ?
-        </button>
       </div>
-
-      {showHelp && (
-        <div
-          id="archive-controls-help"
-          className={`pixel-hud-panel absolute right-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 font-rajdhani text-sm text-white/85 md:right-8 md:top-[5.85rem] ${
-            isCyan ? "border-cyan-300/50" : "border-orange-300/50"
-          }`}
-        >
-          <p className={`mb-4 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
-            {t("controls")}
-          </p>
-          <ul className="space-y-1.5">
-            <li>← → {t("moveHint")}</li>
-            <li>↑ {t("jumpHint")}</li>
-            <li>↓ {t("crouchHint")}</li>
-            <li>Enter {t("pressToSelect")}</li>
-          </ul>
-        </div>
-      )}
 
       {showAchievements && (
         <aside id="archive-achievements" className={`absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
@@ -757,13 +731,44 @@ export default function SideScrollSelect({
           />
           {dialogue && activeItem && !isMoving && !collision && (
             <span
-              className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%+1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010] transition-transform duration-100 ease-out"
+              className="pixel-dialogue archive-character-dialogue pointer-events-none absolute bottom-[calc(100%-1.5rem)] left-1/2 z-30 w-[min(15rem,calc(100vw-2rem))] bg-white p-2.5 text-center font-rajdhani text-xs font-bold leading-snug text-[#101010] transition-transform duration-100 ease-out"
               style={{ transform: `translateX(-50%) translateY(${jumping ? -38 : 0}px)` }}
             >
               “{dialogue}”
             </span>
           )}
         </div>
+      </div>
+
+      {/* Controls help */}
+      <div className="archive-controls-help absolute bottom-4 right-24 z-20 md:bottom-6 md:right-[6.5rem] 2xl:bottom-8 2xl:right-12">
+        {showHelp && (
+          <div
+            className={`pixel-hud-panel mb-4 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 font-rajdhani text-sm text-white/85 ${
+              isCyan ? "border-cyan-300/50" : "border-orange-300/50"
+            }`}
+          >
+            <p className={`mb-4 font-black uppercase tracking-[0.2em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>
+              {t("controls")}
+            </p>
+            <ul className="space-y-1.5">
+              <li>← → {t("moveHint")}</li>
+              <li>↑ {t("jumpHint")}</li>
+              <li>↓ {t("crouchHint")}</li>
+              <li>Enter {t("pressToSelect")}</li>
+            </ul>
+          </div>
+        )}
+        <button
+          type="button"
+          onClick={() => setShowHelp((v) => !v)}
+          aria-label={t("controls")}
+          className={`pixel-hud-panel grid h-10 w-10 place-items-center border-2 bg-[#05080de8] font-bebas text-2xl text-white transition-colors duration-200 ${
+            isCyan ? "border-cyan-300/60 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/60 hover:bg-orange-300 hover:text-[#1b0603]"
+          }`}
+        >
+          ?
+        </button>
       </div>
 
       <div className="archive-touch-controls absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] z-30 flex items-end justify-between gap-3 px-4 md:hidden">

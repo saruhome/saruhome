@@ -723,8 +723,20 @@
   font-weight: 600;
 }
 
+/* Case Study hierarchy: work evidence is bright, while orientation and decision metadata remain compact within the dark console. */
+.case-study-overview-copy { min-width: 0; }
+.case-study-metadata-panel { box-shadow: 5px 5px 0 rgba(0,0,0,.7), 0 0 16px rgba(55,231,255,.16); }
+.case-study-exhibit-intro { text-wrap: balance; }
+
+@media (min-width: 768px) {
+  .case-study-overview-grid { align-items: start; }
+  .case-study-metadata-panel { position: sticky; top: 5.75rem; }
+}
+
 @media (max-width: 767px) {
   .case-study-page-shell { padding-top: 6.75rem; padding-bottom: 5.75rem; }
+  .case-study-overview-grid { margin-top: 1.5rem; }
+  .case-study-metadata-panel { padding: 1rem; }
   .case-study-image-area { padding: 0.7rem; border-width: 3px; box-shadow: inset 0 0 0 1px #101820, 5px 5px 0 rgba(0, 0, 0, 0.72), 0 0 14px color-mix(in srgb, var(--case-study-accent) 30%, transparent); }
   .case-study-exhibit-frame { padding: 0.5rem; border-width: 2px; box-shadow: 0 0 0 2px color-mix(in srgb, var(--case-study-accent) 58%, #ffffff), 4px 4px 0 rgba(6, 13, 20, 0.24), 0 0 12px color-mix(in srgb, var(--case-study-accent) 28%, transparent); }
   .case-study-exhibit-image { max-height: min(42dvh, 25rem); box-shadow: 0 0 0 1px var(--case-study-accent-soft), 0 0 0 3px var(--case-study-accent), 0 5px 9px rgba(5, 10, 16, 0.24); }
@@ -962,7 +974,7 @@
     top: auto;
     right: max(0.75rem, env(safe-area-inset-right));
     left: auto;
-    bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+    bottom: calc(env(safe-area-inset-bottom) + 4.5rem);
     min-width: 10.75rem;
     min-height: 3.1rem;
     padding-inline: 0.9rem;
@@ -984,7 +996,7 @@
   .mobile-role-entry-cta { background: rgba(2,7,16,.83); box-shadow: 4px 4px 0 rgba(0,0,0,.76), 0 0 12px color-mix(in srgb, var(--touch-cta-primary) 28%, transparent); text-shadow: 1px 1px 0 rgba(0,0,0,.8); }
   .role-panel-active .mobile-role-entry-cta { background: color-mix(in srgb, var(--touch-cta-dark) 80%, #000000); box-shadow: 4px 4px 0 rgba(0,0,0,.76), 0 0 18px var(--touch-cta-primary), inset 0 0 0 1px rgba(255,255,255,.42); animation: mobile-cta-pulse 0.82s steps(2, end) infinite; }
   .role-panel:first-child .lobby-role-copy { padding-bottom: 1.1rem; }
-  .role-panel:last-child .lobby-role-copy { padding-bottom: 4.6rem; }
+  .role-panel:last-child .lobby-role-copy { padding-bottom: 5.6rem; }
   .mobile-bottom-left-hud,
   .mobile-support-hud,
   .mobile-language-hud { bottom: calc(env(safe-area-inset-bottom) + 0.75rem) !important; }
@@ -1116,6 +1128,11 @@
   .archive-character-slot { bottom: 9rem; scale: 0.82; transform-origin: bottom center; }
   .archive-character-dialogue { bottom: calc(100% - 1.15rem); width: min(14rem, calc(100vw - 2rem)); padding: 0.55rem 0.7rem; font-size: 0.68rem; }
   .archive-touch-controls { z-index: 55; }
+  .archive-controls-help { right: 0.9rem; bottom: calc(env(safe-area-inset-bottom) + 10.25rem); z-index: 56; }
+  .archive-controls-help > button { min-height: 2.75rem; min-width: 2.75rem; }
+  .archive-hud .archive-back,
+  .archive-hud .archive-achievement { min-height: 2.75rem; }
+  .archive-progress-mobile { grid-column: 2; grid-row: 1; justify-self: end; min-height: 2rem; display: grid; place-items: center; }
   .archive-bottom-menu { left: max(0.75rem, env(safe-area-inset-left)); bottom: calc(env(safe-area-inset-bottom) + 0.75rem); gap: 0; }
   .archive-bottom-support { position: fixed; left: calc(max(0.75rem, env(safe-area-inset-left)) + 15.05rem); bottom: calc(env(safe-area-inset-bottom) + 0.75rem); }
   .pixel-game-shell:has(.archive-bottom-menu) .mobile-language-hud { left: calc(max(0.75rem, env(safe-area-inset-left)) + 6.05rem) !important; right: auto !important; }
@@ -1226,6 +1243,11 @@
   z-index: 80;
   bottom: calc(100% + 0.65rem);
   left: 0;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .role-copy-safe { max-width: min(42%, 15rem); }
+  .role-panel-active .lobby-role-title { font-size: clamp(3.2rem, 6.5vw, 4.7rem); }
 }
 
 @media (max-width: 767px) {
