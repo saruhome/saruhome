@@ -1042,7 +1042,7 @@ function FadeInImage({ src, alt, className }: { src: string; alt: string; classN
   );
 }
 
-function StickyNavigation({ onBack, projectId }: { onBack: () => void; projectId: string }) {
+function StickyNavigation({ onBack, projectId, projectTitle, projectKicker }: { onBack: () => void; projectId: string; projectTitle: string; projectKicker: string }) {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -1071,7 +1071,7 @@ function StickyNavigation({ onBack, projectId }: { onBack: () => void; projectId
         </button>
         <div className="flex items-center gap-2">
           <div className="hidden pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100 sm:block">{t("caseStudy")}</div>
-          <ProjectShareButton projectId={projectId} />
+          <ProjectShareButton projectId={projectId} projectTitle={projectTitle} projectKicker={projectKicker} />
           <LanguageSwitcher embedded />
         </div>
       </div>
@@ -1079,12 +1079,16 @@ function StickyNavigation({ onBack, projectId }: { onBack: () => void; projectId
   );
 }
 
-function ProjectShareButton({ projectId }: { projectId: string }) {
+function ProjectShareButton({ projectId, projectTitle, projectKicker }: { projectId: string; projectTitle: string; projectKicker: string }) {
   const { t } = useLanguage();
-  const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
+  const [status, setStatus] = useState<"idle" | "shared" | "copied" | "failed">("idle");
+  const [canNativeShare, setCanNativeShare] = useState(false);
 
-  const copyProjectLink = async () => {
-    const shareUrl = `${window.location.origin}/?project=${encodeURIComponent(projectId)}`;
+  useEffect(() => {
+    setCanNativeShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
+  }, []);
+
+  const copyProjectLink = async (shareUrl: string) => {
     const copyWithFallback = () => {
       const input = document.createElement("textarea");
       input.value = shareUrl;
@@ -1114,17 +1118,40 @@ function ProjectShareButton({ projectId }: { projectId: string }) {
     window.setTimeout(() => setStatus("idle"), 2600);
   };
 
-  const feedback = status === "copied" ? t("linkCopied") : status === "failed" ? t("copyLinkFailed") : "";
+  const shareProject = async () => {
+    const shareUrl = `${window.location.origin}/?project=${encodeURIComponent(projectId)}`;
+
+    if (!canNativeShare) {
+      await copyProjectLink(shareUrl);
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: `${projectTitle} — ${t("caseStudy")}`,
+        text: projectKicker,
+        url: shareUrl,
+      });
+      setStatus("shared");
+      window.setTimeout(() => setStatus("idle"), 2600);
+    } catch (error) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      await copyProjectLink(shareUrl);
+    }
+  };
+
+  const feedback = status === "shared" ? t("linkShared") : status === "copied" ? t("linkCopied") : status === "failed" ? t("copyLinkFailed") : "";
+  const buttonLabel = status === "shared" ? t("linkShared") : status === "copied" ? t("linkCopied") : canNativeShare ? t("shareProject") : t("copyProjectLink");
 
   return (
     <div className="relative flex items-center">
       <button
         type="button"
-        onClick={copyProjectLink}
-        className={`min-h-11 border-2 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 active:scale-[0.97] ${status === "copied" ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-cyan-300/55 bg-[#020711e8] text-cyan-100 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"}`}
-        aria-label={t("copyProjectLink")}
+        onClick={shareProject}
+        className={`min-h-11 border-2 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 active:scale-[0.97] ${status === "shared" || status === "copied" ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-cyan-300/55 bg-[#020711e8] text-cyan-100 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"}`}
+        aria-label={canNativeShare ? t("shareProject") : t("copyProjectLink")}
       >
-        <span aria-hidden="true">{status === "copied" ? "✓" : "⧉"}</span><span className="ml-1 hidden sm:inline">{status === "copied" ? t("linkCopied") : t("copyProjectLink")}</span>
+        <span aria-hidden="true">{status === "shared" || status === "copied" ? "✓" : canNativeShare ? "↗" : "⧉"}</span><span className="ml-1 hidden sm:inline">{buttonLabel}</span>
       </button>
       <span className="sr-only" aria-live="polite">{feedback}</span>
       {status === "failed" && <span role="status" className="absolute right-0 top-full z-60 mt-2 w-64 border border-cyan-300/55 bg-[#020711f5] p-2 font-rajdhani text-xs leading-snug text-cyan-100 shadow-[4px_4px_0_rgba(0,0,0,0.72)]">{feedback}</span>}
@@ -1380,7 +1407,7 @@ export default function CaseStudy({
 
   return (
     <div className="role-theme-scope relative h-auto min-h-dvh overflow-visible bg-black text-white md:h-dvh md:overflow-hidden" data-player-role={selectedRole}>
-      <StickyNavigation onBack={onBack} projectId={project.id} />
+      <StickyNavigation onBack={onBack} projectId={project.id} projectTitle={project.title} projectKicker={project.kicker} />
       <HorizontalSlider showDots showArrows accentColor={palette.accentColor} slideLabels={pageLabels} ariaLabel={`${project.title} case study sections`}>
         {pages}
       </HorizontalSlider>
