@@ -632,25 +632,25 @@ export default function SideScrollSelect({
         <button
           type="button"
           onClick={onBack}
-          className={`archive-back pixel-hud-panel shrink-0 border-2 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`archive-back archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 bg-[#05080de8] px-3 py-1.5 text-center font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
           <span>&lt; {backLabel}</span>
         </button>
-        <div className={`archive-player pixel-hud-panel shrink-0 border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
+        <div className={`archive-player archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
           {playerLabel}
         </div>
-        <div className="archive-label pixel-hud-panel border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
+        <div className="archive-label archive-hud-control pixel-hud-panel inline-flex items-center justify-center border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.62rem] font-bold uppercase tracking-[0.18em] text-white/80 md:text-[0.65rem] md:tracking-[0.22em]">
           {archiveLabel}
         </div>
-        <div className="pixel-hud-panel hidden border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.58rem] font-black uppercase tracking-[0.14em] text-white/75 xl:block">
+        <div className="archive-hud-control pixel-hud-panel hidden items-center border border-white/25 bg-[#05080de8] px-3 py-1.5 font-rajdhani text-[0.58rem] font-black uppercase tracking-[0.14em] text-white/75 xl:flex">
           ← → MOVE <span className="mx-1.5 text-white/30">//</span> ↑ JUMP <span className="mx-1.5 text-white/30">//</span> ENTER SELECT
         </div>
-        <div className={`pixel-hud-panel hidden border px-3 py-1.5 font-rajdhani text-[0.6rem] font-black uppercase tracking-[0.14em] sm:block ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
+        <div className={`archive-progress-desktop archive-hud-control pixel-hud-panel hidden items-center border px-3 py-1.5 font-rajdhani text-[0.6rem] font-black uppercase tracking-[0.14em] sm:flex ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
           <span className="text-white/60">{t("projectsExplored").toUpperCase()} </span>{progress.exploredByRole[spriteVariant].length}/{items.length}
           <span className="mx-2 inline-block h-1.5 w-12 border border-current align-middle"><i className="block h-full bg-current" style={{ width: `${Math.round((progress.exploredByRole[spriteVariant].length / items.length) * 100)}%` }} /></span>
           <span className="mx-2 text-white/25">|</span>✦ {Math.min(progress.collected.length, 3)}/3
         </div>
-        <div className={`archive-progress-mobile pixel-hud-panel border px-2 py-1 font-rajdhani text-[0.55rem] font-black uppercase tracking-[0.12em] md:hidden ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
+        <div className={`archive-progress-mobile archive-hud-control pixel-hud-panel border px-2 py-1 font-rajdhani text-[0.55rem] font-black uppercase tracking-[0.12em] md:hidden ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
           {progress.exploredByRole[spriteVariant].length}/{items.length} {t("projectsExplored")}
         </div>
         <button
@@ -658,14 +658,14 @@ export default function SideScrollSelect({
           onClick={() => setShowAchievements((open) => !open)}
           aria-expanded={showAchievements}
           aria-controls="archive-achievements"
-          className={`archive-achievement pixel-hud-panel border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+          className={`archive-achievement archive-hud-control pixel-hud-panel inline-flex items-center justify-center border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
         >
           ★ {progress.unlockedAchievements.length}/5
         </button>
       </div>
 
       {showAchievements && (
-        <aside id="archive-achievements" className={`absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
+        <aside id="archive-achievements" className={`archive-achievement-panel absolute left-4 top-[5.25rem] z-40 w-[min(22rem,calc(100vw-2rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] md:left-8 md:top-[5.85rem] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
           <div className="mb-3 flex items-center gap-2 border-b border-white/20 pb-2"><AchievementRoleIcon role={spriteVariant} unlocked /><div className="min-w-0 flex-1"><p className={`font-rajdhani text-xs font-black uppercase tracking-[0.22em] ${isCyan ? "text-cyan-200" : "text-orange-200"}`}>{spriteVariant === "designer" ? "DESIGNER BADGES" : "DANCER BADGES"}</p><span className="font-rajdhani text-[0.6rem] font-bold text-white/50">{progress.unlockedAchievements.length}/5 UNLOCKED</span></div></div>
           <div className="grid gap-2">{Object.values(ACHIEVEMENTS).map((achievement) => {
             const unlocked = progress.unlockedAchievements.includes(achievement.id);
