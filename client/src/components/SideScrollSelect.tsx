@@ -14,11 +14,9 @@ import { UtilityMenuBar } from "./UtilityMenuBar";
  */
 
 const ITEM_SPACING = 380;
-// Desktop archive content begins on the same 32px guide as the BACK TO SELECT HUD.
-// The 256px chibi footprint therefore starts at x=32 while its centre lands on the first project.
-const ARCHIVE_LEFT_MARGIN = 32;
-const CHARACTER_DESKTOP_WIDTH = 256;
-const START_X = ARCHIVE_LEFT_MARGIN + CHARACTER_DESKTOP_WIDTH / 2;
+// Each Archive opens with the first project, the character, and their dialogue anchored on the viewport centre.
+// The world then scrolls outward from that centred starting point as the player explores.
+const getCenteredStartX = (viewportWidth: number) => Math.max(160, Math.round(viewportWidth / 2));
 const END_PADDING = 300;
 const SELECT_RADIUS = 140;
 const SPEED = 260; // px/sec
@@ -288,8 +286,10 @@ export default function SideScrollSelect({
   const { clearLatestAchievement, collectItem, latestAchievement, markDoubleJump, markProjectExplored, markSignpostVisited, progress } = useGameProgress();
   const isCyan = accentColor === "cyan";
 
-  // Spawn on the first project signpost's centre; it shares the Back HUD left guide above.
-  const [charX, setCharX] = useState(START_X);
+  const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
+  const [spawnX, setSpawnX] = useState(() => getCenteredStartX(typeof window !== "undefined" ? window.innerWidth : 1024));
+  // Spawn on the first project signpost's centre, aligned with the viewport centre rather than the former left HUD guide.
+  const [charX, setCharX] = useState(() => spawnX);
   const [facing, setFacing] = useState<"left" | "right">(spriteVariant === "dancer" ? "left" : "right");
   const [jumping, setJumping] = useState(false);
   const [crouching, setCrouching] = useState(false);
@@ -304,10 +304,9 @@ export default function SideScrollSelect({
   const [archivePulse, setArchivePulse] = useState<ArchivePulse>(null);
   const [unlockBanner, setUnlockBanner] = useState<{ id: number; label: string } | null>(null);
   const [dialogue, setDialogue] = useState<string | null>(null);
-  const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
-
   const keys = useRef({ left: false, right: false });
-  const charXRef = useRef(START_X);
+  const charXRef = useRef(spawnX);
+  const spawnXRef = useRef(spawnX);
   const velocityRef = useRef(0);
   const rafRef = useRef<number | undefined>(undefined);
   const lastFrameToggle = useRef(0);
@@ -323,17 +322,17 @@ export default function SideScrollSelect({
   const unlockTimer = useRef<number | undefined>(undefined);
   const secretPlatformReached = useRef(false);
 
-  const itemPositions = useMemo(() => items.map((_, i) => START_X + i * ITEM_SPACING), [items]);
-  const levelWidth = START_X + Math.max(0, items.length - 1) * ITEM_SPACING + END_PADDING;
+  const itemPositions = useMemo(() => items.map((_, i) => spawnX + i * ITEM_SPACING), [items, spawnX]);
+  const levelWidth = spawnX + Math.max(0, items.length - 1) * ITEM_SPACING + END_PADDING;
   const hiddenCollectibles = useMemo(() => [
-    { id: `${spriteVariant}-star-signal`, x: Math.min(levelWidth - 120, (itemPositions[0] ?? START_X) + 210), bottom: "27rem", glyph: "✦", label: "Hidden star signal" },
-    { id: `${spriteVariant}-key-node`, x: Math.min(levelWidth - 120, (itemPositions[Math.min(2, itemPositions.length - 1)] ?? START_X) + 150), bottom: "31rem", glyph: "◆", label: "Hidden access key" },
-    { id: `${spriteVariant}-badge-node`, x: Math.min(levelWidth - 120, (itemPositions[itemPositions.length - 1] ?? START_X) + 120), bottom: "24rem", glyph: "▣", label: "Hidden explorer badge" },
-  ], [itemPositions, levelWidth, spriteVariant]);
+    { id: `${spriteVariant}-star-signal`, x: Math.min(levelWidth - 120, (itemPositions[0] ?? spawnX) + 210), bottom: "27rem", glyph: "✦", label: "Hidden star signal" },
+    { id: `${spriteVariant}-key-node`, x: Math.min(levelWidth - 120, (itemPositions[Math.min(2, itemPositions.length - 1)] ?? spawnX) + 150), bottom: "31rem", glyph: "◆", label: "Hidden access key" },
+    { id: `${spriteVariant}-badge-node`, x: Math.min(levelWidth - 120, (itemPositions[itemPositions.length - 1] ?? spawnX) + 120), bottom: "24rem", glyph: "▣", label: "Hidden explorer badge" },
+  ], [itemPositions, levelWidth, spawnX, spriteVariant]);
   const secretPlatform = useMemo(() => ({
     id: `${spriteVariant}-sky-platform`,
-    x: Math.min(levelWidth - 180, (itemPositions[Math.min(1, itemPositions.length - 1)] ?? START_X) + 145),
-  }), [itemPositions, levelWidth, spriteVariant]);
+    x: Math.min(levelWidth - 180, (itemPositions[Math.min(1, itemPositions.length - 1)] ?? spawnX) + 145),
+  }), [itemPositions, levelWidth, spawnX, spriteVariant]);
 
   const activeItem = useMemo(() => {
     const candidates = items
@@ -458,10 +457,21 @@ export default function SideScrollSelect({
   }, [emitDust, language, playWallCrash, spriteVariant]);
 
   useEffect(() => {
-    const onResize = () => setViewportWidth(window.innerWidth);
+    const onResize = () => {
+      const nextViewportWidth = window.innerWidth;
+      setViewportWidth(nextViewportWidth);
+      // Preserve the centred opening composition after orientation changes until the player begins exploring.
+      if (!isMoving && Math.abs(charXRef.current - spawnXRef.current) < 2) {
+        const nextSpawnX = getCenteredStartX(nextViewportWidth);
+        spawnXRef.current = nextSpawnX;
+        setSpawnX(nextSpawnX);
+        charXRef.current = nextSpawnX;
+        setCharX(nextSpawnX);
+      }
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [isMoving]);
 
   useEffect(() => () => {
     if (dustTimer.current) window.clearTimeout(dustTimer.current);
