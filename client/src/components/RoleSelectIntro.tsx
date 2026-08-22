@@ -257,7 +257,7 @@ function RolePanel({
       )}
 
       <div className={`relative z-30 flex h-full min-h-0 flex-col justify-end px-6 pt-8 md:px-10 md:pb-24 lg:px-16 ${isDesigner ? "items-start pb-10 text-left" : "items-end pb-20 text-right"}`}>
-        <div className={`lobby-role-copy role-copy-safe max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
+        <div className={`lobby-role-copy lobby-role-copy-${role.id} role-copy-safe max-w-[34rem] transition-all duration-500 ${isActive ? "translate-y-0 opacity-100" : "translate-y-1 opacity-90"}`}>
           <p className="mb-2 inline-block pixel-tag px-2.5 py-1 font-rajdhani text-xs font-black uppercase tracking-[0.32em] md:mb-3 md:px-3 md:text-sm" style={{ borderColor: `${role.primary}aa`, background: `${role.dark}e8`, color: role.primary }}>
             {isDesigner ? t("player01") : t("player02")}
           </p>
