@@ -674,12 +674,15 @@ export default function SideScrollSelect({
         </aside>
       )}
 
-      {unlockBanner && (
-        <div key={unlockBanner.id} className={`pixel-unlock-banner pointer-events-none absolute left-1/2 top-[22%] z-50 w-[min(31rem,calc(100vw-2rem))] -translate-x-1/2 border-4 bg-[#05080df0] p-4 text-center ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
-          <p className="font-rajdhani text-xs font-black uppercase tracking-[0.42em]">LEVEL CLEAR</p>
-          <p className="mt-1 font-bebas text-4xl tracking-[0.1em] text-white">{unlockBanner.label}</p>
-          <p className="mt-1 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em]">ACCESSING CASE STUDY…</p>
-        </div>
+      {unlockBanner && createPortal(
+        <div key={unlockBanner.id} className="pointer-events-none fixed inset-0 z-[110] grid place-items-center p-4" aria-live="polite" aria-atomic="true">
+          <div className={`pixel-unlock-banner w-[min(31rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 text-center ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
+            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.42em]">LEVEL CLEAR</p>
+            <p className="mt-1 font-bebas text-4xl tracking-[0.1em] text-white">{unlockBanner.label}</p>
+            <p className="mt-1 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em]">ACCESSING CASE STUDY…</p>
+          </div>
+        </div>,
+        document.body,
       )}
       {latestAchievement && createPortal(
         <div className="pointer-events-none fixed inset-0 z-[100] grid place-items-center p-4" aria-live="polite">
