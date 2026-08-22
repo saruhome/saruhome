@@ -5,6 +5,7 @@ import { useGameAudio } from "../contexts/GameAudioContext";
 import { ACHIEVEMENTS, useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
 import { UtilityMenuBar } from "./UtilityMenuBar";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 /**
  * Side-scroll "run to select" screen.
@@ -629,13 +630,21 @@ export default function SideScrollSelect({
       <div className={`pixel-distant-runner pointer-events-none absolute bottom-[16rem] z-[4] h-3 w-7 ${isCyan ? "bg-cyan-300/45" : "bg-orange-300/45"}`} aria-hidden="true" />
 
       <div className="archive-hud absolute inset-x-4 top-4 z-60 flex flex-wrap items-center gap-2 md:inset-x-8 md:top-7 md:gap-3 2xl:inset-x-12 2xl:top-8 2xl:gap-4">
-        <button
-          type="button"
-          onClick={onBack}
-          className={`archive-back archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 bg-[#05080de8] px-3 py-1.5 text-center font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
-        >
-          <span>&lt; {backLabel}</span>
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={onBack}
+              title={t("returnToSelectHint")}
+              className={`archive-back archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 bg-[#05080de8] px-3 py-1.5 text-center font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:brightness-125 focus-visible:-translate-y-0.5 md:px-4 md:text-xs ${isCyan ? "border-cyan-200/75 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-200/75 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+            >
+              <span>&lt; {backLabel}</span>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" sideOffset={8} className={`archive-hud-tooltip !z-[80] border-2 rounded-none bg-[#05080df5] px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.13em] text-white shadow-[4px_4px_0_rgba(0,0,0,0.65)] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
+            {t("returnToSelectHint")}
+          </TooltipContent>
+        </Tooltip>
         <div className={`archive-player archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] ${isCyan ? "border-cyan-200/80 bg-cyan-300/15 text-cyan-100" : "border-orange-200/80 bg-orange-300/15 text-orange-100"}`}>
           {playerLabel}
         </div>
@@ -653,15 +662,23 @@ export default function SideScrollSelect({
         <div className={`archive-progress-mobile archive-hud-control pixel-hud-panel border px-2 py-1 font-rajdhani text-[0.55rem] font-black uppercase tracking-[0.12em] md:hidden ${isCyan ? "border-cyan-300/55 text-cyan-100" : "border-orange-300/55 text-orange-100"}`}>
           {progress.exploredByRole[spriteVariant].length}/{items.length} {t("projectsExplored")}
         </div>
-        <button
-          type="button"
-          onClick={() => setShowAchievements((open) => !open)}
-          aria-expanded={showAchievements}
-          aria-controls="archive-achievements"
-          className={`archive-achievement archive-hud-control pixel-hud-panel inline-flex items-center justify-center border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
-        >
-          ★ {progress.unlockedAchievements.length}/5
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              onClick={() => setShowAchievements((open) => !open)}
+              aria-expanded={showAchievements}
+              aria-controls="archive-achievements"
+              title={t("rewardsHint")}
+              className={`archive-achievement archive-hud-control pixel-hud-panel inline-flex items-center justify-center border-2 bg-[#05080de8] px-3 py-1.5 font-bebas text-lg leading-none transition-colors hover:brightness-125 focus-visible:-translate-y-0.5 ${isCyan ? "border-cyan-300/70 text-cyan-100 hover:bg-cyan-300 hover:text-[#06101e]" : "border-orange-300/70 text-orange-100 hover:bg-orange-300 hover:text-[#1b0603]"}`}
+            >
+              ★ {progress.unlockedAchievements.length}/5
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" sideOffset={8} className={`archive-hud-tooltip !z-[80] border-2 rounded-none bg-[#05080df5] px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.13em] text-white shadow-[4px_4px_0_rgba(0,0,0,0.65)] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`}>
+            {t("rewardsHint")}
+          </TooltipContent>
+        </Tooltip>
       </div>
 
       {showAchievements && (

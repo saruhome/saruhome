@@ -138,6 +138,8 @@ export const translations = {
     crouchHint: "Crouch",
     pressToSelect: "Press ENTER to select",
     projectsExplored: "Projects explored",
+    returnToSelectHint: "Return to character select",
+    rewardsHint: "View unlocked rewards",
   },
   kr: {
     // Main page
@@ -274,6 +276,8 @@ export const translations = {
     crouchHint: "숙이기",
     pressToSelect: "엔터를 눌러 선택",
     projectsExplored: "탐색한 프로젝트",
+    returnToSelectHint: "캐릭터 선택으로 돌아가기",
+    rewardsHint: "해금한 보상 보기",
   },
   de: {
     // Main page
@@ -408,8 +412,10 @@ export const translations = {
     moveHint: "Bewegen",
     jumpHint: "Springen",
     crouchHint: "Ducken",
-    pressToSelect: "ENTER drücken zum Auswählen",
+    pressToSelect: "ENTER zum Auswählen drücken",
     projectsExplored: "Erkundete Projekte",
+    returnToSelectHint: "Zur Charakterauswahl zurückkehren",
+    rewardsHint: "Freigeschaltete Belohnungen ansehen",
   },
 };
 
