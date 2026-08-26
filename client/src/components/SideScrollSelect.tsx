@@ -44,9 +44,9 @@ const CHIBI_CROUCH_FRAME = {
   dancer: assetUrl("dancer-crouch_5e4d23c2.png", "dancer-crouch.png"),
 } as const;
 
-const CHIBI_WALL_SIT = {
-  designer: assetUrl("designer-wall-sit_042877db.png", "designer-wall-sit.png"),
-  dancer: assetUrl("dancer-wall-sit_e2918a65.png", "dancer-wall-sit.png"),
+const CHIBI_HURT_FALL = {
+  designer: "/generated/designer-hurt-fall.png",
+  dancer: "/generated/dancer-hurt-fall.png",
 } as const;
 
 const spritePosition = {
@@ -128,11 +128,11 @@ function PixelCharacter({
     <div className="relative h-44 w-40 origin-bottom md:h-72 md:w-64">
       {collision ? (
         <img
-          src={CHIBI_WALL_SIT[variant]}
+          src={CHIBI_HURT_FALL[variant]}
           alt=""
           draggable={false}
-          className="pixel-wall-sit absolute inset-x-0 bottom-2 h-[92%] w-full origin-bottom object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
-          style={{ "--sit-facing": shouldMirrorFall ? -1 : 1 } as React.CSSProperties}
+          className="pixel-hurt-fall absolute inset-x-0 bottom-2 h-[92%] w-full origin-bottom object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+          style={{ "--hurt-facing": shouldMirrorFall ? -1 : 1 } as React.CSSProperties}
         />
       ) : (
         <div className={`absolute inset-0 origin-bottom ${recovery ? `archive-recover-rise archive-recover-${recovery.edge}` : ""}`}>
@@ -693,10 +693,10 @@ export default function SideScrollSelect({
 
       {unlockBanner && createPortal(
         <div key={unlockBanner.id} className="pointer-events-none fixed inset-0 z-[110] grid place-items-center p-4" aria-live="polite" aria-atomic="true">
-          <div className={`pixel-unlock-banner w-[min(31rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-4 text-center ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
-            <p className="font-rajdhani text-xs font-black uppercase tracking-[0.42em]">LEVEL CLEAR</p>
-            <p className="mt-1 font-bebas text-4xl tracking-[0.1em] text-white">{unlockBanner.label}</p>
-            <p className="mt-1 font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.22em]">ACCESSING CASE STUDY…</p>
+          <div className={`pixel-unlock-banner w-[min(62rem,calc(100vw-2rem))] border-4 bg-[#05080df0] p-6 text-center sm:p-8 ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}>
+            <p className="font-rajdhani text-sm font-black uppercase tracking-[0.42em] sm:text-base">LEVEL CLEAR</p>
+            <p className="mt-2 font-bebas text-5xl tracking-[0.1em] text-white sm:text-6xl">{unlockBanner.label}</p>
+            <p className="mt-2 font-rajdhani text-xs font-bold uppercase tracking-[0.22em] sm:text-sm">ACCESSING CASE STUDY…</p>
           </div>
         </div>,
         document.body,

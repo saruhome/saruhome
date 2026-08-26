@@ -1056,23 +1056,23 @@ function StickyNavigation({ onBack, projectId, projectTitle, projectKicker }: { 
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-[#020711]/95 border-b-2 border-cyan-300/55 shadow-[0_4px_0_rgba(34,211,238,0.25)]"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 md:px-12 md:py-4 flex items-center justify-between gap-3">
+      <div className="mx-4 mt-4 flex flex-wrap items-center justify-between gap-2 md:mx-8 md:mt-7 md:gap-3 2xl:mx-12 2xl:mt-8 2xl:gap-4">
         <button
           onClick={onBack}
-          className="min-h-11 border-2 border-cyan-300/45 bg-black/55 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.16em] text-cyan-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"
+          className="archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 border-cyan-200/75 bg-[#05080de8] px-3 py-1.5 text-center font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e] focus-visible:-translate-y-0.5 md:px-4 md:text-xs"
         >
           <span>&lt; {t("backToWorks").toUpperCase()}</span>
         </button>
-        <div className="flex items-center gap-2">
-          <div className="hidden pixel-hud-panel border-cyan-300/55 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100 sm:block">{t("caseStudy")}</div>
+        <div className="flex shrink-0 items-center gap-2 md:gap-3 2xl:gap-4">
+          <div className="archive-hud-control pixel-hud-panel hidden shrink-0 items-center justify-center border-2 border-cyan-200/80 bg-cyan-300/15 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100 sm:inline-flex">{t("caseStudy")}</div>
           <ProjectShareButton projectId={projectId} projectTitle={projectTitle} projectKicker={projectKicker} />
-          <LanguageSwitcher embedded />
+          <LanguageSwitcher hud />
         </div>
       </div>
     </nav>
@@ -1148,7 +1148,7 @@ function ProjectShareButton({ projectId, projectTitle, projectKicker }: { projec
       <button
         type="button"
         onClick={shareProject}
-        className={`min-h-11 border-2 px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.15em] transition-all duration-200 active:scale-[0.97] ${status === "shared" || status === "copied" ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-cyan-300/55 bg-[#020711e8] text-cyan-100 hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e]"}`}
+        className={`archive-hud-control pixel-hud-panel inline-flex shrink-0 items-center justify-center border-2 px-3 py-1.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.16em] transition-all duration-200 active:scale-[0.97] md:px-4 md:text-xs ${status === "shared" || status === "copied" ? "border-cyan-200 bg-cyan-300 text-[#06101e]" : "border-cyan-200/75 bg-[#05080de8] text-white hover:-translate-y-0.5 hover:bg-cyan-300 hover:text-[#06101e] focus-visible:-translate-y-0.5"}`}
         aria-label={canNativeShare ? t("shareProject") : t("copyProjectLink")}
       >
         <span aria-hidden="true">{status === "shared" || status === "copied" ? "✓" : canNativeShare ? "↗" : "⧉"}</span><span className="ml-1 hidden sm:inline">{buttonLabel}</span>

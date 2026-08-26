@@ -528,14 +528,16 @@
   100% { opacity: 0; transform: translate(-50%, -6px) scale(0.92); }
 }
 
-.pixel-wall-sit {
-  animation: pixel-wall-sit 0.52s steps(4, end) both;
+.pixel-hurt-fall {
+  animation: pixel-hurt-fall 0.72s steps(6, end) both;
+  filter: drop-shadow(4px 5px 0 rgba(0, 0, 0, 0.46));
 }
 
-@keyframes pixel-wall-sit {
-  0% { opacity: 0.7; transform: translateY(-10px) rotate(calc(var(--sit-facing) * -8deg)) scaleX(var(--sit-facing)); }
-  38% { opacity: 1; transform: translateY(5px) rotate(calc(var(--sit-facing) * 4deg)) scaleX(var(--sit-facing)); }
-  100% { opacity: 1; transform: translateY(0) rotate(0deg) scaleX(var(--sit-facing)); }
+@keyframes pixel-hurt-fall {
+  0% { opacity: 0.25; transform: translateX(calc(var(--hurt-facing) * -22px)) translateY(-30px) rotate(calc(var(--hurt-facing) * -34deg)) scaleX(var(--hurt-facing)) scale(0.92); }
+  34% { opacity: 1; transform: translateX(calc(var(--hurt-facing) * 8px)) translateY(8px) rotate(calc(var(--hurt-facing) * 9deg)) scaleX(var(--hurt-facing)) scale(1.04); }
+  62% { transform: translateX(calc(var(--hurt-facing) * -3px)) translateY(-2px) rotate(calc(var(--hurt-facing) * -4deg)) scaleX(var(--hurt-facing)) scale(1); }
+  100% { opacity: 1; transform: translateX(0) translateY(0) rotate(0deg) scaleX(var(--hurt-facing)) scale(1); }
 }
 
 .pixel-dust-burst {
@@ -595,7 +597,7 @@
 
 .pixel-unlock-banner { animation: pixel-unlock-banner .62s steps(5,end) both; box-shadow:8px 8px 0 rgba(0,0,0,.76),0 0 28px currentColor; }
 .pixel-achievement-toast { animation: pixel-achievement-toast .38s steps(4,end) both; box-shadow:5px 5px 0 rgba(0,0,0,.72),0 0 18px currentColor; }
-@keyframes pixel-unlock-banner { 0% { opacity:0; transform:translate(-50%,18px) scale(.78); } 42% { opacity:1; transform:translate(-50%,-4px) scale(1.07); } 100% { opacity:1; transform:translate(-50%,0) scale(1); } }
+@keyframes pixel-unlock-banner { 0% { opacity:0; transform:translateY(18px) scale(.78); } 42% { opacity:1; transform:translateY(-4px) scale(1.07); } 100% { opacity:1; transform:translateY(0) scale(1); } }
 @keyframes pixel-achievement-toast { 0% { opacity:0; transform:scale(.86); } 100% { opacity:1; transform:scale(1); } }
 
 .pixel-dialogue { border: 3px solid #111; box-shadow: 5px 5px 0 #111; image-rendering: pixelated; }
