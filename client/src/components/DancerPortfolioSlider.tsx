@@ -447,13 +447,13 @@ export default function DancerPortfolioSlider({
   const { t, language } = useLanguage();
   const { palette } = useRoleTheme();
   const ui = dancerUiByLang[language];
-  const [view, setView] = useState<"game" | "gallery" | "bio">("game");
+  const [view, setView] = useState<"projects" | "game" | "gallery" | "bio">("projects");
 
   if (view === "gallery") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
         <LanguageSwitcher elevated />
-        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
+        <BackButton label={t("back").toUpperCase()} onClick={() => setView("projects")} />
         <VideoSlide />
       </div>
     );
@@ -463,7 +463,7 @@ export default function DancerPortfolioSlider({
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
         <LanguageSwitcher elevated />
-        <BackButton label={t("back").toUpperCase()} onClick={() => setView("game")} />
+        <BackButton label={t("back").toUpperCase()} onClick={() => setView("projects")} />
         <BioSlide />
       </div>
     );
@@ -474,11 +474,58 @@ export default function DancerPortfolioSlider({
     { id: "bio", label: t("aboutNav") },
   ];
 
+  if (view === "projects") {
+    return (
+      <div className="relative min-h-dvh bg-black">
+        <LanguageSwitcher elevated />
+        <section className="relative h-auto min-h-dvh w-full overflow-visible md:h-[100dvh] md:overflow-y-auto bg-black px-4 py-16 md:px-8 md:py-24 lg:px-12">
+          <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
+          <div className="relative z-10 mx-auto w-full max-w-5xl">
+            <div className="mb-8 flex flex-wrap items-center justify-start gap-3">
+              <button
+                type="button"
+                onClick={onBack}
+                className="pixel-hud-panel border-orange-300/55 bg-[#160604e8] px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-orange-100 transition-colors hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"
+              >
+                &lt; {t("backToSelect").toUpperCase()}
+              </button>
+              <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-orange-300">{ui.playerArchive}</p>
+            </div>
+            <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8">{ui.dancePortfolio}</h2>
+
+            <div className="grid gap-3">
+              {items.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setView(item.id === "gallery" ? "gallery" : "bio")}
+                  className="pixel-hud-panel flex min-h-11 items-center gap-4 border-orange-300/35 bg-[#160604e8] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-orange-200 hover:bg-orange-300 hover:text-[#1b0603]"
+                  style={{ "--hud-glow": "#fb923c" } as React.CSSProperties}
+                >
+                  <span className="font-rajdhani text-base font-black uppercase tracking-[0.1em]">{item.label}</span>
+                </button>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setView("game")}
+              className="pixel-hud-panel mt-10 inline-flex min-h-11 items-center gap-3 border-2 border-orange-200 bg-transparent px-4 py-3 font-rajdhani text-sm font-black uppercase tracking-[0.14em] text-orange-100 transition-colors duration-200 hover:bg-orange-300 hover:text-[#1b0603]"
+            >
+              <span aria-hidden="true">🕹</span>
+              <span>{t("exploreArchiveWorld")}</span>
+            </button>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-dvh overflow-hidden bg-black">
       <SideScrollSelect
         items={items}
-        onBack={onBack}
+        onBack={() => setView("projects")}
         backLabel={t("backToSelect").toUpperCase()}
         accentColor={palette.accentColor}
         spriteVariant="dancer"

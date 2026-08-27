@@ -583,6 +583,11 @@ export default function SideScrollSelect({
         triggerSelect();
       }
       if (e.key === "?") setShowHelp((v) => !v);
+      if (e.key === "Escape") {
+        setShowHelp(false);
+        setShowQuickMenu(false);
+        setShowAchievements(false);
+      }
     };
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {

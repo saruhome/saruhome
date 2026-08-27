@@ -367,7 +367,78 @@ function ContactSlide({ embedded = false }: { embedded?: boolean }) {
   );
 }
 
-type DesignerView = "game" | "about" | { type: "caseStudy"; projectId: string };
+type DesignerView = "projects" | "game" | "about" | { type: "caseStudy"; projectId: string };
+
+function DesignerProjectsList({
+  designProjects,
+  onOpenProject,
+  onOpenAbout,
+  onExploreGame,
+  onBack,
+}: {
+  designProjects: DesignProject[];
+  onOpenProject: (id: string) => void;
+  onOpenAbout: () => void;
+  onExploreGame: () => void;
+  onBack: () => void;
+}) {
+  const { t } = useLanguage();
+  return (
+    <section className="relative h-auto min-h-dvh w-full overflow-visible md:h-[100dvh] md:overflow-y-auto bg-dark-primary px-4 py-16 md:px-8 md:py-24 lg:px-12">
+      <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
+      <div className="pointer-events-none absolute inset-0 arcade-lobby-grid opacity-25" />
+      <div className="relative z-10 mx-auto w-full max-w-5xl">
+        <div className="mb-8 flex flex-wrap items-center justify-start gap-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="pixel-hud-panel border-cyan-300/55 bg-[#020b18] px-3 py-2 font-rajdhani text-xs font-black uppercase tracking-[0.2em] text-cyan-100 transition-colors hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
+          >
+            &lt; {t("backToSelect").toUpperCase()}
+          </button>
+          <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">{t("caseStudies").toUpperCase()}</p>
+        </div>
+        <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("designPortfolio")}</h2>
+
+        <div className="grid gap-3">
+          {designProjects.map((project, index) => (
+            <button
+              key={project.id}
+              type="button"
+              onClick={() => onOpenProject(project.id)}
+              className="pixel-hud-panel group flex min-h-11 items-center gap-4 border-cyan-300/35 bg-[#020b18e8] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
+              style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
+            >
+              <span className="w-8 shrink-0 font-bebas text-2xl">{String(index + 1).padStart(2, "0")}</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-rajdhani text-base font-black uppercase tracking-[0.1em]">{project.title}</span>
+                <span className="mt-1 block font-rajdhani text-[0.65rem] font-bold uppercase tracking-[0.14em] text-cyan-300 group-hover:text-[#06101e]/70">{project.tag}</span>
+                <span className="mt-1.5 block font-rajdhani text-sm text-light-secondary group-hover:text-[#06101e]/80">{project.description}</span>
+              </span>
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={onOpenAbout}
+            className="pixel-hud-panel flex min-h-11 items-center gap-4 border-cyan-300/35 bg-[#020b18e8] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-cyan-300 hover:text-[#06101e]"
+            style={{ "--hud-glow": "#22d3ee" } as React.CSSProperties}
+          >
+            <span className="font-rajdhani text-base font-black uppercase tracking-[0.1em]">{t("aboutNav")}</span>
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={onExploreGame}
+          className="pixel-hud-panel mt-10 inline-flex min-h-11 items-center gap-3 border-2 border-cyan-200 bg-transparent px-4 py-3 font-rajdhani text-sm font-black uppercase tracking-[0.14em] text-cyan-100 transition-colors duration-200 hover:bg-cyan-300 hover:text-[#06101e]"
+        >
+          <span aria-hidden="true">🕹</span>
+          <span>{t("exploreArchiveWorld")}</span>
+        </button>
+      </div>
+    </section>
+  );
+}
 
 export default function DesignerPortfolioSlider({
   onBack,
@@ -379,11 +450,11 @@ export default function DesignerPortfolioSlider({
   const { t, language } = useLanguage();
   const { palette } = useRoleTheme();
   const designProjects = designProjectsByLang[language];
-  const [view, setView] = useState<DesignerView>(() => initialProjectId ? { type: "caseStudy", projectId: initialProjectId } : "game");
+  const [view, setView] = useState<DesignerView>(() => initialProjectId ? { type: "caseStudy", projectId: initialProjectId } : "projects");
 
   const closeCaseStudy = () => {
     window.history.replaceState({}, "", window.location.pathname);
-    setView("game");
+    setView("projects");
   };
 
   if (typeof view === "object") {
@@ -394,7 +465,7 @@ export default function DesignerPortfolioSlider({
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-dark-primary">
         <LanguageSwitcher elevated />
-        <AboutMeSkillsSlide onBack={() => setView("game")} />
+        <AboutMeSkillsSlide onBack={() => setView("projects")} />
       </div>
     );
   }
@@ -404,11 +475,26 @@ export default function DesignerPortfolioSlider({
     { id: "about", label: t("aboutNav") },
   ];
 
+  if (view === "projects") {
+    return (
+      <div className="relative min-h-dvh bg-dark-primary">
+        <LanguageSwitcher elevated />
+        <DesignerProjectsList
+          designProjects={designProjects}
+          onOpenProject={(id) => setView({ type: "caseStudy", projectId: id })}
+          onOpenAbout={() => setView("about")}
+          onExploreGame={() => setView("game")}
+          onBack={onBack}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-dvh overflow-hidden bg-black">
       <SideScrollSelect
         items={items}
-        onBack={onBack}
+        onBack={() => setView("projects")}
         backLabel={t("backToSelect").toUpperCase()}
         accentColor={palette.accentColor}
         spriteVariant="designer"
