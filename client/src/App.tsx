@@ -4,12 +4,9 @@
  * maintains high contrast, cinematic lighting, and fighting-game UI energy from the first paint.
  */
 
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import { GameAudioProvider } from "./contexts/GameAudioContext";
@@ -31,20 +28,15 @@ function App() {
   return (
     <ErrorBoundary>
       <LanguageProvider>
-        <ThemeProvider defaultTheme="dark">
-          <MotionProvider>
-            <RoleProvider>
-              <GameProgressProvider>
-                <GameAudioProvider>
-                  <TooltipProvider>
-                    <Toaster />
-                    <Router />
-                  </TooltipProvider>
-                </GameAudioProvider>
-              </GameProgressProvider>
-            </RoleProvider>
-          </MotionProvider>
-        </ThemeProvider>
+        <MotionProvider>
+          <RoleProvider>
+            <GameProgressProvider>
+              <GameAudioProvider>
+                <Router />
+              </GameAudioProvider>
+            </GameProgressProvider>
+          </RoleProvider>
+        </MotionProvider>
       </LanguageProvider>
     </ErrorBoundary>
   );
