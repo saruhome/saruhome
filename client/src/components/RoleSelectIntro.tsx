@@ -27,6 +27,7 @@ type RoleOption = {
   title: string;
   subtitle: string;
   spriteSheet: string;
+  idleSprite: string;
   gestureGif: string;
   primary: string;
   dark: string;
@@ -43,6 +44,7 @@ const roles: RoleOption[] = [
     title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
     spriteSheet: "/optimized/designer-chibi-sprite-sheet.webp",
+    idleSprite: "/optimized/designer-chibi-idle.webp",
     gestureGif: assetUrl("designer-arcade-pixel-loop-clean_35163308.gif", "designer-arcade-pixel-loop.gif"),
     primary: "#37E7FF",
     dark: "#06101E",
@@ -54,6 +56,7 @@ const roles: RoleOption[] = [
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
     spriteSheet: "/optimized/dancer-chibi-sprite-sheet.webp",
+    idleSprite: "/optimized/dancer-chibi-idle.webp",
     gestureGif: assetUrl("dancer-hover-jump-loop_e7852574.gif", "dancer-hover-jump-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
@@ -87,14 +90,24 @@ function ChibiAvatar({ role, state, className = "" }: { role: RoleOption; state:
       <div className="relative h-44 w-40 sm:h-56 sm:w-52 lg:h-72 lg:w-64">
         <div className="chibi-floor-highlight absolute bottom-[9%] left-[83%] h-[5%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
         <div className={`absolute inset-0 z-10 ${animationClass}`}>
-          <div
-            className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
-            style={{
-              backgroundImage: `url(${role.spriteSheet})`,
-              backgroundPosition: spritePositions[state],
-              backgroundSize: "200% 200%",
-            }}
-          />
+          {state === "idle" ? (
+            <img
+              src={role.idleSprite}
+              alt=""
+              aria-hidden="true"
+              decoding="async"
+              className="h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+            />
+          ) : (
+            <div
+              className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
+              style={{
+                backgroundImage: `url(${role.spriteSheet})`,
+                backgroundPosition: spritePositions[state],
+                backgroundSize: "200% 200%",
+              }}
+            />
+          )}
         </div>
       </div>
     </div>
