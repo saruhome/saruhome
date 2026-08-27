@@ -1179,6 +1179,10 @@ html[data-reduced-motion="true"] .terminal-cursor {
   font-size: 1.65rem;
   line-height: 1;
   touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: contain;
 }
 .archive-touch-button:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 rgba(0,0,0,.76), 0 0 16px currentColor; filter: brightness(1.28); }
 .archive-touch-action { width: 3.6rem; grid-template-rows: 1fr auto; padding: 0.25rem 0.2rem; }

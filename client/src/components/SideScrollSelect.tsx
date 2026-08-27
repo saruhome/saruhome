@@ -829,19 +829,27 @@ export default function SideScrollSelect({
           <button
             type="button"
             aria-label="Move left"
-            onPointerDown={(event) => { event.preventDefault(); beginTouchMove("left"); }}
+            onPointerDown={(event) => {
+              event.preventDefault();
+              event.currentTarget.setPointerCapture(event.pointerId);
+              beginTouchMove("left");
+            }}
             onPointerUp={endTouchMove}
-            onPointerLeave={endTouchMove}
             onPointerCancel={endTouchMove}
+            onLostPointerCapture={endTouchMove}
             className={`archive-touch-button ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}
           >←</button>
           <button
             type="button"
             aria-label="Move right"
-            onPointerDown={(event) => { event.preventDefault(); beginTouchMove("right"); }}
+            onPointerDown={(event) => {
+              event.preventDefault();
+              event.currentTarget.setPointerCapture(event.pointerId);
+              beginTouchMove("right");
+            }}
             onPointerUp={endTouchMove}
-            onPointerLeave={endTouchMove}
             onPointerCancel={endTouchMove}
+            onLostPointerCapture={endTouchMove}
             className={`archive-touch-button ${isCyan ? "border-cyan-200 text-cyan-100" : "border-orange-200 text-orange-100"}`}
           >→</button>
         </div>

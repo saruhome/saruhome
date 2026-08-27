@@ -93,6 +93,8 @@ function ChibiAvatar({ role, state, className = "" }: { role: RoleOption; state:
           {state === "idle" ? (
             <img
               src={role.idleSprite}
+              srcSet={`${role.idleSprite.replace(".webp", "-256.webp")} 256w, ${role.idleSprite} 512w`}
+              sizes="(min-width: 64rem) 16rem, (min-width: 40rem) 13rem, 10rem"
               alt=""
               aria-hidden="true"
               decoding="async"
@@ -185,7 +187,7 @@ function RolePanel({
   return (
     <button
       type="button"
-      aria-label={`Explore ${isDesigner ? t("uxuiDesigner") : t("dancer")} portfolio`}
+      aria-label={`${isDesigner ? t("player01") : t("player02")}: ${isDesigner ? t("uxuiDesigner") : t("dancer")} — ${isDesigner ? t("designerSubtitle") : t("dancerSubtitle")}. Explore portfolio.`}
       aria-pressed={isLocked}
       disabled={lockedRole !== null}
       onMouseEnter={() => !lockedRole && onHoverStart(role.id)}
