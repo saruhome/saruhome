@@ -1323,7 +1323,12 @@ function ApplicationOverviewPage({ project }: { project: ApplicationCaseStudy })
   const collectibleId = `case-study-${project.id}`;
   return (
     <PageShell>
-      <p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200 md:text-sm">{project.kicker}</p>
+      <div className="flex flex-wrap items-center gap-3">
+        <p className="font-rajdhani text-xs font-black uppercase tracking-[0.28em] text-cyan-200 md:text-sm">{project.kicker}</p>
+        <span className={`border px-2 py-0.5 font-rajdhani text-[0.65rem] font-black uppercase tracking-[0.14em] ${project.evidenceStatus === "ongoing" ? "border-amber-300/70 text-amber-200" : "border-cyan-300/50 text-cyan-100"}`}>
+          {project.evidenceStatus === "ongoing" ? t("evidenceStatusOngoing") : t("evidenceStatusPublic")}
+        </span>
+      </div>
       <h1 className="mt-5 font-bebas text-[clamp(2.8rem,7vw,5.8rem)] leading-[0.78] tracking-[0.04em] text-white text-shadow-arcade"><TerminalText text={project.title} speed={65} /></h1>
       <div className="case-study-overview-grid mt-7 grid gap-5 md:grid-cols-[1.3fr_0.7fr] md:gap-7">
         <div className="case-study-overview-copy">
@@ -1336,6 +1341,7 @@ function ApplicationOverviewPage({ project }: { project: ApplicationCaseStudy })
             <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("project")}</p><p className="mt-1">{project.projectType}</p></div>
             <div><p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-200">{t("timeline")}</p><p className="mt-1">{project.timeline}</p></div>
             {project.link && <a className="inline-block border border-cyan-300/60 px-3 py-2 font-black uppercase tracking-[0.16em] text-cyan-100 transition-colors hover:bg-cyan-300 hover:text-[#06101e]" href={project.link} target="_blank" rel="noreferrer">↗ {t("openProject")}</a>}
+            {project.evidenceStatus === "ongoing" && <p className="border-l-2 border-amber-300/60 pl-2 text-xs italic leading-relaxed text-white/60">{t("evidenceStatusOngoingNote")}</p>}
           </div>
         </div>
       </div>
