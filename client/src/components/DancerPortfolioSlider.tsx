@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import SideScrollSelect from "./SideScrollSelect";
+
+const SideScrollSelect = lazy(() => import("./SideScrollSelect"));
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useRoleTheme } from "../contexts/RoleContext";
-import { assetUrl } from "../lib/assetUrl";
+import { useGameAudio } from "../contexts/GameAudioContext";
 
 /**
  * Design System — Pixel Dance Archive
  * Hard-edge orange arcade frames, cartridge labels, and stage UI around playable media.
  */
 
-const DANCE_PIXEL_STAGE = assetUrl("pixel-dancer-archive-stage_f52ebca6.png", "pixel-dancer-archive-stage.png");
+const DANCE_PIXEL_STAGE = "/optimized/dancer-archive-stage.webp";
 
 type DanceActivity = {
   id: string;
@@ -428,6 +429,16 @@ function BioSlide() {
   );
 }
 
+function ViewLoadingFallback() {
+  return (
+    <div className="grid min-h-dvh place-items-center bg-[#1a0503] p-6 text-center" role="status" aria-live="polite">
+      <p className="pixel-hud-panel border-orange-200/75 bg-[#160604e8] px-6 py-4 font-rajdhani text-sm font-black uppercase tracking-[0.22em] text-orange-100">
+        LOADING ARCHIVE…
+      </p>
+    </div>
+  );
+}
+
 function BackButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
     <button
@@ -446,6 +457,7 @@ export default function DancerPortfolioSlider({
 }) {
   const { t, language } = useLanguage();
   const { palette } = useRoleTheme();
+  const { launchArchiveAudio } = useGameAudio();
   const ui = dancerUiByLang[language];
   const [view, setView] = useState<"projects" | "game" | "gallery" | "bio">("projects");
 
@@ -473,6 +485,11 @@ export default function DancerPortfolioSlider({
     { id: "gallery", label: ui.dancePerformance },
     { id: "bio", label: t("aboutNav") },
   ];
+
+  const openGame = () => {
+    launchArchiveAudio("dancer");
+    setView("game");
+  };
 
   if (view === "projects") {
     return (
@@ -509,7 +526,7 @@ export default function DancerPortfolioSlider({
 
             <button
               type="button"
-              onClick={() => setView("game")}
+              onClick={openGame}
               className="pixel-hud-panel mt-10 inline-flex min-h-11 items-center gap-3 border-2 border-orange-200 bg-transparent px-4 py-3 font-rajdhani text-sm font-black uppercase tracking-[0.14em] text-orange-100 transition-colors duration-200 hover:bg-orange-300 hover:text-[#1b0603]"
             >
               <span aria-hidden="true">🕹</span>
@@ -522,18 +539,20 @@ export default function DancerPortfolioSlider({
   }
 
   return (
-    <div className="relative h-dvh overflow-hidden bg-black">
-      <SideScrollSelect
-        items={items}
-        onBack={() => setView("projects")}
-        backLabel={t("backToSelect").toUpperCase()}
-        accentColor={palette.accentColor}
-        spriteVariant="dancer"
-        eyebrow={ui.playerArchive}
-        title={ui.dancePortfolio}
-        onQuickSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
-        onSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
-      />
-    </div>
+    <Suspense fallback={<ViewLoadingFallback />}>
+      <div className="relative h-dvh overflow-hidden bg-black">
+        <SideScrollSelect
+          items={items}
+          onBack={() => setView("projects")}
+          backLabel={t("backToSelect").toUpperCase()}
+          accentColor={palette.accentColor}
+          spriteVariant="dancer"
+          eyebrow={ui.playerArchive}
+          title={ui.dancePortfolio}
+          onQuickSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
+          onSelect={(id) => setView(id === "gallery" ? "gallery" : "bio")}
+        />
+      </div>
+    </Suspense>
   );
 }

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
-import DesignerPortfolioSlider from "./DesignerPortfolioSlider";
-import DancerPortfolioSlider from "./DancerPortfolioSlider";
+
+const DesignerPortfolioSlider = lazy(() => import("./DesignerPortfolioSlider"));
+const DancerPortfolioSlider = lazy(() => import("./DancerPortfolioSlider"));
 import { UtilityMenuBar } from "./UtilityMenuBar";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
@@ -32,7 +33,7 @@ type RoleOption = {
   stats: [string, string, string];
 };
 
-const PIXEL_LOBBY = assetUrl("pixel-portfolio-lobby-reference_c2b7d5df.png", "pixel-portfolio-lobby-reference.png");
+const PIXEL_LOBBY = "/optimized/lobby.webp";
 const FH_CONSOLE_REFERENCE = "/manus-storage/fh-joanneum-interaction-console-reference_d0476753.png";
 
 const roles: RoleOption[] = [
@@ -41,7 +42,7 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 01",
     title: "UX DESIGNER",
     subtitle: "Systems, interfaces, flow, precision",
-    spriteSheet: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
+    spriteSheet: "/optimized/designer-chibi-sprite-sheet.webp",
     gestureGif: assetUrl("designer-arcade-pixel-loop-clean_35163308.gif", "designer-arcade-pixel-loop.gif"),
     primary: "#37E7FF",
     dark: "#06101E",
@@ -52,7 +53,7 @@ const roles: RoleOption[] = [
     eyebrow: "PLAYER 02",
     title: "DANCER",
     subtitle: "Rhythm, presence, battle energy",
-    spriteSheet: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
+    spriteSheet: "/optimized/dancer-chibi-sprite-sheet.webp",
     gestureGif: assetUrl("dancer-hover-jump-loop_e7852574.gif", "dancer-hover-jump-loop.gif"),
     primary: "#FF6B17",
     dark: "#200806",
@@ -305,7 +306,7 @@ function IntroScreen({
 }) {
   const { t } = useLanguage();
   const { selectRole: setSelectedRole } = useRoleTheme();
-  const { launchArchiveAudio, playRoleHoverJump } = useGameAudio();
+  const { playRoleHoverJump } = useGameAudio();
   const { markRolePlayed, markTutorialSeen, progress } = useGameProgress();
   const [activeRole, setActiveRole] = useState<Role | null>(null);
   const [landingRole, setLandingRole] = useState<Role | null>(null);
@@ -368,7 +369,6 @@ function IntroScreen({
   const handleRoleSelection = (role: Role) => {
     if (lockedRole) return;
     setSelectedRole(role);
-    launchArchiveAudio(role);
     markRolePlayed(role);
     setLockedRole(role);
     setActiveRole(role);
@@ -379,7 +379,6 @@ function IntroScreen({
     if (lockedRole) return;
     setShowQuickMenu(false);
     setSelectedRole(role);
-    launchArchiveAudio(role);
     markRolePlayed(role);
     onSelect(role);
   };
@@ -459,6 +458,16 @@ function IntroScreen({
   );
 }
 
+function PortfolioLoadingScreen() {
+  return (
+    <div className="grid min-h-dvh place-items-center bg-[#020711] p-6 text-center" role="status" aria-live="polite">
+      <p className="pixel-hud-panel border-cyan-200/75 bg-[#05080de8] px-6 py-4 font-rajdhani text-sm font-black uppercase tracking-[0.22em] text-cyan-100">
+        LOADING PORTFOLIO…
+      </p>
+    </div>
+  );
+}
+
 export default function RoleSelectIntro({ initialProjectId }: { initialProjectId?: string }) {
   const [view, setView] = useState<View>(() => initialProjectId ? "designer" : "main");
   const [sharedProjectId, setSharedProjectId] = useState(initialProjectId);
@@ -480,8 +489,16 @@ export default function RoleSelectIntro({ initialProjectId }: { initialProjectId
   return (
     <main className="pixel-game-shell h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
       {view === "main" && <IntroScreen onSelect={setView} muted={muted} onToggleMuted={toggleMuted} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion(!reducedMotion)} />}
-      {view === "designer" && <DesignerPortfolioSlider initialProjectId={sharedProjectId} onBack={returnToLobby} />}
-      {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}
+      {view === "designer" && (
+        <Suspense fallback={<PortfolioLoadingScreen />}>
+          <DesignerPortfolioSlider initialProjectId={sharedProjectId} onBack={returnToLobby} />
+        </Suspense>
+      )}
+      {view === "dancer" && (
+        <Suspense fallback={<PortfolioLoadingScreen />}>
+          <DancerPortfolioSlider onBack={returnToLobby} />
+        </Suspense>
+      )}
     </main>
   );
 }

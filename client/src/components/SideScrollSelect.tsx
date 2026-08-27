@@ -29,8 +29,8 @@ const JUMP_MS = 380;
 const DOUBLE_JUMP_MS = 320;
 
 const CHIBI_SPRITE_SHEET = {
-  designer: assetUrl("designer-chibi-sprite-sheet_011ed7b7.png", "designer-chibi-sprite-sheet.png"),
-  dancer: assetUrl("dancer-chibi-sprite-sheet_e9dd17a4.png", "dancer-chibi-sprite-sheet.png"),
+  designer: "/optimized/designer-chibi-sprite-sheet.webp",
+  dancer: "/optimized/dancer-chibi-sprite-sheet.webp",
 } as const;
 
 const CHIBI_RUN_GIF = {
@@ -58,8 +58,8 @@ const spritePosition = {
 } as const;
 
 const ARCHIVE_STAGES = {
-  designer: assetUrl("pixel-designer-archive-stage_95952f5a.png", "pixel-designer-archive-stage.png"),
-  dancer: assetUrl("pixel-dancer-archive-stage_f52ebca6.png", "pixel-dancer-archive-stage.png"),
+  designer: "/optimized/designer-archive-stage.webp",
+  dancer: "/optimized/dancer-archive-stage.webp",
 } as const;
 
 const DESIGNER_PROJECT_THUMBNAILS: Record<string, string> = {

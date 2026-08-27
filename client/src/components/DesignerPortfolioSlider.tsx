@@ -1,10 +1,12 @@
 // Pixel profile screens: a real portrait stays legible inside a hard-edged player-ID frame, never a rounded card.
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import CaseStudy from "./CaseStudy";
-import SideScrollSelect from "./SideScrollSelect";
+
+const CaseStudy = lazy(() => import("./CaseStudy"));
+const SideScrollSelect = lazy(() => import("./SideScrollSelect"));
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useRoleTheme } from "../contexts/RoleContext";
+import { useGameAudio } from "../contexts/GameAudioContext";
 import { useGameProgress } from "../contexts/GameProgressContext";
 import { assetUrl } from "../lib/assetUrl";
 
@@ -369,6 +371,16 @@ function ContactSlide({ embedded = false }: { embedded?: boolean }) {
 
 type DesignerView = "projects" | "game" | "about" | { type: "caseStudy"; projectId: string };
 
+function ViewLoadingFallback() {
+  return (
+    <div className="grid min-h-dvh place-items-center bg-[#06101e] p-6 text-center" role="status" aria-live="polite">
+      <p className="pixel-hud-panel border-cyan-200/75 bg-[#020b18e8] px-6 py-4 font-rajdhani text-sm font-black uppercase tracking-[0.22em] text-cyan-100">
+        LOADING ARCHIVE…
+      </p>
+    </div>
+  );
+}
+
 function DesignerProjectsList({
   designProjects,
   onOpenProject,
@@ -449,6 +461,7 @@ export default function DesignerPortfolioSlider({
 }) {
   const { t, language } = useLanguage();
   const { palette } = useRoleTheme();
+  const { launchArchiveAudio } = useGameAudio();
   const designProjects = designProjectsByLang[language];
   const [view, setView] = useState<DesignerView>(() => initialProjectId ? { type: "caseStudy", projectId: initialProjectId } : "projects");
 
@@ -457,8 +470,17 @@ export default function DesignerPortfolioSlider({
     setView("projects");
   };
 
+  const openGame = () => {
+    launchArchiveAudio("designer");
+    setView("game");
+  };
+
   if (typeof view === "object") {
-    return <CaseStudy projectId={view.projectId} onBack={closeCaseStudy} />;
+    return (
+      <Suspense fallback={<ViewLoadingFallback />}>
+        <CaseStudy projectId={view.projectId} onBack={closeCaseStudy} />
+      </Suspense>
+    );
   }
 
   if (view === "about") {
@@ -483,7 +505,7 @@ export default function DesignerPortfolioSlider({
           designProjects={designProjects}
           onOpenProject={(id) => setView({ type: "caseStudy", projectId: id })}
           onOpenAbout={() => setView("about")}
-          onExploreGame={() => setView("game")}
+          onExploreGame={openGame}
           onBack={onBack}
         />
       </div>
@@ -491,24 +513,26 @@ export default function DesignerPortfolioSlider({
   }
 
   return (
-    <div className="relative h-dvh overflow-hidden bg-black">
-      <SideScrollSelect
-        items={items}
-        onBack={() => setView("projects")}
-        backLabel={t("backToSelect").toUpperCase()}
-        accentColor={palette.accentColor}
-        spriteVariant="designer"
-        eyebrow={t("player01Archive")}
-        title={t("designPortfolio")}
-        onQuickSelect={(id) => {
-          if (id === "about") setView("about");
-          else setView({ type: "caseStudy", projectId: id });
-        }}
-        onSelect={(id) => {
-          if (id === "about") setView("about");
-          else setView({ type: "caseStudy", projectId: id });
-        }}
-      />
-    </div>
+    <Suspense fallback={<ViewLoadingFallback />}>
+      <div className="relative h-dvh overflow-hidden bg-black">
+        <SideScrollSelect
+          items={items}
+          onBack={() => setView("projects")}
+          backLabel={t("backToSelect").toUpperCase()}
+          accentColor={palette.accentColor}
+          spriteVariant="designer"
+          eyebrow={t("player01Archive")}
+          title={t("designPortfolio")}
+          onQuickSelect={(id) => {
+            if (id === "about") setView("about");
+            else setView({ type: "caseStudy", projectId: id });
+          }}
+          onSelect={(id) => {
+            if (id === "about") setView("about");
+            else setView({ type: "caseStudy", projectId: id });
+          }}
+        />
+      </div>
+    </Suspense>
   );
 }
