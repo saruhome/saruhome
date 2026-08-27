@@ -91,15 +91,16 @@ function ChibiAvatar({ role, state, className = "" }: { role: RoleOption; state:
         <div className="chibi-floor-highlight absolute bottom-[9%] left-[83%] h-[5%] w-[72%] -translate-x-1/2" style={{ "--floor-primary": role.primary, "--floor-shadow": role.dark } as React.CSSProperties} />
         <div className={`absolute inset-0 z-10 ${animationClass}`}>
           {state === "idle" ? (
-            <img
-              src={role.idleSprite}
-              srcSet={`${role.idleSprite.replace(".webp", "-256.webp")} 256w, ${role.idleSprite} 512w`}
-              sizes="(min-width: 64rem) 16rem, (min-width: 40rem) 13rem, 10rem"
-              alt=""
-              aria-hidden="true"
-              decoding="async"
-              className="h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
-            />
+            <picture className="block h-full w-full">
+              <source media="(max-width: 47.99rem)" srcSet={role.idleSprite.replace(".webp", "-256.webp")} />
+              <img
+                src={role.idleSprite}
+                alt=""
+                aria-hidden="true"
+                decoding="async"
+                className="h-full w-full object-contain [image-rendering:pixelated] [image-rendering:crisp-edges]"
+              />
+            </picture>
           ) : (
             <div
               className="h-full w-full bg-no-repeat [image-rendering:pixelated] [image-rendering:crisp-edges]"
