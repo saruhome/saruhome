@@ -35,6 +35,7 @@ type RoleOption = {
 };
 
 const PIXEL_LOBBY = "/optimized/lobby.webp";
+const MOBILE_PIXEL_LOBBY = "/optimized/lobby-mobile.webp";
 const FH_CONSOLE_REFERENCE = "/manus-storage/fh-joanneum-interaction-console-reference_d0476753.png";
 
 const roles: RoleOption[] = [
@@ -123,17 +124,23 @@ function RoleWorld({ role, activeRole }: { role: RoleOption; activeRole: Role | 
 
   return (
     <div
-      className="absolute inset-0 bg-cover bg-center transition-[filter,transform] duration-500"
+      className="absolute inset-0 overflow-hidden transition-[filter,transform] duration-500"
       style={{
-        backgroundImage: `url(${PIXEL_LOBBY})`,
-        backgroundSize: "200% 100%",
-        backgroundPosition: isDesigner ? "left center" : "right center",
-        imageRendering: "pixelated",
         filter: isActive ? "brightness(1.16) saturate(1.28)" : "brightness(0.82) saturate(0.9)",
         transform: isActive ? "scale(1.035)" : "scale(1)",
       }}
       aria-hidden="true"
     >
+      <picture className="absolute inset-0 block">
+        <source media="(max-width: 47.99rem)" srcSet={MOBILE_PIXEL_LOBBY} />
+        <img
+          src={PIXEL_LOBBY}
+          alt=""
+          decoding="async"
+          fetchPriority="high"
+          className={`absolute top-0 h-full w-[200%] max-w-none object-fill [image-rendering:pixelated] ${isDesigner ? "left-0" : "right-0"}`}
+        />
+      </picture>
       <div className="absolute inset-0 pixel-world-shade" style={{ "--world-glow": role.primary } as React.CSSProperties} />
       <div className="absolute inset-0 arcade-scanline opacity-40" />
       <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(0,0,0,0.92),transparent)]" />
