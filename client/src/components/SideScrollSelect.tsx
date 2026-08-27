@@ -510,8 +510,10 @@ export default function SideScrollSelect({
     setDialogue((dialogueMap[currentId] ?? fallback)[language]);
   }, [activeItem, items.length, language, markSignpostVisited, spriteVariant]);
 
-  // Game loop: continuous movement + walk-cycle timing while a direction key is held
+  // Run the animation frame loop only while the character has manual or queued movement.
+  // Keeping it stopped while idle avoids a full React tree update on every display frame.
   useEffect(() => {
+    if (!isMoving) return;
     let last = performance.now();
     const step = (now: number) => {
       const dt = (now - last) / 1000;
@@ -521,7 +523,6 @@ export default function SideScrollSelect({
         charXRef.current = queuedTarget.x;
         setCharX(queuedTarget.x);
         completeAutoEntry(queuedTarget.id);
-        rafRef.current = requestAnimationFrame(step);
         return;
       }
       const inputDirection = queuedTarget
@@ -556,6 +557,7 @@ export default function SideScrollSelect({
       } else {
         velocityRef.current = 0;
         setIsMoving(false);
+        return;
       }
       rafRef.current = requestAnimationFrame(step);
     };
@@ -563,7 +565,7 @@ export default function SideScrollSelect({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [completeAutoEntry, levelWidth, playFootstep, spriteVariant, triggerCollision]);
+  }, [completeAutoEntry, isMoving, levelWidth, playFootstep, spriteVariant, triggerCollision]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -634,7 +636,6 @@ export default function SideScrollSelect({
           backgroundPosition: `${-cameraX * 0.16}px bottom`,
           backgroundRepeat: "repeat-x",
           backgroundSize: "auto 100%",
-          filter: isCyan ? "saturate(1.08) contrast(1.08)" : "saturate(1.12) contrast(1.08)",
         }}
       />
       <div className={`pointer-events-none absolute inset-0 ${isCyan ? "bg-[linear-gradient(180deg,rgba(3,12,25,0.4),rgba(3,12,25,0.04)_45%,rgba(3,12,25,0.7))]" : "bg-[linear-gradient(180deg,rgba(30,5,3,0.42),rgba(64,11,4,0.04)_45%,rgba(30,5,3,0.72))]"}`} />
