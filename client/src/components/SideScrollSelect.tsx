@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 import { ACHIEVEMENTS, useGameProgress } from "../contexts/GameProgressContext";
+import { useReducedMotion } from "../contexts/MotionContext";
 import { assetUrl } from "../lib/assetUrl";
 import { UtilityMenuBar } from "./UtilityMenuBar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
@@ -285,6 +286,7 @@ export default function SideScrollSelect({
   const { t, language } = useLanguage();
   const { muted, toggleMuted, playConfirm, playFootstep, playHover, playJump, playLand, playNavigate, playUnlock, playWallCrash } = useGameAudio();
   const { clearLatestAchievement, collectItem, latestAchievement, markDoubleJump, markProjectExplored, markSignpostVisited, progress } = useGameProgress();
+  const { reducedMotion, setReducedMotion } = useReducedMotion();
   const isCyan = accentColor === "cyan";
 
   const [viewportWidth, setViewportWidth] = useState(() => (typeof window !== "undefined" ? window.innerWidth : 1024));
@@ -387,12 +389,18 @@ export default function SideScrollSelect({
     const targetX = itemPositions[index];
     keys.current.left = false;
     keys.current.right = false;
+    if (reducedMotion) {
+      charXRef.current = targetX;
+      setCharX(targetX);
+      completeAutoEntry(id);
+      return;
+    }
     autoTargetRef.current = { id, x: targetX };
     setFacing(targetX < charXRef.current ? "left" : "right");
     setIsMoving(true);
     emitDust("start");
     playNavigate();
-  }, [emitDust, itemPositions, items, playNavigate]);
+  }, [completeAutoEntry, emitDust, itemPositions, items, playNavigate, reducedMotion]);
 
   const triggerSelect = useCallback(() => {
     if (!activeItem) return;
@@ -848,6 +856,8 @@ export default function SideScrollSelect({
         onQuickToggle={() => setShowQuickMenu((open) => !open)}
         muted={muted}
         onToggleMuted={toggleMuted}
+        reducedMotion={reducedMotion}
+        onToggleReducedMotion={() => setReducedMotion(!reducedMotion)}
         quickPanel={showQuickMenu && (
             <aside id="quick-menu-panel" className={`utility-menu-popover w-[min(21rem,calc(100vw-1.5rem))] border-4 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)] ${isCyan ? "border-cyan-300/70" : "border-orange-300/70"}`} aria-label={t("quickMenu")}>
               <div className="mb-3 flex items-center justify-between border-b border-white/20 pb-2">

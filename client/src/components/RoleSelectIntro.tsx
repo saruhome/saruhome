@@ -6,6 +6,7 @@ import { UtilityMenuBar } from "./UtilityMenuBar";
 import { useRoleTheme } from "../contexts/RoleContext";
 import { useGameAudio } from "../contexts/GameAudioContext";
 import { useGameProgress } from "../contexts/GameProgressContext";
+import { useReducedMotion } from "../contexts/MotionContext";
 import { assetUrl } from "../lib/assetUrl";
 
 /**
@@ -289,7 +290,19 @@ function RolePanel({
   );
 }
 
-function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View) => void; muted: boolean; onToggleMuted: () => void }) {
+function IntroScreen({
+  onSelect,
+  muted,
+  onToggleMuted,
+  reducedMotion,
+  onToggleReducedMotion,
+}: {
+  onSelect: (view: View) => void;
+  muted: boolean;
+  onToggleMuted: () => void;
+  reducedMotion: boolean;
+  onToggleReducedMotion: () => void;
+}) {
   const { t } = useLanguage();
   const { selectRole: setSelectedRole } = useRoleTheme();
   const { launchArchiveAudio, playRoleHoverJump } = useGameAudio();
@@ -398,6 +411,8 @@ function IntroScreen({ onSelect, muted, onToggleMuted }: { onSelect: (view: View
         onQuickToggle={() => setShowQuickMenu((open) => !open)}
         muted={muted}
         onToggleMuted={onToggleMuted}
+        reducedMotion={reducedMotion}
+        onToggleReducedMotion={onToggleReducedMotion}
         quickPanel={showQuickMenu && (
           <aside id="quick-menu-panel" className="utility-menu-popover w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden border-4 border-cyan-300/65 bg-[#05080df5] p-3 shadow-[6px_6px_0_rgba(0,0,0,0.65)]" aria-label={t("quickMenu")}>
             <div className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-[0.16] [image-rendering:pixelated]" style={{ backgroundImage: `url(${FH_CONSOLE_REFERENCE})` }} />
@@ -449,6 +464,7 @@ export default function RoleSelectIntro({ initialProjectId }: { initialProjectId
   const [sharedProjectId, setSharedProjectId] = useState(initialProjectId);
   const { muted, toggleMuted, stopMusic } = useGameAudio();
   const { selectRole } = useRoleTheme();
+  const { reducedMotion, setReducedMotion } = useReducedMotion();
 
   useEffect(() => {
     if (initialProjectId) selectRole("designer");
@@ -463,7 +479,7 @@ export default function RoleSelectIntro({ initialProjectId }: { initialProjectId
 
   return (
     <main className="pixel-game-shell h-auto min-h-dvh overflow-visible bg-black text-white md:h-[100dvh] md:overflow-hidden">
-      {view === "main" && <IntroScreen onSelect={setView} muted={muted} onToggleMuted={toggleMuted} />}
+      {view === "main" && <IntroScreen onSelect={setView} muted={muted} onToggleMuted={toggleMuted} reducedMotion={reducedMotion} onToggleReducedMotion={() => setReducedMotion(!reducedMotion)} />}
       {view === "designer" && <DesignerPortfolioSlider initialProjectId={sharedProjectId} onBack={returnToLobby} />}
       {view === "dancer" && <DancerPortfolioSlider onBack={returnToLobby} />}
     </main>

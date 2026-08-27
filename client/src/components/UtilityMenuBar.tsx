@@ -12,6 +12,8 @@ export function UtilityMenuBar({
   quickPanel,
   muted,
   onToggleMuted,
+  reducedMotion,
+  onToggleReducedMotion,
 }: {
   quickLabel: string;
   quickExpanded: boolean;
@@ -19,6 +21,8 @@ export function UtilityMenuBar({
   quickPanel: ReactNode;
   muted: boolean;
   onToggleMuted: () => void;
+  reducedMotion: boolean;
+  onToggleReducedMotion: () => void;
 }) {
   return (
     <nav className="utility-menu-bar" aria-label="Portfolio utility menu">
@@ -46,6 +50,16 @@ export function UtilityMenuBar({
           aria-label={muted ? "Enable portfolio audio" : "Mute portfolio audio"}
         >
           {muted ? "Sound Off" : "Sound On"}
+        </button>
+        <span className="utility-menu-divider" aria-hidden="true" />
+        <button
+          type="button"
+          onClick={onToggleReducedMotion}
+          className="utility-menu-item utility-menu-motion"
+          aria-pressed={reducedMotion}
+          aria-label={reducedMotion ? "Disable reduced motion" : "Enable reduced motion"}
+        >
+          {reducedMotion ? "Motion Off" : "Motion On"}
         </button>
         <span className="utility-menu-divider" aria-hidden="true" />
         <a

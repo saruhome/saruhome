@@ -14,6 +14,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { RoleProvider } from "./contexts/RoleContext";
 import { GameAudioProvider } from "./contexts/GameAudioContext";
 import { GameProgressProvider } from "./contexts/GameProgressContext";
+import { MotionProvider } from "./contexts/MotionContext";
 import Home from "./pages/Home";
 
 function Router() {
@@ -31,16 +32,18 @@ function App() {
     <ErrorBoundary>
       <LanguageProvider>
         <ThemeProvider defaultTheme="dark">
-          <RoleProvider>
-            <GameProgressProvider>
-              <GameAudioProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <Router />
-                </TooltipProvider>
-              </GameAudioProvider>
-            </GameProgressProvider>
-          </RoleProvider>
+          <MotionProvider>
+            <RoleProvider>
+              <GameProgressProvider>
+                <GameAudioProvider>
+                  <TooltipProvider>
+                    <Toaster />
+                    <Router />
+                  </TooltipProvider>
+                </GameAudioProvider>
+              </GameProgressProvider>
+            </RoleProvider>
+          </MotionProvider>
         </ThemeProvider>
       </LanguageProvider>
     </ErrorBoundary>

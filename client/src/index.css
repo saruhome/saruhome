@@ -872,6 +872,21 @@
   }
 }
 
+/* Manual "Reduce motion" toggle mirrors the prefers-reduced-motion media query above,
+   for viewers whose OS preference is off but who still want the toggle to work. */
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
+html[data-reduced-motion="true"] .terminal-cursor {
+  display: none;
+}
+
 .pixel-wall-impact { animation: pixel-wall-impact 0.72s steps(5, end) both; }
 .pixel-wall-impact-left { left: -3.5rem; }
 .pixel-wall-impact-right { right: -3.5rem; }
@@ -1287,6 +1302,7 @@
 .utility-menu-quick { min-width: 8.8rem; color: #fff; }
 .utility-menu-language { min-width: 4.5rem; color: rgba(255, 255, 255, 0.86); }
 .utility-menu-sound { min-width: 5.1rem; }
+.utility-menu-motion { min-width: 5.6rem; }
 .utility-menu-support { min-width: 5rem; color: #ffe05b; text-decoration: none; }
 .utility-menu-support:hover { background: #ffdd00; color: #111; }
 
@@ -1308,12 +1324,16 @@
     left: 50%;
     transform: translateX(-50%);
     bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+    max-width: calc(100vw - 1.5rem);
   }
-  .utility-menu-rail { height: 2.75rem; min-height: 2.75rem; }
+  /* Five items' min-widths can outgrow narrow phones; scroll the rail instead of clipping items. */
+  .utility-menu-rail { height: 2.75rem; min-height: 2.75rem; overflow-x: auto; scrollbar-width: none; }
+  .utility-menu-rail::-webkit-scrollbar { display: none; }
   .utility-menu-item { min-height: calc(2.75rem - 4px); padding-inline: 0.42rem; font-size: 0.5rem; letter-spacing: 0.08em; }
   .utility-menu-quick { min-width: 6.65rem; }
   .utility-menu-language { min-width: 3.7rem; }
   .utility-menu-sound { min-width: 4.25rem; }
+  .utility-menu-motion { min-width: 4.6rem; }
   .utility-menu-support { min-width: 4.15rem; }
   .utility-menu-popover { width: min(22rem, calc(100vw - 1.5rem)) !important; }
 }

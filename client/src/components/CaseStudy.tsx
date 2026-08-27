@@ -6,6 +6,7 @@ import { assetUrl } from "../lib/assetUrl";
 import { applicationCaseStudyContent, type ApplicationCaseStudy } from "../lib/applicationCaseStudyContent";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useGameProgress } from "../contexts/GameProgressContext";
+import { useReducedMotion } from "../contexts/MotionContext";
 
 /**
  * Design System — Pixel Command Console + Project Exhibition
@@ -63,8 +64,13 @@ const PROJECT_EXHIBITS: Record<string, { src: string; title: string; caption: st
 };
 
 function useTerminalText(text: string, speed = 11) {
-  const [typed, setTyped] = useState("");
+  const { reducedMotion } = useReducedMotion();
+  const [typed, setTyped] = useState(reducedMotion ? text : "");
   useEffect(() => {
+    if (reducedMotion) {
+      setTyped(text);
+      return;
+    }
     let index = 0;
     setTyped("");
     const timer = window.setInterval(() => {
@@ -73,7 +79,7 @@ function useTerminalText(text: string, speed = 11) {
       if (index >= text.length) window.clearInterval(timer);
     }, speed);
     return () => window.clearInterval(timer);
-  }, [speed, text]);
+  }, [reducedMotion, speed, text]);
   return typed;
 }
 
