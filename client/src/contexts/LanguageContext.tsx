@@ -451,6 +451,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem("language", language);
+    document.documentElement.lang = language === "kr" ? "ko" : language;
   }, [language]);
 
   const t = (key: keyof typeof translations.en): string => {
