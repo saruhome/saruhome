@@ -1,0 +1,10 @@
+// Cloudflare Workers 정적 배포 설정 (2026-08-31 Vercel → Cloudflare 이전).
+// vite build 산출물(dist/public)을 정적 서빙. 서버 로직 없음.
+{
+  "name": "saruhome",
+  "compatibility_date": "2026-08-31",
+  "assets": {
+    "directory": "./dist/public",
+    "not_found_handling": "single-page-application"
+  }
+}
