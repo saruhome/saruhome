@@ -234,6 +234,7 @@ function FooterPage({ onBack }: { onBack: () => void }) {
 /** Application dossier pages: a readable evidence structure inside the existing 16-bit command-console shell. */
 function DeferredExhibitImage({ src, alt, className }: { src: string; alt: string; className?: string }) {
   const [shouldLoad, setShouldLoad] = useState(false);
+  const [errored, setErrored] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -258,8 +259,12 @@ function DeferredExhibitImage({ src, alt, className }: { src: string; alt: strin
 
   return (
     <div ref={containerRef} className="case-study-exhibit-placeholder" aria-busy={!shouldLoad}>
-      {shouldLoad ? (
-        <img src={src} alt={alt} className={className} loading="lazy" decoding="async" />
+      {errored ? (
+        <span className="case-study-exhibit-unavailable" role="img" aria-label={alt}>
+          Image unavailable
+        </span>
+      ) : shouldLoad ? (
+        <img src={src} alt={alt} className={className} loading="lazy" decoding="async" onError={() => setErrored(true)} />
       ) : (
         <span className="case-study-exhibit-skeleton" aria-hidden="true" />
       )}
@@ -337,7 +342,7 @@ function ApplicationOverviewPage({ project }: { project: ApplicationCaseStudy })
           </div>
         </div>
       </div>
-      {!progress.collected.includes(collectibleId) && <button type="button" onClick={() => collectItem(collectibleId)} aria-label="Collect hidden project data chip" title="Hidden project data chip" className="pixel-collectible mt-6 inline-block border border-cyan-300/45 bg-[#020711e8] px-3 py-1 font-bebas text-xl text-cyan-200">◆ DATA CHIP</button>}
+      {!progress.collected.includes(collectibleId) && <button type="button" onClick={() => collectItem(collectibleId)} aria-label="Collect hidden project data chip" title="Hidden project data chip" className="pixel-collectible pixel-collectible-subtle mt-6 inline-block border border-cyan-300/45 bg-[#020711e8] px-3 py-1 font-bebas text-xl text-cyan-200">◆</button>}
     </PageShell>
   );
 }

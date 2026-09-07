@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useLanguage, type Language } from "../contexts/LanguageContext";
 
-export function LanguageSwitcher({ elevated = false, embedded = false, hud = false }: { elevated?: boolean; embedded?: boolean; hud?: boolean }) {
+export function LanguageSwitcher({ embedded = false, hud = false }: { embedded?: boolean; hud?: boolean }) {
   const { language, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -13,7 +13,7 @@ export function LanguageSwitcher({ elevated = false, embedded = false, hud = fal
   ];
 
   return (
-    <div className={hud ? "relative" : embedded ? "utility-menu-slot utility-menu-slot-language" : `mobile-language-hud fixed bottom-4 right-4 z-[70] md:bottom-6 md:right-6 ${elevated ? "" : ""}`}>
+    <div className={hud ? "relative" : embedded ? "utility-menu-slot utility-menu-slot-language" : "mobile-language-hud fixed bottom-4 right-4 z-[70] md:bottom-6 md:right-6"}>
       {isOpen && (
         <div
           id={embedded ? "utility-language-options" : "language-options"}

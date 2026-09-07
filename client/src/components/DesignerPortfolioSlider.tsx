@@ -181,6 +181,7 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
             <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">
               {t("aboutMe")}
             </p>
+            <LanguageSwitcher hud />
           </div>
           <h2 className="font-bebas text-4xl font-bold text-light-primary mb-6 text-shadow-cyan">
             {t("designerAndDancer")}
@@ -219,7 +220,7 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
                 <span>{t("downloadCV")}</span>
                 <span className="border-l border-[#06101e]/40 pl-3 text-[0.65rem] tracking-[0.18em]">PDF</span>
               </a>
-              {!progress.collected.includes("designer-about-signal") && <button type="button" onClick={() => collectItem("designer-about-signal")} className="pixel-collectible mt-5 self-start border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">✦ BIO SIGNAL</button>}
+              {!progress.collected.includes("designer-about-signal") && <button type="button" onClick={() => collectItem("designer-about-signal")} aria-label="Collect hidden bio signal" title="Hidden bio signal" className="pixel-collectible pixel-collectible-subtle mt-5 self-start border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">✦</button>}
             </div>
           </div>
         </div>
@@ -278,7 +279,7 @@ function ContactSlide({ embedded = false }: { embedded?: boolean }) {
       <div className={embedded ? "relative" : "relative z-10 mx-auto w-full max-w-5xl"}>
         <p className="font-rajdhani text-xs font-black uppercase tracking-[0.36em] text-cyan-200 md:text-sm mb-4">{t("contact").toUpperCase()}</p>
         <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("getInTouch")}</h2>
-        {!progress.collected.includes("designer-contact-key") && <button type="button" onClick={() => collectItem("designer-contact-key")} className="pixel-collectible mb-5 inline-block border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">◆ CONTACT KEY</button>}
+        {!progress.collected.includes("designer-contact-key") && <button type="button" onClick={() => collectItem("designer-contact-key")} aria-label="Collect hidden contact key" title="Hidden contact key" className="pixel-collectible pixel-collectible-subtle mb-5 inline-block border border-cyan-300/45 bg-[#020b18e8] px-3 py-1 font-bebas text-lg text-cyan-200">◆</button>}
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
           <a
@@ -409,6 +410,7 @@ function DesignerProjectsList({
             &lt; {t("backToSelect").toUpperCase()}
           </button>
           <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">{t("caseStudies").toUpperCase()}</p>
+          <LanguageSwitcher hud />
         </div>
         <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("designPortfolio")}</h2>
 
@@ -486,7 +488,6 @@ export default function DesignerPortfolioSlider({
   if (view === "about") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-dark-primary">
-        <LanguageSwitcher elevated />
         <AboutMeSkillsSlide onBack={() => setView("projects")} />
       </div>
     );
@@ -500,7 +501,6 @@ export default function DesignerPortfolioSlider({
   if (view === "projects") {
     return (
       <div className="relative min-h-dvh bg-dark-primary">
-        <LanguageSwitcher elevated />
         <DesignerProjectsList
           designProjects={designProjects}
           onOpenProject={(id) => setView({ type: "caseStudy", projectId: id })}

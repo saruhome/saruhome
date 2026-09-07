@@ -464,7 +464,7 @@ export default function DancerPortfolioSlider({
   if (view === "gallery") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-        <LanguageSwitcher elevated />
+        <LanguageSwitcher />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("projects")} />
         <VideoSlide />
       </div>
@@ -474,7 +474,7 @@ export default function DancerPortfolioSlider({
   if (view === "bio") {
     return (
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
-        <LanguageSwitcher elevated />
+        <LanguageSwitcher />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("projects")} />
         <BioSlide />
       </div>
@@ -494,7 +494,6 @@ export default function DancerPortfolioSlider({
   if (view === "projects") {
     return (
       <div className="relative min-h-dvh bg-black">
-        <LanguageSwitcher elevated />
         <section className="relative h-auto min-h-dvh w-full overflow-visible md:h-[100dvh] md:overflow-y-auto bg-black px-4 py-16 md:px-8 md:py-24 lg:px-12">
           <div className="pointer-events-none absolute inset-0 opacity-40 arcade-scanline" />
           <div className="relative z-10 mx-auto w-full max-w-5xl">
@@ -507,6 +506,7 @@ export default function DancerPortfolioSlider({
                 &lt; {t("backToSelect").toUpperCase()}
               </button>
               <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-orange-300">{ui.playerArchive}</p>
+              <LanguageSwitcher hud />
             </div>
             <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8">{ui.dancePortfolio}</h2>
 
