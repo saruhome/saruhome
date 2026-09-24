@@ -1,6 +1,7 @@
 // Pixel profile screens: a real portrait stays legible inside a hard-edged player-ID frame, never a rounded card.
 import { lazy, Suspense, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SupportLink } from "./SupportLink";
 
 const CaseStudy = lazy(() => import("./CaseStudy"));
 const SideScrollSelect = lazy(() => import("./SideScrollSelect"));
@@ -182,6 +183,7 @@ function AboutMeSkillsSlide({ onBack }: { onBack: () => void }) {
               {t("aboutMe")}
             </p>
             <LanguageSwitcher hud />
+            <SupportLink />
           </div>
           <h2 className="font-bebas text-4xl font-bold text-light-primary mb-6 text-shadow-cyan">
             {t("designerAndDancer")}
@@ -411,6 +413,7 @@ function DesignerProjectsList({
           </button>
           <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-cyan-300">{t("caseStudies").toUpperCase()}</p>
           <LanguageSwitcher hud />
+            <SupportLink />
         </div>
         <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8 text-shadow-cyan">{t("designPortfolio")}</h2>
 

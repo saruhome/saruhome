@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SupportLink } from "./SupportLink";
 
 const SideScrollSelect = lazy(() => import("./SideScrollSelect"));
 import { useLanguage, type Language } from "../contexts/LanguageContext";
@@ -507,6 +508,7 @@ export default function DancerPortfolioSlider({
               </button>
               <p className="font-rajdhani text-xs font-black uppercase tracking-widest text-orange-300">{ui.playerArchive}</p>
               <LanguageSwitcher hud />
+              <SupportLink />
             </div>
             <h2 className="font-bebas text-4xl font-bold text-light-primary mb-8">{ui.dancePortfolio}</h2>
 

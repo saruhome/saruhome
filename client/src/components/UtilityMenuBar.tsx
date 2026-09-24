@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SUPPORT_URL } from "./SupportLink";
 
 /**
  * Design System — One grouped utility rail, not four independently positioned buttons.
@@ -64,7 +65,7 @@ export function UtilityMenuBar({
         <span className="utility-menu-divider" aria-hidden="true" />
         <a
           className="utility-menu-item utility-menu-support"
-          href="https://buymeacoffee.com/saruhome"
+          href={SUPPORT_URL}
           target="_blank"
           rel="noreferrer"
           aria-label="Support this portfolio on Buy Me a Coffee (opens in a new tab)"

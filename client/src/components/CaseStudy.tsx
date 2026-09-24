@@ -4,6 +4,7 @@ import { useRoleTheme } from "../contexts/RoleContext";
 import { useLanguage } from "../contexts/LanguageContext";
 import { applicationCaseStudyContent, type ApplicationCaseStudy } from "../lib/applicationCaseStudyContent";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { SupportLink } from "./SupportLink";
 import { useGameProgress } from "../contexts/GameProgressContext";
 import { useReducedMotion } from "../contexts/MotionContext";
 
@@ -119,6 +120,7 @@ function StickyNavigation({ onBack, projectId, projectTitle, projectKicker }: { 
           <div className="archive-hud-control pixel-hud-panel hidden shrink-0 items-center justify-center border-2 border-cyan-200/80 bg-cyan-300/15 px-3 py-1.5 font-rajdhani text-[0.62rem] font-black uppercase tracking-[0.2em] text-cyan-100 sm:inline-flex">{t("caseStudy")}</div>
           <ProjectShareButton projectId={projectId} projectTitle={projectTitle} projectKicker={projectKicker} />
           <LanguageSwitcher hud />
+          <SupportLink />
         </div>
       </div>
     </nav>
