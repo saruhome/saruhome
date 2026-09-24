@@ -467,6 +467,7 @@ export default function DancerPortfolioSlider({
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
         <LanguageSwitcher />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("projects")} />
+        <div className="absolute right-4 top-4 z-50 md:right-8 md:top-8"><SupportLink /></div>
         <VideoSlide />
       </div>
     );
@@ -477,6 +478,7 @@ export default function DancerPortfolioSlider({
       <div className="relative h-auto min-h-dvh overflow-visible md:h-[100dvh] md:overflow-hidden bg-black">
         <LanguageSwitcher />
         <BackButton label={t("back").toUpperCase()} onClick={() => setView("projects")} />
+        <div className="absolute right-4 top-4 z-50 md:right-8 md:top-8"><SupportLink /></div>
         <BioSlide />
       </div>
     );
